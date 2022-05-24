@@ -1,0 +1,25 @@
+<div class="panel-body">
+    <div class="">
+        <form role="form" name="leaderForm" ng-submit="actionModalInstanceCtrl.saveForm()">
+            <div class="row">
+                <div ng-if="actionModalInstanceCtrl.groupsData && actionModalInstanceCtrl.groupsData.length > 0" class="col-lg-3 pull-left">
+                    <label style="margin-bottom: 0px;">{{"COPY_DEFINITION_GROUPS"  | translate}}</label><!-- end ngIf: !inputValue.content.editableTable -->
+                    <div>
+                        <select class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen ng-model="actionModalInstanceCtrl.chosenGroups" 
+                        ng-options="option.id as (option | customTranslate: 'ename':'hname':actionModalInstanceCtrl.localLanguage) for option in actionModalInstanceCtrl.groupsData"></select><!-- end ngIf: inputValue.content.ComboDisplayList == false -->
+                    </div>
+                </div>
+                <div ng-if="actionModalInstanceCtrl.usersData && actionModalInstanceCtrl.usersData.length > 0" class="col-lg-3 pull-left">
+                    <label style="margin-bottom: 0px;">{{"COPY_DEFINITION_USERS"  | translate}}</label><!-- end ngIf: !inputValue.content.editableTable -->
+                    <div>
+                        <select class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen ng-model="actionModalInstanceCtrl.chosenUsers" 
+                        ng-options="option.id as (option | customTranslate: 'displayname':'displayhname':actionModalInstanceCtrl.localLanguage) for option in actionModalInstanceCtrl.usersData"></select><!-- end ngIf: inputValue.content.ComboDisplayList == false -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 pull-right floatOnBottom">
+                <button type="submit" class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ actionModalInstanceCtrl.actionName | translate}}</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div ng-show="!subPage.data.data.returnValue">
+    <search ng-if="!searchTemplateUrl" ng-show="!subPage.data.data.fullScreen" hide-criteria="hideCriteria" content="subPage.data" report-id="reportID" is-user-report="IsUserReport"></search>
+    <div ng-if="searchTemplateUrl" ng-include="searchTemplateUrl"></div>
+</div>
+
+<search-results ng-if="!searchResultsTemplateUrl && subPage.data.request.sfCriteria" content="subPage.data"></search-results>
+<div ng-if="searchResultsTemplateUrl && subPage.data.request.sfCriteria" ng-include="searchResultsTemplateUrl"></div>
+
+<!-- <div style="height: 600px; width: 100%;background-color: red;border: 1px black solid;">sami</div> -->
+<!-- <div style="width: 100%; height: 100%; background-color: white;">
+    <react-search-results content="subPage.data"></react-search-results>
+</div> -->

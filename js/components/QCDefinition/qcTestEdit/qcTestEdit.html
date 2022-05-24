@@ -1,0 +1,548 @@
+<div style="padding: 52px 40px" class="qc-test-edit">  
+    
+    <div style="display: flex; justify-content: space-between; align-items: center">
+        <div style="display: flex;">
+            <div style="cursor: pointer; display: inline-block;margin: 0 15px 0 0;" ng-click="assignCurrentStep('add-qc-tests', currentTest)">
+                <img src="images/back.png" />
+                <span style="font-size: 16px; position: relative;margin: 0 0 0 12px; top: 1px">{{"BACK" | translate}}</span>
+              </div>
+              <div class="draft_copy_box ml_10">
+                <div ng-if="currentTest.isdraftmode=='Draft Mode'" style="justify-content: space-between;">
+                  <button type="button" class="draft_btn" style="cursor: default;" >
+                    <img src="images/Draft.svg" />
+                    {{"DRAFT_TEXT" | translate}}
+                  </button>           
+                </div>
+              </div>
+           </div> 
+        
+        
+           
+        <div class="release_select_btn">
+          <button style="cursor: pointer" class="btn btn-primary release_btn" ng-if="currentTest!=0 && currentTest.isdraftmode=='Draft Mode'" ng-click="releaseTest(currentTest)" data-toggle="popover" title="" data-placement="bottom" data-trigger="hover" data-content="{{'RELEASE_TEST_HOVER' | translate}}"><img src="images/release_icon.png" >{{"RELEASE_TEST" | translate}} </button>
+         
+        </div>
+        
+      </div>
+    <div ng-if="fetching" style="background-color: rgba(255,255,255,0.75);  position: absolute;
+         top: 50%;
+         z-index: 99999;
+         width: 100%;">
+        <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"></div>
+    </div>
+
+    <div class="step-one-container" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'">
+        <form >
+            <div class="page-title">
+                Test-{{currentTest.id}}
+            </div>
+            <div ng-if="currentTest.hasSamples" class="col-lg-12" style="box-shadow: 0px 2px 6px #cecece;
+                        padding: 20px;
+                        margin-bottom: 40px;">
+
+                <div class="rows-title">
+                    <div>{{"TEST_SAMPLE_FIELDS" | translate}}</div>
+                </div>
+
+                <div class="list-item header">
+                    <!-- drag icon -->
+                    <div></div>
+                    <!-- row id -->
+                    <div>{{"INDEX" | translate}}</div>
+                    <!-- Name(Local) -->
+                    <div>
+                        {{ "NAME_LOCAL" | translate }}
+                    </div>
+
+                    <!-- Name(Not local) -->
+                    <div>
+                        {{ "NAME_ENG" | translate }}
+                    </div>
+
+                    <!-- field type -->
+                    <div>
+                        {{"FIELD_TYPE" | translate}}
+                    </div>
+
+                    <!-- data source -->
+                    <div>
+                        {{"DATA_SOURCE" | translate}}
+                    </div>
+
+                    <!-- required field -->
+                    <div>
+                        {{"REQUIRED_FIELD" | translate}}
+                    </div>
+                </div>
+
+                <div style="text-align: center;margin:50px" ng-if="!fetching && !sampleRows.length">
+                    <div>
+                        {{"NO_ROWS_START_BY_ADDING" | translate}}
+                    </div>
+                    <div  ng-if="FieldsDisabled==false"  ng-click="FieldsDisabled==false?addRow(sampleRows,undefined,'sortable2'):''">
+                        <div>
+                            <img src="images/add-circle.svg" />
+                            {{"ADD_SAMPLE_ROW" | translate}}
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sortable2" class="list-group newScroll slim"   ui-sortable ng-model="sampleRows">
+
+                    <div ng-style="row.UpsertType == 1 && {'opacity': '0.3'}"
+                        ng-repeat="row in sampleRows track by $index" class="list-item list-group-item"
+                        ng-class="{'new-field': row.ID<0}">
+                        <img class="remove-row" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" ng-click="FieldsDisabled==false?removeRow(row.ID, $index, sampleRows):''" src="images/delete.png"
+                            ng-hide="row.UpsertType == 1" />
+                        <img class="remove-row" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  ng-if="row.UpsertType == 1" width="16" ng-click="FieldsDisabled==false?row.UpsertType = 3:''"
+                            src="images/add.png" />
+
+                        <!-- drag icon -->
+                        <div style="display: flex;flex-direction: row;align-items: center;    justify-content: end;">
+                            <img ng-if="row.ID != 0"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  style="cursor:pointer;" src="images/drag-handle.svg" />
+                            <img width="16" height="16" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  style="margin: 0 7px;cursor:pointer;"
+                                src="images/calculator-blue.png" ng-show="row.InputType==66"
+                                ng-click="FieldsDisabled==false?openCalculator(row):''" />
+                        </div>
+
+                        <!-- row id -->
+                        <div>
+                            <div ng-if="row.ID>=0">{{row.ID}}</div>
+                            <div ng-if="row.ID<0" style="font-size: 12px;font-weight: 600;color: var(--color2);">
+                                {{"NEW_FIELD" | translate}}
+                            </div>
+                        </div>
+
+                        <!-- Name(Local) -->
+                        <div>
+                            <input class="form-control" style="max-width: 133px"
+                                ng-required="!row.EName && row.UpsertType != 1" ng-model="row.LName" ng-disabled="FieldsDisabled" />
+                        </div>
+
+                        <!-- Name(Not local) -->
+                        <div>
+                            <input class="form-control" style="max-width: 133px"
+                                ng-required="!row.LName && row.UpsertType != 1" ng-model="row.EName" ng-disabled="FieldsDisabled"/>
+                        </div>
+
+                        <!-- field type -->
+                        <div ng-if="row.ID > 0">
+                            {{row.FieldType | getValByKey:fieldTypeOptionsForSamples:'id':'name'}}
+                        </div>
+
+                        <!-- (NEW) field type -->
+                        <div ng-if="row.ID < 0">
+                            <select class="form-control" ng-model="row.FieldType" ng-disabled="FieldsDisabled"
+                                ng-change="FieldsDisabled==false?checkIfShouldOpenNumericPopup(row):''"
+                                ng-options="option.id as option.name for option in fieldTypeOptionsForSamples"></select>
+                        </div>
+
+                        <!-- data source -->
+                        <div>
+                            <select ng-if="row.FieldType != 'combo'" data-toggle="tooltip" data-placement="right"
+                                title="{{sampleDataSourceOptionsDict[row.InputType]}}"
+                                ng-disabled="FieldsDisabled||row.FieldType=='Boolean' || row.FieldType=='text' || row.FieldType=='date' || row.FieldType=='time'"
+                                class="form-control" ng-model="row.InputType" ng-change="FieldsDisabled==false?checkIfShouldOpenCalc(row):''"
+                                ng-options="option.id as option.name for option in dataSourceOptionsForSamples"></select>
+                            <div ng-if="row.FieldType == 'combo'">
+                                <a ng-if="row.SubType" style="text-decoration: underline;"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  
+                                    ng-click="FieldsDisabled==false?save(null,null,null,null,row,1,'editlist'):''">{{"EDIT_LINK" | translate}}</a>
+                            </div>
+                        </div>
+
+
+                        <!-- data param -->
+                        <!--                    <div>-->
+                        <!--                        <select ng-disabled="row.InputType==0 || row.InputType == 66" class="form-control" style="max-width: 116px" ng-model="row.InputField"-->
+                        <!--                                ng-options="option.fieldname as option.name for option in getDataParamOptions(row.InputType)"></select>-->
+                        <!--                    </div>-->
+
+                        <!-- required field -->
+                        <div class="pull-left"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" 
+                        ng-if="FieldsDisabled">
+                       <span class="global-checkbox"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" >
+                         <img
+                         ng-if="row.RequiredField"
+                         class="pull-left" 
+                         ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" 
+                         src="images/global_icons/checkbox.png"
+                         style="margin-left: 98px;"
+                       />
+                       <img
+                       ng-if="!row.RequiredField"
+                       class="pull-left global-checkbox" 
+                       width="18"
+                       ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" 
+                       src="images/global_icons/check-box-empty.png"
+                       style="margin-left: 98px;"
+                     />
+                       </span>
+                      
+                     </div>
+                  
+                        <div class="pull-left" check-box-directive field-title="" field="row" ng-if="!FieldsDisabled"
+                            select-value="'RequiredField'"></div>
+
+                    </div>
+                </div>
+
+                <div class="pull-right" ng-if="FieldsDisabled==false"  ng-click="FieldsDisabled==false?addRow(sampleRows,undefined,'sortable2'):''">
+                    <div class="rows-title">
+                        <img src="images/add-circle.svg" />
+                        {{"ADD_SAMPLE_ROW" | translate}}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6 col-sm-12 col-xs-12 pull-left" style="box-shadow: 0px 2px 6px #cecece;
+                        padding: 20px 20px 0 20px;
+                        margin-bottom: 40px;">
+                <div class="rows-title">
+                    <div>{{"PARAM_FIELDS" | translate}}</div>
+                </div>
+
+                <div ng-if="paramFields.length" class="list-item header">
+
+                    <!-- drag icon -->
+                    <div>
+                    </div>
+
+                    <!-- data source -->
+                    <div>
+                        {{"DATA_SOURCE" | translate}}
+                    </div>
+
+                    <!-- data param -->
+                    <div>
+                        {{"DATA_PARAMETER" | translate}}
+                    </div>
+                </div>
+
+                <div style="text-align: center;margin:50px" ng-if="!fetching && !paramFields.length">
+                    <div>
+                        {{"NO_ROWS_START_BY_ADDING" | translate}}
+                    </div>
+                </div>
+
+                <div id="sortable1" class="param-fields-list list-group newScroll slim" ui-sortable
+                    ng-model="paramFields" ng-if="paramFields.length">
+                    <div ng-style="row.UpsertType == 1 && {'opacity': '0.45'}"
+                        ng-repeat="row in paramFields track by $index"
+                        ng-if="(row.InputType == 2 || row.InputType == 6)" class="list-item list-group-item"
+                        ng-class="{'new-field': row.ID<=0}">
+                        <img class="remove-row" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" ng-click="FieldsDisabled==false?removeRow(row.ID, $index, paramFields):''"
+                            src="images/delete.png" ng-hide="row.UpsertType == 1" />
+                        <img class="remove-row" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" ng-if="row.UpsertType == 1" width="16" ng-click="FieldsDisabled==false?row.UpsertType = 3:''"
+                            src="images/add.png" />
+
+                        <!-- drag icon -->
+                        <div style="display: flex;flex-direction: row;align-items: center    ;justify-content: end;">
+                            <img ng-if="row.ID != 0" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  style="cursor:pointer;" src="images/drag-handle.svg" />
+                            <img width="16" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  height="16" style="margin: 0 7px;cursor:pointer;"
+                                src="images/calculator-blue.png" ng-show="row.InputType==33 || row.InputType==44"
+                                ng-click="FieldsDisabled==false?openCalculator(row):''" />
+                        </div>
+
+                        <!-- data source -->
+                        <div>
+                            <select data-toggle="tooltip" data-placement="right"
+                                title="{{dataSourceOptionsDict[row.InputType]}}" class="form-control"   ng-disabled="FieldsDisabled"
+                                ng-model="row.InputType" ng-change="FieldsDisabled==false?checkIfShouldOpenCalc(row.InputType):''"
+                                ng-options="option.id as option.name for option in dataSourceOptions | filter:shouldShowOptionForParamFields">
+
+                            </select>
+                        </div>
+
+                        <!-- data param -->
+                        <div>
+
+                            <select ng-required="row.UpsertType!=1" data-toggle="tooltip" data-placement="right"
+                                title="{{dataParamOptionsDict[row.InputField]}}"
+                                ng-disabled="row.InputType==0 || row.InputType == 33 || row.InputType == 44 || FieldsDisabled"
+                                class="form-control" ng-model="row.InputField"
+                                ng-options="option.fieldname as option.name for option in getDataParamOptions(row.InputType)">
+                                <option></option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pull-right"  ng-if="FieldsDisabled==false"  ng-click="FieldsDisabled==false?addRow(paramFields,undefined,'sortable1'):''">
+                    <div class="rows-title">
+                        <img src="images/add-circle.svg" />
+                        {{"ADD_PARAM" | translate}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="test-fields col-lg-12" style="box-shadow: 0px 2px 6px #cecece;
+                        padding: 20px;
+                        margin-bottom: 40px;">
+
+                <div class="rows-title">
+                    <div>{{"TEST_FIELDS" | translate}}</div>
+                </div>
+
+                <div ng-repeat="group in groupingTestFields" ng-if="group.UpsertType!==1" style="box-shadow: 0px 2px 6px #cecece;
+                        padding: 65px 20px;
+                        margin-bottom: 40px;">
+                    <img style="width:25px;height:30px;float: right;" ng-click="FieldsDisabled==false?removeGroup(group):''"
+                        src="images/delete.png">
+
+                    <div>
+                        <input ng-required="group.UpsertType != 1" style="width: 200px;
+                                padding: 20px;
+                                margin: 20px;" class="form-control" placeholder="Group Name.." type="text"
+                            ng-model="group.Name" value="{{group.Name}}" ng-disabled="FieldsDisabled" />
+                    </div>
+
+                    <div ng-if="emptyGroups.indexOf(group.ID) < 0" class="list-item header">
+
+                        <!-- drag icon -->
+                        <div>
+
+                        </div>
+
+                        <!-- row id -->
+                        <div>
+                            {{"INDEX" | translate}}
+                        </div>
+
+                        <!-- Name(Local) -->
+                        <div>
+                            {{ "NAME_LOCAL" | translate }}
+                        </div>
+
+                        <!-- Name(Not local) -->
+                        <div>
+                            {{ "NAME_ENG" | translate }}
+                        </div>
+
+                        <!-- field type -->
+                        <div>
+                            {{"FIELD_TYPE" | translate}}
+                        </div>
+
+                        <!-- data source -->
+                        <div>
+                            {{"DATA_SOURCE" | translate}}
+                        </div>
+
+                        <!-- data param -->
+                        <div>
+                            {{"DATA_PARAMETER" | translate}}
+                        </div>
+
+                        <!-- compare to -->
+                        <div>
+                            {{"COMPARE_TO" | translate}}
+                        </div>
+
+                        <!-- max limit (not found in api) -->
+                        <div>
+                            {{"MIN_LIMIT" | translate}}
+                        </div>
+
+                        <!-- min limit (not found in api) -->
+
+                        <div>
+                            {{"MAX_LIMIT" | translate}}
+                        </div>
+
+                        <!-- Required -->
+                        <div>
+                            {{"REQUIRED_FIELD" | translate}}
+                        </div>
+
+                    </div>
+
+                    <div style="text-align: center;margin:50px" ng-if="!fetching && !groupsMap[group.ID].length">
+                        <div>
+                            {{"NO_ROWS_START_BY_ADDING" | translate}}
+                        </div>
+                        <div  ng-if="FieldsDisabled==false"
+                            ng-click="FieldsDisabled==false?addRow(testFields, 'test-fields',('group' + group.ID), group.ID):''">
+                            <div>
+                                <img src="images/add-circle.svg" />
+                                {{"ADD_TEST_ROW" | translate}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-group newScroll grouping-test-table slim" id="{{'group' + group.ID}}"
+                        ui-sortable="sortableOptions" ng-model="groupsMap[group.ID]">
+
+                        <div ng-style="row.UpsertType == 1 && {'opacity': '0.45'}"
+                            ng-repeat="row in groupsMap[group.ID] track by $index"
+                            ng-if="!(row.InputType == 2 || row.InputType == 6)" class="list-item list-group-item"
+                            ng-class="{'new-field': row.ID<0}">
+                            <img class="remove-row" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" ng-click="FieldsDisabled==false?removeRow(row.ID, $index, groupsMap[group.ID]):''"
+                                src="images/delete.png" ng-hide="row.UpsertType == 1" />
+                            <img class="remove-row" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" ng-if="row.UpsertType == 1" width="16" ng-click="FieldsDisabled==false?row.UpsertType = 3:''"
+                                src="images/add.png" />
+
+                            <!-- drag icon -->
+                            <div
+                                style="display: flex;flex-direction: row;align-items: center;    justify-content: end;">
+                                <img ng-if="row.ID > 0" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  style="cursor:pointer;" src="images/drag-handle.svg" />
+                                <img width="16" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  height="16" style="margin: 0 7px;cursor:pointer;"
+                                    src="images/calculator-blue.png" ng-show="row.InputType==33 || row.InputType==44"
+                                    ng-click="FieldsDisabled==false?openCalculator(row):''" />
+                            </div>
+
+                            <!-- row id -->
+                            <div>
+                                <div ng-if="row.ID > 0">{{row.ID}}</div>
+                                <div ng-if="row.ID<=0" style="font-size: 12px;font-weight: 600;color: var(--color2);">
+                                    {{"NEW_FIELD" | translate}}
+                                </div>
+                            </div>
+
+                            <!-- Name(Local) -->
+                            <div>
+                                <input class="form-control" ng-disabled="FieldsDisabled" style="max-width: 133px" ng-model="row.LName" ng-required="!row.EName && row.UpsertType != 1"/>
+                            </div>
+
+                            <!-- Name(Not local) -->
+                            <div>
+                                <input class="form-control" ng-disabled="FieldsDisabled" style="max-width: 133px" ng-required="!row.LName && row.UpsertType != 1" ng-model="row.EName" />
+                            </div>
+
+                            <!-- field type -->
+                            <div ng-if="row.ID > 0">
+                                {{row.FieldType | getValByKey:fieldTypeOptions:'id':'name'}}
+                            </div>
+
+                            <!-- (NEW) field type -->
+                            <div ng-if="row.ID <= 0">
+                                <select class="form-control" ng-model="row.FieldType"  ng-disabled="FieldsDisabled"
+                                    ng-change="FieldsDisabled==false?checkIfShouldOpenNumericPopup(row, 'test-fields'):''"
+                                    ng-options="option.id as option.name for option in fieldTypeOptions"></select>
+                            </div>
+
+                            <!-- data source -->
+                            <div>
+                                <select ng-if="row.FieldType != 'combo'" data-toggle="tooltip" data-placement="right"
+                                    title="{{dataSourceOptionsDict[row.InputType]}}"
+                                    ng-disabled="FieldsDisabled||row.FieldType=='Boolean' || row.FieldType=='text' || row.FieldType=='date' || row.FieldType=='time'"
+                                    class="form-control" ng-model="row.InputType" ng-change="FieldsDisabled==false?checkIfShouldOpenCalc(row):''"
+                                    ng-options="option.id as option.name for option in dataSourceOptions | filter:shouldShowOptionForTestFields"></select>
+                                <div ng-if="row.FieldType == 'combo'">
+                                    <a ng-if="row.SubType" ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  style="text-decoration: underline;"
+                                        ng-click="FieldsDisabled==false?save(null,null,null,null,row,0,'editlist'):''">{{"EDIT_LINK" | translate}}</a>
+                                </div>
+                            </div>
+
+                            <!-- data param -->
+                            <div>
+                                <select data-toggle="tooltip" data-placement="right" title="{{row.InputField}}"
+                                    ng-disabled="row.InputType==0 || row.InputType == 33 || row.InputType == 44 ||  FieldsDisabled"
+                                    class="form-control" ng-model="row.InputField"
+                                    ng-options="option.fieldname as option.name for option in getDataParamOptions(row.InputType)"></select>
+                            </div>
+
+                            <!-- compare to -->
+                            <div>
+                                <select data-toggle="tooltip" data-placement="right"
+                                    title="{{compareToOptionsDict[row.PropertyID]}}"
+                                    ng-disabled="row.FieldType=='Boolean' || row.FieldType=='text' || row.FieldType=='date' || row.FieldType=='time' || currentTest.testtypeid == 2|| row.FieldType=='combo' || FieldsDisabled"
+                                    class="form-control" ng-model="row.PropertyID"
+                                    ng-options="option.id as option.name for option in compareToOptions"></select>
+                            </div>
+
+                            <!-- min limit (not found in api) -->
+                            <div>
+                                <input class="form-control" type="number" max="{{row.HValue}}" step="any"
+                                    ng-disabled="row.FieldType=='text' || row.FieldType=='date' || row.FieldType=='time' || row.PropertyID!=0 || row.FieldType=='combo' || FieldsDisabled"
+                                    ng-model="row.LValue" />
+                            </div>
+
+                            <!-- max limit (not found in api) -->
+                            <div>
+                                <input class="form-control" type="number" min="{{row.LValue}}" step="any"
+                                    ng-disabled="row.FieldType=='text' || row.FieldType=='date' || row.FieldType=='time' || row.PropertyID!=0 || row.FieldType=='combo' || FieldsDisabled"
+                                    ng-model="row.HValue" />
+                            </div>
+
+                            <!-- required field -->
+                          
+                            <div class="pull-left"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" 
+                               ng-if="FieldsDisabled">
+                              <span class="global-checkbox"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" >
+                                <img
+                                ng-if="row.RequiredField"
+                                class="pull-left"                                
+                                src="images/global_icons/checkbox.png"
+                                style="margin-left: 36px;"
+                              />
+                              <img
+                              ng-if="!row.RequiredField"
+                              class="pull-left global-checkbox" 
+                              width="18"
+                              ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'" 
+                              src="images/global_icons/check-box-empty.png"
+                              style="margin-left: 36px;"
+                            />
+                              </span>
+                             
+                            </div>
+                         
+                            <div class="pull-left"  ng-class="FieldsDisabled?'NoEditAllowd':'editallowed'"  check-box-directive field-title="" field="row" ng-if="!FieldsDisabled"
+                                select-value="'RequiredField'"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="rows-title pull-right" style="padding: 20px"  ng-if="FieldsDisabled==false">
+                        <div 
+                            ng-click="FieldsDisabled==false?addRow(testFields, 'test-fields',('group' + group.ID), group.ID):''">
+                            <div>
+                                <img src="images/add-circle.svg" />
+                                {{"ADD_ROW" | translate}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div  ng-if="FieldsDisabled==false" class="rows-title pull-right" ng-click="FieldsDisabled==false?addNewGroup():''">
+                    <img src="images/add-circle.svg" />
+
+                    {{"ADD_GROUP" | translate}}
+                </div>
+            </div>
+            <!-- next should navigate to test sample fields -->
+          
+        </form>
+        <div style="display: flex; width: 100%; padding-top: 34px; margin-top: 61px; border-top: 1px solid #f6f6f6;flex-direction: row-reverse; align-items: center;font-size: 20px;">
+    
+            <button class="pull-right btn btn-primary" style="width: 133px;height:40px" type="button"
+                ng-click="finish(currentTest)">
+
+                {{currentTest.isdraftmode==='Draft Mode'?"CLOSE_FINISH":"CLOSE" | translate}}
+            </button>
+
+            <button  ng-click="save($event)" ng-dblclick="return false;" class="pull-right btn btn-primary" style="margin:0 20px;width: 133px;height:40px" type="submit" ng-if="currentTest.isdraftmode==='Draft Mode'  || currentTest.isdraftmode===undefined"
+                ng-disabled="( noDataToSave && noDataToSaveSample )">
+                {{"SAVE_CHANGES" | translate}}
+            </button>
+
+            <p class="pull-right missing-required" ng-if="currentTest.isdraftmode==='Draft Mode' || currentTest.isdraftmode===undefined " ng-show="noDataToSave && noDataToSaveSample">
+                <img src="images/warning-red.svg" />
+                {{"NO_CHANGES_DETECTED" | translate}}
+            </p>
+            <p style="width: 100%; flex-direction: row-reverse;align-items: center;font-size: 20px;justify-content: space-between;" ng-if="currentTest.isdraftmode==='Release Mode'" >
+                <img src="images/warning-red.svg" style="width: 20px;" />
+                {{"RELEASE_CHANGES_Mode" | translate}}
+            </p>
+            <!--                <p class="pull-right missing-required" ng-show="missingRequiredSample">-->
+            <!--                    <img src="images/warning-red.svg"/>-->
+            <!--                    Missing required fields</p>-->
+        </div>
+    </div>
+</div>

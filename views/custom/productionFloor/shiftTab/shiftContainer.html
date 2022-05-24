@@ -1,0 +1,636 @@
+<dnd-nodrag> 
+  <div class="sortable-item shift-container-donuts col-lg-{{containerOptions.width}} col-md-{{containerOptions.width}} col-sm-12 pull-left" 
+  ng-class="{'full-screen' : containerOptions.tableSelected,print{{graph.ID}}:insightPage, 'graphFullScreenView': shiftContainerCtrl.allMachinesFullScreen.value==true,printHeatMapShift{{graph.template}} : shiftPage};"  
+  style="border-radius: 37px;" 
+  ng-style="graph.template == 'machinePlanGraph' && shiftContainerCtrl.allMachinesFullScreen && shiftContainerCtrl.allMachinesFullScreen.value && {'overflow':'scroll'} || shiftContainerCtrl.allMachinesFullScreen && shiftContainerCtrl.allMachinesFullScreen.value && graph.inModel && {'width':'100%',height:'43vw'}">
+    <div class="header-tools" ng-class="{'pinned': containers.headerPinned.enabled==true, 'override': containers.headerPinned.enabled==false && showTitle==true}" ng-show="(showTitle == true)  || (containers.headerPinned.enabled==true)" ng-mouseleave="hoverOut()" ng-init="graph.isFiltered=false">
+      <div ng-if="graph.template == 'machineStatusGraph'" style="position: absolute;width:25vw;height: 30px;top: 3.4vw;display: flex;" >
+        <div ng-click="shiftContainerCtrl.showApplyModel = !shiftContainerCtrl.showApplyModel" ng-init="shiftContainerCtrl.showApplyModel = false;" ng-if="containerOptions.settings.enableEdit" class="shift-settings-reset-btn applyAll pull-right">{{"APPLY_TO" | translate}}</div>
+        <div ng-if="containerOptions.settings.enableEdit" style="margin-left: 20px;
+        font-weight: bold;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;" title="{{'CHANGES_FOR_THE_CURRENT_MACHINE_ARE_SAVED_AUTOMATICALLY' | translate}}">
+          {{"CHANGES_FOR_THE_CURRENT_MACHINE_ARE_SAVED_AUTOMATICALLY" | translate}}
+        </div>
+        <div style="margin-left:auto">
+          <select  class="form-control" style="display: inline-block;
+          width: 7vw;
+          height: 1.627vw;
+          font-size: 0.729vw;" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"  ng-model="shiftData.selectTemplateGroupID.machineDashboard" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in templateGroups "  ng-change="changeStrucutre()" ></select>
+
+        </div>
+        <apply-to-model-directive ng-if="shiftContainerCtrl.showApplyModel" off-click-activator="shiftContainerCtrl.showApplyModel" off-click="shiftContainerCtrl.showApplyModel = false"  style="position:absolute;z-index: 101;" machine-structure-data="shiftData.machineStructure" users-data="shiftData.machineDashboardGroupsData" machine="shiftData.machineData" all-machines="shiftData.departmentMachines" structure-type="structureType"></apply-to-model-directive>
+      </div>
+      <div class="header-title"></div>
+      <div class="tools-donuts" ng-if="!graph.inModel" ng-init="showShiftMenu=false;showLegendMenu=false;" off-click-activator="showShiftMenu" off-click="showShiftMenu = false">
+        <div dnd-handle class="handle" ng-if="false">
+          <!-- <button>Move</button> -->
+          <img src="images/move-grey@3x.png" alt="" style="height: 1.302vw; width: 1.302vw" />
+        </div>
+        <div ng-if="!shiftData.customRangeEnabled && containerOptions.compareBtn" ng-init="dropdown=false" ng-click="dropdown=!dropdown;" off-click-activator="dropdown" off-click="dropdown = false;" title="{{shiftData.compareWith | translate}}" style="display: flex; align-items: center" class="shift-tools-icon">
+          <img src="images/pie@3x.png" ng-if="!shiftData.customRangeEnabled && shiftData.compareWith == 'none' " alt="" style="height: 1.042vw; width: 1.042vw" />
+          <img src="images/pie3x.png" ng-if="!shiftData.customRangeEnabled && shiftData.compareWith != 'none'" alt="" style="height: 1.042vw; width: 1.042vw" />
+          <ul class="period-dashboard-dropdown compare" ng-if="dropdown">
+            <li ng-click="updateCompare('none')" ng-class="{'selected' : shiftData.compareWith =='none'}">{{"NIL" | translate}}</li>
+            <li ng-click="updateCompare('prevDay')" ng-class="{'selected' : shiftData.compareWith =='prevDay'}">{{"PREVIOUS_DAY" | translate}}</li>
+            <li ng-click="updateCompare('prevWeek')" ng-class="{'selected': shiftData.compareWith =='prevWeek'} ">{{"PREVIOUS_WEEK" | translate}}</li>
+          </ul>
+        </div>
+        <button ng-if="false && containerOptions.displayFilter" ng-click="containerOptions.settings.filterData = !containerOptions.settings.filterData"></button>
+        <div ng-if="shiftData.customRangeEnabled && containerOptions.pointsView" class="compare graphPeriod" ng-init="shiftContainerCtrl.pointsView = false" ng-click="shiftContainerCtrl.pointsView=!shiftContainerCtrl.pointsView;" off-click-activator="shiftContainerCtrl.pointsView" off-click="shiftContainerCtrl.pointsView = false;" style="width: 90px">
+          <div class="Rectangle-2 period-dashboard-dropdown-selection">
+            <span class="pull-left" ng-click="(shiftData.selectedTab > 2)"> {{shiftContainerCtrl.chosenPeriod.text | translate}} </span>
+            <span class="caret"></span>
+          </div>
+          <ul class="period-dashboard-dropdown" ng-if="shiftContainerCtrl.pointsView">
+            <li ng-repeat="period in shiftContainerCtrl.periodOptions" ng-click="shiftContainerCtrl.updateGraphPeriod(period)">{{period.text | translate}}</li>
+          </ul>
+        </div>
+        <img class="shift-tools-icon" title="{{'SHOW_ALL' | translate}}" style="width: 1.198vw; height: 1.198vw" src="images/visibility.svg" ng-if="containerOptions.enableVisibility" ng-attr-alt="{{'PLAN' | translate}}" ng-click="graph.options.settings.planClicked = !graph.options.settings.planClicked;showAll()" />
+        <img class="shift-tools-icon" style="width: 1.198vw; height: 1.198vw" src="images/jobs-icon.svg" ng-if="containerOptions.settings.PConfigID" tooltip="{{containerOptions.settings.jobConfigurationProducts.toString()}}" />
+        <div ng-click="saveStructureAux(true)" ng-show="graph.template != 'machineStatusGraph' && containerOptions.settings.enableEdit" class="shift-settings-reset-btn applyAll pull-right">{{"APPLY_TO_ALL" | translate}}</div>
+        <img
+          class="shift-tools-icon"
+          ng-hide="graph.template == 'machineStatusGraph' && (shiftData.machineData.ProductionModeID !== 1 || shiftData.selectTemplateGroupID.machineDashboard == -1)" 
+          title="{{'EDIT_GRAPH' | translate}}"
+          ng-if="containerOptions.editBtn"
+          ng-src="images/edit{{containerOptions.settings.enableEdit ? '-blue-new' : '-grey-new'}}.svg"
+          alt="edit"
+          ng-init="containerOptions.settings.enableEdit = false;"
+          ng-click="containerOptions.settings.enableEdit = !containerOptions.settings.enableEdit"
+        />
+        <div ng-if="containerOptions.legend" off-click-activator="showLegendMenu" off-click="showLegendMenu = false" style="display: flex; align-items: center">
+          <div class="vertical-line" ng-show="!containerOptions.settings.insight"></div>
+        </div>
+        <img
+          class="shift-tools-icon"
+          title="{{'BAR_GRAPH' | translate}}"
+          ng-if="!containerOptions.disableBar"
+          ng-src="images/dashboard/graph{{containerOptions.selectedGraph == 'bar' ? '-selected':''}}.svg"
+          ng-click="GAupdate('Bar_graph_view');containerOptions.selectedGraph = 'bar'; containerOptions.rotateH = (containerOptions.rotateBar && !containerOptions.rotateH); containerOptions.isTableView = false"
+          style="{{'transform: rotate('+((containerOptions.rotateBar && !containerOptions.rotateH) ? 90 : 0) + 'deg)'}}"
+          alt="graph"
+        />
+        <!-- Pie Icon -->
+        <img class="shift-tools-icon" title="{{'PIE_GRAPH' | translate}}" ng-if="!containerOptions.disablePie" ng-src="images/dashboard/pie{{containerOptions.selectedGraph == 'pie' ? '-selected':''}}.svg" ng-click="GAupdate('Pie_graph_view');containerOptions.selectedGraph='pie'; containerOptions.isTableView = false" alt="pie" />
+
+        <!-- ActivityGauge Icon -->
+        <img class="shift-tools-icon" title="{{'CIRCLES' | translate}}" ng-if="containerOptions.activityGaugeButton" ng-src="images/pie@3x.png" ng-click="containerOptions.isActivityGaugeView = !containerOptions.isActivityGaugeView;containerOptions.selectedGraph='pic'" alt="activity view" style="width: 1.302vw" />
+        <!-- Table Icon -->
+        <img
+          class="shift-tools-icon"
+          title="{{'TABLE' | translate}}"
+          ng-if="containerOptions.tableButton && graph.name == 'timeGraph'"
+          ng-src="images/dashboard/table{{containerOptions.isTableView ? '-selected':''}}.svg"
+          ng-click="containerOptions.isTableView =true;containerOptions.selectedGraph='table'"
+          alt="table"
+          style="width: 1.302vw"
+        />
+        <img
+        class="shift-tools-icon"
+        title="{{'TABLE' | translate}}"
+        ng-if="containerOptions.tableButton && !containerOptions.isTableView &&graph.name != 'timeGraph'"
+        ng-src="images/dashboard/table{{containerOptions.isTableView ? '-selected':''}}.svg"
+        ng-click="containerOptions.isTableView =!containerOptions.isTableView ;containerOptions.selectedGraph='table'"
+        alt="table"
+        style="width: 1.302vw"
+      />
+        <img
+          class="shift-tools-icon"
+          title="{{'BAR_GRAPH' | translate}}"
+          ng-if="containerOptions.tableButton && containerOptions.isTableView && graph.name != 'timeGraph'"
+          ng-src="images/dashboard/graph{{containerOptions.selectedGraph == 'bar' ? '-selected':''}}.svg"
+          ng-click="containerOptions.isTableView = !containerOptions.isTableView;containerOptions.selectedGraph='bar'"
+          style="{{'transform: rotate('+((containerOptions.rotateBar && !containerOptions.rotateH) ? 90 : 0) + 'deg)'}}"
+          alt="graph"
+        />
+        <div class="vertical-line" ng-show="!containerOptions.settings.insight"></div>
+        <!-- Print Icon -->
+        <img class="shift-tools-icon" title="{{'PRINT' | translate}}" ng-if="!containerOptions.disableExport" ng-hide="graph.name === 'machinesPerformance' && !containerOptions.isTableView" src="images/dashboard/share.svg" ng-click="GAupdate('print');exportImg()" alt="share" />
+        <!-- shiftContainer settings for Shift Page -->
+        <div ng-init="shiftContainerCtrl.showSettings = false" class="shift-tools-icon" style="display: flex; align-items: center" ng-show="!containerOptions.hideSettings && !insightPage" off-click-activator="shiftContainerCtrl.showSettings" off-click="shiftContainerCtrl.showSettings=false;reset()" ng-style="{width: '1.198vw'}">
+          <img title="{{'SETTINGS' | translate}}" ng-src="{{shiftContainerCtrl.showSettings && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}" style="height: 1.198vw; width: 1.198vw" ng-click="GAupdate('Settings');changeModelValue();resetPie();" alt="settings" title="{{'SETTINGS' | translate}}" />
+          <div class="settings newScroll slim dropdown-menu-settings" ng-class="containerOptions.optionsWheelClass" ng-show="shiftContainerCtrl.showSettings && !insightPage" style="align-self: flex-start; overflow-y: auto; overflow-x: hidden; z-index: 1000">
+            <div style="margin: 0.6vw 0.833vw 0 0.833vw; display: flex; flex-direction: column">
+              <div ng-if="containerOptions.duplicate">
+                <div class="Rectangle-4 duplicate-graph-btn" title="{{'DUPLICATE_GRAPH' | translate}}" ng-click="GAupdate('duplicate');duplicate()"><img src="images/dashboard/add.svg" class="duplicate-graph-img" alt="" /> {{"DUPLICATE_GRAPH" | translate}}</div>
+              </div>
+
+              <div class="insights-filter-form-radio" ng-if="shiftInsightGraph && (tab == 'shift' || tab == 'online' || tab == 'newOnline')">
+                <label title="{{'DATA_LABELS' | translate}}"> {{"DATA_LABELS" | translate}} </label>
+                <div class="checkBox" check-box-directive field-title="'dataLabelEnable'" field="shiftContainerCtrl" type="'toggle'" ng-custom-change="changeDataLabels" select-value="'dataLabelEnable'"></div>
+              </div>
+              <div ng-if="containerOptions.sizable" style="border-bottom: 1px solid #eee; margin-top: 0.938vw">
+                <div class="setting-sizes-selector-title">{{"GRAPH_SIZE" | translate}}</div>
+                <div class="setting-sizes-selector" style="padding: unset">
+                  <div ng-repeat="size in sizes" ng-class="{'selected-size': size.value == containerOptions.width}" style="height: 100%; text-align: center; line-height: 2.344vw; cursor: pointer" ng-click="GAupdate('Size_settings');containerOptions.width= size.value">
+                    <div>
+                      <img ng-style="{'width' : size.width,'height' : size.height}" ng-src="images/dashboard/sizes/{{size.img}}{{size.value == containerOptions.width ? '-selected' : ''}}.svg" ng-attr-alt="size.label" />
+                    </div>
+                    <div style="vertical-align: bottom">{{size.label}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div ng-if="containerOptions.enableBigCircleIcons" style="padding-top: 1em">
+                  <div class="labels-container" ng-if="containerOptions.isActivityGaugeView">
+                      {{'DISPLAY_BY' |translate}}
+                      <div style="display: flex;justify-content: space-between;margin-top: 7px;">
+                        <div check-box-directive field-title="'MACHINE'" 
+                        field="graph.options" select-value="'displayCircleBy'" type="'radio'" value="'machine'"></div>   
+                        <div check-box-directive field-title="'WORKER'" 
+                        field="graph.options" select-value="'displayCircleBy'" type="'radio'" value="'worker'"></div>   
+                      </div>
+                  </div>
+                  <div class="labels-container" ng-if="!containerOptions.isActivityGaugeView">
+                      {{'DISPLAY_BY' |translate}}
+                      <div style="display: flex;justify-content: space-between;margin-top: 7px;">
+                        <div check-box-directive field-title="'MACHINE'" 
+                        field="graph.options" select-value="'displayTableBy'" type="'radio'" value="'machine'"></div>   
+                        <div check-box-directive field-title="'WORKER'" 
+                        field="graph.options" select-value="'displayTableBy'" type="'radio'" value="'worker'"></div>   
+                      </div>
+                  </div>
+                  <!-- karma -->
+                  <!-- <div style="margin-bottom: 10px;">
+                    {{"DISPLAY_MACHINES_IN_NO_PRODUCTION" | translate}}:
+                    <div class="checkBox pull-right" check-box-directive field="graph.options" select-value="'DisplayMachinesInNoProduction'"  ng-custom-change="DisplayMachinesInNoProduction" type="'toggle'"  ></div>
+                  </div> -->
+
+                <!-- <hr ng-if="!containerOptions.isActivityGaugeView" style="margin: 5px 0px 5px 0px;" /> -->
+                <hr  style="margin: 5px 0px 5px 0px;" />
+                <div ng-if="containerOptions.isActivityGaugeView" class="setting-sizes-selector-title">{{"PLEASE_CHOOSE_MACHINE_PERFORMANCE_GAUGE_KIPS" | translate}}</div>
+                <input style="height: 20px;" ng-show="!containerOptions.isActivityGaugeView" ng-model="columnSearchField" />
+                <ul ui-sortable ng-model="machinesPerformanceDisplaySettings.availableKpis " ui-sortable-stop="machinesPerformanceUpdateHighcharts" style="padding: 0">
+                  <div ng-repeat="kpi in machinesPerformanceDisplaySettings.availableKpis | filter:columnSearchField" style="padding: 0.1em">
+                    <div ng-class="rtl ? '' : 'no-margin-left'" class="drag-icon pull-left">
+                      <i class="fa fa-bars"></i>
+                    </div>
+                    <div class="pull-left">
+                      <div class="hide-material-switch onoffswitch no-margins">
+                        <input class="no-margins" type="checkbox" ng-model="kpi.display" ng-change="machinesPerformanceUpdateHighcharts()"  ng-disabled="machinesPerformanceCanChangeDisplayedKpis(kpi)"id="kpi{{$index}}" />
+                    </div>
+                    </div>
+                    <div class="ellipsisText">{{kpi.name}}</div>
+                  </div>
+                </ul>
+                <hr />
+                <div>
+                    {{"DURATION_TYPE" | translate}}:
+                </div>
+                <div  ng-init="graph.options.settings.durationType = 'minutes'" >
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'MINUTES'" field="graph.options.settings" select-value="'durationType'" type="'radio'" value="'minutes'" style="font-size: 0.729vw" ng-custom-change="saveMode('durationType')"></div>
+                    </div>
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'HOUR_MINUTES'" field="graph.options.settings" select-value="'durationType'" type="'radio'" value="'hourMinutes'" style="font-size: 0.729vw" ng-custom-change="saveMode('durationType')"></div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    {{"TARGET" | translate}}:
+                    <div class="checkBox pull-right" check-box-directive field="graph.options.settings" select-value="'targetMode'" type="'toggle'"  ></div>
+                  </div>
+                <div ng-if="containerOptions.isTableView">
+                  <div ng-init="graph.options.settings.colorMode = true;">
+                    {{"COLORS" | translate}}:
+                  </div>
+                  <div ng-if="graph.options.settings.colorMode">
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'ABSOLUTE_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'absolute'"  style="font-size: 0.729vw;"></div>
+                    </div>
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'TARGET_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'target'" style="font-size: 0.729vw;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                {{'MACHINE_DISPLAY' |translate}}
+                <div class="machinesPerformance">
+                  <ul>
+                    <div style="margin-top: 0.5em">
+                      <div class="inlineSquare" ng-style="{'background-color': machinesPerformanceDisplaySettings.colorSettings.moreThan.color}"></div>
+                      {{'PERFORMED_MORE_THAN' | translate}} {{machinesPerformanceDisplaySettings.colorSettings.moreThan.percentage}}%
+                    </div>
+                    <div style="margin-top: 0.5em">
+                      <div class="inlineSquare" ng-style="{'background-color': machinesPerformanceDisplaySettings.colorSettings.lessThan.color}"></div>
+                      {{'PERFORMED_LESS_THAN' | translate}} {{machinesPerformanceDisplaySettings.colorSettings.lessThan.percentage}}%
+                    </div>
+                    <div style="margin-top: 0.5em">
+                      <div class="inlineSquare" ng-style="{'background-color': machinesPerformanceDisplaySettings.colorSettings.otherwise.color}"></div>
+                      {{'ELSE' | translate}}
+                    </div>
+                  </ul>
+                </div>
+              </div>
+
+              <div ng-if="graph.template == 'machinesLoadGraph' || graph.template == 'unitsProducedTheoretically' ||  graph.template == 'machinesLoadBarGraph'">
+                <div style="width: 100%; display: grid; grid-template-columns: 1fr; margin-top: 10px">
+                    <div>
+                    {{"TARGET" | translate}}:
+                    <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="targetMode" select-value="'targetMode'" type="'toggle'" ></div>
+                  </div>
+                  <div>
+                    {{"COLORS" | translate}}:
+                    <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="colorMode" select-value="'colorMode'" type="'toggle'" ></div>
+                  </div>
+                  <div>
+                    <span>{{"GRADED" | translate}}:</span>
+                    <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="gradedMode" select-value="'gradedMode'" type="'toggle'"></div>
+                  </div>
+                  <div ng-if="graph.options.settings.colorMode" >
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'ABSOLUTE_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'absolute'"  style="font-size: 0.729vw;"></div>
+                    </div>
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'TARGET_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'target'" style="font-size: 0.729vw;"></div>
+                    </div>
+                  </div>
+                  <div ng-if="graph.template == 'machinesLoadGraph' || graph.template == 'unitsProducedTheoretically'">
+                    <span>{{"CUSTOMIZATION" | translate}}:</span>
+                    <div>
+                      <div check-box-directive field-title="'value'" field="graph.options.settings" select-value="'customization'" type="'radio'" value="'values'" check-mark-style="true" check-mark-top="checkMarkTop"></div>
+                    </div>
+                    <div>
+                      <div check-box-directive field-title="'percentage'" field="graph.options.settings" select-value="'customization'" type="'radio'" value="'percentage'" check-mark-style="true" check-mark-top="checkMarkTop"></div>
+                    </div>
+                  </div>
+                  <display-color-performance-directive graph="graph"></display-color-performance-directive>
+                </div>
+              </div>
+
+              <div ng-if="graph.templateV2 == 'KPIsByMachines' || graph.templateV2 == 'KPIsByShifts'">
+                <div style="border-bottom: 1px solid #eee;">
+                  <div ng-repeat="kpi in graph.KPIsForHeatmap.kpis" style="padding: 0.1em;font-size: 0.729vw;">
+                    <div class="pull-left">
+                      <div class="hide-material-switch onoffswitch no-margins" style="width:1.279vw">
+                        <input class="no-margins" type="checkbox" ng-model="kpi.display" ng-change="kpi.display != kpi.display;saveKPIsOptionShift()" id="kpi.id" />
+                      </div>
+                    </div>
+                    <div class="ellipsisText">{{kpi.name | translate}}</div>
+                  </div>
+                </div>
+                <div style="width: 100%; display: grid; grid-template-columns: 1fr; margin-top: 10px">
+                  <div>
+                    {{"TARGET" | translate}}:
+                    <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="targetMode" select-value="'targetMode'" type="'toggle'" ></div>
+                  </div>
+                  <div ng-init="insightsPercentageColors.colorMode = true;">
+                    {{"COLORS" | translate}}:
+                    <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="colorMode" select-value="'colorMode'" type="'toggle'" ></div>
+                  </div>
+                  <div ng-if="graph.options.settings.colorMode">
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'ABSOLUTE_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'absolute'"  style="font-size: 0.729vw;"></div>
+                    </div>
+                    <div>
+                      <div class="labelCheckBox" check-box-directive field-title="'TARGET_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'target'" style="font-size: 0.729vw;"></div>
+                    </div>
+                  </div>
+                  <display-color-performance-directive graph="graph"></display-color-performance-directive>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- End Of ShiftContainer Settings for Shift-->
+
+        <!-- Start of ShiftContainer Settings For Filter -Shift -->
+        <div ng-init="shiftContainerCtrl.showFilterShift=false" ng-click="openFilter('shift');" ng-if="shiftPage" off-click-activator="shiftContainerCtrl.showFilterShift" off-click="shiftContainerCtrl.showFilterShift = false" class="filter-icon-insights" style="z-index: 101">
+          <img ng-show="shiftContainerCtrl.showFilterShift || graph.isFiltered" src="images/filter-blue-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="height: 1.198vw; width: 1.198vw" ng-style="shiftLoading && shiftPage && {'cursor':'not-allowed'}" />
+          <img ng-show="!shiftContainerCtrl.showFilterShift && !graph.isFiltered" src="images/filter-grey-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="height: 1.198vw; width: 1.198vw" ng-style="shiftLoading && shiftPage && {'cursor':'not-allowed'}" />
+          <img src="images/check-blue.svg" ng-if="graph.isFiltered" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="position: absolute; left: 0.5vw; top: 0.01vw; height: 0.5vw; width: 0.8vw" />
+          <div class="settings newScroll slim dropdown-menu-settings insights-filters" ng-show="shiftContainerCtrl.showFilterShift" style="align-self: flex-start; top: 1vw; z-index: 2000; overflow-y: auto">
+            <div style="margin: 0.6vw 0.833vw 0 0.833vw; display: flex; flex-direction: column" ng-click="$event.stopPropagation()">
+              <div class="filter-outer-container" ng-init="machinesToggledInsightSettings = true; machinesValue=true" ng-click="machinesToggledInsightSettings=!machinesToggledInsightSettings">
+                <div>
+                  <span> {{"MACHINES" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="machinesValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAll(localMachines, machinesValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="machinesToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!machinesToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                </div>
+                <div ng-if="machinesToggledInsightSettings" style="max-height: 12vw; overflow-y: auto" class="newScroll slim">
+                  <div ng-if="localMachines" class="col-lg-6 col-md-6 col-sm-6 pull-left" ng-repeat="machine in localMachines" style="padding: 0.26vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.685vw" ng-click="$event.stopPropagation();">
+                    <div class="checkBox" check-box-directive field-title="localLanguage ? machine.MachineLName : machine.MachineName" field="machine" type="'checkbox'" ng-custom-change="selectUnSelect" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="filter-outer-container"
+                ng-if="insightPage && (graph.options.settings.insight.InsightGroupID == 5 || insightPage && graph.options.settings.insight.InsightGroupID == 10)"
+                ng-init="shiftContainerCtrl.eventToggledInsightSettings = true; "
+                ng-click="shiftContainerCtrl.eventTypeToggledInsightSettings=!shiftContainerCtrl.eventTypeToggledInsightSettings"
+              >
+                <div>
+                  <span> {{"EVENTS_TYPE" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="shiftContainerCtrl.eventsTypeValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAllEventsType(filteredEventsType, shiftContainerCtrl.eventsTypeValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="shiftContainerCtrl.eventTypeToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!shiftContainerCtrl.eventTypeToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                </div>
+
+                <div ng-if="shiftContainerCtrl.eventTypeToggledInsightSettings" class="newScroll slim filter-inner-container-eventType">
+                  <div ng-if="filteredEventsType" class="col-lg-6 col-md-6 col-sm-6 pull-left filter-inner-container-element" ng-repeat="Event in filteredEventsType" ng-click="$event.stopPropagation();">
+                    <div class="checkBox filter-inner-container-checkbox" check-box-directive field-title="Event.TypeName" field="Event" type="'checkbox'" ng-custom-change="selectSingleEvent" first-param-for-custom-change="'eventsType'" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="filter-outer-container"
+                ng-if="insightPage && (graph.options.settings.insight.InsightGroupID == 5 || insightPage && graph.options.settings.insight.InsightGroupID == 10)"
+                ng-init="shiftContainerCtrl.eventGroupToggledInsightSettings = false; "
+                ng-click="shiftContainerCtrl.eventGroupToggledInsightSettings=!shiftContainerCtrl.eventGroupToggledInsightSettings"
+              >
+                <div>
+                  <span> {{"EVENT_GROUP" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="shiftContainerCtrl.eventGroupValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAllEventsGroup(filteredEventsGroup, shiftContainerCtrl.eventGroupValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="shiftContainerCtrl.eventGroupToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!shiftContainerCtrl.eventGroupToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                  <input ng-show="shiftContainerCtrl.eventGroupToggledInsightSettings" ng-click="$event.stopPropagation();" type="text" ng-model="shiftContainerCtrl.eventGroupSearch" ng-change="searchGroupEvents(shiftContainerCtrl.eventGroupSearch)" />
+                </div>
+                <div ng-if="shiftContainerCtrl.eventGroupToggledInsightSettings" class="newScroll slim filter-inner-container">
+                  <div ng-if="filteredEventsGroup" class="col-lg-6 col-md-6 col-sm-6 pull-left filter-inner-container-element" ng-repeat="EventGroup in filteredEventsGroup" ng-click="$event.stopPropagation();">
+                    <div class="checkBox filter-inner-container-checkbox" check-box-directive field-title="EventGroup.GroupName" field="EventGroup" type="'checkbox'" ng-custom-change="selectSingleEvent" first-param-for-custom-change="'eventsGroup'" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="filter-outer-container"
+                ng-if="insightPage && (graph.options.settings.insight.InsightGroupID == 5 || insightPage && graph.options.settings.insight.InsightGroupID == 10)"
+                style="border-bottom: none"
+                ng-init="shiftContainerCtrl.eventToggledInsightSettings = false; "
+                ng-click="shiftContainerCtrl.eventToggledInsightSettings=!shiftContainerCtrl.eventToggledInsightSettings"
+              >
+                <div>
+                  <span> {{"EVENTS" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="shiftContainerCtrl.eventsValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAllEvents(filteredEvents, shiftContainerCtrl.eventsValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="shiftContainerCtrl.eventToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!shiftContainerCtrl.eventToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                  <input ng-show="shiftContainerCtrl.eventToggledInsightSettings" ng-click="$event.stopPropagation();" type="text" ng-model="shiftContainerCtrl.eventSearch" ng-change="searchEvents(shiftContainerCtrl.eventSearch)" />
+                </div>
+
+                <div ng-if="shiftContainerCtrl.eventToggledInsightSettings" class="newScroll slim filter-inner-container">
+                  <div ng-if="filteredEvents" class="col-lg-6 col-md-6 col-sm-6 pull-left filter-inner-container-element" ng-repeat="Event in filteredEvents" ng-click="$event.stopPropagation();">
+                    <div class="checkBox filter-inner-container-checkbox" check-box-directive field-title="Event.EventName" field="Event" type="'checkbox'" ng-custom-change="selectSingleEvent" first-param-for-custom-change="'events'" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="shiftContainer-insights-filter-header-btn" style="height: 1.8vw">
+              <button class="insights-filter-header-btn-content" ng-click="applyFilter();$event.stopPropagation();">{{"SAVE" | translate}}</button>
+            </div>
+          </div>
+        </div>
+        <!-- End Of ShiftContainer Local Filter in Shift -->
+
+        <!-- Start of ShiftContainer Settings for Insights-->
+
+        <div ng-init="shiftContainerCtrl.showSettingsInsights = false" class="shift-tools-icon" style="display: flex; align-items: center" off-click-activator="shiftContainerCtrl.showSettingsInsights" off-click="shiftContainerCtrl.showSettingsInsights = false;reset()" ng-style="{width: '1.198vw'}" ng-if="insightPage">
+          <img
+            title="{{'SETTINGS' | translate}}"
+            ng-src="{{shiftContainerCtrl.showSettingsInsights && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}"
+            style="height: 1.198vw; width: 1.198vw"
+            ng-click="openSettings()"
+            alt="settings"
+            title="{{'SETTINGS' | translate}}"
+            ng-style="insightLoading && insightPage && {'cursor':'not-allowed'}"
+          />
+          <div class="settings newScroll slim dropdown-menu-settings insights-settings" ng-show="shiftContainerCtrl.showSettingsInsights && insightPage" style="align-self: flex-start; z-index: 1000;overflow-y: auto;">
+            <div style="display: flex; flex-direction: column;">
+              <div style="border-bottom: 1px solid #eee">
+                <div ng-if="containerOptions.duplicate" style="margin: 0.5vw 0vw">
+                  <div style="display: flex; align-items: center; margin: 0 1.3vw">
+                    <div ng-click="GAupdate('duplicate');duplicate()" style="cursor: pointer; border-radius: 2px; border: solid 1px #d0cfd0; padding: 7px; width: 9.896vw; display: flex; align-items: center; justify-content: space-around" title="{{'DUPLICATE_GRAPH' | translate}}">
+                      <img src="images/duplicate@2x.png" style="width: 24px" alt="" />
+                      <div style="font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.57; letter-spacing: normal; color: #101010">{{"DUPLICATE_GRAPH" | translate}}</div>
+                    </div>
+                    <div ng-click="GAupdate('close');closeGraph()" title="{{'DELETE' | translate}}" class="insights-settings-delete">
+                      <img src="images/templates/delete.svg" alt="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div ng-if="containerOptions.sizable">
+                <div class="setting-sizes-selector-title" style="margin: 10px 1.3vw 0">
+                  <div>{{"GRAPH_SIZE" | translate}}</div>
+                </div>
+                <div class="setting-sizes-selector" style="padding: unset; justify-content: space-around">
+                  <div ng-repeat="size in sizes" ng-class="{'selected-size': size.value == containerOptions.width}" style="height: 100%; text-align: center; line-height: 2.344vw; cursor: pointer" ng-click="GAupdate('Size_settings');containerOptions.width = size.value">
+                    <div>
+                      <img ng-style="{'width' : size.width,'height' : size.height}" ng-src="images/dashboard/sizes/{{size.img}}{{size.value == containerOptions.width ? '-selected' : ''}}.svg" ng-attr-alt="size.label" />
+                    </div>
+                    <div style="vertical-align: bottom">{{size.label}}</div>
+                  </div>
+                </div>
+                <hr ng-if="allowGraphTypes">
+                <display-type-insight-directive graph="graph" show-options="showOptions"></display-type-insight-directive>
+              </div>
+              <hr>
+              <!-- <div style="margin: 0 19px 10px 14px;">
+                {{"TARGET" | translate}}:
+                <div class="checkBox pull-right" check-box-directive field="graph.options.settings" select-value="'targetModeToggle'" type="'toggle'"  ></div>
+              </div> 
+              <div>huiiii</div> -->
+
+             <!-- <div ng-if="containerOptions.isTableView">
+              <div ng-init="graph.options.settings.colorMode = true;">
+                {{"COLORS" | translate}}:
+              </div>
+              <div ng-if="graph.options.settings.colorMode">
+                <div>
+                  <div class="labelCheckBox" check-box-directive field-title="'ABSOLUTE_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'absolute'"  style="font-size: 0.729vw;"></div>
+                </div>
+                <div>
+                  <div class="labelCheckBox" check-box-directive field-title="'TARGET_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'target'" style="font-size: 0.729vw;"></div>
+                </div>
+              </div>
+             </div> -->
+
+
+              <div ng-if="changeColorAbility" class="containerGridInsightSettings" style="margin: 10px 1.3vw">
+                <div>
+                  <span style="width: 98px; height: 20px; font-size: 16px; font-weight: 600; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; color: #000000">{{"CHOOSE_COLOR" | translate}}</span>
+                  <div style="margin-top: 8px">
+                    <div check-box-directive field-title="'DEFAULT_COLOR'" field="insightsColorShades" select-value="'currentChoice'" type="'radio'" value="'defaultColor'" new-class="true"></div>
+                    <div check-box-directive field-title="'DEFAULT_HIGHCHART_COLOR'" field="insightsColorShades" select-value="'currentChoice'" type="'radio'" value="'defaultHighchartColor'" new-class="true"></div>
+
+                    <div class="innerFlexInsightSettings">
+                      <div check-box-directive field-title="'CHOOSE_NEW_COLOR'" field="insightsColorShades" select-value="'currentChoice'" type="'radio'" value="'newColor'" new-class="true"></div>
+                      <input type="color" ng-model="insightsColorShades.newColor" style="margin-top: 0" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div ng-if="changeHeatMapColorAbility" style="margin: 0 1.3vw;border-top: 1px solid #eee">
+                <div ng-if="changeKpisHeatMapAbility" style="border-bottom: 1px solid #eee;">
+                  <list-check-marks-directive list="graph.KPIsForHeatmap.kpis" name="'name'" value="'display'" custom-change="shiftContainerCtrl.saveKPIsOptionInishgts()"></list-check-marks-directive>
+                </div>
+                <div style="width: 100%; display: grid; grid-template-columns: 1fr; margin-top: 10px">
+                  <addional-settings-directive graph="graph" show-options="showOptions" ></addional-settings-directive>
+                  <display-color-performance-directive graph="graph" reversed="insightsReversedColorPerformance"></display-color-performance-directive>
+                </div>
+              </div>
+            </div>
+            <div ng-if="changeColorAbility" class="shiftContainer-insights-filter-header-btn" style="height: 1.8vw">
+              <button class="insights-filter-header-btn-content" ng-click="changeInsightColor()">{{"SAVE" | translate}}</button>
+            </div>
+          </div>
+        </div>
+        <!-- End Of ShiftContainer Settings For Insights-->
+        <!-- Start of ShiftContainer Settings For Filter -->
+        <div ng-init="shiftContainerCtrl.showFilterInsights=false" ng-click="openFilter();" ng-if="insightPage" off-click-activator="shiftContainerCtrl.showFilterInsights" off-click="shiftContainerCtrl.showFilterInsights = false" class="filter-icon-insights">
+          <img ng-show="shiftContainerCtrl.showFilterInsights || graph.isFiltered" src="images/filter-blue-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="height: 1.198vw; width: 1.198vw" ng-style="insightLoading && insightPage && {'cursor':'not-allowed'}" />
+          <img ng-show="!shiftContainerCtrl.showFilterInsights && !graph.isFiltered" src="images/filter-grey-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="height: 1.198vw; width: 1.198vw" ng-style="insightLoading && insightPage && {'cursor':'not-allowed'}" />
+          <img src="images/check-blue.svg" ng-if="graph.isFiltered" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="position: absolute; left: 0.5vw; top: 0.01vw; height: 0.5vw; width: 0.8vw" />
+          <div class="settings newScroll slim dropdown-menu-settings insights-filters" ng-show="shiftContainerCtrl.showFilterInsights" style="align-self: flex-start; top: 1vw; z-index: 1000; overflow-y: auto">
+            <div style="margin: 0.6vw 0.833vw 0 0.833vw; display: flex; flex-direction: column" ng-click="$event.stopPropagation()">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin: 0 7px; border-bottom: 1px solid #eee; padding-bottom: 7px" ng-if="!insightData.filters.endLine">
+                <label class="insights-filter-form-radio-label" title="{{'END_LINE' | translate}}"> {{"END_LINE" | translate}} </label>
+                <div class="checkBox" check-box-directive ng-custom-change="changeEndLine" field-title="'END_LINE'" field="graph.options.settings.insight" type="'toggle'" select-value="'endLine'"></div>
+              </div>
+
+              <div class="filter-outer-container" ng-init="machinesToggledInsightSettings = true; machinesValue=true" ng-click="machinesToggledInsightSettings=!machinesToggledInsightSettings">
+                <div>
+                  <span> {{"MACHINES" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="machinesValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAll(localMachines, machinesValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="machinesToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!machinesToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                </div>
+                <div ng-if="machinesToggledInsightSettings" style="max-height: 12vw; overflow-y: auto" class="newScroll slim">
+                  <div ng-if="localMachines" class="col-lg-6 col-md-6 col-sm-6 pull-left" ng-repeat="machine in localMachines" style="padding: 0.26vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.685vw" ng-click="$event.stopPropagation();">
+                    <div class="checkBox" check-box-directive field-title="localLanguage ? machine.MachineLName : machine.MachineName" field="machine" type="'checkbox'" ng-custom-change="selectUnSelect" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="filter-outer-container"
+                ng-if="insightPage && (graph.options.settings.insight.InsightGroupID == 5 || insightPage && graph.options.settings.insight.InsightGroupID == 10)"
+                ng-init="shiftContainerCtrl.eventToggledInsightSettings = true; "
+                ng-click="shiftContainerCtrl.eventTypeToggledInsightSettings=!shiftContainerCtrl.eventTypeToggledInsightSettings"
+              >
+                <div>
+                  <span> {{"EVENTS_TYPE" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="shiftContainerCtrl.eventsTypeValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAllEventsType(filteredEventsType, shiftContainerCtrl.eventsTypeValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="shiftContainerCtrl.eventTypeToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!shiftContainerCtrl.eventTypeToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                </div>
+                <div ng-if="shiftContainerCtrl.eventTypeToggledInsightSettings" class="newScroll slim filter-inner-container-eventType">
+                  <div ng-if="filteredEventsType" class="col-lg-6 col-md-6 col-sm-6 pull-left filter-inner-container-element" ng-repeat="Event in filteredEventsType" ng-click="$event.stopPropagation();">
+                    <div class="checkBox filter-inner-container-checkbox" check-box-directive field-title="Event.TypeName" field="Event" type="'checkbox'" ng-custom-change="selectSingleEvent" first-param-for-custom-change="'eventsType'" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="filter-outer-container"
+                ng-if="insightPage && (graph.options.settings.insight.InsightGroupID == 5 || insightPage && graph.options.settings.insight.InsightGroupID == 10)"
+                ng-init="shiftContainerCtrl.eventGroupToggledInsightSettings = false; "
+                ng-click="shiftContainerCtrl.eventGroupToggledInsightSettings=!shiftContainerCtrl.eventGroupToggledInsightSettings"
+              >
+                <div>
+                  <span> {{"EVENT_GROUP" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="shiftContainerCtrl.eventGroupValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAllEventsGroup(filteredEventsGroup, shiftContainerCtrl.eventGroupValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="shiftContainerCtrl.eventGroupToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!shiftContainerCtrl.eventGroupToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                  <input ng-show="shiftContainerCtrl.eventGroupToggledInsightSettings" ng-click="$event.stopPropagation();" type="text" ng-model="shiftContainerCtrl.eventGroupSearch" ng-change="searchGroupEvents(shiftContainerCtrl.eventGroupSearch)" />
+                </div>
+                <div ng-if="shiftContainerCtrl.eventGroupToggledInsightSettings" class="newScroll slim filter-inner-container">
+                  <div ng-if="filteredEventsGroup" class="col-lg-6 col-md-6 col-sm-6 pull-left filter-inner-container-element" ng-repeat="EventGroup in filteredEventsGroup" ng-click="$event.stopPropagation();">
+                    <div class="checkBox filter-inner-container-checkbox" check-box-directive field-title="EventGroup.GroupName" field="EventGroup" type="'checkbox'" ng-custom-change="selectSingleEvent" first-param-for-custom-change="'eventsGroup'" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="filter-outer-container"
+                ng-if="insightPage && (graph.options.settings.insight.InsightGroupID == 5 || insightPage && graph.options.settings.insight.InsightGroupID == 10)"
+                style="border-bottom: none"
+                ng-init="shiftContainerCtrl.eventToggledInsightSettings = false; "
+                ng-click="shiftContainerCtrl.eventToggledInsightSettings=!shiftContainerCtrl.eventToggledInsightSettings"
+              >
+                <div>
+                  <span> {{"EVENTS" | translate}} </span>
+                  <span>
+                    <span> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    <input type="checkbox" ng-model="shiftContainerCtrl.eventsValue" ng-click="$event.stopPropagation();" ng-change="selectUnSelectAllEvents(filteredEvents, shiftContainerCtrl.eventsValue)" />
+                  </span>
+                  <span style="cursor: pointer">
+                    <i ng-show="shiftContainerCtrl.eventToggledInsightSettings" class="fa fa-angle-up"></i>
+                    <i ng-show="!shiftContainerCtrl.eventToggledInsightSettings" class="fa fa-angle-down"></i>
+                  </span>
+                  <input ng-show="shiftContainerCtrl.eventToggledInsightSettings" ng-click="$event.stopPropagation();" type="text" ng-model="shiftContainerCtrl.eventSearch" ng-change="searchEvents(shiftContainerCtrl.eventSearch)" />
+                </div>
+
+                <div ng-if="shiftContainerCtrl.eventToggledInsightSettings" class="newScroll slim filter-inner-container">
+                  <div ng-if="filteredEvents" class="col-lg-6 col-md-6 col-sm-6 pull-left filter-inner-container-element" ng-repeat="Event in filteredEvents" ng-click="$event.stopPropagation();">
+                    <div class="checkBox filter-inner-container-checkbox" check-box-directive field-title="Event.EventName" field="Event" type="'checkbox'" ng-custom-change="selectSingleEvent" first-param-for-custom-change="'events'" select-value="'value'"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="shiftContainer-insights-filter-header-btn" style="height: 1.8vw">
+              <button class="insights-filter-header-btn-content" ng-click="applyFilter()">{{"SAVE" | translate}}</button>
+            </div>
+          </div>
+        </div>
+        <!-- End Of ShiftContainer Local Filter in Insights -->
+
+        <div ng-if="!containerOptions.disableClose" class="vertical-line" ng-show="!containerOptions.settings.insight"></div>
+        <img class="shift-tools-icon" ng-if="!shiftContainerCtrl.allMachinesFullScreen.value" ng-click="toggleScreen();" title="{{'TV' | translate}}" src="images/dashboard/monitor.png" style="width: 1.1vw"/>
+        <img class="shift-tools-icon" ng-if="shiftContainerCtrl.allMachinesFullScreen.value" ng-click="toggleScreen();" title="{{'MINIMIZE' | translate}}" src="images/reduce.png" style="width: 1.1vw" />
+       
+        <img class="shift-tools-icon" ng-if="!containerOptions.disableClose && !shiftContainerCtrl.allMachinesFullScreen.value" ng-click="GAupdate('close');closeGraph()" title="{{'CLOSE' | translate}}" src="images/dashboard/close.svg" style="width: 0.781vw" alt="close" />
+      </div>
+    </div>
+    <div class="items_scroll">
+    <div class="graphs-container">
+      <div
+        graph="graph"
+        class="shiftContainerGraphPrint newScroll slim shiftContainerGraph{{graph.ID}}"
+        ng-style="{'height': containerOptions.settings.insight ? graph.inModel ? '38vw' : '490px' : containerOptions.height,'width' : '100%','overflow-y': insightPage || !changeContainerScroller ?
+                   'hidden' : 'auto','border-bottom-left-radius' : insightPage || shiftPage ? '37px' : '0','border-bottom-right-radius' : insightPage || shiftPage ? '37px' : '0'}"
+      ></div>
+    </div>
+    </div>
+  </div>
+</dnd-nodrag>

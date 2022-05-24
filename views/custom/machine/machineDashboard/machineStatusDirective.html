@@ -1,0 +1,270 @@
+<div ng-style="{height: options.height - 220,overflow: 'hidden',opacity: shiftData.machineData.ProductionModeID != 1 ? '0.2' : '1'}"
+    ng-if="machineStructure && (shiftData.machineData.ProductionModeID == 1 || shiftData.machineData.ProductionModeWarning !== 'True')">
+    <!-- first static field staticField1 -->
+    <div class="machine-status-cycle-time" ng-style="getStaticField1Style(options.settings.enableEdit)">
+        <div class="cycle-time-title">
+            <span style="display: none">{{machineStatusCtrl.chosenParam1 = (shiftData.machineData.MachineParams|
+                getFieldByName:'FieldName':machineStructure.staticField1.FieldName)}}</span>
+            <div class="title" ng-style="{cursor: options.settings.enableEdit ? 'pointer' : 'default'}" ng-click="options.settings.enableEdit && (machineStatusCtrl.openEditMode1=!machineStatusCtrl.openEditMode1)"
+                ng-attr-title="localLanguage ?  machineStatusCtrl.chosenParam1.FieldLName : machineStatusCtrl.chosenParam1.FieldEName">
+                {{localLanguage ? machineStatusCtrl.chosenParam1.FieldLName :
+                machineStatusCtrl.chosenParam1.FieldEName}} </div>
+            <img style="position: relative;top: -5px;cursor: pointer"  ng-show="options.settings.enableEdit" src="images/edit-grey-new.svg"
+                alt="edit" ng-click="machineStatusCtrl.openEditMode1=!machineStatusCtrl.openEditMode1"  title="{{'EDIT' | translate}}">
+            <div style="font-size: 12px" ng-show="machineStatusCtrl.chosenParam1.StandardValue" ><img width="9" style="cursor: auto;vertical-align: baseline;" src="images/close.png">
+                {{"STANDARD" | translate}}: {{machineStatusCtrl.chosenParam1.StandardValue}}</div>
+        </div>
+
+
+        <!-- if user chosen regular param -->
+        <div class="cycle-time-progress d-flex" ng-if="machineStatusCtrl.chosenParam1 && machineStatusCtrl.chosenParam1.CurrentValue !== undefined 
+        && machineStatusCtrl.chosenParam1.LowLimit !== undefined 
+        && machineStatusCtrl.chosenParam1.HighLimit !== undefined">
+            <div id="cycleGraph" class="buttons" ng-if="options.settings.enableEdit  && machineStatusCtrl.chosenParam1.FieldName === 'CycleTime'"
+                style="flex-direction: column; height: 70px; width:30px;">
+                <div class="graphIcon" ng-class="{selected : machineStructure.staticField1.graph}">
+                    <img ng-click="machineStructure.staticField1.graph=true; saveStructure(false);" src="{{machineStructure.staticField1.graph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}">
+                </div>
+                <div class="graphIcon" ng-class="{selected : !machineStructure.staticField1.graph}">
+                    <img ng-click="machineStructure.staticField1.graph=false; saveStructure(false);" src="{{!machineStructure.staticField1.graph ? 'images/op-app/bar-selected.png' : 'images/op-app/bar.png' }}">
+                </div>
+            </div>
+            <injection-values-directive ng-if=" !machineStructure.staticField1.graph || machineStatusCtrl.chosenParam1.FieldName !== 'CycleTime'"
+                avg="shiftData.machineData.CycleTimeAvg" show-average="machineStatusCtrl.chosenParam1.FieldName == 'CycleTime';" min="machineStatusCtrl.chosenParam1.LowLimit" max="machineStatusCtrl.chosenParam1.HighLimit"
+                standard="machineStatusCtrl.chosenParam1.StandardValue" value="machineStatusCtrl.chosenParam1.CurrentValue">
+            </injection-values-directive>
+            <div class="show-as-inline" style="width: 100%" ng-if="machineStatusCtrl.chosenParam1.FieldName === 'CycleTime' && machineStructure.staticField1.graph">
+                <cycle-time-graph-directive edit-mode="options.settings.enableEdit" graph="machineStructure.staticField1.graph"
+                    get-graph-data="getGraphData" graph-data="machinesGraphData[shiftData.machineID]['CycleTime']"></cycle-time-graph-directive>
+            </div>
+        </div>
+        
+
+        <!-- if users chosen to view job progress -->
+        <div class="show-as-inline" style="width: 100%;z-index:1" ng-if="machineStructure.staticField1.FieldName == 'Job Progress'">
+            <injection-target-directive min="0" max="shiftData.machineData.UnitsTarget" current="shiftData.machineData.UnitsProducedOK"
+                target="shiftData.machineData.UnitsProducedTheoretically" current="machineBox.UnitsProducedOK" width="248">
+            </injection-target-directive>
+        </div>
+
+        <!-- if users chosen to view josh progress -->
+        <div class="show-as-inline" style="width: 100%;z-index:1" ng-if="machineStructure.staticField1.FieldName == 'Josh Progress'">
+            <injection-target-directive class="expanded-target-directive" max="shiftData.machineData.UnitsTargetJosh"
+                min="0" target="shiftData.machineData.UnitsProducedTheoreticallyJosh" current="shiftData.machineData.UnitsProducedOKJosh"
+                width="248">
+            </injection-target-directive>
+        </div>
+    </div>
+    <div class="btn-group" ng-if="machineStatusCtrl.openEditMode1" style="position: absolute;">
+        <ul class="dropdown-menu" style="display: block;" off-click-activator="machineStatusCtrl.openEditMode1" off-click="machineStatusCtrl.openEditMode1 = false">
+            <li ng-repeat="param in shiftData.machineData.MachineParams | filter:machineStatusCtrl.paramsWithLimits"
+                class="ng-scope">
+                <a ng-click="machineStructure.staticField1.FieldName = param.FieldName;machineStatusCtrl.openEditMode1 = false;saveStructure();">{{localLanguage
+                    ? param.FieldLName : param.FieldEName}} </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- second static field staticField2 -->
+    <div class="machine-status-cycle-time" ng-style="getStaticField2Style(options.settings.enableEdit)" ng-hide="!machineStructure.staticField2.visibility && !options.settings.enableEdit">
+        <div class="cycle-time-title">
+            <span style="display: none">{{machineStatusCtrl.chosenParam2 = (shiftData.machineData.MachineParams|
+                getFieldByName:'FieldName':machineStructure.staticField2.FieldName)}}</span>
+
+            <div class="title" ng-style="{cursor: options.settings.enableEdit ? 'pointer' : 'default'}" ng-click="options.settings.enableEdit && (machineStatusCtrl.openEditMode2=!machineStatusCtrl.openEditMode2)"
+                ng-attr-title="localLanguage ?  machineStatusCtrl.chosenParam2.FieldLName : machineStatusCtrl.chosenParam2.FieldEName">{{localLanguage
+                ? machineStatusCtrl.chosenParam2.FieldLName : machineStatusCtrl.chosenParam2.FieldEName}} </div>
+            <img style="position: relative;top: -5px;cursor: pointer" ng-show="options.settings.enableEdit" src="images/edit-grey-new.svg"
+                alt="edit" ng-click="machineStatusCtrl.openEditMode2=!machineStatusCtrl.openEditMode2"  title="{{'EDIT' | translate}}">
+            <div style="font-size: 12px" ng-show="machineStatusCtrl.chosenParam2.StandardValue"><img width="9" style="cursor: auto;vertical-align: baseline;" src="images/close.png">
+                {{"STANDARD" | translate}}: {{machineStatusCtrl.chosenParam2.StandardValue}}</div>
+        </div>
+
+        <!-- add/remove static2 -->
+        <span ng-if="options.settings.enableEdit" class="add-remove-staticField">
+            <i class="fa fa-minus" ng-show="machineStructure.staticField2.visibility == true" ng-click="addRemoveStaticField(false, 'staticField2')"></i>
+            <i class="fa fa-plus" ng-show="machineStructure.staticField2.visibility==false" ng-click="addRemoveStaticField(true, 'staticField2')"></i>
+        </span>
+
+        <!-- if user chosen regular param -->
+        <div class="cycle-time-progress d-flex" ng-if="machineStructure.staticField2.visibility && machineStatusCtrl.chosenParam2 && machineStatusCtrl.chosenParam2.CurrentValue !== undefined 
+        && machineStatusCtrl.chosenParam2.LowLimit !== undefined 
+        && machineStatusCtrl.chosenParam2.HighLimit !== undefined">
+            <div id="cycleGraph" class="buttons" ng-if="options.settings.enableEdit  && machineStatusCtrl.chosenParam2.FieldName === 'CycleTime'"
+                style="flex-direction: column; height: 70px; width:30px;">
+                <div class="graphIcon" ng-class="{selected : machineStructure.staticField2.graph}">
+                    <img ng-click="machineStructure.staticField2.graph=true; saveStructure(false);" src="{{machineStructure.staticField2.graph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}">
+                </div>
+                <div class="graphIcon" ng-class="{selected : !machineStructure.staticField2.graph}">
+                    <img ng-click="machineStructure.staticField2.graph=false; saveStructure(false);" src="{{!machineStructure.staticField2.graph ? 'images/op-app/bar-selected.png' : 'images/op-app/bar.png' }}">
+                </div>
+            </div>
+            <injection-values-directive ng-if=" !machineStructure.staticField2.graph || machineStatusCtrl.chosenParam2.FieldName !== 'CycleTime'"
+                avg="shiftData.machineData.CycleTimeAvg" min="machineStatusCtrl.chosenParam2.LowLimit" max="machineStatusCtrl.chosenParam2.HighLimit"
+                standard="machineStatusCtrl.chosenParam2.StandardValue" value="machineStatusCtrl.chosenParam2.CurrentValue">
+            </injection-values-directive>
+            <div class="show-as-inline" style="width: 100%" ng-if="machineStatusCtrl.chosenParam2.FieldName === 'CycleTime' && machineStructure.staticField2.graph">
+                <cycle-time-graph-directive edit-mode="options.settings.enableEdit" graph="machineStructure.staticField2.graph"
+                    get-graph-data="getGraphData" graph-data="machinesGraphData[shiftData.machineID]['CycleTime']"></cycle-time-graph-directive>
+            </div>
+        </div>
+
+        <!-- if users chosen to view job progress -->
+        <div class="show-as-inline" style="width: 100%;z-index:1" ng-if="machineStructure.staticField2.visibility && machineStructure.staticField2.FieldName == 'Job Progress'">
+            <injection-target-directive min="0" max="shiftData.machineData.UnitsTarget" current="shiftData.machineData.UnitsProducedOK"
+                target="shiftData.machineData.UnitsProducedTheoretically" current="machineBox.UnitsProducedOK" width="248">
+            </injection-target-directive>
+        </div>
+
+        <!-- if users chosen to view josh progress -->
+        <div class="show-as-inline" style="width: 100%;z-index:1" ng-if="machineStructure.staticField2.visibility && machineStructure.staticField2.FieldName == 'Josh Progress'">
+            <injection-target-directive class="expanded-target-directive" max="shiftData.machineData.UnitsTargetJosh"
+                min="0" target="shiftData.machineData.UnitsProducedTheoreticallyJosh" current="shiftData.machineData.UnitsProducedOKJosh"
+                width="248">
+            </injection-target-directive>
+        </div>
+    </div>
+    <div class="btn-group" ng-if="machineStatusCtrl.openEditMode2" style="position: absolute;">
+        <ul class="dropdown-menu" style="display: block;" off-click-activator="machineStatusCtrl.openEditMode2" off-click="machineStatusCtrl.openEditMode2 = false">
+            <li ng-repeat="param in shiftData.machineData.MachineParams | filter:machineStatusCtrl.paramsWithLimits"
+                class="ng-scope">
+                <a ng-click="machineStructure.staticField2.FieldName = param.FieldName;machineStatusCtrl.openEditMode2 = false;saveStructure();">{{localLanguage
+                    ? param.FieldLName : param.FieldEName}} </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- third static field staticField3 -->
+    <div class="machine-status-cycle-time" ng-style="getStaticField3Style(options.settings.enableEdit)" ng-hide="!machineStructure.staticField3.visibility && !options.settings.enableEdit">
+        <div class="cycle-time-title">
+            <span style="display: none">{{machineStatusCtrl.chosenParam3 = (shiftData.machineData.MachineParams|
+                getFieldByName:'FieldName':machineStructure.staticField3.FieldName)}}</span>
+            <div class="title" ng-style="{cursor: options.settings.enableEdit ? 'pointer' : 'default'}" ng-click="options.settings.enableEdit && (machineStatusCtrl.openEditMode3=!machineStatusCtrl.openEditMode3)"
+                ng-attr-title="localLanguage ?  machineStatusCtrl.chosenParam3.FieldLName : machineStatusCtrl.chosenParam3.FieldEName">{{localLanguage
+                ? machineStatusCtrl.chosenParam3.FieldLName : machineStatusCtrl.chosenParam3.FieldEName}} </div>
+            <img style="position: relative;top: -5px;cursor: pointer" ng-show="options.settings.enableEdit" src="images/edit-grey-new.svg"
+                alt="edit" ng-click="machineStatusCtrl.openEditMode3=!machineStatusCtrl.openEditMode3"  title="{{'EDIT' | translate}}">
+            <div style="font-size: 12px" ng-show="machineStatusCtrl.chosenParam3.StandardValue"><img width="9" style="cursor: auto;vertical-align: baseline;" src="images/close.png">
+                {{"STANDARD" | translate}}: {{machineStatusCtrl.chosenParam3.StandardValue}}</div>
+        </div>
+
+        <!-- add/remove static3 -->
+        <span ng-if="options.settings.enableEdit" class="add-remove-staticField">
+            <i class="fa fa-minus" ng-show="machineStructure.staticField3.visibility == true" ng-click="addRemoveStaticField(false, 'staticField3')"></i>
+            <i class="fa fa-plus" ng-show="machineStructure.staticField3.visibility==false" ng-click="addRemoveStaticField(true, 'staticField3')"></i>
+        </span>
+
+        <!-- if user chosen regular param -->
+        <div class="cycle-time-progress d-flex" ng-if="machineStructure.staticField3.visibility && machineStatusCtrl.chosenParam3 && machineStatusCtrl.chosenParam3.CurrentValue !== undefined 
+        && machineStatusCtrl.chosenParam3.LowLimit !== undefined 
+        && machineStatusCtrl.chosenParam3.HighLimit !== undefined">
+            <div id="cycleGraph" class="buttons" ng-if="options.settings.enableEdit  && machineStatusCtrl.chosenParam3.FieldName === 'CycleTime'"
+                style="flex-direction: column; height: 70px; width:30px;">
+                <div class="graphIcon" ng-class="{selected : machineStructure.staticField3.graph}">
+                    <img ng-click="machineStructure.staticField3.graph=true; saveStructure(false);" src="{{machineStructure.staticField3.graph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}">
+                </div>
+                <div class="graphIcon" ng-class="{selected : !machineStructure.staticField3.graph}">
+                    <img ng-click="machineStructure.staticField3.graph=false; saveStructure(false);" src="{{!machineStructure.staticField3.graph ? 'images/op-app/bar-selected.png' : 'images/op-app/bar.png' }}">
+                </div>
+            </div>
+            <injection-values-directive ng-if=" !machineStructure.staticField3.graph || machineStatusCtrl.chosenParam3.FieldName !== 'CycleTime'"
+                avg="shiftData.machineData.CycleTimeAvg" min="machineStatusCtrl.chosenParam3.LowLimit" max="machineStatusCtrl.chosenParam3.HighLimit"
+                standard="machineStatusCtrl.chosenParam3.StandardValue" value="machineStatusCtrl.chosenParam3.CurrentValue">
+            </injection-values-directive>
+            <div class="show-as-inline" style="width: 100%" ng-if="machineStatusCtrl.chosenParam3.FieldName === 'CycleTime' && machineStructure.staticField3.graph">
+                <cycle-time-graph-directive edit-mode="options.settings.enableEdit" graph="machineStructure.staticField3.graph"
+                    get-graph-data="getGraphData" graph-data="machinesGraphData[shiftData.machineID]['CycleTime']"></cycle-time-graph-directive>
+            </div>
+        </div>
+
+        <!-- if users chosen to view job progress -->
+        <div class="show-as-inline" style="width: 100%;z-index:1" ng-if="machineStructure.staticField3.visibility && machineStructure.staticField3.FieldName == 'Job Progress'">
+            <injection-target-directive min="0" max="shiftData.machineData.UnitsTarget" current="shiftData.machineData.UnitsProducedOK"
+                target="shiftData.machineData.UnitsProducedTheoretically" current="machineBox.UnitsProducedOK" width="248">
+            </injection-target-directive>
+        </div>
+
+        <!-- if users chosen to view josh progress -->
+        <div class="show-as-inline" style="width: 100%;z-index:1" ng-if="machineStructure.staticField3.visibility && machineStructure.staticField3.FieldName == 'Josh Progress'">
+            <injection-target-directive class="expanded-target-directive" max="shiftData.machineData.UnitsTargetJosh"
+                min="0" target="shiftData.machineData.UnitsProducedTheoreticallyJosh" current="shiftData.machineData.UnitsProducedOKJosh"
+                width="248">
+            </injection-target-directive>
+        </div>    
+    </div>
+    <div class="machine-status-reach" ng-if="(shiftData.machineData.ProductionModeID == 1) && (shiftData.machineData.UnitsProducedOK >= shiftData.machineData.UnitsTarget)">
+        {{"YOU_HAVE_REACHED_THE_RRODUCTION_TARGET" | translate}}
+    </div>
+    <div class="btn-group" ng-if="machineStatusCtrl.openEditMode3" style="position: absolute;">
+        <ul class="dropdown-menu" style="display: block;" off-click-activator="machineStatusCtrl.openEditMode3" off-click="machineStatusCtrl.openEditMode3 = false">
+            <li ng-repeat="param in shiftData.machineData.MachineParams | filter:machineStatusCtrl.paramsWithLimits"
+                class="ng-scope">
+                <a ng-click="machineStructure.staticField3.FieldName = param.FieldName;machineStatusCtrl.openEditMode3 = false;saveStructure();">{{localLanguage
+                    ? param.FieldLName : param.FieldEName}} </a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- WARNING: cycled deteced -->
+<div style="height: 280px;" class="bar-graph" ng-if="shiftData.machineData.ProductionModeWarning === 'True' && shiftData.machineData.ProductionModeID !== 1">
+    <div class="attentionMessage" style="height: 100%;padding-top: 95px;color: red;line-height: inherit;">
+        {{"ATTENTION" | translate}}
+
+        <div>{{"CYCLES_DETECTED_NON_PRODUCTION" | translate}}</div>
+    </div>
+</div>
+
+<!-- machine values params row . one row only , no option to add or remove param row -->
+<div class="machine-status-grid" ng-style="shiftData.machineData.ProductionModeID != 1 && {'opacity':'0.2'}">
+    <div class="grid-box center-grid-box" ng-repeat="paramBox in [0,1,2,3,4]" ng-init="machineStatusCtrl.boxParams = {}">
+        <span style="display: none">{{machineStatusCtrl.boxParams[paramBox] = (shiftData.machineData.MachineParams |
+            getFieldByName:'FieldName':machineStructure.params[paramBox].FieldName)}}</span>
+        <div style="position: absolute;
+        width: 20%;
+        height: 100px;
+        margin: -20px;" class="param_{{$index % 5}}"
+            ng-if="machineStatusCtrl.paramsEditMode[paramBox]">
+            <ul class="dropdown-menu" style="display: block;position: absolute;max-height: 200px;overflow-y: auto"
+                off-click-activator="machineStatusCtrl.paramsEditMode[paramBox]" off-click="machineStatusCtrl.paramsEditMode[paramBox] = false">
+                <li ng-repeat="param in shiftData.machineData.MachineParams | filter:machineStatusCtrl.paramsWithCurrentValue">
+                    <a ng-click="machineStructure.params[paramBox].FieldName = param.FieldName;machineStatusCtrl.paramsEditMode[paramBox] = false;saveStructure()"
+                        ng-class="{'color-red' : param.FieldName == 'removeParam'}">
+                        {{localLanguage ? param.FieldLName : param.FieldEName}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div ng-show="machineStructure.params[paramBox].FieldName == 'customUIImage'" style="margin: 0;">
+            <div style="display: inline-block;width: 100%;">
+
+                <img ng-click="openImageInModal(shiftData.machineData.ProductImagePath)"
+                    style="vertical-align: super" ng-hide="!shiftData.machineData.ProductImagePath.length"
+                    ng-src="{{shiftData.machineData.ProductImagePath}}"
+                    width="50" height="40" />
+                    <img style="height: 15px;margin-left: 5px;" ng-show="options.settings.enableEdit"  style="cursor: pointer;"
+                    ng-click="options.settings.enableEdit && (machineStatusCtrl.paramsEditMode[paramBox] = true)" src="images/edit-grey-new.svg" alt="edit"  title="{{'EDIT' | translate}}">
+
+            </div>
+        </div>
+
+        <div ng-show="machineStructure.params[paramBox].FieldName !== 'customUIImage'" style="overflow: hidden;">
+            <div ng-if="machineStructure.params[paramBox].FieldName !== 'MoldCavities'" class="grid-number">{{machineStatusCtrl.boxParams[paramBox].FieldName == 'TimeLeftHour' || machineStatusCtrl.boxParams[paramBox].FieldName == 'MoldEndTimeHour' ? (machineStatusCtrl.boxParams[paramBox].CurrentValue*60 | minutesToHHMM) : (machineStatusCtrl.boxParams[paramBox].CurrentValue| thousandsSeperator)}}</div>
+            <div ng-if="machineStructure.params[paramBox].FieldName === 'MoldCavities' && machineStatusCtrl.boxParams[paramBox].CurrentValue" class="grid-number">{{machineStatusCtrl.boxParams[paramBox].FieldName == 'TimeLeftHour' || machineStatusCtrl.boxParams[paramBox].FieldName == 'MoldEndTimeHour' ? (machineStatusCtrl.boxParams[paramBox].CurrentValue*60 | minutesToHHMM) : (machineStatusCtrl.boxParams[paramBox].CurrentValue| thousandsSeperator)}} ({{machineStatusCtrl.boxParams[paramBox].FieldName == 'TimeLeftHour' || machineStatusCtrl.boxParams[paramBox].FieldName == 'MoldEndTimeHour' ? (machineStatusCtrl.boxParams[paramBox].StandardValue*60 | minutesToHHMM) : (machineStatusCtrl.boxParams[paramBox].StandardValue| thousandsSeperator)}}) </div>
+            <div style="display: flex;justify-content:center" ng-style="{cursor: options.settings.enableEdit ? 'pointer': 'default'}" ng-style="{cursor: options.settings.enableEdit ? 'pointer': 'default'}" ng-class="{fixRemoveParam : machineStatusCtrl.boxParams[paramBox].FieldLName == ('REMOVE_PARAM'| translate)}"
+                ng-click="options.settings.enableEdit && (machineStatusCtrl.paramsEditMode[paramBox] = true)">
+                <div class="grid-text" ng-show="machineStatusCtrl.boxParams[paramBox].FieldEName != ('REMOVE_PARAM'| translate)"
+                    ng-attr-title="{{localLanguage ?  machineStatusCtrl.boxParams[paramBox].FieldLName : machineStatusCtrl.boxParams[paramBox].FieldEName}}">
+                    {{localLanguage ? machineStatusCtrl.boxParams[paramBox].FieldLName : machineStatusCtrl.boxParams[paramBox].FieldEName}}
+
+                </div>
+                <img style="height: 15px;margin-left: 5px;" ng-show="options.settings.enableEdit" src="images/edit-grey-new.svg" alt="edit"  title="{{'EDIT' | translate}}">
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height: 120px;">
+    <machine-message-directive parent="Machine_screen" last-message="shiftData.lastMessage" update="updateTechnicianStatus"
+        machine-data="shiftData.machineData"></machine-message-directive>
+</div>

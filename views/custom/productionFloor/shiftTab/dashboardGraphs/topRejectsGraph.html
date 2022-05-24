@@ -1,0 +1,17 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <span class="head_txt">
+            {{containerOptions.header + (containerOptions.machine ? '_MACHINE' : '') | convertToTranslate}}
+        </span>
+      
+    </header-title>
+    <graph>
+        <top-rejects-directive options="containerOptions" graph="graph"></top-rejects-directive>
+    </graph>
+    <setting>
+            <div class="top-events-value">
+                <span>{{"TOP" | translate}}</span> <input style="margin-left:8px" class="input-number-settings-sm" type="number" ng-model="containerOptions.settings.top"/>
+            </div>
+    </setting>
+
+</shift-container>

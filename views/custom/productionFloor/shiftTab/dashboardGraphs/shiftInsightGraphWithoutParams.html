@@ -1,0 +1,21 @@
+<shift-container graph="graph" containers="containers">
+     <header-title> {{graph.options.header | translate}}</header-title>
+    <graph>
+      <div class="insight-graph-template">
+        <insights-dashboard-directive
+          auto-refresh="true"
+          graph="graph"
+          insight="graph.options.settings.insight"
+          for-graph="true"
+          is-shift="true"
+          parameter-obj="graph.options.settings.parameters[graph.options.settings.parameter]"
+          heat-map-colors="insightsPercentageColors"
+          kpis-heatmap-shift="graph.KPIsForHeatmap"
+        >
+        </insights-dashboard-directive>
+
+    </insights-dashboard-directive>
+      </div>
+    </graph>
+  </shift-container>
+  

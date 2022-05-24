@@ -1,0 +1,49 @@
+<div style="padding: 0" class="messagesWrapper">
+    <div class="imgInModalX modal-header">
+            <span>{{localLanguage ? machineData.MachineLName : machineData.MachineEName}}</span>
+            <img ng-click="close()" src="images/close.png" />
+    </div>
+    <div class="messagesBody" ng-init="data.showSuggestion=false">
+        <div class="typing-section">
+            <div>
+                <div style="display: flex;">
+                    <textarea maxlength="1000" placeholder="{{'TYPE_SOMETHING' | translate}}" ng-model="data.newMessage" class="message-text-area" required></textarea>                            
+                      
+                    <div class="typing-section-btns">
+                        <div>
+                            <img style="width: 25px;height: 25px;cursor: pointer;" src="images/add.png" ng-click="data.showSuggestion=!data.showSuggestion" />
+                            <div class="dropdown-messages-suggestion" ng-if="data.showSuggestion" off-click-activator="data.showSuggestion" off-click="data.showSuggestion=false">
+                                <div ng-repeat="i in topFiveMessages" ng-click="data.newMessage = i;data.showSuggestion=false" style="cursor: pointer;">
+                                    {{i}}
+                                    <hr ng-if="!$last">
+                                </div>
+                            </div>
+                        </div>
+                        <img style="width: 25px;height: 25px;cursor: pointer;" class="flipped-img" src="images/send.png" ng-class="{'disabled' : !data.newMessage || data.newMessage == ''}"
+                            ng-click="sendMessage()">
+                    </div>                
+                </div>
+                <div class="errorMessage"> {{errorMessage}}</div>  
+            </div>
+        </div>
+      
+        <div class="items-section">
+            <div ng-repeat="message in data.messages track by $index">
+                <div class="item">
+                    <img style="vertical-align: -webkit-baseline-middle" ng-src="images/messagesStatus/status-{{message.ResponseType}}.svg" />
+                </div>
+                <span class="desc">
+                    {{message.Text}}
+                </span>
+                <div class="message-hour">
+                    <div>
+                        {{message.SentTime.split('T')[0].split('-').reverse().join('/') | replaceAll:'-':'\/'}} {{message.SentTime | dateToHour}}
+                    </div>
+                    <div style="width: 100%; overflow: hidden;text-overflow: ellipsis;white-space: nowrap" title="{{message.SourceUserName}}">
+                        {{localLanguage ? message.SenderUserDisplayHName : message.SenderUserDisplayName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

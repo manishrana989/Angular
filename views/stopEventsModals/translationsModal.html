@@ -1,0 +1,108 @@
+<div class="translations-modal">
+
+    <div ng-if="fetching" class="notifications-history-loading" ng-include="'views/common/emptyPage.html'">
+    </div>
+
+    <div ng-style="fetching && {'opacity': '0.4'}">
+        <form ng-submit="save()">
+            <div class="ibox newGoalsModal">
+
+                <div class="ibox-title newGoalsTitle">
+                    <span>{{"TRANSLATIONS" | translate}}</span>
+                    <div class="pull-right x">
+                        <img ng-click="close()" src="images/close.png" width="15" height="15" />
+                    </div>
+                </div>
+
+                <div class="ibox-content newScroll slim" style="max-height:345px;">
+                    <div style="width: 100%;margin: 15px;" ng-repeat="row in translationCtrl.currentTranslations track by $index">
+                        <div class="row" off-click-activator="row.commonDictionariesPopup" off-click="row.commonDictionariesPopup = false">
+                            <div class="" ng-repeat="(key, value) in row" ng-hide="key == 'NumOfMachines' || key =='commonDictionariesPopup'"
+                               >
+                                <div style="font-weight: 900;margin-bottom: 20px;text-align: center" ng-if="$parent.$index == 0">{{key | langTranslate:translationCtrl.dict}}</div>
+                                <input ng-model="row[key]" ng-if="key != 'ID'" class="form-control"/>
+                                <div ng-if="key == 'ID'">
+                                    {{row[key]}}
+                                </div>
+
+                                <label ng-if="key == 'ID' && row.NumOfMachines > 1" class="otherMachinesNoteModal">
+                                    {{'THIS_EVENT_IS_DEFINED_FOR_OTHER_MACHINES' | translate}}
+                                    <div
+                                            style="position:relative;margin: 0 10px">
+                                        <i title="{{'THIS_EVENT_IS_DEFINED_FOR_OTHER_MACHINES' | translate}}"
+                                           ng-click="translationCtrl.getMachinesByDicId(row.ID, row)"
+                                           class="fa fa-exclamation"
+                                           style="  border-radius: 100%;
+                                                                            cursor: pointer;
+                                                                            cursor: pointer;
+                                                                            color: White;
+                                                                                margin: 0 -3px;
+                                                                            background: red;
+                                                                            width: 18px;
+                                                                            text-align: center;
+                                                                            font-size: 13px;
+                                                                            padding: 3px;"
+                                           aria-hidden="true"></i>
+
+                                        <div ng-show="row.commonDictionariesPopup"
+                                             class="common-dictionaries-popup newScroll slim">
+
+                                            <div ng-show="!fetched">
+                                                <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+                                            </div>
+                                            <div ng-if="fetched" ng-repeat="machine in machinesWithThisDictionary">
+                                                {{localLanguage ?
+                                                machine.MachineLName : machine.MachineName}}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <!--                    <div class="description">-->
+                        <!--                        {{key | langTranslate:translationCtrl.dict}}-->
+                        <!--                    </div>-->
+
+                        <!--                    <div>-->
+                        <!--                        <input class="form-control" value="{{value}}" />-->
+                        <!--                    </div>-->
+
+                        <!--                    <table>-->
+                        <!--                        <tr>-->
+                        <!--                            <thnumofm class="padding-10" ng-repeat="(key, value) in translationCtrl.currentTranslations" ng-if="$parent.$index == 0">-->
+                        <!--                                {{key | langTranslate:translationCtrl.dict}}-->
+                        <!--                            </th>-->
+                        <!--                        </tr>-->
+                        <!--                        <tr>-->
+                        <!--                            <th class="padding-10" ng-repeat="(key, value) in translationCtrl.currentTranslations">-->
+                        <!--                                <input class="form-control" value="{{value}}" ng-model="translationCtrl.currentTranslations[key]"/></th>-->
+                        <!--                        </tr>-->
+                        <!--                    </table>-->
+
+                    </div>
+
+
+                </div>
+
+                <div class="lang" style="width: 100%">
+                    <div>
+
+
+                        <select class="form-control" ng-model="selectedLang" ng-init="selectedLang = translationCtrl.emptyTranslations[0]">
+                            <option ng-repeat="item in translationCtrl.emptyTranslations" ng-value="item" ng-selected="item == selectedLang">{{item | langTranslate:translationCtrl.dict}}</option>
+                        </select>
+
+                        <div style="font-weight:bold; color:var(--color2);cursor: pointer" ng-click="addLanguage()">
+                            <img src="images/add-circle.svg" />
+                            {{"ADD_LANGUAGE" | translate}}
+                        </div>
+                    </div>
+                </div>
+                <button ng-disabled="disabled" type="submit" ng-click="saveAndClose()" class="btn btn-primary new-dep-header-buttons saveButton">
+                    {{"SAVE"| translate}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

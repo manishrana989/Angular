@@ -1,0 +1,27 @@
+<div style="background: #fff;">
+    <!-- <react-form-generic 
+        leader-id="actionModalInstanceCtrl.targetLeaderID"
+        form-id="actionModalInstanceCtrl.formSteps[stepIndex].NextFormID"
+        skip-save-operation="SkipSaveOperation"
+        api="'DisplayFormResults'"
+        actionname="actionName"
+        wizard="wizard"
+        pairs="pairs"
+        modal-close="actionModalInstanceCtrl.close"
+        action-funs=""
+    >
+    </react-form-generic> -->
+
+    <react-form-wizard-generic
+    ng-if="wizardid"
+    wizardid="wizardid"
+    leader-id="actionModalInstanceCtrl.targetLeaderID"
+    skip-save-operation="SkipSaveOperation"
+    pairs="pairs"
+    modal-close="actionModalInstanceCtrl.close"
+    func-action="myAction"
+    content="content"
+    action-modal-instance-ctrl="actionModalInstanceCtrl"
+    >
+    </react-form-wizard-generic>
+</div>

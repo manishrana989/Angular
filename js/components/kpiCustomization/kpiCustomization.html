@@ -1,0 +1,107 @@
+<div class="manager-app">
+  <div ng-if="kpiCustomizationCtrl.showBreadCrumb == true"
+      class="row wrapper border-bottom white-bg page-heading col-lg-12"
+      style="padding: 0 0.521vw 0.365vw 0.521vw;position: fixed; top: 2.083vw; width: 100%;z-index :9999"
+      ng-if="modal === undefined || modal === null">
+      <div class="col-lg-10 floatRight">
+          <h2 style="margin-top: 0.365vw;margin-bottom: 0.365vw;">{{topPageTitle}}</h2>
+          <bread-crumbs></bread-crumbs>
+      </div>
+      <div class="col-lg-2">
+
+      </div>
+  </div>
+
+  <div class="wrapper wrapper-content animated fadeIn row" style="margin-top:4.167vw;">
+      <div id="toastr"></div>
+      <div class="ibox col-lg-12" style="background: white">
+          <div class="ibox-title">
+              <h5 style="font-size: 0.729vw" class="pull-left">{{"KPI_CUSTOMIZATION" | translate}}</h5>
+          </div>
+          <div class="ibox-content">
+
+              <div class="kpi-customization">
+                  <div ng-repeat="row in cardsRows track by $index">
+                      <div class="cards-container">
+                          <div ng-repeat="card in row track by $index " class="card-container-main-kpi"
+                              ng-style="showOpacity && (!card.editMode || (card.editMode && showOpacityRowID !== $parent.$index))  && {'opacity':'0.2'}">
+                              <span style="display: none" ng-init="rowID = $parent.$index"></span>
+                              <div class="card-container-main-kpi-left">
+                                  <div class="card-container-main-kpi-left-content">
+
+                                      <div class="card-edit-translate-kpi-container">
+
+                                          <div style="flex-grow: 4" class="translate" ng-show="card.editMode">
+                                              <div ng-click="openTranslationsModal(card)" class="">
+                                                  <img src="images/translate.svg">
+                                                  <span class="ng-binding">Translate</span>
+                                              </div>
+                                          </div>
+                                          <div style="flex-grow: 1" class="pull-right" ng-if="!showOpacity"
+                                              style="min-height: 1.146vw;">
+                                              <img ng-click="switchMode(true, card,undefined,rowID)"
+                                                  class="card-main-kpi-edit-icon" src="{{card.icon}}" />
+                                          </div>
+
+                                      </div>
+
+                                      <div style="display: block">
+                                          <div class="card-main-kpi-title text-center" ng-if="!card.editMode">
+                                              {{card.name | translate}}</div>
+                                          <input style="font-size: 0.729vw;height: 1.5vw;"
+                                              class="form-control text-center textContainer ng-pristine ng-valid"
+                                              ng-if="card.editMode" ng-model="card.title">
+                                      </div>
+
+                                      <div class="card-main-kpi-subtitle text-center">
+                                          <span class="card-main-kpi-subtitle-span"
+                                              ng-if="card.subSubtitle.length!=0">{{card.subSubtitle | translate}}</span>
+                                      </div>
+                                      <div class="card-main-kpi-blue-subtitle text-center"
+                                          ng-if="card.totalDescription.length!=0">
+                                          {{card.totalDescription | translate}}</div>
+                                      <div ng-if="card.time.length!=0" class="card-main-kpi-paragraph text-center">
+                                          {{card.time | translate}}</div>
+                                  </div>
+                                  <div class="save-cancel-container"
+                                      ng-show="(card.editMode && showOpacityRowID === rowID)">
+                                      <div ng-click="switchMode(false, card,undefined,rowID)"
+                                          class="card-main-kpi-cancel-btn">{{"CANCEL" | translate}}</div>
+                                      <div class="card-main-kpi-save-btn text-center"
+                                          ng-click="switchMode(false, card, true,rowID)">{{"SAVE" | translate}}</div>
+                                      <div style="flex-grow: 2;"></div>
+                                  </div>
+                              </div>
+                              <div ng-hide="$index == upperCards.length - 1"
+                                  ng-style="showOpacity && {'opacity':'0.2'}" class="kpi-operator">
+                                  <img class="card-main-kpi-multiple"
+                                      ng-style=" $index == (upperCards.length - 2) && {'height': '20%','padding':'15%','background-color': 'var(--color2)'}"
+                                      ng-src="{{card.outerIcon}}" />
+                              </div>
+                          </div>
+                      </div>
+                      <hr />
+                      <!--                        <div ng-style="showOpacity && {'opacity':'0.2'}" class="card-main-kpi-equal-wrapper">-->
+                      <!--                            <div style="width:96%;">-->
+                      <!--                                <div class="card-main-kpi-equal-hr-container" >-->
+                      <!--                                    <hr class="card-main-kpi-equal-hr text-center"/>-->
+                      <!--                                </div>-->
+                      <!--                                <div class="card-main-kpi-equal-button-container">-->
+                      <!--                                    <button class="text-center card-main-kpi-equal-btn">{{"EQUAL" | translate}} </button>-->
+                      <!--                                </div>-->
+                      <!--                            </div>-->
+                      <!--                        </div>-->
+                  </div>
+              </div>
+              <div class="kpi-customization-items">
+                  <div class="KPIs-performance-label">
+                      {{"KPIS_PERFORMANCE" | translate}}
+                  </div>
+                  <div class="col-lg-3" style="margin-left: 8vw;    width: 90%;">
+                      <performed-color-directive type="2"></performed-color-directive>
+                  </div>
+               </div>
+          </div>
+      </div>
+  </div>
+</div>

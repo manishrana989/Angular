@@ -1,0 +1,17 @@
+<shift-container graph="graph" containers="insightData[pageID].container">
+  <header-title> {{graph.options.settings.insight.Title}} - {{graph.options.settings.insight.ID}} <div class="diplay-department-name" ng-bind-html="departmentName"> </div> </header-title>
+  <graph>
+    <div class="insight-graph-template insight-graph-template{{graph.ID}}">
+      <insights-dashboard-directive
+        auto-refresh="true"
+        graph="graph"
+        insight="graph.options.settings.insight"
+        for-graph="true"
+        is-shift="false"
+        heat-map-colors="insightsPercentageColors"
+        kpis-heatmap-shift="graph.KPIsForHeatmap"
+      >
+      </insights-dashboard-directive>
+    </div>
+  </graph>
+</shift-container>

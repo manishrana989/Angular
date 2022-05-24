@@ -1,0 +1,36 @@
+<div id="machinesPerformanceContainer{{graph.ID}}" class="machinesPerformanceContainer printShiftTime" ng-style="options.style" style="width:100%">
+    <div ng-if="initialized">
+       
+            <div style="height: 3em; margin-top: 0.3em">
+
+                <div ng-repeat="inlineShape in allShapeTypes" style="display: inline-block;margin-right: 20px;">
+                    <inline-shape-directive shape-css-class="inlineShape.shape" inline-text="inlineShape.name"
+                        shape-color="inlineShape.color">
+                    </inline-shape-directive>
+                </div>
+                <div ng-repeat="kpi in availableKpis" style="display: inline-block; margin-right: 20px">
+                    <div ng-if="kpi.display && options.isActivityGaugeView">
+                        <div class="inlineSquare" style="height: 1em; width: 1em; display: inline-block"
+                            ng-style="{'background-color':getColorByTranslation(kpi.name)}">
+                        </div>
+                        <span>
+                            {{kpi.name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div ng-repeat="machinesPerformance in machinesToDisplay" ng-if="options.displayCircleBy === 'machine'" style="display: inline-block ; word-break: break-all;
+                white-space: normal;">
+
+                    <div id="machinesPerformance-{{compID}}-{{$index}}" class="activityGauge"></div>
+                </div>
+                <div ng-repeat="workersPerformance in workerDataArr.highchartData" ng-if="options.displayCircleBy === 'worker'" style="display: inline-block; ">
+
+                    <div id="workersPerformance-{{compID}}-{{$index}}" class="activityGauge"></div>
+                </div>
+        </div>   
+    </div>
+</div>
+</div>
+<div ng-if="!initialized" style="width: 100%" ng-include="'views/common/emptyPage.html'"></div>

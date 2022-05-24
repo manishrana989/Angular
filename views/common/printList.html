@@ -1,0 +1,395 @@
+<style type="text/css">
+
+    @media print {
+
+        * {
+            background: transparent !important;
+            page-break-after: auto;
+            -webkit-print-color-adjust: exact;
+        }
+
+        @page {
+            margin: 0mm;
+            size: A4;
+        }
+
+        body * {
+            visibility: hidden;
+            page-break-after: auto;
+        }
+
+        #section-to-print1 * {
+            visibility: visible;
+            overflow: inherit;
+
+        }
+
+
+        /*#mainPage * {*/
+        /*display: none;*/
+        /*}*/
+        .modal {
+            position: absolute;
+            visibility: visible;
+            /**Remove scrollbar for printing.**/
+            overflow: visible !important;
+        }
+
+        #wrapper {
+            height: 0px !important;
+        }
+
+        .modal-dialog{
+            margin: 0px;
+        }
+
+
+        .container-fluid {
+            padding-right: 0px;
+            padding-left: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+        /*table,*/
+        /*table tr td,*/
+        /*table tr th {*/
+        /*page-break-inside: avoid;*/
+        /*}*/
+        table { page-break-inside:auto!important;}
+        tbody { page-break-inside:auto!important; }
+        thead { page-break-inside:auto!important;   }
+        tr    { page-break-inside:auto;!important;}
+        th    { vertical-align: middle!important; }
+
+        #section-to-print {
+            display: table-footer-group;
+        }
+        #content {
+            display: table;
+        }
+
+        /*tfoot*/
+        /*{*/
+        /*display: table-footer-group!important;*/
+        /*}*/
+
+        /*.modal-dialog {*/
+        /*visibility: visible !important;*/
+        /*!**Remove scrollbar for printing.**!*/
+        /*overflow: visible !important;*/
+        /*}*/
+        /*li {*/
+        /*page-break-after: avoid;*/
+        /*}*/
+        /*.onPrint {*/
+        /*display:none;*/
+        /*}*/
+        /*.print:last-child {*/
+        /*page-break-after: auto;*/
+        /*}*/
+    }
+
+
+</style>
+<!--<button  type="button" ng-click="closePrintPreview();" class="close pull-right" data-dismiss="modal">-->
+<!--<span aria-hidden="true">×</span><span class="sr-only">{{"CLOSE" | translate}}-->
+<!--</span></button>-->
+
+<div ng-if="printIconHidden==false" class="printIcon">
+    <a class="btn btn-primary fa fa-print" ng-click="printWidget('widgetArea')"></a>
+</div>
+<div id="testmodal content" class="container-fluid" style="box-shadow:0 0 0.5cm rgba(0, 0, 0, 0.5);padding-left:0;padding-right:0;width:{{widgetwidth}}px;min-height:{{widgetheight}}px">
+
+    <div id="section-to-print1" gridstack class="grid-stack grid1 A habeb" options="options" on-change="onChange(event,items)"
+         on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)"
+         on-resize-start="onResizeStart(event,ui)" on-resize-stop="onResizeStop(event,ui)"  style="margin: {{printSectionMargin}}px;box-shadow:none;padding-right: 0;padding-left: 0;min-height:{{widgetheight}}px;padding-top:0">
+        <div on-print-finish-render="ngRepeatPrintFinished" gridstack-item ng-repeat="w in widgets track by $index" class="grid-stack-item" gs-item-x="w.x" gs-item-y="w.y"
+             gs-item-width="w.width" gs-item-height="w.totalHeight"
+             on-item-added="onItemAdded(item)" on-item-removed="onItemRemoved(item)">
+            <div  class="grid-stack-item-content"
+                 style="overflow-y:hidden;height:100%!important; border-color: white;">
+                <div ng-show="w.typeContent=='blanktable'"
+                     style="width:100%;height:100%;">
+                    <div class="row printerMargin  "
+                         style="margin-right:15px;margin-left:15px">
+                        <table  resizeable class="tablez"
+                                style="border: 3px solid black;">
+                            <tr ng-repeat="row in getNumArray(w.numberOfRowsValues) track by $index">
+                                <th
+                                        ng-repeat="column in getNumArray(w.numberOfColsValues) track by $index"
+                                        style="width:50px; height:50px;border:1px solid black">
+                                </th>
+                            </tr>
+                        </table >
+                    </div>
+                </div>
+
+                <div ng-if="w.typeContent=='table'" style="height:100%!important;width:100%;!important">
+
+                    <table ng-if="w.currentFields && templateDir!=='rtl'"
+                           style="  height:100%!important;width:100%!important;border: 1px solid black;vertical-align: middle!important;">
+
+                        <tr valign="middle" style="{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                         {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};
+                         height:{{w.tableHeaderHeight}}%!important;;width:100%;vertical-align: middle!important;
+                         background-color: {{w.backgroundColor}}!important;font-size: {{w.fontSize}}px!important;{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};" ng-if="!w.noTitleKeys">
+                            <th  class="printTableRow"
+                                 ng-repeat="header in w.currentFields   track by $index"
+                                 style="text-align:{{header.tdir}}!important;height:{{w.tableHeaderHeight}}%!important;
+                                 width:{{header.cellWidth}}%;border:1px solid black;font-size: {{w.fontSize}}px!important">
+                                <span ng-if="templateDir=='ltr'" class="printTableWhiteSpace" style="color:{{w.fontColor}}!important;" >{{header.EName}}</span>
+                            </th>
+                        </tr>
+                        <tr ng-repeat="rowValue in w.values   "
+                            style="width:100%!important;height:{{w.tableBodyHeight/w.RowsValuesArray.length}}%!important">
+
+                            <td ng-repeat="value in rowValue  track by $index   "
+                                style="text-align:{{w.currentFields[$index].dir}}!important;
+                                height:{{tableBodyHeight}}%!important;background-color: {{w.backgroundColorValues}}!important;
+                                border:1px solid black;font-size: {{w.fontSizeValues}}px!important;color:{{w.fontColorValues}}!important;
+                                {{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};
+                                {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};
+                                {{w.fontItalicValues?'font-style: italic':'font-style: normal'}};">
+
+                                <span class="printTableWhiteSpace">{{value}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table ng-if="w.currentFields && templateDir=='rtl' "
+                           style="  height:100%!important;width:100%!important;border: 1px solid black;vertical-align: middle!important;">
+
+                        <tr valign="middle" style="{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                         {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};
+                         height:{{w.tableHeaderHeight}}%!important;;width:100%;vertical-align: middle!important;
+                         background-color: {{w.backgroundColor}}!important;font-size: {{w.fontSize}}px!important;{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">
+                            <th  class="printTableRow"
+                                 ng-repeat="header in w.currentFields  |  reversePrintTable track by $index"
+                                 style="text-align:{{header.tdir}}!important;height:{{w.tableHeaderHeight}}%!important;
+                                 width:{{header.cellWidth}}%;border:1px solid black;font-size: {{w.fontSize}}px!important">
+                                <span ng-if="templateDir=='rtl'" class="printTableWhiteSpace" style="color:{{w.fontColor}}!important;" >{{header.LName}}</span>
+
+                            </th>
+                        </tr>
+                        <tr ng-repeat="rowValue in w.values   "
+                            style="width:100%!important;height:{{w.tableBodyHeight/w.RowsValuesArray.length}}%!important">
+
+                            <td ng-repeat="value in rowValue  | reversePrintTable track by $index   "
+                                style="text-align:{{w.currentFields[$index].dir}}!important;
+                                height:{{tableBodyHeight}}%!important;background-color: {{w.backgroundColorValues}}!important;
+                                border:1px solid black;font-size: {{w.fontSizeValues}}px!important;color:{{w.fontColorValues}}!important;
+                                {{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};
+                                {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};
+                                {{w.fontItalicValues?'font-style: italic':'font-style: normal'}};">
+
+                                <span class="printTableWhiteSpace">{{value}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <!--<table ng-if="templateDir=='rtl' && w.currentFields"-->
+                           <!--style="  height:100%!important;width:100%!important;border: 1px solid black;vertical-align: middle!important;">-->
+
+                        <!--<tr valign="middle" style="{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};-->
+                         <!--{{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};-->
+                         <!--height:{{w.tableHeaderHeight}}%!important;;width:100%;vertical-align: middle!important;-->
+                         <!--background-color: {{w.backgroundColor}}!important;font-size: {{w.fontSize}}px!important;{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">-->
+                            <!--<th  class="printTableRow"-->
+                                 <!--ng-repeat="header in w.currentFields"-->
+                                 <!--style="text-align:{{header.tdir}}!important;height:{{w.tableHeaderHeight}}%!important;-->
+                                 <!--width:{{header.cellWidth}}%;border:1px solid black;font-size: {{w.fontSize}}px!important">-->
+                                <!--<span ng-if="templateDir=='rtl'" class="printTableWhiteSpace" style="color:{{w.fontColor}}!important;" >{{header.LName}}</span>-->
+                                <!--<span ng-if="templateDir=='ltr'" class="printTableWhiteSpace" style="color:{{w.fontColor}}!important;" >{{header.EName}}</span>-->
+                            <!--</th>-->
+                        <!--</tr>-->
+                        <!--<tr ng-repeat="rowValue in w.values"-->
+                            <!--style="width:100%!important;height:{{w.tableBodyHeight/w.RowsValuesArray.length}}%!important">-->
+
+                            <!--<td ng-repeat="(key,value) in rowValue  | reversePrintTableAttributes "-->
+                                <!--style="text-align:{{w.currentFields[$index].dir}}!important;-->
+                                <!--height:{{tableBodyHeight}}%!important;background-color: {{w.backgroundColorValues}}!important;-->
+                                <!--border:1px solid black;font-size: {{w.fontSizeValues}}px!important;color:{{w.fontColorValues}}!important;-->
+                                <!--{{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};-->
+                                <!--{{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};-->
+                                <!--{{w.fontItalicValues?'font-style: italic':'font-style: normal'}};">-->
+
+                                <!--<span class="printTableWhiteSpace">{{value}}</span>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+
+
+                    <!--<table ng-show="w.currentFields && templateDir=='rtl'"-->
+                    <!--style="  height:{{w.totalHeight*20}}px!important;width:100%!important;border: 1px solid black;">-->
+                    <!--<thead style="{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }}; {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}}">-->
+                    <!--<tr style="width:100%!important;">-->
+                    <!--<th class="printTableRow" ng-repeat="header in w.currentFields | reversePrintTable"-->
+                    <!--style="font-size: {{w.fontSize}}px!important;background-color: {{w.backgroundColor}}!important;direction:{{templateDir}};height:{{((((w.totalHeight)/(w.values.length+1))))*20}}px!important;width:{{header.cellWidth}}%!important;border:1px solid black!important;font-size: {{w.fontSize}}px!important;{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">-->
+                    <!--<span-->
+                    <!--class="printTableWhiteSpace"  style="color:{{w.fontColor}}!important;">{{header.LName}}</span>-->
+                    <!--</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody style="width:100%!important;height:{{((((w.totalHeight)/(w.values.length+1)))*w.values.length)*20}}px!important">-->
+                    <!--<tr ng-repeat="rowValue in w.values track by $index"-->
+                    <!--style="width:100%!important;height:{{((((w.totalHeight)/(w.values.length+1))))*20}}px!important">-->
+                    <!--<td ng-repeat="value1 in rowValue | reversePrintTableAttributes track by $index "-->
+                    <!--style="direction:{{templateDir}};border:1px solid black!important;font-size: {{w.fontSizeValues}}px!important;color:{{w.fontColorValues}}!important;{{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }}; {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicValues?'font-style: italic':'font-style: normal;'}};">-->
+                    <!--{{ value1 }}-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                    <!--</table>-->
+                </div>
+                <div ng-if="w.typeContent=='dynamicfield'  && w.style=='vertical'"
+                     style="height:100%;width:100%;">
+                    <table style="height:100%;width:100%;border: 2px solid black;">
+                        <tr ng-if="!w.noTitleKeys" style="background-color: {{w.backgroundColor}}!important;">
+                            <td class="printTableRow"
+                                style="font-size:{{w.fontSize}}px;height:{{w.cellKeyHeight}};border:1px solid black">
+                                       <span style="text-align:{{w.tdir}}!important;direction:{{templateDir}};color:{{w.fontColor}}!important;
+                                       {{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }}; {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}}
+                                        ;{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">{{templateDir!=='rtl' ? w.LabelTableField.EName : w.LabelTableField.LName}}
+
+                                           </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="printTableRow"
+                                style="font-size:{{w.fontSizeValues}}px;color:{{w.fontColorValues}}!important;background-color: {{w.backgroundColorValues}}!important;text-align:{{w.dir}}!important;
+                                color:{{w.fontColorValues}}!important; height:{{w.cellValueHeight}};border:1px solid black;
+                                {{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};
+                                 {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicValues?'font-style: italic':'font-style: normal;'}};">
+                                {{w.value}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="w.typeContent=='dynamicfield'  && w.style=='horizontal'"
+                     style="height:100%;width:100%;">
+                    <table style="height:100%;width:100%;border: 2px solid black;">
+                        <th ng-if="!w.noTitleKeys" class="printTableRow printTableWhiteSpace"
+                            style="font-size:{{w.fontSize}}px;background-color: {{w.backgroundColor}}!important;direction:{{templateDir}};width:{{w.type.label.cellKeyWidth}}%;border:1px solid black ;
+                            {{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                             {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">
+                            <span ng-show="templateDir=='ltr'" style="color:{{w.fontColor}}!important;text-align:{{w.tdir}}!important; " >  {{w.LabelTableField.EName}}</span><span
+                                ng-show="templateDir=='rtl'" style="color:{{w.fontColor}}!important;text-align:{{w.tdir}}!important;"> {{w.LabelTableField.LName}}</span>
+                        </th>
+                        <th class="printTableRow printTableWhiteSpace"
+                            style="font-size:{{w.fontSizeValues}}px;background-color: {{w.backgroundColorValues}}!important;text-align:{{w.dir}}!important;direction:{{templateDir}};color:{{w.fontColorValues}}!important;width:{{w.cellValueWidth}}%;border:1px solid black;
+                            {{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }}; {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}}
+                            ;{{w.fontItalicValues?'font-style: italic':'font-style: normal;'}};">
+                            {{w.value}}
+                        </th>
+                    </table>
+                </div>
+
+                <div ng-if="w.typeContent=='staticfield' && w.staticContent=='text'"
+                     style="width:100%;height:100%;color: {{w.fontColor}}!important; display: table;overflow: hidden;" >
+                    <div class="form-control staticButton printTableWhiteSpace"
+                         ng-class="{'noborder': !printModalCtrl.textHasBorder, 'textboder': printModalCtrl.textHasBorder}"
+                         style="border-style:{{w.borderStyle}};direction:{{w.staticTextDirection}};text-align:{{w.tdir}}!important;direction:{{templateDir}};cursor:auto;height:100%;color:{{w.fontColor}}!important;font-size:{{w.fontSize}}px ;
+                                    border: 1px solid black;display: table-cell; vertical-align: middle;
+                                  color:{{w.fontColor}}!important;  background-color: {{w.backgroundColor}}!important ;
+                                  {{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                                  {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};"
+                    >{{w.staticText}}
+                    </div>
+                </div>
+                <div ng-if="w.typeContent=='staticfield' &&  arrayOfDates.indexOf(w.staticContent)!==-1"
+                     style="width:100%;height:100%;color: {{w.fontColor}}!important; display: table;overflow: hidden;" >
+                    <div class="form-control staticButton printTableWhiteSpace"
+                         style="direction:{{templateDir}};cursor:auto;height:100%;text-align:{{w.tdir}}!important;color:{{w.fontColor}}!important;font-size:{{w.fontSize}}px ;
+                                    border: 1px solid black;display: table-cell; vertical-align: middle;
+                                  color:{{w.fontColor}}!important;  background-color: {{w.backgroundColor}}!important ;
+                                  {{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }}; {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};
+{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};"
+                    >
+                        <div ng-if="w.staticContent=='datenow'">  {{staticDateNow | date:'dd/MM/yyyy'}}</div>
+                        <div ng-if="w.staticContent=='datetimenow'"> {{staticDateNow | date:'HH:mm:ss dd/MM/yyyy'}}</div>
+                        <div ng-if="w.staticContent=='timenow'">  {{staticDateNow | date:'HH:mm:ss'}}</div>
+                    </div>
+                </div>
+                <!--<div ng-show="w.typeContent=='staticfield' && w.staticContent=='text'" style="width:100%;height:100%;">-->
+                <!--<button class="form-control "-->
+                <!--style="cursor:auto; background-color: {{w.backgroundColor}};height:100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;color:{{w.fontColor}};font-size:{{w.fontSize}}px-->
+                <!--;border: 1px solid black;{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }}; {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}}-->
+                <!--">{{w.staticText}}-->
+                <!--</button>-->
+                <!--</div>-->
+                <div ng-if="w.typeContent=='staticfield' && w.staticContent=='file'"
+                     style="width:100%;height:100%;">
+                    <!--<embed src="https://s3-eu-west-1.amazonaws.com/testinguploadfromrest/upload/210_הגדרות אבטחת אתר 2014.pdf" width=100% />-->
+                    <img src="{{w.filepath}}" alt="file cannot upload" style="width:100%;height:100%;">
+                </div>
+                <div ng-if="w.typeContent=='staticfield' && w.staticContent=='image'"
+                     style="width:100%;height:100%;">
+                    <img src="{{w.filepath}}" alt="image cannot upload" style="width:100%;height:100%;">
+                </div>
+                <div ng-if="w.typeContent=='staticfield' && w.staticContent=='diagram'"
+                     style="width:100%;height:100%;">
+                    <img src="{{w.filepath}}" alt="diagram cannot upload" style="width:100%;height:100%;">
+                </div>
+                <div ng-if="w.typeContent=='barcode' && w.barcodeType=='dynamicfield'" style="width:100%;height:100%;" ng-init="buildBarcode($index,w)">
+                    <svg  class="barcode{{$index}}"
+                    >
+                    </svg>
+                </div>
+                <div ng-if="w.typeContent=='barcode' && w.barcodeType=='staticfield'" style="width:100%;height:100%;" ng-init="buildBarcode($index,w)" >
+                    <svg style="width: 100%;height:100%" class="barcode{{$index}}"
+                    >
+                    </svg>
+                </div>
+                <div ng-if="w.typeContent=='qrcode' " style="width:100%;height:100%;">
+                    <qrcode  version="5" error-correction-level="{{w.qrcode.level}}" size="{{w.qrcode.size}}" data="{{(w.typeContent=='qrcode' && w.qrcodeType=='staticfield')? w.qrcode.text:w.text}}"  color="{{w.qrcode.color}}" background="{{w.qrcode.background}}" ></qrcode>
+                </div>
+
+                <!--<div ng-if="w.typeContent=='qrcode' && w.qrcodeType=='dynamicfield'" style="width:100%;height:100%;">-->
+                <!--<qrcode  version="5" error-correction-level="{{w.qrcode.level}}" size="{{w.qrcode.size}}" data="{{w.text}}"  color="{{w.qrcode.color}}" background="{{w.qrcode.background}}" ></qrcode>-->
+                <!--</div>-->
+                <div ng-show="w.typeContent=='nothing'" style="width:100%;height:100%;">
+
+                </div>
+                <!--<div ng-show="w.typeContent=='staticfield' && w.staticContent=='image'" style="width:100%;height:100%"></div>-->
+                <!--<div ng-show="w.typeContent=='staticfield' && w.staticContent=='barcode'" style="width:100%;height:100%"></div>-->
+
+                <!--<div ng-show="w.style==-1" style="text-align: center!important;width:100%;height:100%">-->
+                <!--{{w.staticTextValue}}-->
+                <!--</div>-->
+                <!--<div ng-show="w.style==0" style="text-align: center!important;width:100%;height:100%">-->
+                <!--{{w.selectedTitle}}-->
+                <!--</div>-->
+                <div ng-if="w.style==1" style="text-align: center!important;width:100%;height:100%">
+                    <!--<table border="1" style="width:100%;height:100%">-->
+                    <!--<tr >-->
+                    <!--<td style="width:50%">{{w.selectedKeyValue}}</td>-->
+                    <!--<td style="width:50%">{{w.ValueData}}</td>-->
+                    <!--&lt;!&ndash;<td ng-repeat="m in n track by $index">{{m}}</td>&ndash;&gt;-->
+                    <!--</tr>-->
+                    <!--</table>-->
+                    <!--</div>-->
+                    <!--<div ng-show="w.style==2" style="text-align: center!important;width:100%;height:100%">-->
+                    <!--<table border="1" style="width:100%;height:100%">-->
+                    <!--<tr style="height:50%;"><td>{{w.selectedKeyValue}}</td></tr>-->
+                    <!--<tr style="height:50%;"><td>{{w.ValueData}}</td></tr>-->
+                    <!--</table>-->
+                    <!--</div>-->
+                    <!--<div ng-show="w.style==3" style="width:100%;height:100%">-->
+                    <!--<table border="1" style="width:100%;height:100%">-->
+                    <!--<tr>-->
+                    <!--<th style=" text-align: center" ng-repeat="column in w.CurrentTableHeaders">{{column}}</th>-->
+                    <!--</tr>-->
+                    <!--<tr ng-repeat="n in w.tableRows track by $index">-->
+                    <!--<td ng-repeat="m in n.values track by $index">{{m.value}}</td>-->
+                    <!--</tr>-->
+                    <!--</table>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+        </div>
+        <!--<hr-->
+            <!--style="border: 1px dashed red;top: 842px; position: absolute;width: 595px;margin:0">-->
+        <hr  ng-repeat="n in lineSeprator track by $index" ng-if="$index!==0 && !printIconHidden" class="previewLineSeprator"
+            style="border: 1px dashed red;margin-top: {{$index * widgetheight + (2 * $index)}}px; position: absolute;width: 100%;margin-bottom:0;padding: 0">
+
+    </div>
+</div>

@@ -1,0 +1,165 @@
+<div class="newNotificationWindow">
+    <div class="newTaskRow newTaskRow1" style="height: 2.5vw !important;">
+        <div>{{"NEW_MESSAGE" | translate}}</div>
+        <div class="newTaskCloseX" ng-click="actionToSend.triggerTask.Assignee=0;$dismiss()">
+            <img src="images/close.png">
+        </div>
+    </div>
+
+    <form role="form" class="required" class="newScroll slim">
+
+        <div class="newTaskSubject newTaskFields" ng-class="{'ghost':tasksPermissionLevel===0}"
+            style="margin-bottom: 15px;">
+
+            <label style="font-size: x-large; font-weight: bold; margin-bottom: 0px"> {{"MACHINE" | translate}} </label>
+            <div class="newTaskFieldsTextField" style="height: unset">
+                <span class="notificationAsterisk">*</span>
+
+                <div class="seletMachine" ng-init="departmentsToggle=false"
+                    ng-click="departmentsToggle = !departmentsToggle">
+                    <span
+                        ng-show="!rulesCtrl.hasMachines(rulesCtrl.selectedMachinesNames)">{{"SELECT_MACHINE" | translate}}</span>
+                    <span
+                        ng-show="rulesCtrl.hasMachines(rulesCtrl.selectedMachinesNames)">{{selectedMachinesNames.toString()}}</span>
+                </div>
+            </div>
+
+            <ul ng-if="departmentsToggle" style="border: 1px solid #E0E0E0; padding-left: 18px;">
+                <div ng-init="machinesToggled = true; rulesCtrl.selectedMachinesGroupBy = groupByMachines[0]"
+                    style="margin: 10px 0 12px 0">
+                    <span ng-show="machinesToggled" style="margin: 0 10px 0 0"> {{"GROUP_BY" | translate}}:</span>
+                    <select ng-show="machinesToggled" ng-init="rulesCtrl.selectedMachinesGroupBy = groupByMachines[0]"
+                        ng-model="rulesCtrl.selectedMachinesGroupBy"
+                        style="width: 163px; border-radius: 2px; border: solid 1px #d0cfd0; background-color: var(--white)"
+                        ng-options="item.dropBoxName for item in groupByMachines track by item.ID"
+                        ng-change="rulesCtrl.filterChanged = true;"></select>
+                </div>
+
+                <!-- Filter by Department -->
+                <div class="newTaskLevelObject newScroll slim" style="height: 150px;"
+                    ng-if="rulesCtrl.selectedMachinesGroupBy.idType == 0">
+                    <div ng-repeat="department in rulesCtrl.allDepartments">
+                        <div class="checkBox" type="checkbox" style="display: inline-block" check-box-directive
+                            field-title="localLanguage ? department.Key.LName: department.Key.EName"
+                            field="department.Value" ng-custom-change="rulesCtrl.selectAllMachinesInDeps"
+                            ng-init="allSelected=false" ng-click="allSelected=!allSelected" select-value="'selected'">
+                        </div>
+                        <div style="display: inline-block; padding-right: 8px" class="pull-right"
+                            ng-init="department.expanded=false" ng-click="department.expanded=!department.expanded">
+                            <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                            <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                        </div>
+                        <div class="grid-list-machines" ng-if="department.expanded"
+                            style="display: grid; margin-left: 22px;">
+                            <div class="checkBox" style="display: inline-block" ng-repeat="machine in department.Value"
+                                check-box-directive
+                                field-title="localLanguage ? machine.MachineLName : machine.MachineName" field="machine"
+                                ng-custom-change="rulesCtrl.selectMachine" select-value="'selected'"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter by Line -->
+                <div class="newTaskLevelObject newScroll slim" style="height: 150px;"
+                    ng-if="rulesCtrl.selectedMachinesGroupBy.idType == 1">
+                    <div ng-repeat="department in rulesCtrl.machinesLines">
+                        <div class="checkBox" style="display: inline-block" check-box-directive
+                            field-title="localLanguage ? department.Key.LName: department.Key.EName" field="department"
+                            ng-custom-change="rulesCtrl.selectAllSubDeps"
+                            ng-init="allSubSelected=false; machinesSelected=false; rulesCtrl.allSubMachinesSelected = false;"
+                            ng-click="allSubSelected=!allSubSelected; machinesSelected=!machinesSelected"
+                            select-value="'selected'"></div>
+                        <div style="display: inline-block; padding-right: 8px" class="pull-right"
+                            ng-init="department.expanded=false" ng-click="department.expanded=!department.expanded;">
+                            <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                            <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                        </div>
+                        <div ng-repeat="deps in department.Value">
+                            <div class="checkBox" style="display: inline-block; margin-left: 20px;" check-box-directive
+                                ng-if="department.expanded"
+                                field-title="deps.Key.LineName ? deps.Key.LineName : 'MACHINES' | translate"
+                                field="deps" ng-custom-change="rulesCtrl.selectAllMachinesInSubDeps"
+                                ng-click="machinesSelected = !machinesSelected; deps.selected = !deps.selected" select-value="'selected'"></div>
+
+                            <div style="display: inline-block; padding-right: 8px" class="pull-right"
+                                ng-init="deps.expanded=false" ng-click="deps.expanded=!deps.expanded">
+                                <i class="fa fa-angle-down" aria-hidden="true"
+                                    ng-show="!deps.expanded && department.expanded"></i>
+                                <i class="fa fa-angle-up" aria-hidden="true"
+                                    ng-show="deps.expanded && department.expanded"></i>
+                            </div>
+
+                            <div ng-repeat="lineDep in deps.Value">
+                                <div class="checkBox" style=" margin-left: 45px;" check-box-directive
+                                    ng-if="deps.expanded"
+                                    field-title="localLanguage ? lineDep.MachineLName : lineDep.MachineName"
+                                    field="lineDep" ng-custom-change="rulesCtrl.selectMachine"
+                                    select-value="'selected'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter by Group -->
+                <div class="newTaskLevelObject newScroll slim" style="height: 150px;"
+                    ng-if="rulesCtrl.selectedMachinesGroupBy.idType == 2">
+                    <div ng-repeat="department in rulesCtrl.machineGroups">
+                        <div class="checkBox" style="display: inline-block" check-box-directive
+                            field-title="localLanguage ? department.Key.LName: department.Key.EName" field="department"
+                            ng-custom-change="rulesCtrl.selectAllSubDeps"
+                            ng-init="allSelected=false;  rulesCtrl.allSubMachinesSelected = false"
+                            ng-click="allSelected=!allSelected" select-value="'selected'"></div>
+                        <div style="display: inline-block; padding-right: 8px" class="pull-right"
+                            ng-init="department.expanded=false" ng-click="department.expanded=!department.expanded">
+                            <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                            <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                        </div>
+
+                        <div ng-repeat="deps in department.Value">
+                            <div class="checkBox" style="display: inline-block; margin-left: 20px;" check-box-directive
+                                ng-if="department.expanded"
+                                field-title="deps.Key.MachineGroupName ? deps.Key.MachineGroupName : 'MACHINES' | translate"
+                                field="deps" ng-custom-change="rulesCtrl.selectAllMachinesInSubDeps"
+                                ng-click="machinesSelected = !machinesSelected; deps.selected = !deps.selected"
+                                select-value="'selected'"></div>
+
+                            <div style="display: inline-block; padding-right: 8px" class="pull-right"
+                                ng-init="deps.expanded=false" ng-click="deps.expanded=!deps.expanded">
+                                <i class="fa fa-angle-down" aria-hidden="true"
+                                    ng-show="!deps.expanded && department.expanded"></i>
+                                <i class="fa fa-angle-up" aria-hidden="true"
+                                    ng-show="deps.expanded && department.expanded"></i>
+                            </div>
+                            <div ng-repeat="groupDep in deps.Value">
+                                <div class="checkBox" style=" margin-left: 45px;" check-box-directive
+                                    ng-if="deps.expanded"
+                                    field-title="localLanguage ? groupDep.MachineLName : groupDep.MachineName"
+                                    field="groupDep" ng-custom-change="rulesCtrl.selectMachine"
+                                    select-value="'selected'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+
+        <div class="newTaskFields newTaskDescription" style="height: unset">
+            <div>
+                <span style="font-size: x-large; font-weight: bold;"> {{"MESSAGE" | translate}}</span>
+            </div>
+            <div class="newTaskFieldsTextField" style="height: unset">
+                <span ng-show="newTaskFields['Text']==''" class="notificationAsterisk">*</span>
+                <textarea ng-model="messageToSend.triggerTask.Text" style="height: 100%;"
+                    ng-required="messageToSend.triggerTask.Text" required></textarea>
+            </div>
+        </div>
+
+    </form>
+
+    <div style="text-align: right">
+        <button class="pull-right btn btn-primary" style="margin: 19px 16px;" ng-click="$close()"
+            ng-disabled="!rulesCtrl.checkMessageToSend()">{{"ADD_MESSAGE" | translate}}</button>
+    </div>
+</div>

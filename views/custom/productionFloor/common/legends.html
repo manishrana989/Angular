@@ -1,0 +1,54 @@
+
+        <div
+        style="width: 1.927vw;min-width: 1.927vw;position: relative;text-align: unset;"
+        class="Rectangle-2 flex-center"                   
+      >
+        <!-- legend btn  -->
+        <img
+          class="shift-tools-icon"
+          title="{{'LEGEND' | translate}}"
+          ng-src="images/help-grey-new.svg"
+          ng-click="(showLegendMenu = !showLegendMenu) && GAupdate('legend');$event.stopPropagation();"
+          style="height: 1.042vw;width: 1.042vw;margin: 0"
+          alt="graph"
+        />
+        <ul
+          class="dashboard-settings-tooltip shift-menu legend-menu newScroll slim"        
+          ng-show="showLegendMenu"
+          style="margin-top: 2.4vw;top:0; width: fit-content; cursor: auto;max-height: 500px; overflow-y: auto;"
+          off-click-activator="showLegendMenu" off-click="showLegendMenu = false"
+        >
+          <li ng-repeat="legend in legends" style="margin-top: 0.521vw; padding-bottom: 28px;">
+            <span ng-if="legend.ID == '1' || legend.ID == '2' || legend.ID == '3' || legend.ID == '4' || legend.ID == '8'" class="availble-circle" ng-style="{'background-color': legend.Color}"></span>
+            <img class="availble-circle" ng-if="legend.ID == '0'"
+            ng-src="images/icons_20x20/no_job.png" style="top: -7%" alt="" />
+            
+            <img class="availble-circle" ng-if="legend.ID == '9'"
+            ng-src="images/icons_20x20/no-job-copy.png" style="top: -7%" alt="" />
+
+            <img class="availble-circle" ng-if="legend.ID == '5'"
+            ng-src="images/icons_20x20/setup_working.png" style="top: -7%" alt="" />
+            
+            <img class="availble-circle" ng-if="legend.ID == '6'"
+            ng-src="images/icons_20x20/setup_stopped.png" style="top: -7%;" alt="" />
+            
+            <span style="font-weight: 600;">{{legend.Name}}</span>
+          </li>
+          <hr style="margin: 10px 0px;" />
+          <li>{{"JOB_PROGRESS" | translate}}</li>
+          <li ng-repeat="jobLegend in jobProgressLegend" style="margin-top: 0.521vw; padding-bottom: 28px;">
+            <span class="availble-circle" style="border-radius: 50%;background-color: {{jobLegend.ColorID}};"></span>  
+            <span style="font-weight: 600;">{{("LEGEND_" + jobLegend.Name.toUpperCase()) | translate:jobLegend}}</span>
+          </li>
+          <hr style="margin: 10px 0px;" />
+          <li>{{"MACHINE_CLASSIFICATION" | translate}}</li>
+
+          <li ng-repeat="machineClass in machineClassifications" style="margin-top: 0.521vw; padding-bottom: 28px;">
+              <img style="width: 1.2vw;
+              height: 1.2vw;top: -7%;" class="availble-circle"
+              ng-src="{{machineClass.icon}}" alt="" />
+            <span style="font-weight: 600;">{{machineClass.name | translate}}</span>
+          </li>
+          <li style="height:0"></li>
+        </ul>
+      </div>

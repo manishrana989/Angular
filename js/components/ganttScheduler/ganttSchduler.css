@@ -1,0 +1,997 @@
+gantt-scheduler .ganttSchedulerContainer{
+    background: white;
+    margin-top: 50px;
+    padding: 8px 30px;
+    position: relative;
+}
+
+
+
+gantt-scheduler .gantt{
+    margin: 20px auto;
+}
+
+gantt-scheduler .gantt .fc-toolbar{
+    display: none;
+}   
+
+gantt-scheduler .ganttSingleMachine{
+    margin: 20px auto;
+}
+
+gantt-scheduler .ganttSingleMachine .fc-toolbar{
+    display: none;
+}
+
+gantt-scheduler .gantt.machinesGantt .fc-timeline-event{
+    /* height: calc(24px) !important; */
+    top: 4px !important;
+    min-width: 1px;
+}
+
+gantt-scheduler .gantt.machineEventsViewed .fc-timeline-event.machineEvent{
+    top: 35px !important;
+}
+
+gantt-scheduler .gantt.machinesGantt .fc-timeline-event .fc-content{
+    height: 19.5px !important;
+}
+
+gantt-scheduler .gantt.machinesGantt .fc-timeline-event .fc-content{
+    height: 19.5px !important;
+}
+
+gantt-scheduler .fc-content .fc-title{
+    color: black;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 45px);
+}
+
+gantt-scheduler .coloringEnabled .fc-event{
+    background-color: lightgray !important;
+    z-index: 2;
+    color: white;
+}
+
+gantt-scheduler .coloringEnabled .jobMatched.fc-event{
+    background-color: red !important;
+    z-index: 2;
+    color: white;
+}
+
+
+gantt-scheduler .fc-event.first-job{
+    background-color: var(--gantt-active-job);
+}
+
+gantt-scheduler .fc-event.first-job.custom-color{
+    background-color: var(--gantt-active-job) !important;
+}
+
+gantt-scheduler .fc-event.first-job.custom-color{
+    background-color: var(--gantt-active-job) !important;
+}
+
+gantt-scheduler .fc-event.no-production{
+    background-color: var(--gantt-no-production) !important
+}
+
+gantt-scheduler .fc-event.no-production.custom-color{
+    background-color: var(--gantt-no-production) !important;
+}
+
+gantt-scheduler .fc-event.non-setup-shift{
+    background-color: var(--gantt-non-setup-shift);
+}
+
+gantt-scheduler .fc-event.non-setup-shift.custom-color{
+    background-color: var(--gantt-non-setup-shift) !important;
+}
+
+gantt-scheduler .fc-event.not-released-job{
+    background-color: var(--gantt-not-released-job);
+}
+
+gantt-scheduler .moldColor .fc-event.job-0{
+    background-color: var(--gantt-no-production) !important;
+}
+
+gantt-scheduler .fc-event.not-released-job.custom-color{
+    background-color: var(--gantt-not-released-job) !important;
+}
+
+gantt-scheduler .coloringEnabled .fc-event.first-job.custom-color,
+gantt-scheduler .coloringEnabled .fc-event.first-job.mold-color,
+gantt-scheduler .coloringEnabled .fc-event.no-production.custom-color,
+gantt-scheduler .coloringEnabled .fc-event.no-production.mold-color,
+gantt-scheduler .coloringEnabled .fc-event.custom-color ,
+gantt-scheduler .coloringEnabled .fc-event.mold-color {
+    background-color: lightgray !important;;
+}
+
+gantt-scheduler .coloringEnabled .fc-event.first-job.custom-color.jobMatched, 
+gantt-scheduler .coloringEnabled .fc-event.first-job.mold-color.jobMatched, 
+gantt-scheduler .coloringEnabled .fc-event.no-production.custom-color.jobMatched, 
+gantt-scheduler .coloringEnabled .fc-event.no-production.mold-color.jobMatched, 
+gantt-scheduler .coloringEnabled .fc-event.custom-color.jobMatched,
+gantt-scheduler .coloringEnabled .fc-event.mold-color.jobMatched{
+    background-color: red !important;;
+}
+
+gantt-scheduler .fc-event.down-time{
+    background-color: red ;
+}
+gantt-scheduler .fc-event.idle-time{
+    background-color: #a6a9ab ;
+}
+
+gantt-scheduler .fc-event{
+    background-color: var(--gantt-pending-jobs) ;
+}
+
+gantt-scheduler .fc-event.custom-color{
+    background-color: var(--gantt-pending-jobs) !important;
+}
+
+gantt-scheduler .new-dep-header-buttons{
+    bottom: unset; 
+    margin: unset;
+}
+
+gantt-scheduler .new-dep-header-buttons.btn{
+    padding: 4px 12px;
+}
+
+gantt-scheduler .new-dep-header-buttons.btn li{
+    line-height: unset;
+}
+
+
+gantt-scheduler .gantt.machinesGantt .fc-resource-area .fc-widget-content > div{
+    height: 34px !important;
+}
+gantt-scheduler  .gantt.machinesGantt .fc-resource-area .fc-widget-content .fc-cell-content{
+    height: 18px !important;
+}
+gantt-scheduler .gantt.machinesGantt .fc-time-area .fc-widget-content > div{
+    height: 34px !important;
+}
+
+gantt-scheduler .gantt.machinesGantt .fc-time-area .fc-event-container{
+    height: 29px !important;
+}
+
+gantt-scheduler .gantt.machineEventsViewed.machinesGantt .fc-resource-area .fc-widget-content > div{
+    height: 68px !important;
+}
+gantt-scheduler .gantt.machineEventsViewed.machinesGantt .fc-resource-area .fc-widget-content .fc-cell-content{
+    height: 52px !important;
+}
+gantt-scheduler .gantt.machineEventsViewed.machinesGantt .fc-time-area .fc-widget-content > div{
+    height: 68px !important;
+}
+gantt-scheduler .gantt.machinesGantt.machineEventsViewed .fc-timeline-event.machineEvent, 
+gantt-scheduler .ganttSingleMachine.machineEventsViewed .fc-timeline-event.machineEvent{
+    display: block;
+}
+
+gantt-scheduler .gantt.machinesGantt.machineShiftsViewed .fc-timeline-event.shiftEvent{
+    display: block;
+}
+
+gantt-scheduler .ganttSingleMachine.machineShiftsViewed .fc-timeline-event.shiftEvent{
+    display: block;
+}
+
+
+gantt-scheduler .tooltip-columns{
+    display: none;
+}
+
+gantt-scheduler .tooltip-default{
+    display: block;
+}
+
+gantt-scheduler .tooltipColumns .tooltip-columns{
+    display: block;
+}
+
+gantt-scheduler .tooltipColumns .tooltip-default{
+    display: none;
+}
+
+gantt-scheduler .fc-timeline-event.shiftEvent{
+    display: none;
+}
+
+gantt-scheduler .fc-timeline-event.machineEvent{
+    display: none;
+}
+
+gantt-scheduler .fc-event.jobSetupEvent{
+    background-color: var(--gantt-setup);
+    z-index: 2;
+    color: white;
+}
+
+gantt-scheduler .fc-content .fc-title .job-img > img{
+    height: 18px;
+}
+
+gantt-scheduler .fc-event.jobSetupEvent.custom-color{
+    background-color: var(--gantt-setup) !important;
+    z-index: 2;
+    color: white;
+}
+
+gantt-scheduler .fc-event.shiftEvent{
+    z-index: 3;
+    border: 0;
+    background-color: transparent !important;
+    border-left: 1px solid black;
+    /* border-right: 2px solid black; */
+    height: 26px;
+    top: 2px !important;
+    right: unset !important;
+}
+
+gantt-scheduler .machineEventsViewed .fc-event.shiftEvent{
+    height: 62px;
+}
+
+gantt-scheduler .fc-timeline-event.fc-not-start.shiftEvent .fc-content:before, 
+gantt-scheduler .fc-timeline-event.fc-not-end.shiftEvent .fc-content:after{
+    display: none;
+}
+
+gantt-scheduler .loading-window{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+gantt-scheduler .loading-window .spiner-example{
+    padding-top: 50vh;
+}
+gantt-scheduler .loading-window .overlay{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.4;
+    top: 0;
+    position: absolute;
+}
+
+
+gantt-scheduler .fc .fc-toolbar>*>* {
+    float: left;
+    margin-left: .75em;
+}
+gantt-scheduler .fc-toolbar > * > :not(:first-child) {
+    margin-left: .75em;
+}
+
+gantt-scheduler .fc-button:not(:disabled) {
+    cursor: pointer;
+}
+gantt-scheduler .fc-toolbar button {
+    position: relative;
+}
+gantt-scheduler .fc button {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    height: 2.1em;
+    padding: 0 .6em;
+    font-size: 1em;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+gantt-scheduler .filter-section .data-container{
+    margin-left: 5px;
+}
+gantt-scheduler .filter-section .childFilter{
+    margin-left: 20px;
+}
+
+gantt-scheduler .fc-timeline-event{
+    position: absolute !important;
+}
+
+.tooltip{
+    opacity: unset;
+}
+
+.ganttSingleMachine .fc-flat .fc-expander-space{
+    display: inline;
+}
+
+.back-gantt .sa-icon {
+    display: none !important;
+}
+
+
+gantt-scheduler .fc-event .fc-content .fc-time{
+    color: black;
+}
+
+gantt-scheduler .fc-time-grid .fc-event.jobSetupEvent .fc-content .fc-title{
+    display:none;
+}
+
+gantt-scheduler .ganttSingleMachine .fc-event.jobSetupEvent .fc-content .fc-title{
+    color: black;
+}
+
+gantt-scheduler .ganttSingleMachine .fc-time-grid .fc-event.jobSetupEvent{
+    border-bottom: 0px;
+}
+
+gantt-scheduler .fc-unthemed td.fc-today{
+    background: white;
+}
+
+gantt-scheduler .ganttSingleMachine.calendarView {
+    width: calc(100% - 100px);
+}
+
+gantt-scheduler .single-machine{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    direction: ltr;
+}
+
+gantt-scheduler .single-machine .reorder-section{
+    width: 200px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-right: 0px;
+    display: flex;
+}
+
+gantt-scheduler .single-machine .reorder-section .header{
+    height: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: calc(100% - 7px);
+}
+
+gantt-scheduler .single-machine .reorder-section .header .column-text{
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #eee;
+    height: 100%;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+gantt-scheduler .single-machine .reorder-section .header .column-text:last-child {
+    border-right: 0px;
+}
+
+gantt-scheduler .single-machine .reorder-section .body{
+    height: calc(100% - 20px);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+
+gantt-scheduler .single-machine .reorder-section .body .item-event {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    min-height: 34px;
+    max-height: 34px;
+}
+
+gantt-scheduler .single-machine .reorder-section .body .item-event .handle-icon{
+    padding-right: 10px;
+    cursor: row-resize;
+    color: #337ab7;
+}
+
+gantt-scheduler .single-machine .reorder-section .body .item-event .event-details{
+    white-space: nowrap;
+    border-right: 1px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px 4px;
+    display: flex;
+}
+
+gantt-scheduler .single-machine .reorder-container{
+    width: calc(100% - 3px);
+    border-right: 1px solid #ddd;
+}
+
+gantt-scheduler .calendarView .machineEvent{
+    display: none;
+}
+
+gantt-scheduler  .calendarView.machineEventsViewed .machineEvent{
+    display: block;
+    font-weight: bolder;
+}
+
+
+gantt-scheduler .calendarView .fc-time-grid-event .fc-time span {
+    display: none;
+}
+
+gantt-scheduler .calendarView .fc-time-grid-event.fc-short .fc-time:before {
+    content: unset;
+}
+gantt-scheduler .calendarView .fc-time-grid-event.fc-short .fc-time:after {
+    content: unset;
+}
+
+gantt-scheduler .calendarView .fc-event.jobSetupEvent .fc-content .fc-title {
+    display: unset !important;
+}
+
+gantt-scheduler .calendarView .fc-time-grid-event.fc-short .fc-title {
+    font-size: 14x !important;
+    padding: 0 1px !important;
+}
+
+gantt-scheduler .calendarView .fc-dayGridMonth-view .jobSetupEvent,
+gantt-scheduler  .fc-resourceTimelineMonthCustom-view .jobSetupEvent,
+gantt-scheduler  .fc-resourceTimelineMonthCustom-view .machineEvent.small-machine-event {
+    display: none !important;
+}
+
+gantt-scheduler .resize-reorder {
+    cursor: col-resize;
+    width: 3px;
+    background: #eee;
+    border-left: 1px solid #eee;
+}
+
+@media (max-width: 1600px) {
+    /* .fc-toolbar {
+        flex-direction: column;
+    } */
+}
+
+
+gantt-scheduler .gantt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 0px 15px 0px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+/* gantt-scheduler .gantt-last-update-section {
+    padding-top: 10px;
+} */
+
+gantt-scheduler .gantt-header .left-side ,
+gantt-scheduler .gantt-header .right-side
+{
+    display: flex;
+    align-items: center;
+}
+
+gantt-scheduler .gantt-header .left-side .date-time-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 230px;
+    height: 37px;
+    font-size: 14px;
+    color: #101010;
+    margin-right: 7px;  
+    cursor: pointer;
+    padding: 0px 10px;
+}
+
+gantt-scheduler .gantt-header .left-side .select-machines-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 37px;
+    font-size: 14px;
+    color: #101010;
+    margin-right: 7px;  
+    cursor: pointer;
+    padding: 0px 10px;
+    position: relative;
+    z-index: 10000;
+}
+
+gantt-scheduler .box {
+    border-radius: 2px;
+    border: solid 1px #d0cfd0;
+}
+
+
+gantt-scheduler .unscheduled-jobs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 37px;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    padding: 0px 4px;
+    color: #101010;
+    font-size: 14px;
+}
+
+gantt-scheduler .resources {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 37px;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    padding: 0px 4px;
+    color: #101010;
+    font-size: 14px;
+}
+
+gantt-scheduler .gantt-header .left-side .previous-time-period,
+gantt-scheduler .gantt-header .left-side .next-time-period,
+gantt-scheduler .gantt-header .left-side .settings,
+gantt-scheduler .gantt-header .right-side .filters, 
+gantt-scheduler .gantt-header .right-side .export,
+gantt-scheduler .gantt-header .right-side .actions,
+gantt-scheduler .gantt-header .left-side .gantt-view,
+gantt-scheduler .gantt-header .refresh,
+gantt-scheduler .filters
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 37px;
+    height: 37px;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+}
+gantt-scheduler .gantt-header .text-button
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 37px;
+    height: 37px;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+gantt-scheduler .gantt-header .right-side .color-options .dropdown-title{ 
+    font-size: 13px;
+    color: #0080ff;
+    font-weight: 600;
+    margin: 9px 5px 4px 15px;
+    line-height: 2.62;
+}
+
+/* gantt-scheduler .gantt-header .right-side .color-options .dropdown-items{ 
+    margin: 0px 15px;
+} */
+
+gantt-scheduler .gantt-header .right-side .color-options .dropdown-items .dropdown-item{ 
+    width: 100%;
+    /* margin-bottom: 5px; */
+    font-size: 13px;
+    color: #000000;
+    line-height: 2.23;
+    padding: 0px 15px;
+}
+
+gantt-scheduler .gantt-header .right-side .color-options .dropdown-items .dropdown-item.selected{ 
+    background-color: #f6f6f6;
+}
+
+gantt-scheduler .gantt-header .right-side .color-options .line-separator{ 
+    height: 0.1px;
+    margin: 12px 0 6.9px;
+    border: solid 1px #e8e7e7;
+}
+
+gantt-scheduler .gantt-header .right-side .color-options .dropdown-title > span{ 
+    float: right;
+    color: black;
+
+}
+gantt-scheduler .gantt-header .right-side .color-options .dropdown-menu{ 
+    min-width: 213px;
+    max-height: 350px;
+}
+
+gantt-scheduler .pe-filter,
+gantt-scheduler .gantt-header .right-side .color-options,
+gantt-scheduler .gantt-header .right-side .color-value{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 158px;
+    height: 37px;
+    font-size: 14px;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    padding: 0px 5px;
+}
+
+gantt-scheduler .custom-pe-filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+    height: 37px;
+    font-size: 14px;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    padding: 0px 5px;
+}
+
+gantt-scheduler .pe-filter {
+    width: 200px;
+    margin-left: 30px;
+}
+
+gantt-scheduler .custom-pe-filter,
+gantt-scheduler .gantt-header .right-side .color-value{
+    margin-left: 5px;
+    cursor: unset;
+}
+
+gantt-scheduler .gantt-header .right-side .color-value-container {
+    margin-right: 5px;
+    position: relative
+}
+
+gantt-scheduler .custom-pe-filter-container{
+    position: relative;
+}
+
+gantt-scheduler .gantt-header .right-side .color-value-container .clear{
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    cursor: pointer;
+}
+
+gantt-scheduler .gantt-header .left-side .next-time-period img{
+    transform: rotate(180deg);
+}
+gantt-scheduler .gantt-header .separator{
+    border: 1px solid #d0cfd0;
+    height: 18px;
+    margin: 0px 20px;
+}
+
+gantt-scheduler .gantt-header .left-side .time-period-select{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 87px;
+    height: 37px;
+    margin-right: 5px;
+    cursor: pointer;
+    position: relative;
+    padding: 0px 5px;
+}
+
+
+gantt-scheduler .dropdown-menu{
+    display: block;
+    border-radius: 0px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
+    border: solid 1px #d0cfd0;
+    margin-top: 0px;
+    left: -1px;
+    min-width: calc(100% + 2px);
+    width: auto;
+    font-size: 14px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+gantt-scheduler .color-options .dropdown-menu{
+    width: max-content;
+}
+
+gantt-scheduler .actions .dropdown-menu{
+    display: block;
+    border-radius: 0px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
+    border: solid 1px #d0cfd0;
+    margin-top: 0px;
+    right: -1px;
+    left: unset;
+    width: max-content;
+    min-width: calc(100% + 2px);
+    font-size: 14px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+gantt-scheduler .dropdown-menu > li {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px;
+    border-bottom: 1px solid #e8e7e7;
+}
+
+gantt-scheduler  .dropdown-menu > li:hover {
+    background-color: #f6f6f6;
+}
+
+gantt-scheduler .dropdown-menu > li.selected {
+    color: var(--color2);
+}
+
+gantt-scheduler .gantt-header .caret{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+gantt-scheduler .gantt-header .refresh{
+    margin-left: 5px;
+    width: auto;
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+gantt-scheduler .dashboard-settings-tooltip {
+    right: 0;
+    top: 5px;
+}
+
+ 
+
+
+gantt-scheduler .calendarView .fc-view-container {
+    width: auto;
+}
+  
+gantt-scheduler .calendarView .fc-view-container .fc-view {
+    overflow-x: scroll;
+}
+  
+gantt-scheduler .calendarView .fc-view-container .fc-view > table {
+    width: var(--gantt-calendar-width);
+}
+
+gantt-scheduler .calendarView .fc-event.shiftEvent {
+    display: none;
+}
+
+gantt-scheduler .filter-collapse{
+    right: 0;
+}
+
+gantt-scheduler .releaseJobsForProduction .jobEvent,
+gantt-scheduler .removeJobsFromProduction .jobEvent,
+gantt-scheduler .terminateOrCancelJobs .jobEvent {
+    display: none;
+}
+
+gantt-scheduler .releaseJobsForProduction .jobEvent.status-2 {
+    display: block;
+    /* background-color: #CBC7C6 !important; */
+    background-color: var(--gantt-not-released-job) !important;;
+}
+gantt-scheduler .removeJobsFromProduction .jobEvent.status-11,
+gantt-scheduler .removeJobsFromProduction .jobEvent.status-3 {
+    display: block;
+    /* background-color: #CBC7C6 !important; */
+    background-color: var(--gantt-pending-jobs) !important;;
+}
+
+gantt-scheduler .terminateOrCancelJobs .jobEvent.status-2,
+gantt-scheduler .terminateOrCancelJobs .jobEvent.status-3,
+gantt-scheduler .terminateOrCancelJobs .jobEvent.status-11 {
+    display: block;
+    /* background-color: #CBC7C6 !important; */
+    background-color: var(--gantt-pending-jobs) !important;
+}
+
+gantt-scheduler .releaseJobsForProduction .jobEvent.status-2.chosen-for-action {
+    display: block;
+    /* background-color: #39CCE1 !important; */
+    filter: brightness(0.5);
+    z-index: 2;
+}
+gantt-scheduler .removeJobsFromProduction .jobEvent.status-3.chosen-for-action,
+gantt-scheduler .removeJobsFromProduction .jobEvent.status-11.chosen-for-action {
+    display: block;
+    /* background-color: #39CCE1 !important; */
+    filter: brightness(0.5);
+    z-index: 2;
+}
+
+gantt-scheduler .terminateOrCancelJobs .jobEvent.status-2.chosen-for-action,
+gantt-scheduler .terminateOrCancelJobs .jobEvent.status-3.chosen-for-action,
+gantt-scheduler .terminateOrCancelJobs .jobEvent.status-11.chosen-for-action {
+    display: block;
+    /* background-color: #39CCE1 !important; */
+    filter: brightness(0.5);
+    z-index: 2;
+}
+
+gantt-scheduler .gantt-custom-color-legend {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    height: 28px;
+}
+
+gantt-scheduler .gantt-custom-color-legend .legend-color-item {
+    display: flex;
+    align-items: center;
+}
+
+gantt-scheduler .gantt-custom-color-legend .legend-color-item .legend-color-block {
+    height: 13px;
+    width: 13px;
+    margin: 0px 5px;
+}
+
+gantt-scheduler .fc-resourceTimelineMonthCustom-view .shiftEvent{
+    display: none !important;
+}
+
+.rtl gantt-scheduler .filter-collapse{
+    right: unset;
+    left: 0;
+}
+
+.rtl gantt-scheduler ul.dashboard-settings-tooltip.show-filters {
+    right: 0;
+    left: unset;
+    top: 5px;
+    padding: 0 0.833vw;
+}
+
+.rtl gantt-scheduler ul.dashboard-settings-tooltip {
+    left: unset;
+}
+
+.rtl gantt-scheduler ul.dashboard-settings-tooltip.show-filters > li:first-child {
+    margin: initial;
+}
+
+.rtl gantt-scheduler ul.dashboard-settings-tooltip.show-filters:before{
+    right: 10px;
+    left: unset;
+}
+
+.rtl gantt-scheduler .pull-right {
+    float: right !important;
+}
+
+.rtl gantt-scheduler .pull-left {
+    float: left !important;
+}
+
+
+gantt-scheduler .fc-resource-area .fc-rows {
+    position: relative;
+}
+
+gantt-scheduler .fc-event.actualEndTimeEvent {
+    background: repeating-linear-gradient( 
+        55deg, #fff, #fff 10px, var(--gantt-no-production)10px, var(--gantt-no-production) 20px ) !important;
+    z-index: 2;
+    opacity: 0.7;
+    border-left: 0px;
+}
+
+gantt-scheduler .monthView .shifts{
+    display: none;
+}
+
+gantt-scheduler .month-warning{
+    display: none;
+}
+gantt-scheduler .monthView .month-warning{
+    display: block;
+}
+
+.gannt-column-container {
+    margin: -8px -4px;
+    height: calc(50% + 8px);
+    padding-top: 17px;
+}
+
+.machineEventsViewed.gantt .gannt-column-container {
+    padding-top: 34px;
+}
+
+.gannt-column-container injection-target-directive > div {
+    padding-right: unset;
+}
+
+.gannt-column-container injection-target-directive > div > div.injection-target {
+    height: 100%;
+    top: 7px;
+}
+
+.gannt-column-container injection-target-directive > div > div.injection-target .targetVal{
+    left: 100% !important;
+    top: -17px;
+}
+
+.gannt-column-container injection-target-directive > div > div.injection-target .minToCurrent > span{
+    top: 5px;
+}
+
+.gannt-column-container injection-target-directive > div > div.injection-target .minToMax > span{
+    top: 5px;
+}
+
+
+@media (max-width: 1535px) {
+    gantt-scheduler .gantt-header .right-side .color-value {
+        width: 110px;
+    }
+    gantt-scheduler .gantt-header .right-side .color-options {
+        width: 110px;
+    }
+}
+
+@media (max-width: 1439px) {
+    gantt-scheduler .gantt-header .left-side .date-time-box {
+        font-size: 13px;
+    }
+    gantt-scheduler .gantt-header .refresh {
+        font-size: 13px;
+    }
+    gantt-scheduler .gantt-header .left-side .time-period-select {
+        width: 65px;
+    }
+    gantt-scheduler .gantt-header .right-side .color-value {
+        width: 90px;
+    }
+    gantt-scheduler .gantt-header .right-side .color-options {
+        width: 90px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 1360px) {
+    gantt-scheduler .gantt-header .separator {
+        margin: 0 5px 0 0;
+    }
+    gantt-scheduler .gantt-header .right-side .color-options {
+        width: 80px;
+    }
+    gantt-scheduler .gantt-header .right-side .color-value {
+        width: 80px;
+    }
+}

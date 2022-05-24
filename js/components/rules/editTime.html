@@ -1,0 +1,88 @@
+<div class="newRuleTask" style="width: auto; margin-top: 10%; padding-top:2%; height:fit-content;border-radius: 8px;">
+    <div>
+        <div class="timePicker-header">
+            <button class="timePeriodButton"
+                ng-class="{'clickedButton' : triggerToSend.trigger.IntervalType == 'daily'}"
+                ng-click="dailyToggle=true; weeklyToggle=false; monthlyToggle=false;triggerToSend.trigger.IntervalType = 'daily';
+                    groupToSend.trigger.RuleText='Every day'">
+                {{"DAILY" | translate}}</button>
+            <button class="timePeriodButton"
+                ng-class="{'clickedButton' : triggerToSend.trigger.IntervalType == 'weekly'}" 
+                ng-click="weeklyToggle=true; dailyToggle=false; monthlyToggle=false; triggerToSend.trigger.IntervalType = 'weekly';
+                groupToSend.trigger.RuleText='Every week'">
+                {{"WEEKLY" | translate}} </button>
+            <button class="timePeriodButton"
+                ng-class="{'clickedButton' :  triggerToSend.trigger.IntervalType == 'monthly'}" 
+                ng-click="monthlyToggle=true; dailyToggle=false; weeklyToggle=false; triggerToSend.trigger.IntervalType = 'monthly';
+                groupToSend.trigger.RuleText='Every month'">
+                {{"MONTHLY" | translate}} </button>
+        </div>
+
+        <div class="timePicker-body">
+            <div ng-if="triggerToSend.trigger.IntervalType == 'daily'" style="text-align: center; font-size: medium;">
+                {{"EVERY_DAY_AT" | translate}}
+                <input type='number' style="width: 50px" ng-model="triggerToSend.trigger.IntervalHour" min="0" max="24">
+                :
+                <input type='number' style="width: 50px" ng-model="triggerToSend.trigger.IntervalMinute" min="0"
+                    max="59">
+            </div>
+
+            <div ng-if="triggerToSend.trigger.IntervalType == 'weekly'" style="text-align: center; font-size: medium;">
+
+                <div style="margin-bottom: 15px;">
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(1) ; rulesCtrl.switchDayToText(1)"
+                        ng-class="{'clickedButton' : triggerToSend.trigger.DaysInWeek.indexOf(1) >= 0}">Sun</button>
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(2); rulesCtrl.switchDayToText(2)"
+                        ng-class="{'clickedButton' :  triggerToSend.trigger.DaysInWeek.indexOf(2) >= 0}">Mon</button>
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(3); rulesCtrl.switchDayToText(3)"
+                        ng-class="{'clickedButton' : triggerToSend.trigger.DaysInWeek.indexOf(3) >= 0}">Tue</button>
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(4); rulesCtrl.switchDayToText(4)"
+                        ng-class="{'clickedButton' : triggerToSend.trigger.DaysInWeek.indexOf(4) >= 0}">Wed</button>
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(5); rulesCtrl.switchDayToText(5)"
+                        ng-class="{'clickedButton' : triggerToSend.trigger.DaysInWeek.indexOf(5) >= 0}">Thu</button>
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(6); rulesCtrl.switchDayToText(6)"
+                        ng-class="{'clickedButton' : triggerToSend.trigger.DaysInWeek.indexOf(6) >= 0}">Fri</button>
+                    <button class="day" ng-click="rulesCtrl.changeWeekDay(7); rulesCtrl.switchDayToText(7)"
+                        ng-class="{'clickedButton' : triggerToSend.trigger.DaysInWeek.indexOf(7) >= 0}">Sat</button>
+                </div>
+
+                {{"EVERY_WEEK_AT" | translate}}
+                <input type='number' style="width: 50px" ng-model="triggerToSend.trigger.IntervalHour" min="0" max="24">
+                :
+                <input type='number' style="width: 50px" ng-model="triggerToSend.trigger.IntervalMinute" min="0"
+                    max="59">
+            </div>
+
+            <div ng-if="triggerToSend.trigger.IntervalType == 'monthly'" style="text-align: center;">
+
+                <div><button ng-repeat="w1 in week1" class="daysInMonth" ng-click="rulesCtrl.changeMonthDay(w1)"
+                        ng-class="{'clickedButton': triggerToSend.trigger.DaysInMonth.indexOf(w1) >=0}">{{w1}}</button>
+                </div>
+                <div> <button ng-repeat="w2 in week2" class="daysInMonth" ng-click="rulesCtrl.changeMonthDay(w2)"
+                        ng-class="{'clickedButton': triggerToSend.trigger.DaysInMonth.indexOf(w2) >=0}">{{w2}}</button>
+                </div>
+                <div> <button ng-repeat="w3 in week3" class="daysInMonth" ng-click="rulesCtrl.changeMonthDay(w3)"
+                        ng-class="{'clickedButton': triggerToSend.trigger.DaysInMonth.indexOf(w3) >=0}">{{w3}}</button>
+                </div>
+                <div> <button ng-repeat="w4 in week4" class="daysInMonth" ng-click="rulesCtrl.changeMonthDay(w4)"
+                        ng-class="{'clickedButton': triggerToSend.trigger.DaysInMonth.indexOf(w4) >=0}">{{w4}}</button>
+                </div>
+                <div> <button ng-repeat="w5 in week5" class="daysInMonth" ng-click="rulesCtrl.changeMonthDay(w5)"
+                        ng-class="{'clickedButton': triggerToSend.trigger.DaysInMonth.indexOf(w5) >=0}">{{w5}}</button>
+                </div>
+
+                <div style="text-align: center; font-size: medium; padding-top:12px">{{"EVERY_MONTH_AT" | translate}}
+                    <input type='number' style="width: 50px" ng-model="triggerToSend.trigger.IntervalHour" min="0"
+                        max="24"> :
+                    <input type='number' style="width: 50px" ng-model="triggerToSend.trigger.IntervalMinute" min="0"
+                        max="59">
+                </div>
+            </div>
+
+            <div class="timePicker-footer" style="text-align: right">
+                <button style="background-color: #90b5f0; padding:5px; margin-top:10px; border-radius: 8px;"
+                    ng-click="$close()">{{"DONE" | translate}}</button>
+            </div>
+
+        </div>
+    </div>

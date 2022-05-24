@@ -1,0 +1,116 @@
+.ui-grid-render-container-body .ui-grid-header-canvas{
+    height: 46px !important;
+}
+
+.ui-grid-viewport{
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 100% !important;
+    width: 100%;
+}
+
+body{
+    background-color: white;
+}
+
+.donuts-container{
+    margin-top: 190px !important;
+
+}
+
+.ui-grid-render-container-body{
+    overflow-y: hidden !important;
+    overflow-X: unset !important;
+}
+
+.ui-grid-render-container-body .ui-grid-viewport {
+    height: unset !important;
+}
+
+
+.ui-grid {
+    height: 100% !important;
+}
+
+/* .ng-isolate-scope {
+    overflow-y: hidden !important;
+    overflow-X: unset !important;
+    width: 1000px !important;
+} */
+
+.inner-distribution-shift-container{
+    display: inline-block !important;
+    margin-top: 75px;
+}
+.shift-distribution-container{
+    /*overflow: hidden !important;*/
+    /*height: initial !important;*/
+    /*display: block;*/
+    max-width: 675px;
+    flex-wrap: wrap;
+    overflow: inherit;
+
+}
+.distribution-bar-grid{
+}
+.vr-line-dashed{
+    display: none;
+}
+
+.multi-grid-wrapper{
+    position: absolute;
+    width: 100%;
+}
+.distribution-bar-grid {
+    position: relative;
+    display: inline-block;
+    margin-top: 150px !important;
+    height: 304px !important;
+}
+.shift-distribution-container-rotate{
+    display: flex;
+}
+shift-time-graph-directive .machine-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+pe-chart-directive img{
+    display: none;
+}
+pe-chart-directive .highcharts-tooltip{
+    display: none;
+}
+machine-plans-directive img{
+    display: none;
+}
+machine-plans-directive .svg{
+    width: calc(100% - 50px);
+}
+.svgs-containers svg{
+    width: 800px !important;
+}
+machine-plans-directive .x.axis line{
+    transform: scaleY(5);
+}
+.svgs-containers svg.grid{
+    height: 3000px !important;
+}
+.inner-distribution-shift-container{
+    display: inline-block;
+}
+.tooltip-container{
+    display: none;
+    left: -15px
+}
+.tooltip-container .rtl{
+    display: none;
+    right: -15px
+}
+
+.expanded-machines-events{
+    left :-15px;
+}
+.expanded-machines-events .rtl{
+    right :-15px;
+}

@@ -1,0 +1,324 @@
+<div id="tasksManagement" class="tasksManagement">
+    <div class="tasksManagementHeader wrapper border-bottom white-bg">
+        <div class="tasksManagementHeaderGrid">
+            <div class="tasksManagementHeaderText">{{"TASKS_MANAGEMENT"|translate}}</div>
+            <div style="display: grid;grid-template-rows: 0.8fr 1fr;">
+                <div class="tasksManagementHeaderA">
+                    <div class="addNewTask" ng-click="openNewTaskWindow()" style="height:50%">
+                        <img src="images/add.png" style="width: 1vw;">
+                        <span class="addNewTaskBtnText">{{"ADD_NEW_TASK" | translate}}</span>
+                    </div>
+                </div>
+
+                <div class="tasksManagementFilters">
+                    <div class="filterIcon"
+                        style="padding:0.3vw 0.417vw;position: relative;display: grid;grid-template-columns: 1fr 7fr 1fr;cursor: initial;">
+                        <img style="position: relative;max-width: 100%;justify-self: right;" src="images/search.svg">
+                        <input type="text" style="font-size:0.7vmax;outline: none;border:0"
+                            ng-model="tasksSearchInputFilter['input']" placeholder="{{'SEARCH'|translate}}"></input>
+                            <img ng-show="tasksSearchInputFilter['input']!=''" class="cancelSearchFilter"
+                            src="images/delete.png" ng-click="tasksSearchInputFilter['input']=''">
+                        <!-- <img ng-show="tasksSearchInputFilter['input']!=''" class="cancelSearchFilter"
+                            src="images/cancelC.svg" ng-click="tasksSearchInputFilter['input']=''"> -->
+                    </div>
+
+
+                    <div class="tasksGridRow tasksGridRow2Sort" style="width:100%">
+                        <div class="tasksGridRow2Sorta">
+                            <div class="sortByLabel" style="text-align: center;">
+                                <span style="font-size: 14px;">{{"SORT_BY" | translate}}</span>
+                            </div>
+                            <div class="sortBySelectWrapper">
+                                <select ng-init="tasksOrderBy['orderDisplay']='+TaskStartTimeTarget'"
+                                    ng-model="tasksOrderBy['orderDisplay']"
+                                    style="width: 100%; font-size:0.9vmax;padding:0.3vw;border: solid 0.8px #d0cfd0;"
+                                    ng-change="changeDisplayBy()">
+                                    <option value="+TaskCreateDate">
+                                        {{"CREATE_DATE"|translate}}
+                                    </option>
+                                    <option value="+TaskStartTimeTarget">
+                                        {{"START_TIME" | translate}}
+                                    </option>
+                                    <option value="+TaskEndTimeTarget">
+                                        {{"END_TIME" | translate}}
+                                    </option>
+                                    <option value="+TaskPriorityID">
+                                        {{"PRIORITY" | translate}}
+                                    </option>
+                                    <option value="+CreateUserName">
+                                        {{"USER_NAME" | translate}}
+                                    </option>
+                                    <option value="+TaskLevel">
+                                        {{"TASK_LEVEL" | translate}}
+                                    </option>
+                                </select>
+                            </div>
+                            <span class="displayByIcon" ng-click="sortAsc=!sortAsc;toggleDisplayBy()"
+                                ng-init="sortAsc=true">
+                                <img ng-class="{flipY:sortAsc==false}"
+                                    src="{{rtl? 'images/ascRTL.svg':'images/asc.svg'}}" style="zoom:1.1">
+                                </img>
+                            </span>
+                        </div>
+                    </div>
+                    <div style="position:relative">
+                        <img class="filterIcon searchFilter tasksManagementFilterIcon"
+                             ng-click="changeShowFilterShift(false)"
+                             src="{{filter['filtered'] || filterWindowIsOpen.tasksManagement ? 'images/filter-blue-new.svg':'images/filter-grey-new.svg'}}"
+                             style="width:1.75vw;height:1.75vw;padding:0.3vw">
+
+                        <img class="filterIcon searchFilter fwTasksManagementFilterIcon"
+                             ng-click="changeShowFilterShift(true)"
+                             src="{{filter['filtered'] || filterWindowIsOpen.fullWindow ? 'images/filter-blue-new.svg':'images/filter-grey-new.svg'}}"
+                             style="width:1.75vw;height:1.75vw;padding:0.3vw">
+
+                        <img ng-show="filter['filtered']" src="images/check-blue.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="position: absolute; left: 0.8vw; top: 0.3vw; height: 0.5vw; width: 0.8vw" />
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div>
+        <div class="hiddingMask"></div>
+        <div class="tasksManagementBody ">
+            <div id="taskManagementContainer" class="newScroll" style="overflow-y: auto;overflow-x:hidden;">
+                <div ng-model="realStatusesAreReady" ng-show="!realStatusesAreReady"
+                     id="tasksManagementStatusesHeaderStatic" class="wrapper" style="margin-top: -1%;"
+                        ng-style="filterWindowIsOpen.tasksManagement && {'width': '65vw'} || {'width':'82vw'}">
+                    <div class="tasksManagementStatusesGrid">
+
+                        <div ng-if="true" ng-repeat="status in Shared.dummyStatuses track by $index"
+                             style="border-bottom: 1px solid #dcdcdc;background-color: white;"
+                             ng-animate="{enter: 'phone-enter', delay: 500}">
+                            <div class="statusWrapper">
+                                <div class="tasksGridRow tasksGridRow4" style="height: 20%;">
+                                    <div style="margin:3.5%">
+                                        {{status.DisplayName}}
+                                    </div>
+                                    <div class="numberOfTasksInStatus">
+                                        <span ng-bind="filtered.length"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-model="realStatusesAreReady" ng-show="realStatusesAreReady" id="tasksManagementStatusesHeaderStatic"
+                     class="wrapper" style="margin-top: -1%;"
+                     ng-style="filterWindowIsOpen.tasksManagement && {'width': '65vw'} || {'width':'82vw'}">
+                    <div class="tasksManagementStatusesGrid">
+                        <div ng-if="true" ng-repeat="status in Shared.taskStatuses track by $index"
+                             style="border-bottom: 1px solid #dcdcdc;background-color: white;"
+                             ng-animate="{enter: 'phone-enter', delay: 500}">
+                            <div class="statusWrapper">
+                                <div class="tasksGridRow tasksGridRow4" style="height: 20%;">
+                                    <div style="margin:3.5%">
+                                        {{status.DisplayName}}
+                                    </div>
+                                    <div class="numberOfTasksInStatus">
+                                        <span ng-bind="filtered.length"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div id="{{'status' + status.Name+ 'W'}}">
+                                    <div id="{{'status' + status.Name}}">
+                                        <div
+                                                ng-repeat="task in filtered=(status['Otasks'] |filter:filterBySearchInput | orderBy:tasksOrderBy['order'] | filter:filterByPropertiesMatchingAND | filter:filterByLevelObjectMatchingAND | filter:filterByOnlyLate | filter:filterByPriority | filter:filterCancelDoneStatuses | filter:filterBySubject)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--         filter window-->
+                <div ng-show="filterWindowIsOpen.tasksManagement || filterWindowIsOpen.fullWindow" style="background-color: white">
+                    <filter-directive  rtl="rtl" filter="filter" users="taskUsers" departments="taskObjects[2]"
+                                       machines="taskObjects[3]" groups="taskObjects[5]" statuses="Shared.taskStatuses" subjects="taskSubjects"
+                                       class="filterDirective"
+
+                                       ng-style="rtl && {'left': '0'} || {'right':'0'}">
+
+                    </filter-directive>
+                </div>
+
+
+                <div ng-model="realStatusesAreReady" ng-show="!realStatusesAreReady" id="tasksManagementStatusesBodyDummy" class="wrapper"
+                     style="width: 82vw;z-index: 1000;padding-top: 40px;overflow-x:hidden">
+                    <div class="tasksManagementStatusesGrid">
+                        <div ng-if="true" ng-repeat="status in Shared.dummyColumns track by $index"
+                             style="border-bottom: 1px solid #dcdcdc;background-color: white;overflow-x: hidden;overflow-y: hidden;">
+                            <div class="tasksGridRowM taskStatusContent" style="height: 100%;">
+                                <div class="taskStatusContentDummy disableTextSelect taskPadding" style="cursor: initial;">
+                                    <div class="animated-background">
+                                        <div class="dummy title">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div>&nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskAssigneeName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskMachineName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="myTasksPriorityDisplay">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="taskStatusContentDummy disableTextSelect taskPadding" style="cursor: initial;">
+                                    <div class="animated-background">
+                                        <div class="dummy title">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div>&nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskAssigneeName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskMachineName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="myTasksPriorityDisplay">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="taskStatusContentDummy disableTextSelect taskPadding" style="cursor: initial;">
+                                    <div class="animated-background">
+                                        <div class="dummy title">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div>&nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskAssigneeName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskMachineName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="myTasksPriorityDisplay">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="taskStatusContentDummy disableTextSelect taskPadding" style="cursor: initial;">
+                                    <div class="animated-background">
+                                        <div class="dummy title">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div>&nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskAssigneeName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="taskMachineName">
+                                            &nbsp;
+                                        </div>
+                                        <div class="blankSpace"></div>
+                                        <div class="myTasksPriorityDisplay">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div ng-show="realStatusesAreReady" id="tasksManagementStatusesBody" class="wrapper"
+                     ng-style="filterWindowIsOpen.tasksManagement && {'width': '65vw'} || {'width':'82vw'}">
+                    <div class="tasksManagementStatusesGrid">
+                        <div class="" ng-if="true"
+                             ng-repeat="status in Shared.taskStatuses track by $index" statusID="{{status.ID}}"
+                             style="border-bottom: 1px solid #dcdcdc;background-color: white;overflow-x: hidden;overflow-y: hidden;"
+                             ng-animate="{enter: 'phone-enter', delay: 500}">
+                            <div id="{{'hoverZone'+status.ID}}" class="taskHoverZone" statusID="{{status.ID}}"></div>
+                            <div id="{{'container-'+status.ID}}" statusID="{{status.ID}}" class="tasksGridRowM taskStatusContent droppableTasksZone" style="height: 100%;">
+                                <div id="{{'task' + task.ID}}"
+                                     ng-repeat="task in filtered=(status['Otasks'] |filter:filterBySearchInput  | orderBy:tasksOrderBy['order'] | filter:filterByPropertiesMatchingAND | filter:filterByLevelObjectMatchingAND | filter:filterByOnlyLate | filter:filterByPriority | filter:filterCancelDoneStatuses | filter:filterBySubject)"
+                                     class="taskStatusContentWindow draggableTasks  disableTextSelect taskPadding"
+                                     statusID="{{status.ID}}" taskID="{{task.ID}}" creatorid="{{task.TaskCreateUser}}" doneable="{{task['NumOfOpenSubTasks']==0}}"
+                                     ng-class="{'importantTask':importantTask(task)}" ng-click="editTask(task.ID)"
+                                     ng-model="task"
+                                     style="position:relative"
+                                     ng-style="filterWindowIsOpen.tasksManagement && {'width': '11vw'} || {'width':'14vw'}"
+                                >
+                                    <div style="width:100%;height: 100%;position:relative;display:grid">
+                                        <img src="images/sub-tasks.svg" ng-model="task.HasSubTasks" ng-show="task.NumOfOpenSubTasks>0" style="position: absolute;max-width: 24px" ng-style="rtl && {'left':'5%'} || {'right':'5%'}">
+
+                                        <div class="taskTitleRow">
+                                            <h3>{{taskSubjects[task.SubjectID].name}}({{task.TaskID}})</h3>
+                                        </div>
+                                        <div>{{filteredText=(task.Text | limitTo:80)}}<span
+                                                ng-show="filteredText.length==80">...</span></div>
+
+                                        <div ng-model="task.Assignee" class="taskAssigneeName">
+                                            <b>{{"ASSIGN_TO"| translate}}:</b>
+                                            {{rtl? (task.AssigneeDisplayHName?task.AssigneeDisplayHName:'') : (task.AssigneeDisplayName?task.AssigneeDisplayName:'')}}
+                                        </div>
+                                        <div ng-model="task.TaskLevel" ng-if="task.TaskLevel!=4" class="taskMachineName"
+                                             tooltip="{{rtl && task.LName || !rtl && task.EName}}">
+                                            <b>{{task.LevelName}}:</b>{{rtl && task.LName || !rtl && task.EName}}
+                                        </div>
+                                        <div ng-model="task.TaskLevel" ng-if="task.TaskLevel==4" class="taskMachineName"
+                                             tooltip="{{task.ObjectID}}({{task.EName?task.EName:'-'}})">
+                                            <b>{{task.LevelName}}:</b>{{task.ObjectID}}({{task.EName?task.EName:'-'}})
+                                        </div>
+
+                                        <div ng-model="task.TaskStartTimeTarget" ng-if="task.TaskStartTimeTarget!=null"  class="taskAssigneeName">
+                                            <b>{{"START_TIME"| translate}}:</b>
+                                            {{task.TaskStartTimeTarget | date:'dd/MM/yy HH:mm'}}
+                                        </div>
+
+                                        <div ng-show="task.TaskPriorityID==1" class="myTasksPriorityDisplay lowPriority">
+                                            {{"LOW_PRIORITY" | translate}}
+                                        </div>
+                                        <div ng-show="task.TaskPriorityID==2" class="myTasksPriorityDisplay mediumPriority">
+                                            {{"MEDIUM_PRIORITY" | translate}}
+                                        </div>
+                                        <div ng-show="task.TaskPriorityID==3" class="myTasksPriorityDisplay highPriority">
+                                            {{"HIGH_PRIORITY" | translate}}
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+</div>

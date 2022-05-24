@@ -1,0 +1,65 @@
+<div class="panel-body" style="background: #fff;">
+    <form ng-submit="updateGraph()">
+        <div class="row">
+            <div class="col-lg-3 col-lg-push-9">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <h4>{{ "SELECT_GRAPH_PARAM" | translate}}</h4>
+                        <select chosen class="chosen-select" multiple tabindex="0"
+                                ng-model="graphParameter"
+                                ng-change="updateGraphParameter(graphParameter)"
+                                ng-required="true"
+                                data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                                ng-options="(option | customTranslate: 'EName':'LName':localLanguage) for option in graphParameters">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-11">
+                        <h4>{{ "PERIOD" | translate}}</h4>
+                        <select class="form-control"
+                                ng-model="periodChosen"
+                                ng-required="true"
+                                ng-change="updatePeriodParameter(periodChosen)"
+                                ng-options="(option.Name | translate) for option in periods">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" ng-if="false">
+                    <div class="col-lg-11">
+                        <h4>{{ "ENABLE_ZOOM" | translate}}</h4>
+                        <input icheck type="checkbox" ng-model="enableZoom" ng-change="zoomChanged(enableZoom)">
+                    </div>
+                </div>
+                <div class="row" ng-if="periodChosen.Name == 'CUSTOM'">
+                    <div class="col-lg-11" ng-init="startTime = {}">
+                        <h4>{{ "VALUE_START_TIME" | translate}}</h4>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+                            <input type="datetime" class="form-control" format="DD/MM/YYYY HH:mm:ss" ng-required="true" date-time ng-model="startTime.value" ng-blur="updateStartTime(startTime)" view="date" auto-close="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-11">
+                        <h4 ng-if="periodChosen.Name == 'CUSTOM'">{{ "VALUE_END_TIME" | translate}}</h4>
+                        <div class="input-group date" ng-if="periodChosen.Name == 'CUSTOM'" ng-init="endTime = {}">
+                            <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+                            <input type="datetime" class="form-control" format="DD/MM/YYYY HH:mm:ss" date-time ng-model="endTime.value" ng-blur="updateEndTime(endTime)" view="date" auto-close="true"/>
+                        </div>
+                        <button ng-disabled="updateInProcess" class="btn btn-sm btn-primary pull-right" style="margin-top: 7px;margin-bottom: 7px;" type="submit">{{ "UPDATE_GRAPH" | translate}}</button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!error" class="col-lg-9 col-lg-pull-3" style="direction: ltr">
+                <div id="container_{{graph.FieldName}}" ng-repeat="graph in graphs"  ng-if="graphs.length > 0" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+
+            <div ng-if="error" class="col-lg-9 col-lg-pull-3" style="direction: ltr">
+                <div id="noDataGraph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+    </form>
+</div>

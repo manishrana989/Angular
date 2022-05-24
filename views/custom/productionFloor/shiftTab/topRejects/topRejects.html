@@ -1,0 +1,91 @@
+<div ng-style="{height: options.height,'min-height':'320px', 'overflow-y': 'auto'}"  ng-init = "options.isTableView = false;">
+    <div ng-if=" !shiftData.topRejects" ng-include="'views/common/emptyPage.html'"></div>
+
+    <div ng-if="shiftData.topRejects && !options.isTableView">
+        <div class="parameters-div">
+            <span class="parameter" ng-show="!options.machine">
+                <span style="margin-left: 10px; font-size:13px;">
+                    <input id="division_{{$id}}" type="checkbox" class="graph-option-li"
+                        ng-model="options.settings.division">
+                    <img ng-if="options.settings.division" src="images/dashboard/checkbox.svg"
+                        ng-click="options.settings.division = !options.settings.division; $event.stopPropagation();" />
+                    <img ng-if="!options.settings.division" width="18" height="18"
+                        ng-click="options.settings.division = !options.settings.division; getTotalRejectesByReason();$event.stopPropagation();" />
+                    <label for="division_{{$id}}" style="padding-left: 10px;font-size: 13px;">
+                        {{"INTERNAL_DIVISION" | translate}}
+                    </label>
+                </span>
+                <span style="margin-left: 10px; font-size:13px;" ng-if="options.settings.showScale">
+                    <input id="topScale_{{$id}}" type="checkbox" class="graph-option-li"
+                           ng-model="options.settings.isScaled">
+                    <img ng-if="options.settings.isScaled" src="images/dashboard/checkbox.svg"
+                         ng-click="options.settings.isScaled = !options.settings.isScaled; $event.stopPropagation();" />
+                    <img ng-if="!options.settings.isScaled" width="18" height="18"
+                         ng-click="options.settings.isScaled = !options.settings.isScaled" />
+                    <label for="topScale_{{$id}}" style="padding-left: 10px;font-size: 13px;">
+                        {{"SCALE" | translate}}
+                    </label>
+                </span>
+            </span>
+        </div>
+        <hr class="stop-events-header-separate">
+        <div ng-style="{height: options.height - 70 + 'px', 'padding-left':'21px','padding-right':'21px'}"
+            style="display: flex; flex-direction: column;justify-content: space-around;overflow-y: auto;padding-top: 10px;">
+            <div ng-repeat="event in shiftData.topRejects" ng-show="options.settings.top > $index" ng-if="!options.settings.division"
+                class="row-division-by-height-col" ng-style="{'height' : (100 / shiftData.topRejects.length)  + '%'}" style="min-height: 42px;    max-height: 68px;">
+                <div style="display: flex;align-items: start; width:100%;min-height: 20px;height: 100%;">
+                    <div ng-style="{display: 'inline-block',height:'100%','background-color' : 'black' ,'min-width': '20px' ,width: (event.Amount/shiftData.topRejects[0].Amount)*83 + '%'}"
+                        ng-mouseover="tooltip($event,event)" ng-mousemove="tooltipMove($event)"
+                        ng-mouseleave="tooltipLeave()">
+                    </div>
+                    <span class="top-stop-events-duration" style="color: black">
+                        {{event.Amount | number : 2}}
+                    </span>
+                </div>
+                <div class="top-stop-events-text">
+                    {{event.Name}}
+                </div>
+            </div>
+            <div ng-repeat="reason in result" ng-if="options.settings.division" 
+                ng-style="{'height' : (100 / result.length)  + '%'}" style="min-height: 35px;max-height: 68px;">
+                <div style="display: flex;width: 83%;;min-height: 20px;align-items: start;height: 73%">
+                    <!-- todo MM -->
+                    <div style="display: flex;align-items: start;height: 100%;"
+                        ng-style="{width:options.settings.isScaled?'100%': (reason['total']/maxTotal)*100 + '%'}">
+                        <div ng-if="!options.settings.isScaled && (reason['total']/maxTotal)*100<2" style="height: 100%;min-width: 20px" >
+                            <div class="bar" ng-style="{height: '100%','background-color': 'black',width: '100%'}"
+                                 title="{{reasonsToPrint(reason['reason'])}} - {{'TOTAL' | translate}}({{reason['total']}})">
+                                <span class="chunk-title">({{reason['total'] | number :2}})</span>
+                            </div>
+                        </div>
+
+                        <div ng-if="options.settings.division && (options.settings.isScaled ||(reason['total']/maxTotal)*100>2)" style="height: 100%;min-width: 10px" ng-repeat="r in reason['reason'] | orderBy: '-Amount'"
+                            ng-style="{'padding-right': '2px','width': (r.Amount/reason['total'])*100 + '%'}">
+                            <div class="bar" ng-style="{height: '100%','background-color': 'black',width: '100%'}"
+                                title="{{localLanguage? r.MachineLName : r.MachineName}} ({{r.Amount | number :2}})">
+                                <span class="chunk-title">{{localLanguage? r.MachineLName : r.MachineName}}</span><span class="chunk-title">
+                                    ({{r.Amount | number :2}})</span>
+                            </div>
+                        </div>
+                    </div>
+                    <span ng-if="options.settings.division" class="top-stop-events-duration" ng-style="{color: event.Color};(options.settings.isScaled ||(reason['total']/maxTotal)*100>2)?localLanguage?{'left':'-5px'}:{'right':'-5px'}:''">
+                        {{reason['total'] | number : 2 }}
+                    </span>
+                </div>
+                <div class="top-stop-events-text" title="{{reason['reason'][0].Name}}">
+                    {{localLanguage? reason['reason'][0].LName :reason['reason'][0].Name}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- avoid using ng-if in case of loading this table to avoid re-rendering data in directives controller -->
+    <div ng-if="shiftData.topRejects && options.isTableView" style="margin-top: 3%"> 
+            <simple-table-directive ng-if = "!shiftData.loading" machine-names="machineNameArr" event-y="ySimpleTable" data="simpleTableData" table-name="simpleTableName"></simple-table-directive>
+        </div>
+
+
+    <div class="machine-top-event-tooltip removeInPrint" ng-show="tooltipShow">
+        <div class="tooltip-event-type"></div>
+    </div>
+</div>

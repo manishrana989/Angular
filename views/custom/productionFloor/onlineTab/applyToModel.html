@@ -1,0 +1,70 @@
+
+  
+  <div class="applyToModelContainer" >
+    <div>
+      <div class="applyStructureToContainer" ng-if="allowSetDefaultMachineStructure">
+        <div>{{"APPLY_THIS_STRUCTURE_TO" | translate}}:</div>
+        <div class="applyStructureToCheckBox">
+            <div check-box-directive field-title="'MY_USER'" field="applyStructureTo" select-value="'currentChoice'" type="'radio'" value="'MY_USER'"></div>
+          <div ng-if="allowSetDefaultMachineStructure">
+            <div check-box-directive field-title="'USER_GROUP'" field="applyStructureTo" select-value="'currentChoice'" type="'radio'" value="'USER_GROUP'"></div>
+            <div ng-show="applyStructureTo.currentChoice == 'USER_GROUP'">     
+              <select ng-show="usersData && usersData.length > 0" class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen ng-model="applyStructureTo.userGroupValue" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in usersData"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div>{{"MACHINES"| translate}}</div>
+        <div class="filter-body-name"
+        ng-init="machinesSelectAllToggled = true;machinesValue=true">
+        <strong style="padding: 0px 10px 0 0; display: flex">
+          <input type="checkbox" ng-model="applyToModelDirectiveCtrl.groupByMachinesSelectAllValue"
+            ng-init="applyToModelDirectiveCtrl.groupByMachinesSelectAllValue = true" style="margin: 4px 0 0"
+            ng-click="$event.stopPropagation();applyToModelDirectiveCtrl.filterChanged = true;"
+            ng-change="applyToModelDirectiveCtrl.selectUnSelectAllGroups(applyToModelDirectiveCtrl.groupByMachines.machinesSort,applyToModelDirectiveCtrl.groupByMachinesSelectAllValue)" />
+          <span style="margin: 0 10px"> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+        </strong>
+
+        <strong style="cursor: pointer" ng-click="machinesSelectAllToggled =! machinesSelectAllToggled;" >
+          <i ng-show="machinesSelectAllToggled" class="fa fa-angle-up"></i>
+          <i ng-show="!machinesSelectAllToggled" class="fa fa-angle-down"></i>
+        </strong>
+      </div>
+      <div ng-class="{'unsortedFilter': applyToModelDirectiveCtrl.groupByMachines.idType == 0}"
+      style="margin: 0 10px">
+      <div ng-show="machinesSelectAllToggled"
+        ng-repeat="machineSort in applyToModelDirectiveCtrl.groupByMachines.machinesSort">
+        <div class="groupsFilterContainer" ng-init="machineSort.valueToggle = false;">
+          <input type="checkbox" style="margin: 4px 0 0" ng-model="machineSort.value"
+            ng-click="$event.stopPropagation();applyToModelDirectiveCtrl.filterChanged = true;"
+            ng-change="applyToModelDirectiveCtrl.selectUnSelectAll(machineSort.array, machineSort.value)" />
+          <strong class="groupsFilterContainerLabel">
+            {{localLanguage ? machineSort.LName : machineSort.EName }} </strong>
+          <strong class="groupsFilterContainerArrow"
+            ng-click="machineSort.valueToggle=!machineSort.valueToggle;">
+            <i ng-show="machineSort.valueToggle" class="fa fa-angle-up"></i>
+            <i ng-show="!machineSort.valueToggle" class="fa fa-angle-down"></i>
+          </strong>
+        </div>
+        <div class="insights-filter-body-list newScroll slim"
+          ng-if="machineSort.valueToggle">
+          <div ng-if="machineSort.array" class="col-lg-6 col-md-6 col-sm-6 pull-left filterLabels"
+            ng-repeat="machine in machineSort.array"
+            ng-click="machine.value = !machine.value;applyToModelDirectiveCtrl.filterChanged = true;">
+            <input id="machine_{{$index}}" type="checkbox" ng-model="machine.value"
+              ng-click="$event.stopPropagation();applyToModelDirectiveCtrl.filterChanged = true;" />
+
+            <span for="machine_{{$index}}" style="cursor: pointer"
+              title="{{localLanguage ? machine.LName: machine.EName}}">
+              {{localLanguage ? machine.LName : machine.EName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="doneButton">
+        <div class="shift-settings-reset-btn pull-right" style="text-align: center;" ng-click="sendStructure(applyStructureTo.userGroupValue)">{{"DONE" | translate}}</div>
+      </div>
+    </div>
+  </div>

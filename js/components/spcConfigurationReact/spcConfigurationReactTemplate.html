@@ -1,0 +1,16 @@
+<script>
+  //change color of wrapper:
+  (function () {
+    if (document.getElementById("page-wrapper")) {
+      document.getElementById("page-wrapper").style.backgroundColor = "white";
+    }
+    else if (document.getElementById("wrapper")) {
+      document.getElementById("wrapper").style.backgroundColor = "white";
+      document.getElementById("spc_configuration_wrapper").style.paddingTop = "80px";
+      document.getElementById("spc_configuration_wrapper").style.paddingBottom = "0";
+    }
+  })();
+</script>
+<div class="spc-configuration-wrapper" id="spc_configuration_wrapper">
+  <react-spc></react-spc>
+</div>

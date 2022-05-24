@@ -1,0 +1,85 @@
+<div class="op-app job-list panel-body">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 tablet-left-side pull-left">
+            <select-machine-type screen-view="'machineType'" data="jobListCtrl.jobListData"
+                save="jobListCtrl.save" type="'tablet'"
+                update-machine-params="jobListCtrl.updateMachineData"
+                get-field-parameters-api="'GetControllerFieldsParameters'" field-parameters="'ControllerFieldsParams'">
+            </select-machine-type>
+        </div>
+
+    <div class="col-lg-9 col-md-12 col-sm-12 col-sx-12">
+        <!-- Tablet shape -->
+        <div class="tablet-outer-container" style="display: flex;align-items: center;">
+            <!-- Camera -->
+            <div class="cameraIcon" style="height: 0;">
+            </div>
+            <div class="tabletScreen" style="height: 100%;width: 100%;">
+
+                <div class="tablet-inner-container-upper newScroll slim">
+                    <!--  Tablet Screen content-->
+
+                    <div style="    height: 100%;
+                                                display: flex;
+                                                justify-content: space-around;
+                                                align-items: center;
+                                                padding-bottom: 30px;" ng-if="!allJobs">
+
+                        <div style="text-align: center">
+                            <div style="font-size:14px;color: #000;">{{"SELECT_MACHINE_TYPE" | translate}}</div>
+                            <div>
+                                <img style="opacity: 0;width: 45px;margin-bottom: 2px;" ng-style="loading && {'opacity': '1'}" class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- tablet content header -->
+                    <div class="tablet-header" ng-if="pendingJobs && !loading">
+                        <div class="pending-jobs">{{"PENDING_JOBS" | translate}}
+                            <p>
+                                <span>Max ({{maxNumOfPendingJobs}})</span>
+                                <span>Total: ({{pendingJobs.length}})</span>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="newScroll slim list-group" ng-if="allJobs && !loading">
+
+                        <div ui-sortable ng-model="pendingJobs" class="pull-left">
+                            <div class="dotted-boxes list-group-item" ng-repeat="job in pendingJobs track by $index">
+                                <div class="inner-boxes">
+                                    <div class="vertical-aligned" style="word-break: break-all;">{{jobListCtrl.localLanguage && job.displayhname || job.displayename}}</div>
+                                    <img class="remove-dotted-cube" ng-click="removePendingJob(job, $index)"
+                                         src="images/close.png"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dotted-boxes blue list-group-item ui-state-disabled disabled" ng-if="allJobs"
+                                ng-repeat="job in getNumberOfEmptyPendingJobs(remainingForPending) track by $index">
+                        </div>
+
+                    </div>
+
+                    <div class="list-group" style=" display: flex;
+    flex-wrap: wrap;" ng-if="allJobs && !loading">
+                        <div class="all-job-item list-group-item inner-boxes"
+                             ng-repeat="job in allJobs track by $index" ng-click="addJob(job)">
+                            <div class="vertical-aligned">
+                                {{jobListCtrl.localLanguage && job.displayhname || job.displayename}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tablet buttons -->
+                <div class="tablet-inner-container-bottom tablet-button">
+                    <span class="triangle"> &#9665;</span>
+                    <span class="circle"></span>
+                    <span class="square"></span>
+                </div>
+            </div>
+        </div>
+        <!-- End of Tablet -->
+    </div>
+</div>

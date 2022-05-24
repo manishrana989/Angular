@@ -1,0 +1,8 @@
+<div class="ibox-tools">
+    <span ng-if="departmentData.DepartmentPEE" style="font-size: 14px;color: #676a6c;vertical-align: middle;">{{"PE" | translate}}</span>
+    <span ng-if="departmentData.DepartmentPEE"  style="font-size: 25px;color: #676a6c;vertical-align: middle;">{{departmentData.DepartmentPEE}}</span>
+    <a ng-click="showhide()" ng-if="showCollapse === true"> <i class="mainColor2 {{faIconChevron}}"></i></a>
+    <a ng-click="saveBox()" ng-if="simpleBox === false"> <i class="fa fa-floppy-o mainColor2"></i></a>
+    <a ng-if="showSuccess === true"> <i style="color: green" class="fa fa-check"></i></a>
+    <a ng-if="showSuccess === false"> <i style="color: red" class="fa fa-check"></i></a>
+</div>

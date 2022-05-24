@@ -1,0 +1,10 @@
+<ol class="breadcrumb">
+    <li>
+        <a ng-click="goHome()" style="text-decoration: underline" >{{'HOME' | translate}}</a>
+    </li>
+    <li ng-repeat="bread in BreadCrumbs">
+        <a ng-click="$parent.$parent.breadCrumbChange(bread.click)" ng-if="$last == false"
+           ng-style="{{bread.click}}=='0'?{'text-decoration': 'none','cursor': 'default'}:{'text-decoration': 'underline'}">{{bread.label | translate}}</a>
+        <span ng-if="$last == true" style="font-weight: 600;">{{bread.label | translate}}</span>
+    </li>
+</ol>

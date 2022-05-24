@@ -1,0 +1,58 @@
+<!-- <div class="timePicker-content" field="mode" value="'event'"> -->
+<div class="timePicker-content" ng-init="mode = 'event' ">
+    <div
+        style="width:100%; height:850px; background-color:#dfe1e6; border-radius: 25px;z-index: 99999; position: relative;">
+        <div class="timePicker-header" style="background-color:#dfe1e6; padding: 100px;">
+            <input style="background-color:#dfe1e6; color:black; font-weight: 700"
+                placeholder="{{'TITLE' | translate }}*" ng-model="groupToSend.trigger.Name;" />
+        </div>
+        <div class="timePicker-body"
+            style="font-size: xx-large; text-align: center; background-color:#dfe1e6; height: 120px">
+            <span>
+                {{"WHEN" | translate}}
+                <span
+                    style=" border-bottom: 3px solid currentColor; display: inline-block; line-height: 0.85; cursor: pointer;">
+                    <b ng-if="groupToSend.trigger.RuleText === 'Every time period'"
+                        ng-click="openEventPickerWindow(); groupToSend.trigger.RuleText">
+                        <span ng-show="!eventToSend.triggerTask.EventID">
+                            {{"AN_EVENT_SMALL" | translate}}
+                        </span>
+                        <span ng-show="eventToSend.triggerTask.EventID">
+                            {{eventToSend.triggerTask.EventName}}
+                        </span>
+                    </b>
+                </span>
+ 
+                {{"OCCURS_SMALL" |translate}},
+                {{"CREATE_SMALL" | translate}}
+
+                <!-- <span style="display: inline-flex; flex-direction: column;">
+                    <b style="cursor: pointer;  border-bottom: 3px solid currentColor; display: inline-block; line-height: 0.85;" ng-click="openNewServiceCallWindow();">{{"SERVICE_CALL" | translate}}
+                    </b>
+                </span> -->
+
+                <span style="display: inline-flex; flex-direction: column;">
+                    <b ng-init="itemToggle=false" ng-click="itemToggle = !itemToggle"
+                        style="cursor: pointer;  border-bottom: 3px solid currentColor; display: inline-block; line-height: 0.85;">{{items}}
+                    </b>
+                    <span class="itemsList" ng-show="itemToggle">
+                        <b ng-click="openNewTaskWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 1">
+                            {{"TASK" | translate}}</b>
+                        <b
+                            ng-click="openNewNotificationWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 2; notificationToSend.notificationType=7; messageToSend.notificationType=0">
+                            {{"NOTIFICATION" | translate}}</b>
+                        <b
+                            ng-click="openNewServiceCallWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 2; messageToSend.notificationType=1; notificationToSend.notificationType=0">
+                            {{"SERVICE_CALL" | translate}}</b>
+                    </span>
+                </span>
+
+            </span>
+        </div>
+        <div class="timePicker-footer" style="text-align: right; background-color:#dfe1e6">
+            <button class="pull-right btn btn-primary rulesButton" type="submit"
+                 type="submit"
+                ng-click="CreateARule(); $close()">{{editMode ? "EDIT_RULE" : "CREATE_RULE" | translate}}</button>
+        </div>
+    </div>
+</div>

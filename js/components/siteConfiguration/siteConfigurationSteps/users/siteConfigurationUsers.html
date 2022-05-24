@@ -1,0 +1,67 @@
+<div id="toastr"></div>
+<div class="step-four-container">
+    <div>
+        <div class="title">{{"USERS" | translate}}</div>
+        <p class="secondry-title">{{"STEP_FOUR_SECONDRY_TITLE" | translate}}</p>
+    </div>
+
+    <div class="row">
+        <div class="left-side col-md-1">
+            <div class="title">{{"APPROVED_DOMAINS" | translate}}</div>
+            <div class="data-container">
+                <div class="newScroll">
+                    <div class="domain" ng-repeat="domain in siteConfigUsersCtrl.whiteList">
+                        <div style="width: 90%">
+                            <div class="clickable">
+                                {{domain.DomainName}}
+                                <img class="pull-right" src="images/delete.png"
+                                    ng-click="siteConfigUsersCtrl.deleteDomain('approved', $index)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addDomain">
+                    <form name="whiteListForm" ng-submit="siteConfigUsersCtrl.addDomain('approved')" class="form-group">
+                        <label for="add1">{{"ADD_DOMAIN" | translate}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="add1" ng-model="siteConfigUsersCtrl.whiteDomain" required>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary">{{"ADD" | translate}}</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-side col-md-1">
+            <div class="title">{{"BLOCKED_DOMAINS" |  translate}}</div>
+            <div class="data-container">
+                <div class="newScroll">
+                    <div class="domain" ng-repeat="domain in siteConfigUsersCtrl.blackList">
+                        <div style="width: 90%">
+                            <div class="clickable">
+                                {{domain.DomainName}}
+                                <img class="pull-right" src="images/delete.png"
+                                    ng-click="siteConfigUsersCtrl.deleteDomain('blocked', $index)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addDomain">
+                    <form name="blackListForm" class="form-group" ng-submit="siteConfigUsersCtrl.addDomain('blocked')">
+                        <label for="add2">{{"ADD_DOMAIN" | translate}}</label>
+                        <div class="input-group">
+                            <input class="form-control " id="add2" ng-model="siteConfigUsersCtrl.blackDomain" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary"
+                                type="submit">{{"ADD" | translate}}</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

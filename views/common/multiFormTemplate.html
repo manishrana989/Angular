@@ -1,0 +1,8 @@
+<div class="panel-body">
+    <form ng-submit="save()">
+        <div ng-include="'views/common/editableTableTemplate.html'"></div>
+        <button style="margin-top: 10px;" type="submit" ng-if="multiformLodaing == false" class="btn btn-sm btn-primary pull-right m-t-n-xs">
+            {{ continousMultiForm && editableTableData.data.hasCheckbox ? topPageTitle : 'SAVE_CHANGES' | translate }}
+        </button>
+    </form>
+</div>

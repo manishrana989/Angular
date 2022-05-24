@@ -1,0 +1,103 @@
+
+
+<link rel="stylesheet" href="js/components/ganttScheduler/ganttSchduler.css">
+<link href="js/plugins/full-calendar-scheduler/core/main.css" rel="stylesheet" />
+<link href="js/plugins/full-calendar-scheduler/timeline/main.css" rel="stylesheet" />
+<link href="js/plugins/full-calendar-scheduler/resource-timeline/main.css" rel="stylesheet" />
+<!-- <link href='js/plugins/full-calendar-scheduler/timegrid/main.css' rel='stylesheet' /> -->
+<div class="ganttSchedulerContainer"  ng-style="ganttSchedulerCtrl.ganttStyle">
+    <div class="gantt-custom-color-legend" ng-if="ganttSchedulerCtrl.useJobColor.value === 'false'">
+        <div class="legend-color-item" ng-repeat="jobColor in ganttSchedulerCtrl.jobColors">
+            <div class="legend-color-block" ng-style="{backgroundColor: 'var({{jobColor.var}})'}"></div>
+            <div>{{jobColor.TEXT | translate}}</div>
+        </div>
+        <div class="legend-color-item">
+            <div class="legend-color-block"
+                style="background: repeating-linear-gradient( 
+                55deg, #fff, #fff 5px, var(--gantt-active-job)5px, var(--gantt-no-production) 10px ) !important;
+                    opacity: 0.7;"></div>
+            <div>{{'JOB_END' | translate}}</div>
+        </div>
+        <div class="legend-color-item" ng-repeat="setupColor in ganttSchedulerCtrl.setupColors">
+            <div class="legend-color-block" ng-style="{backgroundColor: 'var({{setupColor.var}})'}"></div>
+            <div>{{setupColor.TEXT | translate}}</div>
+        </div>
+    </div>
+    <div class="loading-window" ng-show="!ganttSchedulerCtrl.gantt">
+        <div class="spiner-example"  style="z-index: 101;">
+            <div class="sk-spinner sk-spinner-wave">
+                <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;margin-bottom: 2px;">
+            </div>
+        </div>
+        <div class="overlay">
+
+        </div>
+    </div>
+    <div class="fc" ng-show="!ganttSchedulerCtrl.singleMachine && ganttSchedulerCtrl.gantt">
+        <div ng-include="'js/components/ganttScheduler/ganttAllMachinesHeader.html'"></div>
+        <span ng-show="ganttSchedulerCtrl.ganttHeaderParams.timeField === 'resourceTimelineMonthCustom'" 
+        style="position: absolute;font-weight: 700">{{"GANTT_MONTH_WARNING" | translate }}</span>
+    </div>
+    <div class="fc" ng-if="ganttSchedulerCtrl.singleMachine && !ganttSchedulerCtrl.changeMachine">
+        <div ng-include="'js/components/ganttScheduler/ganttSingleMachineHeader.html'"></div>
+        <span ng-show="ganttSchedulerCtrl.ganttHeaderParams.timeField === 'resourceTimelineMonthCustom'" 
+            style="position: absolute;font-weight: 700">{{"GANTT_MONTH_WARNING" | translate }}</span>
+    </div>
+    <div style="position: relative" 
+        gantt-job-action 
+        ng-if="ganttSchedulerCtrl.jobActionsData" 
+        id="ganttSchedulerCtrl.jobActionsData.id"
+        x="ganttSchedulerCtrl.jobActionsData.x"
+        y="ganttSchedulerCtrl.jobActionsData.y"
+        job-data="ganttSchedulerCtrl.jobActionsData.jobData"
+        machine-id="ganttSchedulerCtrl.jobActionsData.machineId"
+        reload-machine="ganttSchedulerCtrl.refreshData"
+        off-click-activator="ganttSchedulerCtrl.jobActionsData" off-click="ganttSchedulerCtrl.jobActionsData = null;"
+        ></div>
+    <div ng-if="!ganttSchedulerCtrl.singleMachine" 
+         ng-class="{
+             machinesGantt : ganttSchedulerCtrl.resourceChosen === 'machines',
+             releaseJobsForProduction : ganttSchedulerCtrl.action.param === 'releaseJobsForProduction',
+             removeJobsFromProduction : ganttSchedulerCtrl.action.param === 'removeJobsFromProduction',
+             terminateOrCancelJobs : ganttSchedulerCtrl.action.param === 'terminateOrCancelJobs',
+             coloringEnabled : ganttSchedulerCtrl.ganttHeaderParams.coloringField && ganttSchedulerCtrl.ganttHeaderParams.coloringValue || ['PlanningApprovedDate', 'ClosingDate', 'EndTimeRequest'].indexOf(ganttSchedulerCtrl.ganttHeaderParams.coloringField) >= 0,
+             machineEventsViewed : ganttSchedulerCtrl.ganttHeaderParams.displayMachineEvents,
+             machineShiftsViewed : ganttSchedulerCtrl.ganttHeaderParams.displayMachineShifts,
+             calendarView: ganttSchedulerCtrl.viewResourceToggle === 'calendar',
+             tooltipColumns: ganttSchedulerCtrl.ganttHeaderParams.tooltipView !== 'default',
+             moldColor:  ganttSchedulerCtrl.useJobColor.value === 'mold',
+            }" 
+         style="height: 100%" class="gantt gantt-main-export"></div>
+    <div 
+        ng-class="{
+            releaseJobsForProduction : ganttSchedulerCtrl.action.param === 'releaseJobsForProduction',
+            removeJobsFromProduction : ganttSchedulerCtrl.action.param === 'removeJobsFromProduction',
+            terminateOrCancelJobs : ganttSchedulerCtrl.action.param === 'terminateOrCancelJobs'
+        }"
+        class="single-machine gantt machinesGantt" ng-if="ganttSchedulerCtrl.singleMachine && !ganttSchedulerCtrl.changeMachine">
+        <div ng-show="ganttSchedulerCtrl.singleMachineViewResourceToggle === 'calendar'" 
+            ng-style="{
+                width: reorderSectionWidth + 'px'
+            }"
+            class="reorder-section"
+            style="height: {{ganttSchedulerCtrl.ganttHeight - 19}}px"
+            ng-include="'js/components/ganttScheduler/ganttSchedulerSingleReorder.html'"></div>
+        <div ng-init="ganttSchedulerCtrl.buildSingleMachineGantt()"
+            ng-class="{
+                calendarView : ganttSchedulerCtrl.singleMachineViewResourceToggle === 'calendar',
+                machineEventsViewed : ganttSchedulerCtrl.ganttHeaderParams.displayMachineEvents || ganttSchedulerCtrl.singleMachineViewResourceToggle === 'gantt',
+                coloringEnabled : ganttSchedulerCtrl.ganttHeaderParams.coloringField && ganttSchedulerCtrl.ganttHeaderParams.coloringValue || ['PlanningApprovedDate', 'ClosingDate', 'EndTimeRequest'].indexOf(ganttSchedulerCtrl.ganttHeaderParams.coloringField) >= 0,
+                machineShiftsViewed : ganttSchedulerCtrl.ganttHeaderParams.displayMachineShifts,
+            }" 
+            ng-style="{
+                width: (ganttSchedulerCtrl.singleMachineViewResourceToggle === 'calendar' 
+                        ? 
+                            'calc( 100% - ' + reorderSectionWidth + 'px )'
+                        : 
+                            '100%')
+            }"
+            style="height: 100%" 
+            class="ganttSingleMachine gantt-single-export">
+        </div>
+    </div>
+</div>

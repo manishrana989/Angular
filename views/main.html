@@ -1,0 +1,65 @@
+C<div class="row" ng-hide="true">
+    <iframe id="cookieIframe" style="display: none;" src=""></iframe>
+    <iframe id="cognosIframe" class="col-lg-12 iframe" style="width: 100%;" src=""></iframe>
+</div>
+<!--<print-list-template-directive></print-list-template-directive>-->
+<!--<print-list-directive></print-list-directive>-->
+<div ng-if="show == true">
+    <div class="row" style="margin-top: 40px;">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h4>Chart Controls</h4>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-lg-12" style="height: 40px;">
+                            <div class="col-lg-2">
+                                <label style="margin-top: 10px;" for="departmentSelect">Select Department: </label>
+                            </div>
+                            <div class="col-lg-10">
+                                <select  class="form-control"  data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"     multiple chosen name="departmentSelect" id="departmentSelect"
+                                        ng-model="depSelectData.model" ng-change="updateCharts()" ng-options="option.id as option.name for option in depSelectData.availableOptions">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="height: 40px;">
+                            <div class="col-lg-2">
+                                <label style="margin-top: 10px;" for="departmentSelect">Select Timeline: </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-control" name="timeLineSelect" id="timeLineSelect"
+                                        ng-model="timeLineSelectData.model" ng-change="updateCharts()">
+                                    <option ng-repeat="option in timeLineSelectData.availableOptions" value="{{option.id}}">
+                                        {{option.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <highchart style="height: 240px" id="chart1" config="peHighchartsNG"></highchart>
+        </div>
+        <div class="col-lg-6">
+            <highchart style="height: 240px" id="chart2" config="muHighchartsNG"></highchart>
+        </div>
+    </div>
+    <div class="row" style="height: 15px;"></div>
+    <div class="row">
+
+        <div class="col-lg-6">
+            <highchart style="height: 240px" id="chart3" config="ceHighchartsNG"></highchart>
+        </div>
+        <div class="col-lg-6">
+            <highchart style="height: 240px" id="chart4" config="qeHighchartsNG"></highchart>
+        </div>
+
+    </div>
+</div>

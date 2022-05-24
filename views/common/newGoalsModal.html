@@ -1,0 +1,161 @@
+<form ng-submit="save()">
+    <div class="ibox newGoalsModal">
+        <div class="ibox-title newGoalsTitle">
+            <span>{{"SET_TARGETS" | translate}}</span>
+            <div class="pull-right x">
+
+                <img ng-click="close()" src="images/close.png" width="15" height="15" />
+            </div>
+            <div class="tabs-container">
+                <div class="col-lg-12">
+                    <div class="pull-left col-lg-4 col-md-4 col-sm-4" ng-show="setTargetsModal.factoryView" ng-class="{'selected':pageSelected == 'factory'}"
+                        ng-click="getKPITarget(3)">
+                        {{"FACTORY_TARGET" | translate}}
+                    </div>
+                    <div class="pull-left col-lg-4 col-md-4 col-sm-4" ng-class="{'selected':pageSelected == 'department'}"
+                        ng-click="pageSelected = 'department'">
+                        {{"DEPARTMENT_TARGET" | translate}}
+                    </div>
+                    <div class="pull-left col-lg-4 col-md-4 col-sm-4" ng-class="{'selected':pageSelected == 'machine'}"
+                        ng-click="pageSelected='machine'">
+                        {{"MACHINE_TARGET" | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox-content">
+            <div ng-if="pageSelected == 'factory'" style="width:512px;">
+                <div>
+                    {{"FACTORY_TAB_DESCRIPTION" | translate}}
+                </div>
+                <div style="width: 260px;
+                margin: 0 auto;
+                margin-top: 35px;">
+                    <div class="form-group form-check">
+                        <div>
+                            <input id="fixedfac" type="checkbox" class="graph-option-li" ng-model="setTargetsModal.isFixed">
+                            <img ng-show="setTargetsModal.isFixed" src="images/dashboard/checkbox.svg" ng-click="setTargetsModal.isFixed = !setTargetsModal.isFixed;" />
+                            <img ng-show="!setTargetsModal.isFixed" width="18" height="18" ng-click="setTargetsModal.isFixed = !setTargetsModal.isFixed;" />
+                            <label for="fixedfac">{{"FIXED" | translate}}</label>
+                        </div>
+                    </div>
+                    <div ng-repeat="item in kpiData track by $index" class="form-group">
+                        <label ng-if="rtl" for="{{item.Name}}">{{item.LName}}</label>
+                        <label ng-if="!rtl" for="{{item.Name}}">{{item.EName}}</label>
+                        <input min="0.1" max="1" name="input_{{$index}}" type="number" step="0.01" class="form-control" id="{{item.Name}}"
+                            ng-disabled="disableInput(item)" ng-model="item.value">
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-show="pageSelected == 'department'" style="width:512px;">
+                <div>{{"DEPARTMENT_TAB_DESCRIPTION" | translate}}</div>
+                <div style="width: 260px;margin: 0 auto;margin-top: 35px">
+                    <div class="form-group">
+                        <label for="depSelect">{{"DEP" | translate}}</label>
+                        <select id="depSelect" ng-change="getKPITarget(2, selectedDepartment.DepartmentID)" class="form-control"
+                            ng-options="option as (option | customTranslate: 'DepartmentEname':'DepartmentLname':rtl) for option in departments"
+                            ng-model="selectedDepartment">
+                        </select>
+                    </div>
+
+                    <div ng-if="selectedDepartment">
+                        <div class="form-group form-check">
+                            <div>
+
+                        
+                                <input ng-disabled="selectedDepartment.disableFixed" id="fixeddep" type="checkbox"
+                                        class="graph-option-li" ng-model="setTargetsModal.isFixed">
+                                <img ng-show="setTargetsModal.isFixed" src="images/dashboard/checkbox.svg" ng-click="updateMachineFixed(selectedDepartment.disableFixed)" />
+                                <img ng-show="!setTargetsModal.isFixed" width="18" height="18" ng-click="updateMachineFixed(selectedDepartment.disableFixed)" />
+                                <label for="fixeddep">{{"FIXED" | translate}}</label>
+                            </div>
+                        </div>
+                        <div ng-repeat="item in kpiData track by $index" class="form-group">
+                            <label ng-if="rtl" for="{{item.Name}}">{{item.LName}}</label>
+                            <label ng-if="!rtl" for="{{item.Name}}">{{item.EName}}</label>
+
+                            <input step="0.01" min="0.1" max="1" type="number" ng-disabled="disableInput(item)" class="form-control"
+                                id="{{item.Name}}" ng-model="item.value">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="pageSelected == 'machine'" style="width:521px">
+                <div>
+                    <div> <span>{{ "MACHINE_RANK_DEP_DESCRIPTION" | translate}}</span> </div>
+                    <div style="margin-top:15px">
+                        <ul>
+                            <li>{{"MACHINE_RANK_DEP_DESCRIPTION0" | translate}}</li>
+                            <li>{{"MACHINE_RANK_DEP_DESCRIPTION2" | translate}}</li>
+                            <li>{{"MACHINE_RANK_DEP_DESCRIPTION3" | translate}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" style="width: 260px;margin:0 auto;margin-top: 35px">
+                    <label for="machineSelect">{{"DEP" | translate}}</label>
+                    <select id="machineSelect" ng-change="updateDepMachines(selectedDepForMachine)" class="form-control ng-pristine ng-valid"
+                        ng-options="option as (option | customTranslate: 'DepartmentEname':'DepartmentLname':rtl) for option in departments"
+                        ng-model="selectedDepForMachine">
+                    </select>
+
+                </div>
+
+                <div class="machines-container" id="machines-container" ng-if="selectedDepForMachine">
+                    <div ng-init="setTargetsModal.chosenMachine = -1">
+                        <div ng-repeat="mach in depMachines track by $index">
+                            <div class="toggeler-machine" ng-click="setTargetsModal.chosenMachine = ( setTargetsModal.chosenMachine == $index ? null : $index)">
+                                <span class="long-name-elipsis" ng-if="!rtl">{{mach.MachineEName}}</span>
+                                <span class="long-name-elipsis" ng-if="rtl">{{mach.MachineLName}}</span>
+                                <span class="pull-right"><span ng-show="mach.IsFixedTarget">{{"FIXED" | translate}},
+                                    </span> {{"MACHINE_RANK" | translate}} {{mach.MachineRank}}
+                                    <i ng-show="setTargetsModal.chosenMachine == $index" class="fa fa-angle-down"></i>
+                                    <i ng-show="setTargetsModal.chosenMachine != $index" class="flipped-img fa fa-angle-right"></i>
+                                </span>
+                            </div>
+
+                            <div id="machine-{{$index}}" class="toggled-machine" ng-if="setTargetsModal.chosenMachine == $index"
+                                ng-init="getKPITarget(1,mach.MachineID)">
+                                <div>
+                                    <div class="form-group form-check">
+                                        <div>
+                                            <input ng-disabled="mach.disableFixed" id="fixedmach" type="checkbox" class="graph-option-li"
+                                                ng-model="setTargetsModal.isFixed">
+                                            <img ng-show="setTargetsModal.isFixed" src="images/dashboard/checkbox.svg"
+                                                ng-click="updateMachineFixed(mach.disableFixed)" />
+                                            <img ng-show="!setTargetsModal.isFixed" width="18" height="18" ng-click="updateMachineFixed(mach.disableFixed)" />
+                                            <label for="fixedmach">{{"FIXED" | translate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{item.Name}}"> {{"MACHINE_RANK" | translate}}</label>
+                                        <select class="pull-right form-control" ng-options="option for option in machineRankValues"
+                                            ng-model="setTargetsModal.machineRank">
+                                        </select>
+                                    </div>
+                                    <div ng-repeat="item in kpiData track by $index" class="form-group">
+                                        <label ng-if="rtl" for="{{item.Name}}">{{item.LName}}</label>
+                                        <label ng-if="!rtl" for="{{item.Name}}">{{item.EName}}</label>
+
+                                        <input min="0.1" step="0.01" max="1" type="number" ng-disabled="disableInput(item)"
+                                            class="pull-right form-control" id="{{item.Name}}" ng-model="item.value">
+                                    </div>
+                                    <div style="display: inline-block;width: 100%">
+                                        <button ng-disabled="disabled" type="submit" class="pull-right btn btn-primary">{{"SAVE"
+                                            | translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button ng-disabled="disabled" type="submit" class="btn btn-primary new-dep-header-buttons saveButton" ng-if="pageSelected !== 'machine'">{{"SAVE"
+            | translate}}</button>
+    </div>
+</form>

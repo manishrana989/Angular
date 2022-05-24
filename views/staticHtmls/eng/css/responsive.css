@@ -1,0 +1,33 @@
+
+
+@media(min-width:0px) and (max-width:767px){
+	.logo-section img{width:180px;}
+	.traceability span img{margin-top:22px;}
+	.setting-img {float: left;  margin: 10px 0;}
+	.i-2-img {margin-right: 60px;float: left;margin-left:0;}
+}
+
+@media(min-width:768px) and (max-width:991px){
+	.traceability h4 {font-size: 15px;}
+	.i-2-img {
+    margin-left: 0px;
+}
+.knowledge{width:190px;}
+}
+
+@media(min-width:992px) and (max-width:1199px){
+	.traceability h4 {font-size: 16px;}
+	.i-2-img {
+    margin-left: 0px;
+}
+}
+
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : portrait) { 
+.traceability h4{ word-break: break-all; font-size: 14px;}
+.traceability span img{margin-top: 19px;margin-right: -11px;}
+.knowledge-section h3{font-size:24px;}
+}

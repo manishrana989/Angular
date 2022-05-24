@@ -1,0 +1,31 @@
+<div class="activatejob activatejob_mdl">
+  <div class="modal-header modal_header">
+  
+    <h4 class="modal-title"><div ng-click="BackButton();">
+      <img src="images/arrowMatrials.svg"/>
+    </div>Job no. {{jobId}} ({{materialId}}) - Materials Verification</h4>
+    <button type="button" ng-click="close();" class="close" data-dismiss="modal"><span
+        aria-hidden="true">×</span><span class="sr-only">{{"CLOSE" | translate}}</span></button>
+  </div>  
+  <div class="modal-body">    
+    <react-materials></react-materials>
+  </div>
+  <div class="modal-footer modal_flex_bx">
+    <div>
+    <div ng-if="totalMaterials>0">
+      {{countMaterials}}/{{totalMaterials}} Materials verified
+    </div>
+    </div>
+    <div class="">
+      <button type="button" ng-click="activateJobWithoutVerification()" class="btn btn-sm btn-outline-primary">{{"ACTIVATE_JOB_WITHOUT_VERIFICATION" | translate}}
+      </button>
+      
+      <button type="button" ng-click="activateJob()" ng-disabled="!(VerifiedMaterials)" class="btn btn-sm btn-primary">{{
+        'ACTIVATE_JOB' | translate }}  {{jobId}} </button>
+    </div>
+   
+  </div>  
+  <div ng-if="ActivatejobInProgress" class="loader_gif_icon">
+    <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;">
+  </div>
+</div>

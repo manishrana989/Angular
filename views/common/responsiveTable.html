@@ -1,0 +1,12 @@
+<div class="responsive-table-directive" ng-style="{height: height || ''}" ng-if="!loading" dir="{{rtl}}" ui-grid="gridOpts" 
+    ui-grid-move-columns 
+    ui-grid-grouping 
+    ui-grid-resize-columns 
+    ui-grid-auto-fit-columns 
+    ui-grid-auto-resize 
+    ui-grid-exporter 
+    ui-grid-save-state 
+    ui-grid-pinning ></div> 
+<div class="responsive-table-directive" ng-if="loading" >
+    <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+</div>

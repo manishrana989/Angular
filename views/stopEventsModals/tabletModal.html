@@ -1,0 +1,308 @@
+<img ng-click="Close()" style="margin: 15px;cursor: pointer;" src="images/close.png" width="24" height="24" class="pull-right" />
+<div style="display: flex; align-items: center; margin: 35px;">
+  <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 tablet-left-side pull-left">
+    <select-machine-type
+      data="stopEventsCtrl.mainData"
+      save="stopEventsCtrl.copyData"
+      screen-view="'department'"
+      type="'stopEvents'"
+      update-machine-params="stopEventsCtrl.getEventReasonAndGroups"
+    >
+    </select-machine-type>
+  </div>
+
+  <div class="col-lg-9 col-md-12 col-sm-12 col-sx-12">
+    <!-- Tablet shape -->
+    <div class="tablet-outer-container" style="display: flex; align-items: center;">
+      <!-- Camera -->
+      <div class="cameraIcon" style="height: 0;"></div>
+      <div class="tabletScreen" style="height: 100%; width: 100%;">
+        <div class="tablet-inner-container-upper scroll">
+          <div style="height: 100%; display: flex; justify-content: space-around; align-items: center; padding-bottom: 30px;" ng-if="!dataLoaded">
+            <div style="text-align: center;">
+              <div style="font-size: 14px; color: #000;">
+                {{"SELECT_MACHINE_TYPE" | translate}}
+              </div>
+              <div>
+                <img
+                  style="opacity: 0; width: 45px; margin-bottom: 2px;"
+                  ng-style="fetching && {'opacity': '1'}"
+                  class="stnd dark-version"
+                  alt="Emerald Information Systems"
+                  src="images/loadingAnimation.gif"
+                />
+              </div>
+            </div>
+          </div>
+          <!--  Tablet Screen content-->
+          <!-- tablet content header -->
+          <!-- <div class="tablet-header" ng-if="dataLoaded">
+                <div style="display: flex;">
+                  <div check-box-directive field="showOnlyActiveGroups" select-value="'value'"></div>
+                  <strong style="cursor: pointer;" ng-click="showOnlyActiveGroups.value=!showOnlyActiveGroups.value">
+                    {{"SHOW_ONLY_ACTIVE_GROUPS" | translate}}
+                  </strong>
+                </div>
+                <div class="buttons-container">
+                  <div ng-click="addNewEmptyGroup()"><img src="images/add-circle-black.svg" />{{"ADD_GROUP" | translate}}</div>
+                  <div class="ng-binding" ng-click="openReorderModal()">
+                    <img
+                      src="images/refresh-copy-white.svg"
+                      style="background: var(--color2); border-radius: 100%; width: 19px;"
+                    />{{"REORDER" | translate}}
+                  </div>
+                </div>
+              </div> -->
+
+          <div class="row-flex newScroll bigg" style="height:100%">
+            <div
+              class="li-container"
+              ng-class="{'editMode' : group.editMode}"
+              ng-repeat="group in groups track by $index "
+              ng-hide="showOnlyActiveGroups.value && !group.IsActive"
+            >
+              <!-- translate icon and click img -->
+              <div class="translate">
+                <div ng-show="group.editMode" ng-click="openTranslationsModal(group)">
+                  <img src="images/translate.svg" />
+                  <span>{{"TRANSLATE" | translate}}</span>
+                </div>
+              </div>
+
+              <div class="li-title" style="position:relative; background-color:{{group.ColorID}}" ng-style="!group.IsActive && {'opacity': '0.3'}">
+                <div class="li-title-content">
+                  <!-- group Icon -->
+                  <div class="Rectangle" ng-if="!group.editMode">
+                    <img alt="" width="29" src="images/stopEvents/white/{{group.IconID}}" />
+                  </div>
+                  <!-- group icon selection -->
+                  <div
+                    class="reason-icon-selection"
+                    ng-if="group.editMode"
+                    ng-click="group.reOrderIconPicker = !group.reOrderIconPicker;group.reOrderColorPicker=false"
+                  >
+                    <div style="width: 30px; height: 30px; position: relative;">
+                      <img alt="" width="23" src="images/stopEvents/black/{{group.IconID}}" />
+                      <div ng-if="group.reOrderIconPicker" off-click-activator="group.reOrderIconPicker" off-click="group.reOrderIconPicker=false" class="re-order-icon-picker newScroll slim">
+                        <div ng-repeat="icon in stopEventsCtrl.icons track by $index" ng-click="group.IconID = icon;group.reOrderIconPicker = false">
+                          <img src="images/stopEvents/black/{{icon}}" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="caret"></span>
+                    </div>
+                  </div>
+
+                  <!-- Group name , can be editable -->
+                  <div class="input-container">
+                    <div ng-if="group.editMode" off-click-activator="group.commonDictionariesPopup" off-click="group.commonDictionariesPopup = false">
+                      <input class="form-control textContainer" ng-if="!isEng" ng-model="group.LName" />
+                      <input class="form-control textContainer" ng-if="isEng" ng-model="group.EName" />
+                      <label class="otherMachinesNote" ng-if="group.NumOfMachines > 1">
+                        <div style="position: relative;">
+                          <i
+                            title="{{'THIS_EVENT_IS_DEFINED_FOR_OTHER_MACHINES' | translate}}"
+                            ng-click="commonDictionariesPopup = !commonDictionariesPopup && stopEventsCtrl.getMachinesByDicId(group.DictionaryID, group)"
+                            class="fa fa-exclamation-circle"
+                            aria-hidden="true"
+                          ></i>
+
+                          <div ng-show="group.commonDictionariesPopup" class="common-dictionaries-popup newScroll slim">
+                            <div ng-show="!fetched">
+                              <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0;" class="shift-loading"></div>
+                            </div>
+                            <div ng-if="fetched" ng-repeat="machine in machinesWithThisDictionary">
+                              {{localLanguage ? machine.MachineLName : machine.MachineName}}
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div ng-if="!group.editMode">
+                      <div>{{isEng ? group.EName : group.LName}}</div>
+                    </div>
+                  </div>
+
+                  <!-- color picker -->
+                  <div ng-if="group.editMode" class="circle-icon-container" ng-click="group.reOrderColorPicker = !group.reOrderColorPicker">
+                    <div style="width: 13px;height:13px;background:{{group.ColorID}};position: relative;">
+                      <div
+                        ng-if="group.reOrderColorPicker"
+                        class="re-order-color-picker newScroll slim"
+                        off-click-activator="group.reOrderColorPicker" off-click="group.reOrderColorPicker=false"
+                      >
+                        <div
+                          ng-repeat="color in stopEventsCtrl.colors track by $index"
+                          style="background:{{color}};width: 15px;height: 15px;margin: 10px;"
+                          ng-click="group.ColorID = color;group.reOrderColorPicker=false"
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="caret"> </span>
+                    </div>
+                  </div>
+                  <!-- active/inactive toggle -->
+                  <div
+                    type="'toggle'"
+                    class="row-flex"
+                    check-box-directive
+                    ng-hide="!group.editMode"
+                    field="group"
+                    ng-custom-change="deleteGroup"
+                    select-value="'IsActive'"
+                  ></div>
+
+                  <!-- open/close edit mode -->
+                  <!-- <div class="close-container"> -->
+                  <!-- Edit Mode icon When Editmode is off -->
+                  <!-- <img class="Close" ng-click="openEditMode(group)" ng-if="!group.editMode" src="images/edit-white.svg" />
+                      </div> -->
+                </div>
+              </div>
+
+              <div class="li-content">
+                <div class="content-list newScroll slim">
+                  <div
+                    class="list-item"
+                    ng-init="showDropdown=false"
+                    ng-repeat="reason in group.Reasons track by $index"
+                    ng-style="!reason.IsActive && {'opacity': '0.3'}"
+                  >
+                    <!-- icon placeholder-->
+                    <div
+                      class="icon-wrapper"
+                      ng-if="!group.editMode"
+                      style="background: url(images/stopEvents/black/{{reason.IconID}}) no-repeat center center;"
+                    ></div>
+
+                    <!--icon selection -->
+                    <div
+                      ng-if="group.editMode"
+                      class="reason-icon-selection"
+                      ng-init="reason.reOrderIconPicker = false"
+                      ng-click="reason.reOrderIconPicker = !reason.reOrderIconPicker;group.reOrderColorPicker=false"
+                    >
+                      <div style="width: 30px; height: 30px; position: relative;">
+                        <img alt="" src="images/stopEvents/black/{{reason.IconID}}" width="23" />
+                      </div>
+
+                      <div>
+                        <span class="caret"> </span>
+                      </div>
+                    </div>
+
+                    <div class="re-order-icon-picker newScroll slim" off-click-activator="reason.reOrderIconPicker" off-click="reason.reOrderIconPicker=false" ng-if="reason.reOrderIconPicker">
+                      <div ng-click="reason.IconID = icon;reason.reOrderIconPicker = false" ng-repeat="icon in stopEventsCtrl.icons track by $index">
+                        <img src="images/stopEvents/black/{{icon}}" />
+                      </div>
+                    </div>
+                    <div ng-if="group.editMode" style="max-width: 160px;">
+                      <input class="form-control textContainer" ng-if="!isEng" ng-model="reason.LName" />
+                      <input class="form-control textContainer" ng-if="isEng" ng-model="reason.EName" />
+                      <label class="otherMachinesNote" ng-if="reason.NumOfMachines > 1 || reason.showAlert">
+                        <div style="position: relative;" off-click-activator="reason.commonDictionariesPopup" off-click="reason.commonDictionariesPopup = false">
+                          <i
+                            title="{{'THIS_EVENT_IS_DEFINED_FOR_OTHER_MACHINES' | translate}}"
+                            ng-click="stopEventsCtrl.getMachinesByDicId(reason.DictionaryID, reason)"
+                            class="fa fa-exclamation-circle"
+                            aria-hidden="true"
+                          >
+                          </i>
+
+                          <div ng-show="reason.commonDictionariesPopup" class="common-dictionaries-popup newScroll slim">
+                            <div ng-show="!fetched">
+                              <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0;" class="shift-loading"></div>
+                            </div>
+
+                            <div ng-if="fetched" ng-repeat="machine in machinesWithThisDictionary">
+                              {{localLanguage ? machine.MachineLName : machine.MachineName}}
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div class="text" ng-if="!group.editMode">
+                      <div style="text-overflow: ellipsis; overflow: hidden;">
+                        {{ isEng ? reason.EName : reason.LName}}
+                      </div>
+                    </div>
+
+                    <!--Edit Mode Circle icon-->
+                    <!-- <div class="circle-icon-container" ng-click="reason.menuOpened=!reason.menuOpened">
+                          <div class="circle-icon" ng-if="reason.EventDefinitionID == 2" style="background: #cecece;"></div>
+                          <div class="circle-icon" ng-if="reason.EventDefinitionID == 1" style="background: #c01b29;"></div>
+                          <div class="circle-icon" ng-if="reason.EventDefinitionID == 0" style="background: #f5a623;"></div>
+                          <span class="caret"></span>
+                          <div class="circle-icon-dropdown" ng-if="reason.menuOpened">
+                            <div class="dropdown-item" ng-click="handleMenuCB(reason, 2);reason.menuOpened=false">
+                              <div class="circle-icon" style="background: #a6a8ab;"></div>
+                              <div class="description">{{"IDEAL_TIME" | translate}}</div>
+                            </div>
+                            <div class="dropdown-item" ng-click="handleMenuCB(reason, 1)">
+                              <div class="circle-icon" style="background: #bf1620;"></div>
+                              <div class="description">{{"DOWN_TIME" | translate}}</div>
+                            </div>
+                            <div class="dropdown-item" ng-click="handleMenuCB(reason, 0)">
+                              <div class="circle-icon" style="background: #90ee90;"></div>
+                              <div class="description">{{"STOP_EVENTS_NONE" | translate}}</div>
+                            </div>
+                          </div>
+                        </div> -->
+
+                    <!--Regular Mode Circle icon-->
+                    <div ng-if="!group.editMode" style="display: flex; align-items: center;">
+                      <div class="circle-icon" ng-if="reason.EventDefinitionID == 0" style="background: #f5a623;"></div>
+                      <div class="circle-icon" ng-if="reason.EventDefinitionID == 1" style="background: #c01b29;"></div>
+                      <div class="circle-icon" ng-if="reason.EventDefinitionID == 2" style="background: #cecece;"></div>
+                    </div>
+
+                    <!-- active/inactive toggle -->
+                    <div
+                      class="row-flex"
+                      type="'toggle'"
+                      ng-hide="!group.editMode"
+                      check-box-directive
+                      field="reason"
+                      ng-custom-change="deleteReasonFromGroup"
+                      first-param-for-custom-change="group"
+                      select-value="'IsActive'"
+                    ></div>
+                  </div>
+
+                  <div class="li-save">
+                    <div ng-click="addReasonToGroup(group)" ng-show="group.editMode" style="text-align: center; cursor: pointer;">
+                      <span class="content"> <img src="images/add-circle.svg" />{{"ADD_REASON" | translate}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="li-save">
+                <div class="cancel-button" ng-click="closeEditMode(group)" ng-show="group.editMode">
+                  <span class="content"> {{"CANCEL" | translate}}</span>
+                </div>
+
+                <div class="saveButton" ng-click="doneSaving && saveAndCloseEditMode(group)" ng-show="group.editMode">
+                  <span class="content"> {{"SAVE" | translate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tablet buttons -->
+        <div class="tablet-inner-container-bottom tablet-button">
+          <span class="triangle"> &#9665;</span>
+          <span class="circle"></span>
+          <span class="square"></span>
+        </div>
+      </div>
+    </div>
+    <!-- End of Tablet -->
+  </div>
+</div>

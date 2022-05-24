@@ -1,0 +1,28 @@
+<shift-container graph="graph" containers="containers">
+  <header-title>
+    <div class="btn-group" ng-init="graph.options.settings.parameter">
+      <button type="button" class="btn dropdown-toggle shift-drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="param-name">{{graph.options.settings.parameters[graph.options.settings.parameter].value}}</div>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu newScroll slim" style="max-height: 20.313vw; overflow: auto; z-index: 10000">
+        <li ng-repeat="i in graph.options.settings.parameters | sortString">
+          <a style="width: calc(100% - 0.417vw)" ng-click="graph.options.settings.parameter=i.index"> {{i.value}} </a>
+        </li>
+      </ul>
+    </div>
+  </header-title>
+  <graph>
+    <div class="insight-graph-template">
+      <insights-dashboard-directive
+        page="'dashboardMachine'"
+        is-shift="true"
+        auto-refresh="true"
+        insight="graph.options.settings.insight"
+        parameter-obj="graph.options.settings.parameters[graph.options.settings.parameter]"
+        for-graph="true"
+      >
+      </insights-dashboard-directive>
+    </div>
+  </graph>
+</shift-container>

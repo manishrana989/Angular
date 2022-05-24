@@ -1,0 +1,10 @@
+<div class="modal-header" ng-class="{rtl : pendingJobsInstanceCtrl.rtl}">
+    <button type="button" ng-click="pendingJobsInstanceCtrl.close();" class="close pull-right" data-dismiss="modal"><span
+            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title pull-left Assembly-8-Pending-Jobs" >{{"PENDING_JOBS" | translate}}{{machineName ? " - " + machineName : ''}}</h3>
+</div>
+<div class="modal-body" ng-class="{rtl : pendingJobsInstanceCtrl.rtl}">
+    <!-- <search-results content="searchResultsRequest"  modal="true"></search-results> -->
+    <react-pending-jobs-table content="searchResultsRequest"></react-pending-jobs-table>
+
+</div>

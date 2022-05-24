@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="js/components/jobSettingsAction/jobSettingsAction.css">
+<div class="jobSettingsActionContainer">
+    <div class="header">
+        <div class="job-name">{{jobData.ErpJobID}} ({{jobData.ID}})</div>
+        <div class="close-icon" ng-click="close()"> <img src="images/gantt/grey-600.svg"></div>
+    </div>
+    <div class="body">
+        <div>
+            <label>{{"JOB_DEFINITION" | translate}}</label>
+            <div select-custom 
+                field="jobSettingsActionCtrl.data" 
+                select-value="'erpJobDefID'" 
+                options="jobSettingsActionCtrl.jobDefintions" text= "(jobSettingsActionCtrl.localLanguage ? 'LName' : 'EName')" 
+                value="'ID'"></div>
+        </div>
+        <div>
+            <label>{{"SETUP_TYPE" | translate}}</label>
+            <div select-custom 
+                field="jobSettingsActionCtrl.data" 
+                select-value="'setupType'" 
+                options="jobSettingsActionCtrl.setupTypes" text= "'SetupTypeName'" 
+                value="'ID'"></div>
+        </div>
+        <div class="setup-duration">
+            <label>{{"SETUP_DURATION" | translate}}</label>
+            <div >
+                <input ng-model="jobSettingsActionCtrl.data.setupDuration" type="number"/>
+                {{"MINUTES" | translate}}
+            </div>
+        </div>
+        <div class="dates-container">
+            <div>
+                <label>{{"CLOSING_DATE" | translate}}</label>
+                <div >
+                    <input ng-model="jobSettingsActionCtrl.data.closingDate" type="datetime" class="form-control" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true"/>
+                </div>
+            </div>
+            <div>
+                <label>{{"END_TIME_REQUEST" | translate}}</label>
+                <div >
+                    <input ng-model="jobSettingsActionCtrl.data.endTimeRequest" type="datetime" class="form-control" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true"/>
+                </div>
+            </div>
+        </div>
+        <div class="dates-container">
+            <div>
+                <label>{{"FIXED_START_TIME_TARGET" | translate}}</label>
+                <div >
+                    <input ng-model="jobSettingsActionCtrl.data.fixedStartTimeTarget" type="datetime" class="form-control" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true"/>
+                </div>
+            </div>
+            <div>
+                <label>{{"PLANNING_DATE_OF_APPROVAL" | translate}}</label>
+                <div >
+                    <input ng-model="jobSettingsActionCtrl.data.planningApprovedDate" type="datetime" class="form-control" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true"/>
+                </div>
+            </div>
+        </div>
+        <div class="unit-target">
+            <label>{{"UNITS_TARGET" | translate}}</label>
+            <div >
+                <input ng-model="jobSettingsActionCtrl.data.unitsTarget" type="number"/>
+                {{"UNITS" | translate}}
+            </div>
+        </div>
+        <div ng-click="jobSettingsActionCtrl.saveSettings()" class="save-button">
+            {{"SAVE" | translate}}
+        </div>
+    </div>
+</div>
+

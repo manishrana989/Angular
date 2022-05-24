@@ -1,0 +1,79 @@
+<div ng-if="allMachinesOnlineCtrl.dataLoading" ng-include="'views/common/emptyPage.html'" class="shift-loading"></div>
+
+<div class="col-lg-12" ng-if="!allMachinesOnlineCtrl.dataLoading">
+    <all-goals-directive last-update="lastUpdate"
+                         machines-lines-map="machinesLinesMap"
+                         update="updateData"
+                         show-pencils="machineOnlineSettings.HasPermission && machineOnlineSettings.showPencils"
+                         all-departments="data"
+                         type="type"
+                         pie-size-class="pieSizeClass"
+                         all-machines-full-screen="content.allMachinesFullScreen"                        
+                         machine-data="machineData" pe-data="peData"></all-goals-directive>
+    <div class="graphs-container">
+        <div ng-if="machineData.isPie" class="allMachines donuts-container">
+            <div class="row" style="margin: 0 -30px">
+                <div class="pull-left col-lg-4 col-md-6 col-sm-12" style="padding: 15px"
+                     ng-repeat="dep in data track by $index"
+                >
+                    <div all-machines-donut-directive
+                         dep="dep"
+                         longest="longest"
+                         show-pencils="machineOnlineSettings.HasPermission && machineOnlineSettings.showPencils"
+                         type="type"
+                         showgoals="machineData.showGoals"
+                         total-params="allMachinesOnlineCtrl.totalParams">
+                    </div>
+                </div> <!--ng-repeat -->
+            </div>
+
+        </div> <!--donuts-container -->
+        <div ng-if="!machineData.isPie" class="allMachines bars-container">
+
+            <div class="row">
+
+                <div ng-if="!machineOnlineSettings.departmentView" class="col-lg-12" style="padding: 0;">
+                    <current-shift-performance style="height: 6.250vw" ng-init=""
+                                               ng-if="type=='ShiftProgress' && machineOnlineSettings.aggregateProgressBar"
+                                               type="'all'"
+                                               type-page="'ShiftProgress'"
+                                               content="data">
+                    </current-shift-performance>
+
+                    <all-machines-bar-directive style="padding-top: 15px" data="data"
+                                                machines-lines-map="machinesLinesMap"
+                                                has-filtering="hasFiltering"
+                                                sort-data="machineData.sort"
+                                                show-pencils="machineOnlineSettings.HasPermission && machineOnlineSettings.showPencils"
+                                                pie-size-class="pieSizeClass.value" type="type"
+                                                all-machines-full-screen="content.allMachinesFullScreen"
+                                                is-default-structure="isDefaultStructure"
+                                                expand="machineData.expandAll">
+                    </all-machines-bar-directive>
+                </div>
+
+                <div ng-if="machineOnlineSettings.departmentView" class="col-lg-12" style="padding: 0"
+                 ng-repeat="dep in data track by $index">
+                    <current-shift-performance style="height: 6.250vw"
+                                               ng-if="type=='ShiftProgress' && machineOnlineSettings.departmentView && machineOnlineSettings.aggregateProgressBar"
+                                               type="'dep'"
+                                               page-type="'ShiftProgress'"
+                                               content="dep">
+                    </current-shift-performance>
+
+                    <all-machines-bar-directive machines-lines-map="machinesLinesMap"
+                                                data="[dep]"
+                                                sort-data="machineData.sort"
+                                                show-pencils="machineOnlineSettings.HasPermission && machineOnlineSettings.showPencils"
+                                                pie-size-class="pieSizeClass.value"
+                                                type="type"
+                                                all-machines-full-screen="content.allMachinesFullScreen" 
+                                                is-default-structure="isDefaultStructure"
+                                                expand="machineData.expandAll">
+                    </all-machines-bar-directive>
+                </div> <!--ng-repeat -->
+            </div>
+        </div> <!--donuts-container -->
+    </div> <!--graphs-container -->
+</div>
+

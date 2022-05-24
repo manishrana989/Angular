@@ -1,0 +1,23 @@
+<div class="col-lg-3" tooltip="{{split.ToolTip}}">
+    <h9 ng-class="{'requiredFiled' : split.AllowNull == false}">{{localLanguage ? split.PropertyHName : split.PropertyEName}}</h9>
+    <i class="fa fa-calculator mainColor2"
+       ng-show="split.FValueCalcFunction.length"
+       style="margin-left: 5px;"
+       tooltip="{{'CALCULATED_ITEM' | translate}}"
+       tooltip-placement="right">
+    </i>
+</div>
+<div class="col-lg-3">
+    <div class="input-group">
+        <input id="{{split.PropertyName}}_{{channelSplit.SplitNumber}}_{{channel.ChannelNumber}}" type="number" class="form-control" ng-model="split.FValue" ng-required="required"
+               ng-disabled="showViewOnly === true || split.IsEditable == false || split.IsEnabled == false" ng-if="split.RecipeFValue"
+               ng-change="recipeChange(split.FValue,split.LValue,split.HValue,split.ProductRecipeID)"
+               ng-init="split.MandatoryField && recipeChange(split.FValue,split.LValue,split.HValue,split.ProductRecipeID)">
+    <span class="input-group-btn"><button ng-disabled="showViewOnly === true" type="button" class="btn btn-primary"
+                                          ng-click="AddNewItem(split.PropertyName , split.SearchLinkReportID ,split)"><i
+            class="fa fa-search"></i></button></span>
+    </div>
+</div>
+<div class="col-lg-6">
+    <h9>{{split.Name}}</h9>
+</div>

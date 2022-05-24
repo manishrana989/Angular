@@ -1,0 +1,73 @@
+<div class="add-qc-tests" style="padding-left: 30px; padding-right: 30px">
+  <div style="padding: 10px 0 30px 0">
+    <div id="toastr"></div>
+    <!-- Back Button -->
+    <div style="display: flex; justify-content: space-between; align-items: center">
+     <div style="display: flex;">
+      <div style="cursor: pointer; display: inline-block;margin: 0 12px 0 0;" ng-click="assignCurrentStep('qc-tests', currentTest)">
+        <img src="images/back.png" />
+        <span style="font-size: 16px; position: relative; margin: 0 0 0 15px; top: 1px">{{"BACK" | translate}}</span>
+      </div>
+      <div class="draft_copy_box ml_10">
+        <div ng-if="currentTest.isdraftmode=='Draft Mode'" style="justify-content: space-between;">
+          <button type="button" class="draft_btn" style="cursor: default;" >
+            <img src="images/Draft.svg" />
+            {{"DRAFT_TEXT" | translate}}
+          </button>           
+        </div>
+      </div>
+     </div> 
+      
+       
+      
+      <div class="release_select_btn">
+        <button style="cursor: pointer" class="btn btn-primary release_btn" ng-if="currentTest!=0 && currentTest.isdraftmode=='Draft Mode'" ng-click="releaseTest(currentTest)" data-toggle="popover" title="" data-placement="bottom" data-trigger="hover" data-content="{{'RELEASE_TEST_HOVER' | translate}}"><img src="images/release_icon.png" >{{"RELEASE_TEST" | translate}} </button>
+        <span ng-if="selectGroup.ID == 1 || currentTest.testtypeid == 1">
+          <button style="cursor: pointer" class="pull-right btn btn-primary" ng-click="addQcTestsCtrl.openSelectMachines()">{{"SELECT_MACHINES" | translate}}</button>
+      </span>
+      </div>
+      
+    </div>
+  </div>
+  <div ng-if="fetching">
+    <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0" class="shift-loading"></div>
+  </div>
+  <div ng-if="!fetching" class="step-one-container">
+      <div  ng-include="'views/common/form.html'"></div>
+
+    <!-- <form name="leaderForm" ng-submit="saveForm()" role="form" style="height: 100%">
+      <div
+        class="col-sm-12"
+        ng-if="group.recordValue.length > 0"
+        ng-init="group.shownFieds == 0"
+        ng-repeat="group in groups"
+        style="border-style: solid solid solid;border-width: 1px;border-color: #e7eaec;margin-bottom: 15px;box-shadow: 5px 5px 2px #888888;">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title" style="border-width: 0 0 0 !important; padding: 0; min-height: 20px">
+            <h4 class="pull-left" style="font-weight: bold">
+              {{localLanguage === true ? group.Value.GroupLName : group.Value.GroupEName}}
+            </h4>
+            <div ibox-tools group-data="group"></div>
+          </div>
+          <div class="ibox-content groupContainer" style="padding-bottom: 20px">
+            <div
+              class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left"
+              ng-repeat="field in group.recordValue"
+              style="height: 100%"
+            >
+              <input-directive content="field" formobject="leaderForm" show-collapse="true"></input-directive>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="buttons-container">
+        <div>         
+          <button class="pull-right btn btn-primary" ng-click="next()" type="submit" >{{"NEXT" | translate}}</button>
+        </div>
+        <div>
+          <button class="pull-right btn btn-primary" ng-click="SaveChanges()" type="submit"  style="margin-right: 9px;"> {{"SAVE_CHANGES" | translate}}</button>
+        </div>
+      </div>
+    </form> -->
+  </div>
+</div>

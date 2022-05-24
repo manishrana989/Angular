@@ -1,0 +1,12 @@
+<div class="donuts-duration" 
+ng-if="latestEventDuration >= 0">{{ latestEventDuration | minutesToHHMM}}</div>
+<svg viewBox="0 0 120 90" ng-style="{width:120*scale, height:90*scale}" preserveAspectRatio="xMidYMid meet">
+    <g class="ref-cur-pie">
+        <g class="cur-pie"></g>
+        <g ng-show="options.settings.compare" class="ref-pie"></g>
+    </g>
+</svg>
+<div class="tooltip">
+    <div class="tooltip-event-name"></div>
+    <div class="tooltip-event-duration"></div>
+</div>

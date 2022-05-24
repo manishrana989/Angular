@@ -1,0 +1,79 @@
+<div class="gridTableContainer">
+  <div class="gridTableHeader">
+    <div></div>
+    <div></div>
+    <div class="gridTableUnit">
+      <label title="{{'ID' | translate}}">{{"ID" | translate}}</label> <span class="navigation-caret"></span>
+      <div ng-if="showSearchRow">
+        <input class="gridTableUnitTextBox" type="text" name="fname" ng-model="searchObject.ID" ng-change="search()" />
+      </div>
+    </div>
+    <div class="gridTableUnit">
+      <label title="{{'NAME' | translate}}">{{"NAME" | translate}}</label>
+      <div ng-if="showSearchRow">
+        <input class="gridTableUnitTextBox" type="text" name="fname" ng-model="searchObject.NAME" ng-change="search()" />
+      </div>
+    </div>
+
+    <div class="gridTableUnit">
+      <label title="{{'TYPE' | translate}}">{{"TYPE" | translate}}</label>
+      <div ng-if="showSearchRow"></div>
+    </div>
+    <div class="gridTableUnit">
+      <label title="{{'COLOR' | translate}}">{{"COLOR" | translate}}</label>
+      <div ng-if="showSearchRow"></div>
+    </div>
+
+    <div class="gridTableUnit">
+      <label title="{{'ICON' | translate}}">{{"ICON" | translate}}</label>
+    </div>
+
+    <div class="gridTableUnit">
+      <label title="{{'MACHINES' | translate}}">{{"MACHINES" | translate}}</label>
+      <div ng-if="showSearchRow"></div>
+    </div>
+
+    <div class="gridTableUnit">
+      <label title="{{'TRANSLATIONS' | translate}}">{{"TRANSLATIONS" | translate}}</label>
+      <div ng-if="showSearchRow"></div>
+    </div>
+    <div class="gridTableUnit">
+      <label title="{{'ERPID ' | translate}}">{{"ERPID " | translate}}</label>
+      <div ng-if="showSearchRow"></div>
+    </div>
+    <div class="gridTableUnit">
+      <label title="{{'IS_ACTIVE' | translate}}">{{"IS_ACTIVE" | translate}}</label>
+      <div>
+        <select
+          ng-if="showSearchRow"
+          ng-model="searchObject.IsActive"
+          ng-change="searchBoolean()"
+          ng-options="item for item in ['','true','false']"
+        ></select>
+      </div>
+    </div>
+    <div class="gridTableUnit">
+      <label title="{{'DISPLAY_ON_OPAPP' | translate}}">{{"DISPLAY_ON_OPAPP" | translate}}</label>
+      <div ng-if="showSearchRow">
+        <select ng-model="searchObject.DisplayInOpApp" ng-change="searchBoolean()" ng-options="item for item in ['','true','false']"></select>
+      </div>
+    </div>
+    <div class="gridTableUnit" >
+      <label title="{{'SYSTEM' | translate }}">{{"SYSTEM" | translate }}</label>
+      <div ng-if="showSearchRow">
+        <select ng-model="searchObject.IsSystem" ng-change="searchBoolean()" ng-options="item for item in ['','true','false']"></select>
+      </div>
+    </div>
+    <div class="gridTableUnit" >
+      <label title="{{'TARGET' | translate}} (%)">{{"TARGET" | translate}} (%)</label>
+      <div ng-if="showSearchRow"></div>
+    </div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="gridTableBody newScroll slim" ui-sortable="sortOptions" ng-model="filteredData" ng-change="selectedMachine()">
+    <div ng-repeat="item in filteredData">
+      <events-table-groups-directive group-data="item" all-departments="allDepartments"></events-table-groups-directive>
+    </div>
+  </div>
+</div>

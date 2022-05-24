@@ -1,0 +1,27 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <div style="font-size: 15px;" ng-if="shiftData.customRangeEnabled">
+            <div><strong>From: </strong><span>{{shiftData.customRange.startDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>&nbsp;-&nbsp;<strong>To: </strong><span>{{shiftData.customRange.endDate | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
+        </div>
+        <div ng-if="!shiftData.customRangeEnabled" class="Shift-Name">{{(shiftData.data.CurrentShift ? shiftData.data.CurrentShift[0].Name : "")}}<span style="margin:0 0 0 1.302vw">|</span>
+        <span class="shift-hours" class="Shift-Name">{{'MACHINES' | translate}}:{{numberOfMachines.value}}</span><span style="margin:0 0 0 1.302vw">|</span>
+        <span ng-if="(shiftData.selectedTab == 4 || shiftData.selectedTab == 5 ) && !shiftData.customRangeEnabled" class="shift-hours" class="Shift-Name" ng-show="shiftData.dataTimePeriod != 1">{{'ELAPSED_SHIFT_TIME' | translate}}:{{shiftPeriod.diff | minutesToHHMM}}</span>
+    </div>
+    </header-title>
+    <graph>
+        <shift-time-graph-directive options="containerOptions" graph="graph"></shift-time-graph-directive>
+    </graph>
+    <setting>
+        <div class="dropdown-settings-body" ng-if="containerOptions.selectedGraph === 'pie'">
+            <div class="settings-title">
+                {{"SHIFT_SETTINGS" | translate}}
+            </div>
+            <div class="setting-pies-size-selector" ng-init="scaleSave=containerOptions.settings.scale" style="flex-direction: unset;">
+                <div ng-repeat="pie in piesArray" class="pies-selection-arr">
+                    <img ng-style="{'width':pie.size, 'height':pie.size,'vertical-align': 'bottom'}" id="{{pie.name}}" ng-click="saveSelection($event);changeSize(containerOptions.settings);" data-ng-src="{{pie.src}}"/>
+                    <div style="vertical-align: bottom;">{{pie.name}}</div>
+                </div>
+            </div>
+        </div>
+    </setting>
+</shift-container>

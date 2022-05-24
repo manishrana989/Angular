@@ -1,0 +1,61 @@
+<div class="row border-bottom topNavBar">
+    <nav class="navbar navbar-fixed-top fixed" role="navigation" style="margin-bottom: 0;z-index: 8000;height: 40px">
+        <div class="navbar-header">
+            <span minimaliza-sidebar></span>
+        </div>
+        <ul class="nav navbar-top-links {{navBarLogOut}}">
+            <li title="{{'KNOWLEDGE_BASE' | translate}}">
+                <a href="{{knowledgeBaseUrl}}" class="KnowledgeContainer" target="_blank"
+                    style="background-color: var(--color1)">
+                    <!-- <div> -->
+                    <!-- <img class="knowledgeBaseImg" src="images/knowledgebase.png"> -->
+                    <img style="object-fit: contain;" src="images/knowledge-icon.svg">
+                    <span class="Knowledge">{{"KNOWLEDGE_BASE" | translate}}</span>
+                    <!-- </div> -->
+
+                </a>
+            </li>
+
+            <li title="{{'OPEN_SETTINGS' | translate}}">
+                <div class="exportMenuButtonContainer" off-click-activator="main.showGear" off-click="main.showGear = false">
+                    <div ng-click="main.openSetting(main.settingsData[0].url)">
+                        <img src="images/notification.svg" class="notifications">
+                    </div>
+                    <!-- <ul class="gearNavMenu" ng-show="main.showGear">
+                        <li ng-click="main.openSetting(setting.url); main.showGear = false" ng-repeat="setting in main.settingsData">{{setting.name | translate}}</li>
+                    </ul> -->
+                </div>
+            </li>
+
+            <li title="{{'HOME_PAGE' | translate}}">
+                <div class="exportMenuButtonContainer">
+                    <div ng-click="main.setHomePage()">
+                        <img ng-show="main.currentHomePage !== main.userAuth.HomePage" src="images/home.svg" class="notifications">
+                        <img ng-show="main.currentHomePage == main.userAuth.HomePage" src="images/home-selected.svg"
+                            class="notifications">
+                    </div>
+                </div>
+            </li>
+            <li title="{{ 'TASKS'| translate}}">
+                <div class="exportMenuButtonContainer" off-click-activator="main.showGear" off-click="main.showGear = false" style="cursor: pointer;">
+                    <div ng-click="CollapseTasksBar()" id="react-collapse">
+                        <!-- <img src="images/task.svg" class="notifications"> -->
+                        <span ng-show="openTasks.length > 0" class="numberOfMyOpenTasks">{{openTasks.length}}</span>
+                        <img src="images/task2.svg" style="height: 100%; width: 100%;object-fit: contain;">
+                    </div>
+                </div>
+            </li>
+            <li title="{{'LOGOUT' | translate}}">
+                <a ui-sref="login">
+                    <!-- <i class="fa fa-sign-out {{showLocalLanguage===true?'rotateRightExit':''}}"></i> {{ 'LOGOUT' | translate }} -->
+                    <img style="    height: 100%;
+                    width: 100%;
+                    object-fit: contain;" src="images/sign-out.svg">
+                </a>
+            </li>
+        </ul>
+        <!-- <div class="alerts-absolute-window" ng-show="main.showAlerts">
+           <alerts-directive main="main"></alerts-directive>
+        </div> -->
+    </nav>
+</div>

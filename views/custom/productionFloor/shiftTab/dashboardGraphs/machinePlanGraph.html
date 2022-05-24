@@ -1,0 +1,32 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <span class="head_txt">
+            {{"AVAILABILITY_PLANNED_VS_ACTUAL" | translate}}
+        </span>
+    </header-title>
+    <graph>
+        <machine-plans-directive options="containerOptions" graph="graph"></machine-plans-directive>
+    </graph>
+    <setting>
+<!--         
+        <div  ng-init="graph.options.settings.filterM = graph.options.settings.filterM || {'selectAll': true}">
+                <label style="font-size: 0.8em;padding-left: 20px;">{{"DISPLAY_MACHINES" | translate}}</label>
+                <div class="col-sm-12" style="padding: 5px" ng-click="graph.options.settings.filterM['selectAll'] = !graph.options.settings.filterM['selectAll'];updateSelectAll(graph.options.settings.filterM['selectAll'],machinesToDisplay);$event.stopPropagation()">
+                        <input id="event_reason_all_{{$id}}" type="checkbox" value="true" class="graph-option-li" ng-model="graph.options.settings.filterM['selectAll']" ng-click="graph.options.settings.filterM['selectAll'] = !graph.options.settings.filterM['selectAll']">
+                        <img ng-if="graph.options.settings.filterM['selectAll']" src='images/dashboard/checkbox.svg' />
+                        <img ng-if="!graph.options.settings.filterM['selectAll']" width="18" height='18'/>
+                        <label for="event_reason_all_{{$id}}"  style="padding-left: 10px;font-size: 13px;">{{"UN_SELECT_ALL" |translate}}</label>
+                </div>
+                <div class="options-drop-down active row " style="padding: 3px 10px; margin: 0;">
+                    <div ng-if="machinesToDisplay[machine.machineID] !== undefined"  class="col-lg-6 pull-left newScroll slim" 
+                    ng-repeat="machine in shiftData.Machines" ng-click="updateMachineDataDisplay($event, machine.machineID);$event.stopPropagation()">
+                        <input id="machine_{{$index}}" type="checkbox" class="graph-option-li" ng-model="machinesToDisplay[machine.machineID]; ">
+                        <img ng-if="machinesToDisplay[machine.machineID]" src="images/dashboard/checkbox.svg" />
+                        <img ng-if="!machinesToDisplay[machine.machineID]"  width="18" height="18" />
+                        <span for="machine_{{$index}}" style="padding-left: 3px;cursor: pointer">{{machine.machineName}}</span>
+                    </div>
+                </div>
+        </div> -->
+        <display-type-insight-directive graph="graph" show-options="showOptions"></display-type-insight-directive>
+    </setting>
+</shift-container>

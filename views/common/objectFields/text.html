@@ -1,0 +1,37 @@
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="!inputValue.search">
+    <label style="margin-bottom: 0px;" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    <input placeholder="{{inputValue.content.Hint}}" ng-init="inputValue.initField(inputValue.value,'text')" style="width: 100%" type="text" class="form-control" ng-model="inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.value,'Eq','text')"  ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+    <!-- <react-input-generic-text 
+        placeholder="inputValue.content.Hint"
+        content="inputValue.content" 
+        textvalue="inputValue.value" 
+        onupdate="inputValue.updateValue" 
+        oninit="inputValue.initField" 
+        required="inputValue.required"
+        disabled="inputValue.disabled"
+        type="'text'"
+        title="inputValue.contentDisplayName"></react-input-generic-text> -->
+        
+</div>
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="inputValue.search == true">
+    <div class="col-lg-1 pull-left">
+        <label ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    </div>
+    <div class="col-lg-11">
+        <div class="col-lg-3">
+            <input placeholder="{{inputValue.content.Hint}}" style="width: 100%" type="text" class="form-control" ng-model="inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.value,'Eq','text')"  ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+            <!-- <react-input-generic-text 
+            placeholder="inputValue.content.Hint"
+            content="inputValue.content" 
+            textvalue="inputValue.value" 
+            onupdate="inputValue.updateValue" 
+            oninit="inputValue.initField" 
+            required="inputValue.required"
+            type="'text'"
+            disabled="inputValue.disabled"></react-input-generic-text> -->
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-3">
+        </div>
+    </div>
+</div>

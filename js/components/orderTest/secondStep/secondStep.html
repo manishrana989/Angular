@@ -1,0 +1,283 @@
+<div ng-if="!dataLoaded">
+  <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0" class="shift-loading"></div>
+</div>
+<div class="pos_relative">
+  <form ng-submit="save()" ng-if="dataLoaded" class="printForm" >
+    <div class="qc-test-popup pb_0" ng-style="!stepTwo && {'background':'white'}" >
+      <div class="header-titles "  style="margin-top: 0; display: flex; align-items: center; flex-direction: row">
+        <div class="title-description">{{secondStepCtrl.testName}} - {{secondStepCtrl.testID}}</div>
+        <div ng-hide="hideFailedPassed">
+          <div class="passed" ng-show="secondStepCtrl.passed">
+            <img style="margin: 0 10px" style="margin-bottom: 10px" src="images/passed.svg" />
+            <span>{{"PASSED" | translate}}</span>
+          </div>
+  
+          <div class="passed failed" ng-show="!secondStepCtrl.passed">
+            <img style="margin: 0 10px" style="margin-bottom: 10px" src="images/close-white.svg" />
+            <span>{{"FAILED" | translate}}</span>
+          </div>
+        </div>
+        <div class="margin-auto-flex pointer">
+          <div ng-if="orderNewTest" ng-click="orderNewTestFun()" class="pull-right btn btn-primary " style="margin-left: 24px;" >{{"ORDER_ANOTHER_TEST"| translate}}</div>
+          <div ng-if="orderNewTest" ng-click="orderDifferentTestFun()" class="pull-right btn btn-primary " style="margin-left: 24px;" >{{"ORDER_DIFFERENT_TEST"| translate}}</div>
+        </div>
+        <div >
+          <img class="shift-tools-icon" title="{{'PRINT' | translate}}" src="images/dashboard/share.svg" ng-click="GAupdate('print');printToCart('.printForm')" alt="share" />
+        </div>
+      </div>
+  
+      <!-- *************************** GENERAL DETAILS SECTION *************************** -->
+      <div class="fields-container">
+        <div class="left-side row">
+          <div class="row-flex col-lg-6" ng-repeat="detail in testDetails track by $index" ng-if="detail.DisplayTypeName !== 'Hidden'">
+            <div class="field-title" ng-style="!detail.AllowNull && {'color':'blue'}">{{localLanguage ? detail.DisplayHName : detail.DisplayEName}}</div>
+            <div ng-if="detail.Name !== 'TestStatus' && detail.DisplayType !== 2">
+              <input ng-if="detail.DisplayTypeName != 'Date' && detail.DisplayTypeName != 'Number' && detail.DisplayTypeName != 'Boolean'" ng-required="!detail.AllowNull" ng-model="detail.CurrentValue" class="form-control" ng-disabled="!detail.AllowEntry || secondStepCtrl.notAllowedTestsEdit" />            
+              <div ng-if="detail.DisplayTypeName != 'Date' && detail.DisplayTypeName != 'Number' && detail.DisplayTypeName != 'Boolean'" class="form-control show-print-elements2" style="width: 175px;">{{detail.CurrentValue}}</div>
+  
+              <div ng-if="detail.DisplayTypeName == 'Boolean'">
+                <div class="passed-failed">
+                  <div style="padding: 5px 10px" class="pass" ng-class="{'active': detail.CurrentValue === 'True'}" ng-click="detail.CurrentValue = 'True'">{{"TRUE_2" | translate}}</div>
+                  <div style="padding: 5px 10px" class="fail" ng-class="{'active': detail.CurrentValue === 'False'}" ng-click="detail.CurrentValue = 'False'">{{"FALSE_2" | translate}}</div>
+                </div>
+              </div>
+  
+              <input ng-if="detail.DisplayTypeName == 'Number'" ng-required="!detail.AllowNull" ng-model="detail.CurrentValue" class="form-control" ng-disabled="!detail.AllowEntry || secondStepCtrl.notAllowedTestsEdit" only-digits />
+              <div ng-if="detail.DisplayTypeName == 'Number'" class="form-control show-print-elements2" style="width: 175px;">{{detail.CurrentValue}}</div>
+  
+              <div ng-if="detail.DisplayTypeName == 'Date'" class="d-flex align-items-center">
+                <input style="width:175px" ng-required="!detail.AllowNull" name="" class="form-control" ng-model="detail.CurrentValue" date-time ng-disabled="!detail.AllowEntry || secondStepCtrl.notAllowedTestsEdit" format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" />
+                <div class="form-control show-print-elements2" style="background-color: #eee;width:175px">{{detail.CurrentValue}}</div>
+              </div>
+            </div>
+  
+            <div ng-if="detail.DisplayType == 2" style="display: flex;" ng-init="getSelectValue(detail)">
+              <select ng-required="!detail.AllowNull" class="form-control" style="width: 175px" ng-disabled="!detail.AllowEntry || secondStepCtrl.notAllowedTestsEdit" ng-options="option.ID as option.Value for option in detail.ListValues" ng-model="detail.CurrentValue" ng-change="getSelectValue(detail)"></select>
+              <div class="form-control show-print-elements2" style="width: 175px;">{{detail.valueSelect}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- *************************** SAMPLE FIELDS SECTION *************************** -->
+  
+      <div class="test-results">
+        <div class="header-titles" ng-show="sampleCounter > 0">{{"TEST_SAMPLES" | translate}}</div>
+  
+        <div class="params newScroll slim" style="overflow-x: auto">
+          <div class="param-col" ng-repeat="testSample in testSampleFieldsData track by $index">
+            
+            <!-- <div ng-if="testSampleFieldsData.length>1" style="color: red;">{{testSample.FieldType === 'num'? $index +1:''}}</div> -->
+            <div ng-if="testSample.displayRedborder==undefined  || testSample.displayRedborder==false"  class="col-title" data-toggle="tooltip" data-placement="left" title="{{localLanguage && testSample.EName || testSample.LName || 'Parameter'}}" ng-style="testSample.RequiredField && {'color':'blue'}">{{localLanguage && testSample.EName || testSample.LName || 'Parameter'}}</div>
+            <div ng-if="testSample.displayRedborder==true"  class="col-title" data-toggle="tooltip" data-placement="left" title="{{localLanguage && testSample.EName || testSample.LName || 'Parameter'}}" ng-style="testSample.RequiredField && {'color':'red'}">{{localLanguage && testSample.EName || testSample.LName || 'Parameter'}}</div>
+            <div class="col-input" ng-repeat="sample in testSample.SamplesData track by $index" style="display: flex; justify-content: space-between; text-align: center" ng-hide="sample.UpsertType == 1">
+              <div  style="color: rgb(0, 0, 255);margin-right: 3px;margin-top: 9px;" class="count_no">{{$index +1}}</div>
+            
+              <div ng-if="testSample.FieldType !== 'Boolean' && testSample.FieldType !== 'combo'" class="num_select_box">
+               
+ 
+                <input ng-if="(sample.displayRedborder==undefined || sample.displayRedborder==false) && testSample.FieldType === 'num'" step="any" type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="{{testSample.EName}}{{$index+1}}" ng-style="testSample.FieldType == 'num' && {'width' : '300px'}" ng-model="sample.Value" ng-disabled="!testSample.AllowEntry || secondStepCtrl.notAllowedTestsEdit" ng-change="getSelectedValue(sample.Value)"  class="form-control remove-outer-spin-number" style="width: 100px; border: 1px solid #676768" />
+                <input ng-if="sample.displayRedborder==true && testSample.FieldType === 'num'"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" step="any" type="text" id="{{testSample.EName}}{{$index+1}}" ng-style="testSample.FieldType == 'num' && {'width' : '300px'}" ng-model="sample.Value" ng-disabled="!testSample.AllowEntry || secondStepCtrl.notAllowedTestsEdit"  class="form-control remove-outer-spin-number"   ng-change="getSelectedValue(sample.Value)" style="width: 100px; border: 1px solid #FF0000" />
+                
+
+                <input ng-if="(sample.displayRedborder==undefined || sample.displayRedborder==false) && testSample.FieldType !== 'num'" step="any" type="text" id="{{testSample.EName}}{{$index+1}}" ng-style="testSample.FieldType != 'num' && {'width' : '300px'}" ng-model="sample.Value" ng-disabled="!testSample.AllowEntry || secondStepCtrl.notAllowedTestsEdit" ng-change="getSelectedValue(sample.Value)"  class="form-control remove-outer-spin-number" style="width: 100px; border: 1px solid #676768" />
+                <input ng-if="sample.displayRedborder==true && testSample.FieldType !== 'num'" step="any" type="text" id="{{testSample.EName}}{{$index+1}}" ng-style="testSample.FieldType != 'num' && {'width' : '300px'}" ng-model="sample.Value" ng-disabled="!testSample.AllowEntry || secondStepCtrl.notAllowedTestsEdit"  class="form-control remove-outer-spin-number"   ng-change="getSelectedValue(sample.Value)" style="width: 100px; border: 1px solid #FF0000" />
+                
+                
+                <div  ng-if="sample.displayRedborder==undefined  || sample.displayRedborder==false" ng-style="sample.FieldType == 'text' && {'width' : '300px'}" class="form-control show-print-elements2"  style="width: 100px; border: 1px solid #676768" >{{sample.Value}}</div>
+                <div ng-if="sample.displayRedborder==true" ng-style="sample.FieldType == 'text' && {'width' : '300px'}" class="form-control show-print-elements2"  style="width: 100px; border: 1px solid #FF0000" >{{sample.Value}}</div>
+              </div>
+              <div ng-if="testSample.FieldType=='combo'">
+                <select class="form-control"  ng-if="sample.displayRedborder===undefined || sample.displayRedborder===false" style="width: 159px; margin-bottom:0; border: 1px solid black;"  ng-options="option.ID as option.Name for option in testSample.ListValues" ng-model="sample.Value" ng-change="getSelectValue2(testSample.ID,sample)"></select>
+                <select class="form-control" ng-if="sample.displayRedborder" style="width: 159px; margin-bottom:0; border: 1px solid red;"  ng-options="option.ID as option.Name for option in testSample.ListValues" ng-model="sample.Value" ng-change="getSelectValue2(testSample.ID,sample)"></select>
+                <div class="form-control show-print-elements2" style="width: 175px;">{{sample.Name}}</div>
+              </div>
+        
+              <!-- show if param is boolean. disable if param is calculated OR does not allow entry -->
+              <div style="height: 35px; align-items: center; display: flex; justify-content: space-around" ng-if="testSample.FieldType == 'Boolean'">
+                <div passed-failed-directive passed="sample" ng-click="UpdateButton()" ng-class="{'FillMandatoryfields': sample.displayRedborder === true}" disabled="!testSample.AllowEntry || secondStepCtrl.notAllowedTestsEdit"></div>
+              </div>
+  
+              <img
+                ng-hide="$parent.$index != testSampleFieldsData.length-1 || sampleCounter < 2"
+                ng-click="removeSamplesIndxFromTestSamples($index)"
+                style="cursor: pointer; position: relative"
+                ng-style="!rtl  && {'left': '45px'} ||
+                                         rtl && {'right': '45px'}"
+                src="images/dashboard/close.svg"
+              />
+            </div>
+          </div>
+        </div>
+  
+        <!-- add sample -->
+        <div  class="samples row-flex" ng-if="testSampleFieldsData.length && data.AllowEditSamplesCount">
+          <img src="images/add-circle.svg"  style="cursor: pointer" ng-click="addSample()" />
+          <strong ng-click="addSample()"  style="cursor: pointer"> {{"ADD_SAMPLE_ROW" | translate}} </strong>
+        </div>
+  
+        <!-- *************************** PARAM FIELDS SECTION *************************** -->
+        <div class="header-titles" ng-show="testFieldsData.length">{{"PARAM_FIELDS" | translate}}</div>
+        <div class="parameter-section row-flex">
+          <div class="left-side" style="display: flex; flex-wrap: wrap">
+            <div ng-repeat="param in testFieldsData track by $index" style="display: flex; margin: 0 50px" class="row-flex" ng-if="(param.InputType == 2 || param.InputType == 6)" ng-style="!param.BeginNewLine && {'float':'left'}">
+              <div class="param-title" ng-style="param.RequiredField && {'color':'blue'}">
+                <div>{{localLanguage && param.EName || param.LName || 'Parameter'}}</div>
+              </div>
+  
+              <!-- show if param is boolean. disable if param is calculated OR does not allow entry -->
+              <div style="width: 85px" ng-if="param.FieldType == 'Boolean'">
+                <div passed-failed-directive passed="param" ng-click="UpdateButton()" disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit"></div>
+              </div>
+  
+              <!-- show calc icon if field is calculated -->
+              <img width="16" height="16" style="margin: 0 7px" src="images/calculator-blue.png" ng-show="param.InputType==33 || param.InputType==44 || param.InputType == 66" />
+  
+              <!-- if param is numeric and has limits, show injection-values-direcitve -->
+              <div style="width: 333px; position: relative; bottom: 20px" ng-if="param.FieldType == 'num' && param.HValue && param.LValue">
+                <injection-values-directive avg="" min="param.LValue" max="param.HValue" standard="" value="param.CurrentValue" showAverage="false"> </injection-values-directive>
+              </div>
+  
+              <!-- if regular param without limits -->
+              <div ng-if="param.FieldType != 'Boolean' && !param.HValue && !param.LValue">
+                <div>
+                  <input ng-disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit" ng-model="param.CurrentValue" style="width: 170px"  class="form-control" />
+                  <div class="form-control show-print-elements2" style="width: 170px" >{{param.CurrentValue}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- *************************** TEST FIELDS SECTION *************************** -->
+        <div class="header-titles" ng-show="testFieldsData.length">{{"TEST_FIELDS" | translate}}</div>
+        <div class="parameter-section row-flex">
+          <div class="left-side" style="display: flex; flex-wrap: wrap; width: 100%">
+            <div ng-repeat="g in groupingTestFields track by $index" style="width: 100%;">
+              <div class="header-titles ">{{g.name}}</div>
+              <div ng-repeat="param in groupsMap[g.id] track by $index" style="display: flex; margin-right: 0px;margin-top: 5px;margin-bottom: 5px; min-height: 100px;  " class="pull-left row-flex col-lg-6" ng-if="!(param.InputType == 2 || param.InputType == 6)">
+                <div ng-if="param.FieldType!='date' && param.FieldType!='time'" class="param-title" ng-style="param.RequiredField && {'color':'black'}" style="width: 100%;margin-bottom: 2px;margin-top: 4px;">
+                  <div ng-if="(param.displayRedborder===undefined || param.displayRedborder===false)&& param.RequiredField" style="color: inherit; margin-bottom: 5px; " class="ellipsisText" title="{{localLanguage && param.EName || param.LName || 'Parameter'}}" ng-style="param.RequiredField?{'color': 'blue'}:{'color': 'black'}">{{localLanguage && param.EName+' *' || param.LName+' *'  || 'Parameter *'}} <img width="16" height="16" style="margin: 0 7px ;" src="images/calculator-blue.png" ng-show="param.InputType==33 || param.InputType==44 || param.InputType == 66" /></div>
+                  <div ng-if="(param.displayRedborder===undefined || param.displayRedborder===false)&& param.RequiredField===false" style="color: inherit; margin-bottom: 5px; " class="ellipsisText" title="{{localLanguage && param.EName || param.LName || 'Parameter'}}" ng-style="param.RequiredField?{'color': 'blue'}:{'color': 'black'}">{{localLanguage && param.EName || param.LName  || 'Parameter'}} <img width="16" height="16" style="margin: 0 7px ;" src="images/calculator-blue.png" ng-show="param.InputType==33 || param.InputType==44 || param.InputType == 66" /></div>
+                  <div ng-if="param.displayRedborder" style="color: inherit; margin-bottom: 5px; " class="ellipsisText" title="{{localLanguage && param.EName || param.LName || 'Parameter'}}" ng-style="{'color': 'red'}">{{localLanguage && param.EName+' *' || param.LName+' *'  || 'Parameter *'}} <img width="16" height="16" style="margin: 0 7px ;" src="images/calculator-blue.png" ng-show="param.InputType==33 || param.InputType==44 || param.InputType == 66" /></div>
+                  <div style=" margin-bottom: 5px;  ">
+                    <div ng-if="param.HValue && param.LValue && param.FieldType=='num'" style="display: flex;align-items: center;">
+                      <input
+                        id="{{param.EName}}"
+                        ng-if="param.displayRedborder==undefined || param.displayRedborder===false"
+                        ng-model="param.CurrentValue"                        
+                        ng-disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit"
+                        style="width: 160px;height: 20px; border: 1px solid #404041;"
+                        placeholder="Enter Current Value.."
+                        ng-style="param.FieldType == 'text' && {'width' : '300px'}"
+                        class="form-control col-lg-6"
+                        ng-change="getSelectedValue(param.CurrentValue)"
+                      />
+                      <input
+                      id="{{param.EName}}"
+                      ng-if="param.displayRedborder==true"
+                      ng-model="param.CurrentValue"                   
+                      ng-change="getSelectedValue(param.CurrentValue)"
+                      ng-disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit"
+                      style="width: 160px;height: 20px; border: 1px solid #FF0000;"
+                      placeholder="Enter Current Value.."
+                      ng-style="param.FieldType == 'text' && {'width' : '300px'}"
+                      class="form-control col-lg-6"
+                    />
+                      <!-- if param is numeric and has limits, show injection-values-direcitve -->
+                      <div style="width: 60%; position: relative; bottom: 35px; margin: 0px 15px; ">
+                        <injection-values-directive avg="" min="param.LValue" max="param.HValue" standard="" value="param.CurrentValue" showAverage="false"> </injection-values-directive>
+                      </div>
+                    </div>
+                    <div   ng-if="param.HValue && param.LValue && param.FieldType=='num'" class="form-control show-print-elements2 col-lg-6" style="width: 175px;">{{param.CurrentValue}}</div>
+                    <div   ng-if="param.HValue && param.LValue && param.FieldType=='num'" class="form-control show-print-elements2 col-lg-6" style="width: 175px;">{{param.CurrentValue}}</div>
+                      
+                    <div   ng-if="param.FieldType == 'Boolean'" style="width: 158px;">
+                      <div passed-failed-directive passed="param" ng-class="{'FillMandatoryfields': param.displayRedborder === true}" ng-click="UpdateButton()" disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit"></div>
+                      
+                    </div>
+  
+                    <!-- if regular param without limits-->
+                      <div  ng-if="param.FieldType!='date' && param.FieldType!='time' && param.FieldType != 'Boolean' && param.FieldType != 'combo' && !param.HValue && !param.LValue">
+                          <div>
+                          <input  ng-if="param.displayRedborder===undefined || param.displayRedborder===false" id="{{param.EName}}" ng-disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit" ng-model="param.CurrentValue" style="width: 170px; height: 24px; border: 1px solid black;" ng-style="param.FieldType == 'text' && {'width' : '159px'}"  class="form-control"    ng-change="getSelectedValue(param.CurrentValue)" />
+                          <input ng-if="param.displayRedborder" id="{{param.EName}}" ng-disabled="param.InputType==33 || param.InputType==44 || param.InputType == 66 || !param.AllowEntry || secondStepCtrl.notAllowedTestsEdit" ng-model="param.CurrentValue"  style="width: 170px; height: 24px; border: 1px solid #FF0000;" ng-style="param.FieldType == 'text' && {'width' : '159px'}"   ng-change="getSelectedValue(param.CurrentValue)"  class="form-control" />
+                          <div ng-style="param.FieldType == 'text' && {'width' : '159px'}" class="form-control show-print-elements2"  style="width: 170px; height: 24px; border: 1px solid black;" >{{param.CurrentValue}}</div>
+                          </div>
+                      </div> 
+                      <div ng-if="param.FieldType=='combo'">
+                        <select  class="form-control"  ng-if="param.displayRedborder===undefined || param.displayRedborder===false" style="width: 159px; height: 24px; margin-bottom:0; border: 1px solid black;"  ng-model="param.CurrentValue" ng-change="getSelectValue(param)" ng-options="option.ID as option.Name for option in param.ListValues">
+                          <option value=""></option>
+                        </select>
+                        <select  class="form-control" ng-if="param.displayRedborder" style="width: 159px; height: 24px; margin-bottom:0; border: 1px solid red;"  ng-model="param.CurrentValue" ng-change="getSelectValue(param)" ng-options="option.ID as option.Name for option in param.ListValues">
+                          <option value=""></option>
+                        </select>
+                        <div class="form-control show-print-elements2" style="width: 175px;">{{param.valueName}}</div>
+                      </div>
+                  </div>
+                </div>
+                <div ng-if="param.FieldType=='date' || param.FieldType=='time'" class="param-title" ng-style="param.displayRedborder==undefined|| param.displayRedborder==false && {'color':'blue'}" > 
+                  <div ng-if="param.RequiredField" style="color: inherit; margin-bottom: 3px; " class="ellipsisText " title="{{localLanguage && param.EName || param.LName || 'Parameter'}}" ng-style="param.displayRedborder ? {'color': 'red'}:{'color': 'blue'}">{{localLanguage && param.EName+'*' || param.LName+'*'|| 'Parameter'}}
+                  </div>
+                  <div ng-if="!param.RequiredField" style="color: inherit; margin-bottom: 3px; " title="{{localLanguage && param.EName || param.LName || 'Parameter'}}" ng-style="{'color': 'black'}">{{localLanguage && param.EName || param.LName || 'Parameter'}}
+                  </div>
+                  <div style="display: flex;">
+                    <div style="border: 1px solid black; width: 161px;" ng-if="param.FieldType == 'time'" class="input-group" data-placement="top" clock-picker data-autoclose="true">
+                      <input  style="width: 100%; min-width: 70px;" type="text" class="form-control"     ng-model="param.CurrentValue"/>
+                      <div class="show-print-elements2" style="width: 100%; min-width: 70px;" >{{param.CurrentValue}}</div>
+                      <span class="input-group-addon">
+                        <span class="fa fa-clock-o"></span>
+                      </span>
+                    </div>
+                    <input style="height: 24px; width: 159px; border: 1px solid black; margin-bottom: 5px;" ng-if="param.FieldType == 'date' && (param.displayRedborder==undefined|| param.displayRedborder==false)" name="" placeholder="{{inputValue.content.Hint}}" type="datetime" class="form-control"  ng-change="getSelectedValue(param.CurrentValue)"     ng-click="getdateChange()"  ng-model="param.CurrentValue" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" />
+                    <div style="height: 24px; width: 159px; border: 1px solid black; margin-bottom: 5px;" ng-if="param.FieldType == 'date' && param.CurrentValue && (param.displayRedborder==undefined|| param.displayRedborder==false)"  class="form-control show-print-elements2">{{param.CurrentValue | formatDateExport}}</div>
+                  
+                    <input style="height: 24px; width: 159px; border: 1px solid red; margin-bottom: 5px;" ng-if="param.FieldType == 'date' && param.displayRedborder" name="" placeholder="{{inputValue.content.Hint}}" type="datetime" class="form-control"  ng-change="getSelectedValue(param.CurrentValue)"      ng-click="getdateChange()"    ng-model="param.CurrentValue" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true"  />
+                    <div style="height: 24px; width: 159px; border: 1px solid red; margin-bottom: 5px;" ng-if="param.FieldType == 'date' && param.CurrentValue && param.displayRedborder"  class="form-control show-print-elements2">{{param.CurrentValue | formatDateExport}}</div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+  
+    
+      <div class="files">
+        <div ng-if="pdfFiles.length">
+          <div class="header-titles">{{"PDF_FILES" | translate}}</div>
+          <div ng-repeat="pdf in pdfFiles track by $index">
+            <div style="font-size: 20px; display: list-item; list-style-type: disc; margin: 0 20px">
+              <a target="_blank" href="{{pdf}}"> file </a>
+            </div>
+          </div>
+        </div>
+  
+        <div ng-if="imgFiles.length" class="hide-element">
+          <div class="header-titles">{{"IMAGES" | translate}}</div>
+          <div style="margin: 0 50px">
+            <div ng-repeat="img in imgFiles track by $index" style="margin-right: 8px; display: inline-block">
+              <div style="cursor: pointer" ng-click="openImageInModal(img)">
+                <img width="100%" style="margin-bottom: 10px" ng-src="{{img}}" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+     
+      <div class="modal-footer order-test-modal-footer">     
+        <div class="modal-footer-save flex_box_div"> 
+          <div>
+            <div ng-if="mandatoryFields && redlinefields" style="color: red;"> {{"ALL_FIELDS"|translate}}</div>
+          </div>             
+          <button type="submit" ng-style="mandatoryFields && {'cursor': 'not-allowed'}" class="pull-right btn btn-primary new-dep-header-buttons saveButton" ng-disabled="mandatoryFields"  ng-mousedown="doSubmit= true">{{"SAVE"| translate}}</button>   
+        </div>
+  
+      </div>
+    </div>
+  </form>
+  <button ng-if="stepTwo" type="reset" ng-click="close()"  ng-class="{'leftSide': langname === 'heb'}" class="btn btn-primary new-dep-header-buttons saveButton close_button_bx">{{"CLOSE"| translate}}</button>
+  
+</div>

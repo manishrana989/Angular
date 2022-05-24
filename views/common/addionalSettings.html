@@ -1,0 +1,49 @@
+
+<div  ng-if="showOptions.allowTimeOption" ng-init="!graph.options.settings.durationType ? graph.options.settings.durationType = 'minutes':''" >
+  <div>
+    {{"DURATION_TYPE" | translate}}:
+  </div>
+    <div>
+      <div class="labelCheckBox" check-box-directive field-title="'MINUTES'" field="graph.options.settings" select-value="'durationType'" type="'radio'" value="'minutes'" style="font-size: 0.729vw" ng-custom-change="saveMode('durationType')"></div>
+    </div>
+    <div>
+      <div class="labelCheckBox" check-box-directive field-title="'HOUR_MINUTES'" field="graph.options.settings" select-value="'durationType'" type="'radio'" value="'hourMinutes'" style="font-size: 0.729vw" ng-custom-change="saveMode('durationType')"></div>
+    </div>
+</div>
+
+<div>
+  {{"TARGET" | translate}}:
+  <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="targetMode" select-value="'targetMode'" ng-custom-change="saveMode('targetMode')" type="'toggle'"></div>
+</div>
+
+<div ng-if="showOptions.allowNumberOfJoshes">
+  {{"NUMBER_OF_JOSHES" | translate}}:
+  <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="joshesMode" select-value="'joshesMode'" ng-custom-change="saveMode('joshesMode')" type="'toggle'"></div>
+</div>
+
+<div>
+  {{"COLORS" | translate}}:
+  <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="colorMode" select-value="'colorMode'" ng-custom-change="saveMode('colorMode')" type="'toggle'"></div>
+</div>
+<div ng-if="showOptions.allowColorGraded">
+  <span>{{"GRADED" | translate}}:</span>
+  <div class="checkBox pull-right" check-box-directive field="graph.options.settings" field-title="gradedMode" select-value="'gradedMode'" ng-custom-change="saveMode('gradedMode')" type="'toggle'"></div>
+</div>
+
+<div ng-if="showOptions.allowCustomization">
+  <span>{{"CUSTOMIZATION" | translate}}:</span>
+  <div>
+    <div check-box-directive field-title="'value'" field="graph.options.settings" select-value="'customization'" type="'radio'" value="'values'" check-mark-style="true" check-mark-top="checkMarkTop"></div>
+  </div>
+  <div>
+    <div check-box-directive field-title="'percentage'" field="graph.options.settings" select-value="'customization'" type="'radio'" value="'percentage'" check-mark-style="true" check-mark-top="checkMarkTop"></div>
+  </div>
+</div>
+<div ng-if="graph.options.settings.colorMode && showOptions.changeAbsoluteTargetHeatMapAbility" ng-init="!graph.options.settings.percentageChoice ? graph.options.settings.percentageChoice = 'target' : ''" >
+  <div>
+    <div class="labelCheckBox" check-box-directive field-title="'ABSOLUTE_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'absolute'" style="font-size: 0.729vw" ng-custom-change="saveMode('percentageChoice')"></div>
+  </div>
+  <div>
+    <div class="labelCheckBox" check-box-directive field-title="'TARGET_PERCENTAGE'" field="graph.options.settings" select-value="'percentageChoice'" type="'radio'" value="'target'" style="font-size: 0.729vw" ng-custom-change="saveMode('percentageChoice')"></div>
+  </div>
+</div>

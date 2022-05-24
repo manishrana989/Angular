@@ -1,0 +1,67 @@
+<!--<div ng-show="dep.DepartmentsMachine[0].Children">-->
+<div class="departments">
+    <div class="ibox float-e-margins col-lg-12 pull-left" style="background:white;border:none; margin-bottom : 74px;">
+        <div style="background-color: transparent;border-style: none;">
+            <div>
+
+                <div class="col-lg-12 progressContainer" ng-if="dep.DepartmentsMachine[0].Children">
+                    <progress class="progressNumbers progress-bar-item">
+                        <bar ng-repeat="bar in dep.machineColorsBar track by $index"
+                             value="bar.percentage"
+                             type="{{bar.color}}" ng-show="bar.count > 0" style="background-color: #f3f3f4; color:white">
+                            <span class="progress-bar-{{bar.color}}" style="padding: 7px;font-weight: 600;position: relative;    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;">{{bar.count}}</span>
+                        </bar>
+                    </progress>
+                    <progress class="progressBarLine progress-bar-item">
+                        <bar ng-repeat="bar in dep.machineColorsBar track by $index"
+                             value="bar.percentage"
+                             type="{{bar.color}}" ng-show="bar.count > 0">
+                        </bar>
+                    </progress>
+                    <progress class="progress-bar-item">
+                        <bar ng-repeat="bar in dep.machineColorsBar track by $index"
+                             value="bar.percentage"
+                             type="{{bar.color}}" ng-show="bar.count > 0" style="background: transparent">
+                            <img alt="Emerald Information Systems" width="20" height="20" class="progressIcons" style="position: relative;top:10px"
+                               ng-src="images/icons_20x20/{{bar.icon}}">
+                        </bar>
+                    </progress>
+                </div>
+                <div class="col-lg-12" style="padding-bottom: 0; padding-top: 10px; background: white;    height: 45px;">
+                    <div>
+                        <h1 class="pull-left" style="margin-bottom: 0;margin-top:0;font-size : 25px" ng-style="{cursor: allDepartments ? 'pointer' : 'default',color : allDepartments ? '#337ab7' : '#676a6c'}"  ng-click="allDepartments && openFullView()">{{localLanguage
+                            === true ? dep.DepartmentLname : dep.DepartmentEname}}</h1>
+                    </div>
+                    <div ng-if="dep.DepartmentsMachine[0].Children" ibox-tools="" class="hiddenIboxTools"
+                         department-data="dep.iboxData">
+                    </div>
+                </div>
+                <div class="col-lg-12"
+                     style="font-size:16px;padding-top:9px;color:#676a6c;padding-bottom: 14px;  background: white;">
+                    <h8> {{dep.DepartmentsMachine.length}} {{'MACHINES' | translate}} | P.E.
+                        {{dep.iboxData.DepartmentPEE}}
+                    </h8>
+                </div>
+
+                <div class="col-lg-12" ng-if="dep.DepartmentsMachine[0].Children == undefined">
+                    <strong>{{"MACHINE_TYPE_IS_EMPTY" | translate}}</strong>
+                </div>
+            </div>
+
+        <div class="ibox-content containerMachine machineShapeShift{{dep.DepartmentID}}" ng-if="dep.DepartmentsMachine[0].Children && collapsed === false" style="padding-left: 15px; border-top: 0;">
+            <div on-machine-finish-render="ngRepeatFinished" data-ss-colspan="{{machineBox.collapsed === false ? machineBox.BoxSize : 6}}"  machine-directive
+                 class="{{machineBox.collapsed === false ? '' : 'machineCollapsed'}} boxPerMachine pull-left box size{{machineBox.nested[0]}}{{machineBox.nested[1]}}"
+                 content="machineBox"
+                 style="height : {{departmentCollapsed === false ? (machineBox.height + (rtl ? 77 : 79)) + 'px' : 'auto'}};margin:0px 20px 30px 0;width:auto ;border: solid 1px #cecece;"
+                 ng-repeat="machineBox in dep.DepartmentsMachine">
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--<div ng-show="dep.DepartmentsMachine[0].Children==undefined">-->
+<!--ther's no structures to show-->
+
+
+<!--</div>-->

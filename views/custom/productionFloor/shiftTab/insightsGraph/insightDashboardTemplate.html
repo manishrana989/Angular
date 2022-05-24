@@ -1,0 +1,125 @@
+<div ng-show="insightDataLoading" ng-include="'views/common/emptyPage.html'" class="shift-loading"></div>
+<div ng-style="insightHeatMap && {'overflow':'auto'}" style="height: 100%; position: relative; width: 100%; z-index: 100" ng-show="!insightDataLoading" class="insightDashboard" ng-class="{'fromTab': !forGraph, 'forGraph' : forGraph, 'newScroll':insightHeatMap ,'slim':insightHeatMap}">
+  <div ng-if="graph.options.settings.insight.endLine || displayFilterMachines || displayFilterEvents || displayFilterEventsGroup || displayFilterEventsType" style="width: 100%; height: 1.5vw; padding-left: 1.302vw; border-bottom: solid 0.052vw #dcdcdc; display: flex; align-items: center; flex-direction: row-reverse">
+    <div class="insights-filter-item" ng-if="graph.options.settings.insight.endLine">
+      {{"END_LINE" | translate}}
+      <img ng-click="resetEndLine()" src="images/close-gray.png" />
+    </div>
+
+    <div class="insights-filter-item" ng-if="displayFilterMachines">
+      {{displayFilterMachines}}
+      <img ng-click="resetMachines()" src="images/close-gray.png" />
+    </div>
+    <div class="insights-filter-item" ng-if="displayFilterEvents">
+      {{displayFilterEvents}}
+      <img ng-click="resetEvent()" src="images/close-gray.png" />
+    </div>
+    <div class="insights-filter-item" ng-if="displayFilterEventsGroup">
+      {{displayFilterEventsGroup}}
+      <img ng-click="resetGroupEvent()" src="images/close-gray.png" />
+    </div>
+
+    <div class="insights-filter-item" ng-if="displayFilterEventsType">
+      {{displayFilterEventsType}}
+      <img ng-click="resetTypeEvent()" src="images/close-gray.png" />
+    </div>
+  </div>
+  <div class="you-asked" ng-class="{'insight-container-title': forGraph}" ng-if="!isShift">
+    <header-title ng-if="!shiftData.customRangeEnabled">
+      <span ng-show="!forGraph" style="margin: 0; font-weight: bold"> </span>
+
+      <div class="insight-parameters">
+        <div class="column-insight-question" ng-repeat="sentence in insightsDashboardCtrl.insight.insightParameters">
+          <div class="column-insight-question-sentence" title="{{sentence.sentence}}" ng-hide="insightsDashboardCtrl.xAxisList.length == 0  && insight.Name == 'GetUnitsProduced' && sentence.dropBox == '[XAxis]'">{{sentence.sentence}}&nbsp</div>
+          <div ng-if="sentence.dropBox == '[]' && !isShift" class="date-range-container">
+            <div class="dateRangeClassWrapper singleDateSelector{{graph.ID}}" ng-style="localDate && {'color':'var(--color2)','border-color':'var(--color2)'} ">
+              <input id="reportrange" name="daterange" type="submit" on-change="headerChangedFunc" date-range-picker="pickerDate" start-date="pickerDate.startDate"  end-date="pickerDate.endDate" data-ng-required="true" date-range-picker-options="rangeOptions" clear-on-cancel="true" class="dateRangeClassInsights"/>
+              <div class="show-print-elements" class="date-range-label">{{dateLabelValue}}</div>
+            </div>
+          </div>
+          <div ng-if="sentence.dropBox == '[insightArg]' && !isShift" class="insight-arg-container">
+            <select ng-model="insightsDashboardCtrl.insight.selectedArg" class="insight-arg-container-select" ng-change="headerChangedFunc()" ng-options="item.value for item in insightsDashboardCtrl.insight.InsightArgs"></select>
+            <div  class="show-print-elements" ng-bind-html="insightsDashboardCtrl.insight.selectedArg.value" class="insight-arg-container-selectArg"></div>
+          </div>
+          <div ng-if="sentence.dropBox == '[insightArg2]' && !isShift" class="insight-arg-container">
+            <select ng-model="insightsDashboardCtrl.insight.selectedArg2" class="insight-arg-container-select" ng-change="headerChangedFunc()"  ng-options="item.value for item in insightsDashboardCtrl.insight.InsightArgs2"></select>            
+          </div>
+          <div ng-if="sentence.dropBox == '[insightArg3]' && !isShift" class="insight-arg-container">
+            <select ng-model="insightsDashboardCtrl.insight.selectedArg3" class="insight-arg-container-select"  ng-change="headerChangedFunc()" ng-options="item.value for item in insightsDashboardCtrl.insight.InsightArgs3"></select>            
+          </div>
+          <div ng-show="sentence.dropBox == '[insightKPIs]' && insightsDashboardCtrl.kpiList.length > 0 && !isShift" class="insight-arg-container">
+            <select ng-model="insightsDashboardCtrl.insight.selectKpi" class="insight-arg-container-select"  ng-change="headerChangedFunc()" ng-options="item.Value for item in insightsDashboardCtrl.kpiList track by item.Value"></select>
+          </div>  
+          <div ng-show="sentence.dropBox == '[XAxis]' && insightsDashboardCtrl.xAxisList.length > 0 && !isShift" class="insight-arg-container">
+            <select ng-model="insightsDashboardCtrl.insight.selectXAxis" class="insight-arg-container-select" ng-change="headerChangedFunc()" ng-options="item.DisplayName for item in insightsDashboardCtrl.xAxisList track by item.DisplayName"></select>
+          </div>  
+          <div ng-if="sentence.dropBox == '[num]' && sentence.type !== 'MergePC' && !isShift" class="insight-arg-container">
+            <input type="text" ng-model="insightsDashboardCtrl.insightTopNum" ng-change="headerChangedFunc()"  ng-init="insightsDashboardCtrl.insightTopNum" style="width: 40px; height: 1.3vw; text-align: center" only-digits />
+            <div class="show-print-elements" ng-bind-html="insightsDashboardCtrl.insightTopNum"  class="insight-arg-container-TopNum"></div>
+          </div>
+          <div ng-if="sentence.dropBox == '[num]' && sentence.type == 'MergePC' && !isShift" class="insight-arg-container">
+            <input type="text" ng-model="insightsDashboardCtrl.mergePC" ng-change="headerChangedFunc()"  ng-init="insightsDashboardCtrl.mergePC" style="width: 40px; height: 1.3vw; text-align: center" only-digits />
+            <div class="show-print-elements show-print-elements2" ng-bind-html="insightsDashboardCtrl.mergePC"></div>
+          </div>
+          <div ng-if="sentence.dropBox == '[XAxisChange]' && !isShift" style="margin-top: 3px">
+            <select class="insight-arg-container-select" ng-change="headerChangedFunc()" ng-init="insightsDashboardCtrl.xAxisSelectedObject.value = xAxisInsightSelectArray[0]" ng-options="interval for interval in xAxisInsightSelectArray" ng-model="insightsDashboardCtrl.xAxisSelectedObject.value"></select>
+            <div class="show-print-elements show-print-elements2" ng-bind-html="insightsDashboardCtrl.xAxisSelectedObject.value"></div>
+          </div>
+        </div>
+        <div ng-if="!graph.inModel && insightsDashboardCtrl.insight.ID != 33">
+          <div style="margin-bottom: 3px;">&nbsp</div> 
+          <div class="apply-button" ng-click="insightsDashboardCtrl.updateDate();saveInsightSelectOptions(false)">
+            <button class="insights-filter-header-btn-content insight-arg-container-select" ng-class="{'buttonChanged':insightsDashboardCtrl.headerChanged == false}">{{"APPLY" | translate}}</button>
+          </div>
+        </div>
+
+        <div ng-if="insightsDashboardCtrl.insight.ID == 207  || insightsDashboardCtrl.insight.ID == 208" style="display: flex; margin-top: 3px; flex-direction: column">
+          <div class="column-insight-question-sentence" title="{{sentence.sentence}}">{{'MACHINES' | translate}}</div>
+          <select ng-model="insightsDashboardCtrl.insight.insightChoosenMachine" ng-init="insightsDashboardCtrl.insight.insightChoosenMachine = machineList[0]" style="height: 1.3vw; width: 6vw" ng-change="initWrapper()" ng-options="item.machineName for item in machineList"></select>
+          <div class="show-print-elements2" ng-bind-html="insightsDashboardCtrl.insight.insightChoosenMachine.value"></div>
+        </div>
+        <div class="interactive-filter-container" ng-if="insightsDashboardCtrl.interactiveFilterBoolean && insight.selectedArg.key != '706'">
+          <div class="interactive-filter-container-button" ng-if="insightsDashboardCtrl.interactiveFilterVar" ng-click="applyInteractiveFilter()">
+            <button class="insights-filter-header-btn-content insight-arg-container-select">{{"APPLY" | translate}}</button>
+          </div>
+          <div style="height: 100%" ng-click="insightsDashboardCtrl.interactiveFilterVar=!insightsDashboardCtrl.interactiveFilterVar;insightsDashboardCtrl.interactiveFilter(insight);" ng-init="insightsDashboardCtrl.interactiveFilterVar = false">
+            <img src="images/icons8-check-all.svg" class="interactive-filter-container-img" alt="" />
+          </div>
+        </div>
+        <div ng-if="(insightsDashboardCtrl.insight.ID == 211 || insightsDashboardCtrl.insight.ID == 212 || insightsDashboardCtrl.insight.ID == 214) && AvgValue" class="averageContainer">
+          <div>{{"AVERAGE" | translate}}</div>
+          <div>{{AvgValue}}</div>
+        </div>
+      </div>
+    </header-title>
+    <header-title ng-if="shiftData.customRangeEnabled"> {{localLanguage ? changeQuestionForCustomL[1] : changeQuestionForCustomE[1]}} </header-title>
+  </div>
+
+  <div ng-if="insightsDashboardCtrl.showGridTableGraph && !refresh" style="height: calc(100% - 60px);" class="insight-grid-table" ng-class="{inModelInsight:graph.fullScreen}" ng-style="graph.inModel && {'height':'100%'}" ui-grid="sampleGridOptions" dir="{{rtlDir}}" ui-grid-move-columns ui-grid-grouping ui-grid-resize-columns  ui-grid-exporter ui-grid-save-state></div>
+  <div class="table newScroll slim" ng-if="insightsDashboardCtrl.showTableGraph">
+    <table>
+      <thead>
+        <th ng-repeat="header in tableHeaders" ng-style="getTblStyle(header)">{{header.displayname}}</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in tableBody">
+          {{row}}
+          <td ng-repeat="header in tableHeaders">
+            <a ng-if="(header.fieldname == 'id') && (header.linkitem=='mold')" href="#/appObjectFullView/Mold/{{row[header.fieldname]}}/?firstTime=true" target="Mold"> {{row[header.fieldname]}}</a>
+            <div ng-if="header.fieldname != 'id'">{{row[header.fieldname]}}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="insightGraph" class="insight-container insight-id{{graph.ID}}" ng-class ="{printHeatMapShift{{graph.ID}}:isShift,fullScreenCSS:fullScreenOption}" ng-if="!insightsDashboardCtrl.showGridTableGraph && !insightsDashboardCtrl.showTableGraph" ng-style="{'height': insightHeight}"></div>
+
+  <div ng-if="insightAnswer.startTime && insightAnswer.endTime">
+    <p>{{insightAnswer.startTime}} - {{insightAnswer.endTime}}</p>
+  </div>
+
+  <div class="add-to-dash" style="margin: 10px 0" ng-if="addedToDash.indexOf(insightsDashboardCtrl.insight.ID) == -1">
+    <span ng-if="!forGraph" class="pull-right" style="cursor: pointer; font-size: 14px; font-weight: 600; color: var(--color2); margin: 5px 10px" ng-click="addGraph($event,insight);gaE('Department_Inisghts','Insights_Dashboard_ADD_TO_DASHBOARD')">{{"ADD_TO_DASHBOARD" | translate}}</span>
+  </div>
+  <span ng-show="addedToDash.indexOf(insightsDashboardCtrl.insight.ID) > -1" class="pull-right" style="cursor: auto; padding: 0"><img src="images/v-gray.svg" />{{"ADDED_TO_DASHBOARD" | translate}}</span>
+</div>

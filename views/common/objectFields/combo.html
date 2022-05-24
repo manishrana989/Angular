@@ -1,0 +1,120 @@
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="!inputValue.search">
+    <div class="row">
+        <div class="{{inputValue.content.ChildName !== null ? 'col-lg-6' : 'col-lg-12'}} pull-left">
+            <label style="margin-bottom: 0px;"  class="label-direction-fix" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+            <div ng-if="inputValue.content.DataSource">
+                <select  ng-if="inputValue.content.ComboDisplayList == false" ng-init="inputValue.initField(inputValue.valueChosen,'combo')" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosen" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosen,'Eq','combo',inputValue.content.ChildName)" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                    <option value="">{{"SELECT_OPTION" | translate}}</option>
+                </select>
+                <select data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" ng-if="inputValue.content.ComboDisplayList == true" multiple chosen ng-init="inputValue.initField(inputValue.valueChosen,'combo')" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosen" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosen,'INclause','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                </select>
+                <!-- <react-single-drop-down-generic 
+                placeholder="testtest"
+                inputvalue = "inputValue"
+                required="inputValue.required"
+                disabled="inputValue.disabled"></react-single-drop-down-generic> -->
+            </div>
+        </div>
+        <div class="col-lg-6" ng-show="inputValue.valueChosen !== null" ng-if="inputValue.content.ChildName !== null">
+            <label style="margin-bottom: 0px;" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.localLanguage ? inputValue.content.ChildDisplayLName : inputValue.content.ChildDisplayEName}}</label>
+            <div ng-repeat="childContent in inputValue.content.comboValues">
+                <div ng-if="childContent.ComboValueField === inputValue.valueChosen.ComboValueField">
+                    <select ng-init="inputValue.initField(inputValue.ChildValueChosen,'combo',true)" class="form-control ng-pristine ng-valid" ng-model="inputValue.ChildValueChosen" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in childContent.ChildcomboValues" ng-change="inputValue.updateValue(inputValue.content.ChildName,inputValue.ChildValueChosen,'Eq','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                        <option value="">{{"SELECT_OPTION" | translate}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!inputValue.content.DataSource">
+        <select ng-init="inputValue.initField(inputValue.valueChosen,'combo')" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosen" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosen,'Eq','combo',inputValue.content.ChildName)" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+        </select>
+
+        <div class="form-group" ng-show="inputValue.valueChosen !== null" ng-if="inputValue.content.ChildName !== null">
+            <div ng-repeat="childContent in inputValue.content.comboValues">
+                <div ng-if="childContent.ComboValueField === inputValue.valueChosen.ComboValueField">
+                    <label>{{inputValue.contentChildDisplayName}}</label>
+                    <select ng-if="inputValue.content.ComboDisplayList == false"  ng-init="inputValue.initField(inputValue.ChildValueChosen,'combo',true)" class="form-control ng-pristine ng-valid" ng-model="inputValue.ChildValueChosen" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in childContent.ChildcomboValues" ng-change="inputValue.updateValue(inputValue.content.ChildName,inputValue.ChildValueChosen,'Eq','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                        <option value="">{{"SELECT_OPTION" | translate}}</option>
+                    </select>
+                    <select data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" ng-if="inputValue.content.ComboDisplayList == true" multiple chosen ng-init="inputValue.initField(inputValue.ChildValueChosen,'combo',true)" class="form-control ng-pristine ng-valid" ng-model="inputValue.ChildValueChosen" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in childContent.ChildcomboValues" ng-change="updateValue(inputValue.content.ChildName,inputValue.ChildValueChosen,'INclause','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="inputValue.search == true">
+    <div class="col-lg-1 pull-left">
+        <label ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    </div>
+    <div class="col-lg-11">
+        <div class="col-lg-3">
+            <div ng-if="inputValue.content.DataSource">
+                <select ng-if="inputValue.content.ComboDisplayList == false" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosenEQ" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenEQ,'Eq','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                    <option value="">{{"SELECT_OPTION" | translate}}</option>
+                </select>
+
+                <select data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" ng-if="inputValue.content.ComboDisplayList == true" multiple chosen class="form-control ng-pristine ng-valid chosen-select" ng-model="inputValue.valueChosenEQ" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenEQ,'INclause','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                </select>
+            </div>
+
+            <div ng-if="!inputValue.content.DataSource">
+                <select ng-if="inputValue.content.ComboDisplayList == false" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosenEQ" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenEQ,'Eq','combo',inputValue.content.ChildName,'valueChosenEQ')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                    <option value="">{{"SELECT_OPTION" | translate}}</option>
+                </select>
+
+                <select ng-if="inputValue.content.ComboDisplayList == true" style="width: 100%" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" chosen multiple class="form-control ng-pristine ng-valid chosen-select" ng-model="inputValue.valueChosenEQ" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenEQ,'INclause','combo',inputValue.content.ChildName,'valueChosenEQ')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                </select>
+
+
+                <div class="form-group" ng-show="inputValue.valueChosenEQ !== null" ng-if="inputValue.content.ChildName !== null">
+                    <div ng-repeat="childContent in inputValue.content.comboValues">
+                        <div ng-if="childContent.ComboValueField === inputValue.valueChosenEQ.ComboValueField">
+                            <label>{{inputValue.contentChildDisplayName}}</label>
+                            <select class="form-control ng-pristine ng-valid" ng-model="inputValue.ChildValueChosenEQ" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in childContent.ChildcomboValues" ng-change="inputValue.updateValue(inputValue.content.ChildName,inputValue.ChildValueChosenEQ,'Eq','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                                <option value="">{{"SELECT_OPTION" | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-3">
+            <div ng-if="inputValue.content.DataSource">
+                <select ng-if="inputValue.content.ComboDisplayList == false" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosenNEQ" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenNEQ,'NotEqual','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                    <option value="">{{"SELECT_OPTION" | translate}}</option>
+                </select>
+
+                <select ng-if="inputValue.content.ComboDisplayList == true" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen class="form-control ng-pristine ng-valid chosen-select" ng-model="inputValue.valueChosenNEQ" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenNEQ,'NotINclause','combo')"ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                </select>
+            </div>
+
+            <div ng-if="!inputValue.content.DataSource">
+                <select ng-if="inputValue.content.ComboDisplayList == false" class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosenNEQ" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenNEQ,'NotEqual','combo',inputValue.content.ChildName,'valueChosenNEQ')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                    <option value="">{{"SELECT_OPTION" | translate}}</option>
+                </select>
+
+                <select ng-if="inputValue.content.ComboDisplayList == true"  data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" style="width: 100%" chosen multiple class="form-control ng-pristine ng-valid chosen-select" ng-model="inputValue.valueChosenNEQ" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosenNEQ,'NotINclause','combo',inputValue.content.ChildName,'valueChosenNEQ')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                </select>
+
+
+                <div class="form-group" ng-show="inputValue.valueChosenNEQ !== null" ng-if="inputValue.content.ChildName !== null">
+                    <div ng-repeat="childContent in inputValue.content.comboValues">
+                        <div ng-if="childContent.ComboValueField === inputValue.valueChosenNEQ.ComboValueField">
+                            <label>{{inputValue.contentChildDisplayName}}</label>
+                            <select class="form-control ng-pristine ng-valid" ng-model="inputValue.ChildValueChosenNEQ" ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':inputValue.localLanguage) for option in childContent.ChildcomboValues" ng-change="inputValue.updateValue(inputValue.content.ChildName,inputValue.ChildValueChosenNEQ,'NotEqual','combo')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                                <option value="">{{"SELECT_OPTION" | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

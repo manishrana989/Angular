@@ -1,0 +1,43 @@
+<!-- Wrapper-->
+<div id="wrapper" ng-controller="MainCtrl as main" class="{{rtl}} sideBarColor"
+    ng-class="{'showMain' : loading == false}" style="display: none;overflow: hidden;">
+
+    <div ng-hide="true">
+        <iframe id="cookieIframe" style="display: none;" src=""></iframe>
+    </div>
+
+    <!-- Black Cover -->
+    <div ng-include="'views/common/cover.html'"></div>
+
+    <!-- Navigation -->
+    <div ng-include="'views/common/navigation.html'" onload="initScroll()"></div>
+
+    <!-- Page wraper -->
+    <!-- ng-class with current state name give you the ability to extended customization your view -->
+    <div id="page-wrapper" class="gray-bg {{$state.current.name}}" ng-style="{backgroundColor : backgroundColor}">
+
+
+        <!-- Page wrapper -->
+        <div ng-include="'views/common/topnavbar.html'"></div>
+
+        <!-- Tasks Navbar -->
+        <div ng-include="'views/common/tasksTopBottomBar.html'"></div>
+
+
+        <!-- newTask Middle Window -->
+        <!-- <div ng-include="'views/common/newTaskMiddle.html'"></div> -->
+
+
+
+        <!-- Main view  -->
+        <license-module module-id="{{rootScope.moduleId}}">
+            <div ui-view></div>
+        </license-module>
+
+
+        <!-- Footer -->
+        <div ng-include="'views/common/footer.html'"></div>
+    </div>
+    <!-- End page wrapper-->
+</div>
+<!-- End wrapper-->

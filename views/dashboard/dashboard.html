@@ -1,0 +1,402 @@
+<div ng-controller="DashboardCtrl as dashboardCtrl" style="padding-top: 25px;padding-bottom: 100px" class="dashboard-screen">
+
+
+    <div class="row" style="margin-top: 30px">
+        <div class="col-lg-3 pull-left" style="{{dashboardCtrl.rtl ? 'margin-right: 40px;' : 'margin-left: 40px'}}">
+            <p class="dashboardInputs">{{"DATE" | translate}}:</p>
+            <button class="btn btn-default pull-left dashboardInputsButtons"
+                    ng-click="dashboardCtrl.clicked(1)">
+                <div ng-show="dashboardCtrl.object.dateType!=='Custom' &&   dashboardCtrl.object.chosenDate && dashboardCtrl.object.chosenDatec">
+                    {{dashboardCtrl.dateStringDate}} <br>
+                    <div style="font-size: 11px "><b class="pull-left">{{'COMPARE_TO'|translate}}:&nbsp;</b>{{dashboardCtrl.dateStringComparedDate}}
+                    </div>
+                </div>
+                <div ng-show="dashboardCtrl.object.dateType!=='Custom' &&   dashboardCtrl.object.chosenDate && !dashboardCtrl.object.chosenDatec">
+                    {{dashboardCtrl.dateStringDate}}
+                </div>
+                <div ng-show="!dashboardCtrl.object.chosenDate && !dashboardCtrl.object.chosenDatec && !dashboardCtrl.object.startTime ">
+                    {{"PLEASE_CHOOSE_DATE" | translate}}
+                </div>
+                <div ng-show="dashboardCtrl.object.dateType=='Custom' && dashboardCtrl.object.startTime && dashboardCtrl.object.endTime && !dashboardCtrl.object.startTimec && !dashboardCtrl.object.endTimec " class="crop">
+                    {{dashboardCtrl.dateStringDate}}
+                </div>
+                <div ng-show="dashboardCtrl.object.dateType=='Custom' &&  dashboardCtrl.object.startTime && dashboardCtrl.object.endTime && dashboardCtrl.object.startTimec && dashboardCtrl.object.endTimec " class="crop">
+                    {{dashboardCtrl.dateStringDate}} <br>
+                    <div style="font-size: 11px" class="crop"><b>{{"COMPARE_TO"|translate}}:&nbsp;</b>{{dashboardCtrl.dateStringComparedDate}}
+                    </div>
+                </div>
+
+            </button>
+        </div>
+
+        <div class="col-lg-2 pull-left">
+            <p class="dashboardInputs">{{"DIMENSION" | translate}}:</p>
+            <button class="btn btn-default pull-left dashboardInputsButtons"
+                    type="button"
+                    ng-click="dashboardCtrl.clicked(2)">
+                <div class="crop" ng-show="dashboardCtrl.object.parentDimension && dashboardCtrl.object.childDimension">
+                    {{dashboardCtrl.object.dimension.ParentDimension.DimensionName}}:
+                    [{{dashboardCtrl.object.parentDimentionString}}]
+                    <br>
+                    <div class="crop" style="font-size: 11px">
+                        <span class="pull-left">{{dashboardCtrl.object.dimension.ChildDimension.DimensionName}}</span>:
+                        [{{dashboardCtrl.object.childDimensionString}}]
+                    </div>
+                </div>
+                <div ng-show="!dashboardCtrl.object.parentDimension">{{"PLEASE_CHOOSE_DIMENTION" | translate}}</div>
+            </button>
+
+        </div>
+        <div class="col-lg-2 pull-left">
+            <p class="dashboardInputs">{{"DATA_TYPE" | translate}}:</p>
+            <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched btn btn-default pull-left dashboardInputsButtons displayType"
+                    ng-model="dashboardCtrl.newCurrentGraph" ng-style="dashboardCtrl.rtl==true? {'text-align':'right'}:{'text-align':'left'}"
+                    ng-options="option as option | translate for option in dashboardCtrl.graphs" ng-change="dashboardCtrl.buildDataAndShowGraph()">
+                <!--<option required="true" value="" >{{"PLEASE_CHOOSE_GRAPH" | translate}}</option>-->
+            </select>
+        </div>
+<!--         <div class="col-lg-1 pull-left" style="height: 48px;">
+            <button class="btn btn-sm btn-primary pull-left ng-binding showGraphButton printFocus"
+                    ng-disabled="disableShowGraphButton || !dashboardCtrl.newCurrentGraph || ((!dashboardCtrl.object.chosenDate)
+                    && ( !dashboardCtrl.object.date.startDate || !dashboardCtrl.object.date.endDate)) "
+                    ng-click="dashboardCtrl.buildDataAndShowGraph()">{{"SHOW_GRAPH"| translate}}
+            </button>
+        </div> -->
+
+        <div class="col-lg-2 pull-right graphsDisplay" style="height:63px;">
+            <div style="padding-top: 23px;">
+                <span class="graphsDisplay1" ng-class="{'graphIconsLeft': dashboardCtrl.rtl , 'graphIconsRight': !dashboardCtrl.rtl}"
+                      ng-click="dashboardCtrl.graphClicked(1)" title="{{'SHOW_ONE_GRAPH' | translate}}"><i
+                        class="fa fa-bars fa-2x"/></span>
+                <span class="graphsDisplay2" ng-class="{'graphIconsLeft': dashboardCtrl.rtl , 'graphIconsRight': !dashboardCtrl.rtl}"
+                      ng-click="dashboardCtrl.graphClicked(2)" title="{{'SHOW_TWO_GRAPHS' | translate}}"><i
+                        class="fa fa-th-large fa-2x"/></span>
+                <span class="graphsDisplay3" ng-class="{'graphIconsLeft': dashboardCtrl.rtl , 'graphIconsRight': !dashboardCtrl.rtl}"
+                      ng-click="dashboardCtrl.graphClicked(3)" title="{{'SHOW_THREE_GRAPHS' | translate}}"><i
+                        class="fa fa-th fa-2x"/></span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row"  >
+        <div ng-show="dashboardCtrl.openModal == 1"
+             class="col-lg-3 pull-left modal1"
+             style="z-index: 1000;position: absolute;">
+            <div class="" style="{{dashboardCtrl.rtl ? 'margin-right: 70px;' : 'margin-left: 70px'}}">
+                <div class="arrowContainer">
+                    <div class="arrow-up" ng-style="dashboardCtrl.rtl && {'left' : '0'}"></div>
+                </div>
+                <div class="popover-inner"
+                     style="background-color: #fff;width: 360px;">
+                    <div class="tabs-container-dashboard mainColor2" style="">
+                        <ul class="nav nav-tabs" ng-click="dashboardCtrl.cleanData(1);">
+                            <li class="pull-left" ng-class="{active:dashboardCtrl.dateData.dateType=='Day'}"
+                                ng-click="dashboardCtrl.fillDateType('Day')"><a class="dashboard-a" data-toggle="tab" aria-expanded="true">{{"DAY"
+                                | translate}}</a></li>
+                            <li class="pull-left " ng-class="{active:dashboardCtrl.dateData.dateType=='Week'}"
+                                ng-click="dashboardCtrl.fillDateType('Week')"><a class="dashboard-a" data-toggle="tab" aria-expanded="true">{{"WEEK"
+                                | translate}}</a></li>
+                            <li class="pull-left" ng-class="{active:dashboardCtrl.dateData.dateType=='Month'}"
+                                ng-click="dashboardCtrl.fillDateType('Month')"><a class="dashboard-a" data-toggle="tab" aria-expanded="true">{{"MONTH"
+                                | translate}}</a></li>
+                            <li class="pull-left" ng-class="{active:dashboardCtrl.dateData.dateType=='Custom'}"
+                                ng-click="dashboardCtrl.fillDateType('Custom')"><a class="dashboard-a" data-toggle="tab" aria-expanded="true">{{"CUSTOM"
+                                | translate}}</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="tab-content" style="background: white; padding-top: 15px"
+                         ng-class="{'tabContentRtl' : dashboardCtrl.rtl}">
+                        <div ng-if="dashboardCtrl.dateData.dateType && dashboardCtrl.dateData.dateType!=='Custom'"
+                             style="padding-left: 20px;">
+                            <div class="tab-pane" ng-if="dashboardCtrl.dateData.dateType=='Day'">
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="Today">
+                                    {{"TODAY" | translate}}
+                                </label><br/>
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="Yesterday">
+                                    {{"YESTERDAY" | translate}}
+                                </label>
+                            </div>
+                            <div class="tab-pane" ng-if="dashboardCtrl.dateData.dateType=='Week'">
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="This Week">
+                                    {{'THIS_WEEK' | translate}}
+                                </label><br/>
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="Last 7 Days">
+                                    {{'LAST_7_DAYS' | translate}}
+                                </label>
+                            </div>
+                            <div class="tab-pane" ng-if="dashboardCtrl.dateData.dateType=='Month'">
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="Last 30 Days">
+                                    {{'LAST_30_DAYS' | translate}}
+                                </label><br/>
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="This Month">
+                                    {{'THIS_MONTH' | translate}}
+                                </label><br/>
+                                <label>
+                                    <input type="radio" ng-model="dashboardCtrl.dateData.chosenDate" value="Last Month">
+                                    {{'LAST_MONTH' | translate}}
+                                </label>
+                            </div>
+                            <div class="tab-pane row" style="position: relative;top: 18px;">
+                                <label class="pull-left compareToOnOff" >{{"COMPARE_TO" | translate}} </label>
+                                <label>
+                                    <!--<div class="slider round"></div>-->
+                                    <div class="onoffswitch" style="direction: ltr;text-align: left">
+                                        <input type="checkbox" checked="" ng-model="dashboardCtrl.dateData.comparedSlider"
+                                               ng-change="dashboardCtrl.resetComparedValues('option')"
+                                               class="onoffswitch-checkbox" id="example1">
+                                        <label class="onoffswitch-label" for="example1">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </label>
+                            </div>
+                            </br>
+                        </div>
+
+                    </div>
+
+                    <div style="padding-left: 20px;" ng-class="{'tabContentRtl' : dashboardCtrl.rtl}">
+                        <div ng-if="dashboardCtrl.dateData.dateType==='Day'">
+                            <label>
+                                <input type="radio" ng-change="dashboardCtrl.dateData.comparedSlider=true"
+                                       ng-model="dashboardCtrl.dateData.chosenDatec" value="Previous Day">
+                                {{"PREVIOUS_DAY" | translate}}
+                            </label><br/>
+                            <label>
+                                <input type="radio" ng-change="dashboardCtrl.dateData.comparedSlider=true"
+                                       ng-model="dashboardCtrl.dateData.chosenDatec"
+                                       value="Same Day Last Week">
+                                {{"SAME_DAY_LAST_WEEK" | translate}}
+                            </label>
+                        </div>
+                        <div ng-if="dashboardCtrl.dateData.dateType=='Week' ">
+                            <label>
+                                <input type="radio" ng-change="dashboardCtrl.dateData.comparedSlider=true"
+                                       ng-model="dashboardCtrl.dateData.chosenDatec" value="Previous Week">
+                                {{"PREVIOUS_WEEK" | translate}}
+                            </label><br/>
+                            <label>
+                                <input type="radio" ng-change="dashboardCtrl.dateData.comparedSlider=true"
+                                       ng-model="dashboardCtrl.dateData.chosenDatec" value="4 Weeks Ago">
+                                {{"4_WEEKS_AGO" | translate}}
+                            </label>
+                        </div>
+                        <div ng-if="dashboardCtrl.dateData.dateType=='Month'">
+
+                            <label>
+                                <input type="radio" ng-change="dashboardCtrl.dateData.comparedSlider=true"
+                                       ng-model="dashboardCtrl.dateData.chosenDatec" value="Previous Month">
+                                {{"PREVIOUS_MONTH" | translate}}
+                            </label><br/>
+                            <label>
+                                <input type="radio" ng-change="dashboardCtrl.dateData.comparedSlider=true"
+                                       ng-model="dashboardCtrl.dateData.chosenDatec"
+                                       value="Same Month Last Year">
+                                {{"SAME_MONTH_LAST_YEAR" | translate}}
+                            </label><br/>
+
+                        </div>
+
+                    </div>
+
+
+                    <div ng-show="dashboardCtrl.dateData.dateType && dashboardCtrl.dateData.dateType=='Custom' " class="row"
+                         style="padding-left: 40px;padding-right: 40px;">
+                        <div class="form-group">
+                            <label>{{"START_TIME" | translate}}:</label>
+                            <div class="input-group date" style="width:200px;">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input  type="datetime" class="form-control datetimepicker"  ng-model="dashboardCtrl.dateData.startTime" ng-blur="dashboardCtrl.startTimeChanged($event)"
+                                       date-time
+                                       min-view="date"
+                                       format="YYYY-MM-DD"
+                                       auto-close="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>{{"END_TIME" | translate}}:</label>
+                            <div class="input-group date"  style="width:200px;padding-bottom:20px" ng-show="!dashboardCtrl.dateData.startTime">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="datetime"   class="form-control datetimepicker"  ng-blur="dashboardCtrl.endTimeChanged($event)"  ng-model="dashboardCtrl.dateData.endTime" ng-disabled="!dashboardCtrl.dateData.startTime"  min-date="dashboardCtrl.dateData.startTime"
+                                       date-time
+                                       min-view="date"
+                                       format="YYYY-MM-DD"
+                                       auto-close="true"/>
+                            </div>
+                            <div class="input-group date"  style="width:200px;padding-bottom:20px" ng-show="dashboardCtrl.dateData.startTime && dashboardCtrl.enabled">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="datetime" class="form-control datetimepicker"  ng-blur="dashboardCtrl.endTimeChanged($event)"  ng-model="dashboardCtrl.dateData.endTime"  min-date="dashboardCtrl.dateData.startTime"
+                                       date-time
+                                       min-view="date"
+                                       format="YYYY-MM-DD"
+                                       auto-close="true"  />
+                            </div>
+                        </div>
+                        <div style="margin: -10px 0 -10px 0;">
+                            <label class="pull-left compareToOnOff">{{"COMPARE_TO" | translate}} </label>
+                            <label class="">
+                                <div class="onoffswitch" style="direction: ltr;text-align: left">
+                                    <input type="checkbox" checked="" ng-model="dashboardCtrl.dateData.comparedSlider"
+                                           ng-change="dashboardCtrl.resetComparedValues('custom')"
+                                           class="onoffswitch-checkbox" id="datesL">
+                                    <label class="onoffswitch-label" for="datesL">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </label>
+                            </br>
+
+
+                        </div>
+                        </br></br>
+                        <div ng-show="dashboardCtrl.dateData.comparedSlider">
+                            <div class="form-group">
+                                <label>{{"START_TIME" | translate}}:</label>
+                                <div class="input-group date" style="width:200px;">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="datetime" class="form-control datetimepicker"
+                                           ng-blur="dashboardCtrl.startTimecChanged($event) && (dashboardCtrl.dateData.startTimec && dashboardCtrl.dateData.endTimec)?dashboardCtrl.dateData.comparedSlider=true :''"
+                                           ng-model="dashboardCtrl.dateData.startTimec"  ng-disabled="(!dashboardCtrl.dateData.startTime && !dashboardCtrl.dateData.endTime)"
+                                           date-time
+                                           format="YYYY-MM-DD"
+                                           min-view="date"
+                                           auto-close="true"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>{{"END_TIME" | translate}}:</label>
+                                <div class="input-group date" style="width:200px;" ng-show="!dashboardCtrl.dateData.startTimec">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="datetime" class="form-control datetimepicker" style=""
+                                           ng-blur="(dashboardCtrl.dateData.startTimec && dashboardCtrl.dateData.endTimec)?dashboardCtrl.dateData.comparedSlider=true :''"
+                                           ng-model="dashboardCtrl.dateData.endTimec"  ng-disabled="(!dashboardCtrl.dateData.startTime && !dashboardCtrl.dateData.endTime && !dashboardCtrl.dateData.startTimec)"
+                                           date-time   min-date="dashboardCtrl.dateData.startTimec"
+                                           format="YYYY-MM-DD"
+                                           min-view="date"
+                                           auto-close="true" ng-blur="dashboardCtrl.endTimeChanged($event)" />
+                                </div>
+                                <div class="input-group date"  style="width:200px;padding-bottom:20px" ng-show="dashboardCtrl.dateData.startTimec && dashboardCtrl.enabledc">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="datetime" class="form-control datetimepicker"  ng-model="dashboardCtrl.dateData.endTimec"  min-date="dashboardCtrl.dateData.startTimec"
+                                           date-time ng-blur="dashboardCtrl.endTimeChanged($event)"
+                                           min-view="date"
+                                           format="YYYY-MM-DD"
+                                           auto-close="true"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="dashboardCtrl.dateErrorMessage && dashboardCtrl.dateErrorMessage.id" class="row" style="margin-top:10px">
+                        {{"APPLY"| translate}}
+                    </div>
+                    <div ng-show="dashboardCtrl.openModal == 1" class="row" style="margin-top:10px">
+                        <button class="btn btn-sm btn-primary ng-binding applyChanges pull-right"
+                                ng-click="dashboardCtrl.buildDataAndShowGraph()">{{"APPLY"| translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+        <!--<div class="col-lg-6 modal2" style="z-index: 1000;position: absolute;" ng-style="!dashboardCtrl.rtl && {'margin-left':'88px'}">-->
+        <div ng-if="dashboardCtrl.openModal == 2 " class="col-lg-offset-3 col-lg-2 pull-left modal2" style="z-index: 1000;position: absolute;">
+            <div class="pull-left" style="{{dashboardCtrl.rtl ? 'margin-right: 12px;' : 'margin-left: 12px'}}">
+                <div class="arrowContainer">
+                    <div class="arrow-up" ng-style="dashboardCtrl.rtl && {'left' : '0'}"></div>
+                </div>
+                <div class="popover-inner col-lg-12" style="background-color: #f3f3f4;width: 360px">
+                    <div class="col-lg-12 pull-left" style="margin-top: 20px">
+                        <select class="form-control col-lg-10 pull-left" ng-model="dashboardCtrl.dimension" 
+                                ng-change="dashboardCtrl.changeDimension()"
+                                ng-init="dashboardCtrl.dimension" 
+                                ng-options="option as (option.ParentDimension.DimensionName + ' / ' + option.ChildDimension.DimensionName) for option in dashboardCtrl.dimenstionData">
+                        </select></div>
+                    <div ng-show="dashboardCtrl.dimension && !dashboardCtrl.hideParentDim" class="col-lg-12 pull-left"
+                         style="margin-top: 20px;">
+                        <select class="form-control" width="'100%'" chosen multiple ng-model="dashboardCtrl.parentDimension"
+                                ng-init="dashboardCtrl.parentDimension"
+                                ng-change="dashboardCtrl.updateChildComboValue()"
+                                data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                                ng-options="option as option.ComboQueryEField for option in dashboardCtrl.dimension.ParentValues">
+                            <option value="all">{{"ALL" | translate}}</option>
+                        </select>
+                    </div>
+
+                    <div ng-show="dashboardCtrl.dimension"
+                         class="col-lg-12 pull-left"
+                         style="margin-top: 20px">
+                        <select class="form-control" width="'100%'" chosen multiple ng-model="dashboardCtrl.childDimension"
+                                ng-init="dashboardCtrl.childDimension"
+                                data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                                ng-options="option as option.ComboQueryEField for option in dashboardCtrl.ChildcomboValues">
+                            <option selected="ALL">{{"ALL" | translate}}</option>
+                        </select>
+                    </div>
+                    <div ng-show="dashboardCtrl.openModal == 2" class="col-lg-12 pull-right" style="margin-top: 20px; margin-bottom: 20px">
+                        <button class="btn btn-sm btn-primary pull-right"
+                                ng-click="dashboardCtrl.buildDataAndShowGraph()">{{"APPLY"| translate}}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row graphsMainContainer" style="margin: 20px 75px 0 0" ng-style="dashboardCtrl.rtl && {'margin-right': '0'}">
+        <div ng-show="dashboardCtrl.loadingGraphs == true" ng-include="'views/common/emptyPage.html'"
+             style="width:100%!important;height:880px;position: relative;top:50px;background: transparent"></div>
+        <div class="row">
+            <div class="col-lg-12 pull-left"  ng-style="rtl == ''? { 'margin-left':'15px' } : { 'margin-right': '15px' }">
+                <label>{{"CALC_METHOD_NOTE" | translate}}</label>
+            </div></div>
+        <div class="col-lg-{{dashboardCtrl.dateData.graphsDisplay}} pull-left  chart-container1"
+             style="margin-bottom:20px;height: 100%; margin-right: 0px;" ng-if="dashboardCtrl.ActiveKpisArray" on-finish-render=""
+             ng-repeat="key in dashboardCtrl.ActiveKpisArray">
+            <div ng-if="dashboardCtrl.currentGraph!='GAUGE'" class="notGauges" id="{{'container' + key}}"
+                 class="graphContainer chart1"
+                 style=" height: 300px;">
+            </div>
+
+
+            <div ng-if="dashboardCtrl.currentGraph=='GAUGE'" id="{{'container-speed'+key}}"
+                 class="graphContainer  chart1"
+                 style=" height: 220px; float: left;    margin-bottom: 22px;width:100%"></div>
+            <!--<div ng-if="dashboardCtrl.currentGraph=='Gauge'" id="{{'container-rpm'+key}}" class="graphContainer col-lg-6 chart1"-->
+            <!--style=" height: 220px; float: left;  f  margin-bottom: 22px;"></div>-->
+
+        </div>
+    </div>
+    <!--<div class="row">-->
+    <!---->
+    <!--<div style="width: 600px; height: 400px; margin: 0 auto">-->
+    <!--<div id="container-speed" style="width: 300px; height: 200px; float: left"></div>-->
+    <!--<div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div ng-init="initActionConfig()" class="theme-config" style="position: fixed;top: 100px;z-index: 10001">
+        <div class="theme-config-box" click-outside="dashboardCtrl.closeThis()">
+            <div class="spin-icon">
+                <i class="fa fa-bolt fa-lg"></i>
+            </div>
+            <div class="skin-setttings">
+                <div class="title">{{"ACTIONS_MENU" | translate}}</div>
+                <div class="setings-item" style="text-align: center;">
+                    <button type="button" ng-disabled="dashboardCtrl.disableButtons === true" class="btn btn-xs btn-w-m btn-primary"
+                            ng-click="dashboardCtrl.resetAction()">{{ "RESET_DATA" | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

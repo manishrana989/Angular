@@ -1,0 +1,139 @@
+<div class="new-search" style="padding-right: 0;padding-left: 0" ng-class="{{!rtl?'':'rtl'}}" ng-if="!hideCriteria"
+    ng-init="toggleSearch = true;">
+
+    <div class="col-lg-12 search-container">
+        <div class="bg-white">
+            <div class="pull-right">
+                <a ng-click="toggleSearch = !toggleSearch">
+                    <i class="mainColor2 fa"
+                        ng-class="{'fa-chevron-up' : toggleSearch,'fa-chevron-down' : !toggleSearch}"></i>
+                </a>
+            </div>
+            <form ng-show="toggleSearch" ng-submit="add(searchOpr,true)">
+                <div class="pull-left col-lg-1 col-md-1 col-sm-1 search-label-text">
+                    <span class="pull-left">
+                        {{'SEARCH' | translate}}
+                    </span>
+                </div>
+
+                <div class="pull-left col-lg-2 col-md-2 col-sm-2 search-label-select">
+                    <div>
+                        <select class="form-control" ng-change="handleCriteriaChange(searchOpr.left)"
+                            ng-model="searchOpr.left"
+                            ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':localLanguage) for option in reportSearchFields | orderBy:(localLanguage ?  'DisplayLName' : 'DisplayEName')">
+                            <option value="">{{'SELECT_CRITERIA' | translate}}</option>
+                        </select>
+                        <!-- <select ng-if="rtl" class="form-control"
+                                ng-change="handleCriteriaChange(searchOpr.left)"
+                                ng-model="searchOpr.left"
+                                ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':localLanguage) for option in reportSearchFields | orderBy:'DisplayLName'">
+                            <option value="">{{'SELECT_CRITERIA' | translate}}</option>
+                        </select> -->
+                    </div>
+                    </select>
+                </div>
+
+                <div class="pull-left col-lg-2 col-md-2 col-sm-2 search-label-select search-op-select">
+                    <div>
+                        <select class="form-control" ng-model="searchOpr.op"
+                            ng-options="option as (option.name | translate) for option in operators | getOperatorsByType:searchOpr.left.DisplayTypeName">
+                        </select>
+                    </div>
+                    </select>
+                </div>
+
+
+                <div class="pull-left col-lg-2 col-md-2 col-sm-2 search-label-input">
+
+                    <div ng-if="searchOpr.left.DisplayTypeName == 'date'"
+                        ng-include="'views/common/searchOperationInputs/date.html'">
+                    </div>
+
+                    <div ng-if="searchOpr.left.DisplayTypeName == 'text' || !searchOpr.left">
+                        <input ng-disabled="!searchOpr.left" type="text" ng-model="searchOpr.right">
+                    </div>
+
+                    <div ng-if="searchOpr.left.DisplayTypeName == 'num'">
+                        <input type="number" class="form-control" ng-model="searchOpr.right">
+                    </div>
+
+                    <div
+                        ng-if="searchOpr.left.DisplayTypeName == 'boolean' || searchOpr.left.DisplayTypeName == 'booleangraphic'">
+                        <div style="height: 34px;line-height: 34px;">
+                            <div style="display: inline-block">
+                                <label>{{(searchOpr.left | customTranslate:
+                                    'DisplayEName':'DisplayLName':localLanguage)}}</label>
+                            </div>
+                            <div style="display: inline-block">
+                                <input icheck ng-init="searchOpr.right = false" type="checkbox"
+                                    ng-model="searchOpr.right" />
+                            </div>
+                            <!--<label ng-class="{'requiredFiled' : required}"> <input icheck ng-init="initField(value,'checkbox')" type="checkbox" ng-model="value" ng-change="$parent.$parent.updateValue(content.Name,value,'Eq','True/False')" ng-disabled="disabled" /> {{contentDisplayName}} </label>-->
+                        </div>
+                    </div>
+
+                    <div ng-if="searchOpr.left.DisplayTypeName == 'combo'">
+                        <select ng-if="searchOpr.left.ComboDisplayList" class="form-control" multiple chosen
+                            tabindex="0" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                            ng-model="searchOpr.right"
+                            ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':localLanguage) for option in searchOpr.left.comboValues">
+                        </select>
+                        <select ng-if="!searchOpr.left.ComboDisplayList" class="form-control"
+                            data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" ng-model="searchOpr.right"
+                            ng-options="option as (option | customTranslate: 'DisplayEName':'DisplayLName':localLanguage) for option in searchOpr.left.comboValues">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pull-left" style="width: 53px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding-top: 5px;">
+                    <div ng-click="add(searchOpr)" ng-style="!searchOpr.left && {'cursor': 'not-allowed'}" style="background-image: url(images/add-circle.svg);
+                    height: 30px;
+                    background-repeat: no-repeat;
+                    object-fit: contain;
+                    cursor: pointer;
+                    width: 24px;">
+                    </div>
+                </div>
+                <div class="pull-left col-lg-1 col-md-1 col-sm-1 search-button">
+                    <button type="button" 
+                        style="display: flex;justify-content: space-between;align-items: center;"
+                        class="btn btn-sm btn-primary" ng-click="search()">
+                        {{'SEARCH' | translate}}
+                        <i class="fa fa-search pull-right" style="margin-right: 0px; "></i>
+                    </button>
+                </div>
+            </form>
+            <!-- operations section-->
+            <div class="pull-left col-lg-11 op-section" ng-class="{'margin-top-search-results-criteria' : toggleSearch}"
+                ng-show="operations.length">
+
+                <div ng-repeat="opre in operations track by $index" style="display: inline-block">
+                    <div class="search-area-op">
+                        <span class="left-op">
+                            {{opre.left | customTranslate: 'DisplayEName':'DisplayLName':localLanguage}}
+                        </span>
+                        <span>
+                            {{opre.op.ui_icon}}
+                        </span>
+                        <span ng-if="opre.left.DisplayTypeName != 'date'" class="right-op">
+                            {{opre.right}}
+                        </span>
+                        <span ng-if="opre.left.DisplayTypeName == 'date'" class="right-op">
+                            {{opre.dateDisplay}}
+                        </span>
+                        <span ng-click="clearOp($index)" class="close-op">&#215;</span>
+                    </div>
+                    <div class="search-amper" ng-hide="$index == operations.length-1"> &amp;</div>
+                </div>
+
+                <div class="search-amper clear-all" ng-click="clearAllOps()">{{'CLEAR_ALL' | translate}}</div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div style="position: relative;width: 100%;padding-{{(alignment == 'right' ? 'left': 'right')}}:2%;direction: ltr;">
+    <div class="injection-target" style="width:{{barWidth}}%">
+        <!-- Green Current Value if current>theoritical target*0.8 && current < target, yellow otherwise. look leadermes 1760-->
+        <span class="targetVal" 
+            style="{{alignment}}:{{greenWidth}}%;text-align: center;width: 60px;margin-{{alignment}}: -30px;color: {{color}};">
+            {{current |toKCelingFixed}}
+        </span>
+
+        <span class="targetVal" 
+        style="{{alignment}}:{{grayWidth}}%"
+        ng-hide="hiddenTargetVal">
+                    {{target |toKCelingFixed }}
+        </span>    
+        
+        
+        <!-- Green Width area-->
+        <div class="minToCurrent" style="background-color: {{color}};width:{{greenWidth}}%">
+            <span class="targetMin">{{min |toKCelingFixed }}</span>
+        </div>
+
+        <!-- Left to target dark gray section-->
+        <div class="minToTarget" style="width:{{grayWidth}}%">
+
+            <!-- Target gray rectangle-->
+            <div
+            class="heigher-rectangle-value"
+            style="background:#a5a4a4;{{alignment}}:100%">
+            </div>
+
+        </div>
+
+        <div class="minToMax">
+            <div class="heigher-rectangle-value"
+                 style="{{alignment}}:100%;bottom:2px"></div>
+                    <span class="targetMax">{{max |toKCelingFixed }}</span>
+            </div>
+
+    </div>
+</div>

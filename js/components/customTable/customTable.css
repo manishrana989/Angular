@@ -1,0 +1,11 @@
+.ui-grid-custom-table .ui-grid-viewport{
+    min-height: unset !important
+}
+.ui-grid-custom-table .ui-grid-header{
+   height: unset !important
+}
+.ui-grid-custom-table .shiftTable .ui-grid-render-container-body .ui-grid-header-cell, 
+.ui-grid-custom-table .ui-grid-render-container-left .ui-grid-header-cell, 
+.ui-grid-custom-table .ui-grid-header-cell {
+    height: unset !important;
+}

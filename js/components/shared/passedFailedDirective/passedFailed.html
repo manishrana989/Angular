@@ -1,0 +1,4 @@
+<div class="passed-failed">
+    <div class="pass" ng-class="{'active': passed.CurrentValue === true}" ng-click="changeCurrentValue(true)">{{"PASSED" | translate}}</div>
+    <div class="fail" ng-class="{'active': passed.CurrentValue === false}" ng-click="changeCurrentValue(false)">{{"FAILED" | translate}}</div>
+</div>

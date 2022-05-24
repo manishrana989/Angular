@@ -1,0 +1,236 @@
+
+<div  class="simple-table-directive col-lg-12 no-padding" ng-if="data.length">
+        
+        <!--
+        #NEXT_VERSION
+        <a class="carousel-control-prev"  ng-click="pullLeft()" ng-mouseup="leftButton = false">
+             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+         </a>
+    -->
+    
+        <div ng-if="simpleTable.displayMainTable()" class="simple-table-directive-container horizontalScroll" style="display: flex;">
+           
+            <div style="display:flex; flex-direction: column">
+                    <div class="StatusTable test{{graph.ID}}" style="font-weight: bold;
+                    background: white;
+                    height: 35px;
+                    align-items: center;
+                    display: table;
+                    background-color: #f1f1f1;
+                    border-bottom: solid 1px #a6a8ab;">
+    
+                            <!-- {{"STATUS" | translate}} -->
+                            <div style="height: 100%;
+                            display: flex;
+                            padding: 0px 10px;
+                            align-items: center;">
+                                    {{tableName | translate}}
+
+                                  <div ng-click="changeArrowState()" >
+                                        <i ng-show="isArrowOpen" class="fa fa-angle-up"></i>
+                                        <i ng-show="!isArrowOpen" class="fa fa-angle-down"></i>
+                                  </div>  
+
+                                  <!-- <div ng-model="checked" ng-init="checked=false" ng-click="checked=(!checked)">
+                                      Add Here Arrow {{x}}
+                                      <div class="tableArrow" >
+                                      <i ng-show="checked" class="fa fa-angle-up"></i>
+                                      <i ng-show="!checked" class="fa fa-angle-down"></i>
+                                    </div>
+                                  </div>   -->
+
+                            </div>
+            
+                    </div>
+                     <div style="height: calc(100% - 42px);" class="left-container new-left-containers">
+                        <div class="fixed-first-column ">
+                            <table>
+                                <!-- <tbody ng-repeat="group in eventY track by $index" ng-if="checked ?true:( group.dontShow ? !group.dontShow() : true ) " ng-class="group.class ? group.class : ''" style="border-bottom: solid 1px #a6a8ab;"> -->
+                                <tbody ng-repeat="group in eventY track by $index" ng-if=" group.dontShow ? !group.dontShow() : true  " ng-class="group.class ? group.class : ''" style="border-bottom: solid 1px #a6a8ab;">
+                                
+
+                                    <tr>
+                                        <th ng-click="group.func()" ng-style="group.style || 
+                                        {
+                                            background : ((group && group.color) + '32') || 'white',
+                                            cursor: group.func && 'pointer' || 'default'
+                                        }" title="{{group && group.title}}"> 
+                                            <div ng-style="group.style" class="{{group.class}}">
+                                                <div class="tableArrow" ng-if="group && group.func">
+                                                    <i ng-show="group.showJosh()" class="fa fa-angle-up"></i>
+                                                    <i ng-show="!group.showJosh()" class="fa fa-angle-down"></i>
+                                                </div>
+                                                <a ng-if="graph.options.displayTableBy !== 'worker' || 
+                                                    (graph.options.displayTableBy === 'worker' && !(group && group.func) && group.josh)"
+                                                ng-click="clickLink(group)"
+                                                target="_blank">
+                                                {{group && group.name || group| translate}}
+                                                </a>
+                                                <span ng-if="graph.options.displayTableBy === 'worker' && ((group && group.func) || !group.josh)">
+                                                        {{group && group.name || group| translate}}
+                                                </span>
+                                                <!-- <a
+                                                ui-sref=""
+                                                target="_blank">
+                                                {{group && group.name || group| translate}}
+                                                </a> -->
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+            </div>
+            <div class="right-container" ng-style="{'position':'relative'}">
+                <div class="fixed-first-row stopEventTable test2{{graph.ID}}" style="overflow: hidden;width: 100%">
+                    <table>
+                        <tbody>
+                            <tr>
+
+                                <td ng-repeat="machine in machineNames track by $index"
+                                ng-style="{'position':'relative'}"
+                                    title="{{machine}}"
+                                    ng-if="$index < data[0].length">
+                                    <!-- this is the header of the right container table -->
+                                    {{machine}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data newScroll slim tableData" custom-scroll callback="scrollCallback" style="height: calc(100% - 34px);">
+                    <table>
+                        <tbody class="vertical-line-table-position">
+                            <!-- {{data}} -->
+                            <tr ng-repeat="(i,group) in data" style="height: 40px;"  ng-if="group.dontShow ? !group.dontShow() : true" ng-class="group.class ? group.class : ''" >
+                            <!-- <tr ng-repeat="(i,group) in data" style="height: 40px;"  ng-if="checked ?true:( group.dontShow ? !group.dontShow() : true ) || group.showJosh" ng-class="group.class ? group.class : ''" > -->
+                                <td ng-repeat="(j,item) in group" style="height: inherit" ng-style="item.style" class = "stopEventTableData">
+                                    <div class="vertical-line-simple-table" style="white-space: nowrap; overflow: hidden;" ng-style="{'height': '100%'}">
+                                        <div style="display:flex;align-items: center; width: 100%;justify-content: center;">
+                                            <div ng-if="item.duration != undefined || item.duration != 'NaN'" ng-attr-title="{{item.hideTitle ? '' : 'Elapsed Time'}}">{{ item.duration }}</div>
+                                            <span ng-if="refData[i][j].duration != undefined || refData[i][j].duration != 'NaN'" style="color: #0b58a2">{{ refData[i][j].duration }}</span>
+                                        </div>
+
+                                        <div ng-if="item.duration != undefined">
+
+                                            <div ng-if="item.duration>refData[i][j].duration" style="width: 0;
+                                                 height: 0;
+                                                 border-left: 5px solid transparent;
+                                                 border-right: 5px solid transparent;
+                                                 border-bottom: 10px solid green;margin-left: 5px;"></div>
+                                            <div ng-if="item.duration<refData[i][j].duration" style="width: 0;
+                                                 height: 0;
+                                                 border-left: 5px solid transparent;
+                                                 border-right: 5px solid transparent;
+                                                 border-top: 10px solid red;display:inline-block;margin-left: 5px;"></div>
+
+                                        </div>
+<!--                                        -->
+<!--                                        <span-->
+<!--                                            title="Elapsed Time">{{item.duration}}</span>-->
+                                        <span title="Number Of Events" 
+                                            ng-if="item.numOfEvents > 0">({{item.numOfEvents}})</span>
+                                        <span title="Number Of Events"
+                                            ng-if="item.numOfEvents == 0">-</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr ng-if="displayGroups && showOnlyNumber" style="height: 36px;">
+                                    <td ng-repeat="machineData in group.subGroupsSum">
+                                        <div class="vertical-line-simple-table">
+                                        <span
+                                            title="Elapsed Time">{{machineData.duration}}</span>
+
+                                        <span title="Number Of Events" 
+                                            ng-if="machineData.numOfEvents == 0 && numOfEventsEnabled">-</span>
+                                            </div>
+
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+    <div ng-if="simpleTable.displayPrintableTables()" ng-repeat="template in ::simpleTable.printableTables" ng-class="{landscape : $first, portrait: $last}"> 
+        <div ng-repeat="table in ::template" class="simple-table-directive-container" >
+            <div class="fixedTB">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{"STATUS" | translate}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="left-container">
+                <div class="fixed-first-column">
+                    <table>
+                        <tbody ng-repeat="group in ::table track by $index" ng-if="!$last">
+                            <tr ng-if="displayGroups">
+                                <th>
+                                   {{::group.name}}
+                                </th>
+                            </tr>
+                            <tr ng-if="displaySubGroups" ng-repeat="reason in group.data">
+                                <th>
+                                 {{::reason[0]}}
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="right-container newScroll slim" custom-scroll callback="scrollCallback">
+                <div class="fixed-first-row">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td ng-repeat="machine in ::table[table.length - 1].machinesArray track by $index">
+                                    {{::machine}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data">
+                    <table>
+                        <tbody ng-repeat="group in ::table track by $index" ng-if="!$last">
+                            <tr ng-if="displayGroups">
+                                <td ng-repeat="machineData in group.subGroupsSum">
+                                    <span
+                                        title="Elapsed Time">{{group.filter? (machineData.duration | getDurationInHoursMinutes) : machineData.duration}}</span>
+                                    <span title="Number Of Events"
+                                        ng-if="machineData.numOfEvents > 0 && numOfEventsEnabled">({{::machineData.numOfEvents}})</span>
+                                    <span title="Number Of Events"
+                                        ng-if="machineData.numOfEvents == 0 && numOfEventsEnabled">-</span>
+                                </td>
+                            </tr>
+                            <tr ng-if="displaySubGroups" ng-repeat="reason in ::group.data track by $index">
+                                <td ng-repeat="machineData in reason" ng-if="$index>0">
+                                    <span
+                                        title="Elapsed Time">{{group.filter? (machineData.duration | getDurationInHoursMinutes) : machineData.duration}}</span>
+                                    <span title="Number Of Events"
+                                        ng-if="machineData.numOfEvents > 0 && numOfEventsEnabled">({{::machineData.numOfEvents}})</span>
+                                    <span title="Number Of Events"
+                                        ng-if="machineData.numOfEvents == 0 && numOfEventsEnabled">-</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- #NEXT_VERSION
+            <a class="carousel-control-next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </a>
+    
+        -->
+    </div>

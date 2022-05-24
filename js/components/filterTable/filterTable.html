@@ -1,0 +1,22 @@
+<div class="filter-table-directive">
+    <div class="title">
+        <span class="titleText">{{"FILTER_TABLE" | translate}}</span> <span class="resetButton pull-right"><a
+                ng-click="filterTableCtrl.resetData()">{{"RESET" | translate}}</a></span>
+    </div>
+
+    <!-- Statuses -->
+    <div class="filter-section" ng-if="true">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"STATUS" | translate }}<i class="fa fa-angle-down pull-right"
+                aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right" aria-hidden="true"
+                ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-show="expanded">
+            <div 
+                class="checkBox" 
+                check-box-directive
+                field-title="'working'"
+                field="'working'" 
+                select-value="'selected'"></div>
+        </div>
+    </div>
+
+</div>

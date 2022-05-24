@@ -1,0 +1,26 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="row">
+        <div class="col-lg-12" style="display: table">
+            <div class="" >
+                <div style="border: 2px dashed rgba(0, 0, 0, 0.3);font-size: 16px;" ng-disabled="!content.allowFileUpload"
+                     ngf-drop="" ngf-select="" ng-model="file" ngf-drag-over-class="dragOverClassObj"
+                     ngf-change="fileChanged(file)" ng-required="true"
+                     class="dropzone dz-clickable ng-pristine ng-valid">
+
+                    <div class="dz-default dz-message">
+                        <span>
+                            <strong>{{"DROP_SELECT_FILE" | translate}}</strong>
+                             <strong ng-if="!content.allowFileUpload">({{ 'DISABLED' | translate}})</strong>
+                            <br>
+                            <small ng-if="file && showAddedFile">{{"FILE_NAME" | translate}}: {{file.name}}</small>
+                        </span>
+                    </div>
+                    
+                </div>
+            </div>
+            <div ng-if="showAddedFile" style="display: flex;justify-content: center">
+                <button style="margin: 15px 0;" class="btn btn-primary" ng-click="uploadFile()" ng-if="file">{{"UPLOAD_FILE" | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

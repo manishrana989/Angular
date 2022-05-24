@@ -1,0 +1,109 @@
+<div class="new-production-line">
+
+    <div style="cursor: pointer" ng-click="assignCurrentStep('production-lines-def', undefined)">
+        <img src="images/back.png"/>
+        <span style="font-size: 16px;
+            position: relative;
+            margin: 0 12px;
+            top: 1px;">{{"BACK" | translate}}</span>
+    </div>
+    <h3 ng-if="isNewProductionLine.value" class="form-title">{{"DEFINE_NEW_PRODUCTION_LINE" | translate}}</h3>
+    <h3 ng-if="!isNewProductionLine.value" class="form-title">{{"PRODUCTION_LINE" | translate}} - {{currentProductionLineKey.ID}} </h3>
+
+    <form ng-submit="onAddLineProduction()">
+        <div class="form-row" ng-repeat="inputItem in formFormat">
+
+            <div ng-if="inputItem.inputType === inputTypeEnum.text" class="form-group col-md-6">
+                <label ng-style="inputItem.isRequired && {'color':'#1F1FFF'}">{{inputItem.labelName}}</label>
+                <input type="text" ng-required="inputItem.isRequired" class="form-control" ng-model="currentProductionLineKey[inputItem.inputModal]"
+                       ng-value="inputItem.inputValue" ng-disabled="!inputItem.enabled"
+                       placeholder="{{inputItem.inputPlaceholder}}">
+            </div>
+            <div ng-if="inputItem.inputType === inputTypeEnum.number" class="form-group col-md-6">
+                <label ng-style="inputItem.isRequired && {'color':'#1F1FFF'}">{{inputItem.labelName}}</label>
+                <input type="number" class="form-control" ng-required="inputItem.isRequired" ng-model="currentProductionLineKey[inputItem.inputModal]"
+                       ng-value="inputItem.inputValue" ng-disabled="!inputItem.enabled"
+                       placeholder="{{inputItem.inputPlaceholder}}" min="0" max="999999999">
+            </div>
+            <div ng-if="inputItem.inputType === inputTypeEnum.textarea" class="form-group col-md-6">
+                <label ng-style="inputItem.isRequired && {'color':'#1F1FFF'}">{{inputItem.labelName}}</label>
+                <textarea type="textarea" ng-required="inputItem.isRequired" ng-model="currentProductionLineKey[inputItem.inputModal]"
+                          class="form-control" value="{{inputItem.inputValue}}" ng-disabled="!inputItem.enabled"
+                          placeholder="{{inputItem.inputPlaceholder}}">{{inputItem.inputValue}}</textarea>
+            </div>
+            <div ng-if="inputItem.inputType === inputTypeEnum.select" class="form-group col-md-6" >
+                <label ng-style="inputItem.isRequired && {'color':'#1F1FFF'}">{{inputItem.labelName}}</label>
+                <select class="form-control"
+                        ng-change="inputItem.inputChangeListener()"
+                        ng-model="currentProductionLineKey[inputItem.inputModal]"
+                        ng-disabled="!inputItem.enabled">
+                    <option ng-repeat="option in inputItem.inputOptions"
+                            ng-value="option.Id"
+                            ng-selected="option.Id === inputItem.inputValue">{{localLanguage? option.LName:option.EName}}
+                    </option>
+                </select>
+
+            </div>
+            <div ng-if="inputItem.inputType === inputTypeEnum.checkbox" class="form-check col-md-6">
+                <input class="form-check-input" type="checkbox" ng-model="currentProductionLineKey[inputItem.inputModal]"
+                       ng-checked="inputItem.inputValue" ng-disabled="!inputItem.enabled">
+                <label class="form-check-label" ng-style="inputItem.isRequired && {'color':'#1F1FFF'}">
+                    {{inputItem.labelName}}
+                </label>
+            </div>
+        </div>
+
+        <hr style="background-color: red;width:100%"/>
+
+        <h3 class="col-md-12 form-title">{{"BUILD_LINE" | translate}}</h3>
+
+        <!--  Sortable Boxes  -->
+        <div id="sortable1" ng-model="machinesPipeline" class="param-fields-list list-group newScroll slim" ui-sortable
+             style="overflow-y: visible;padding: 1vh 0 5vh 0;display: inline-flex;flex-flow: wrap;">
+
+            <div ng-repeat="row in machinesPipeline track by $index"
+                 ng-if="machinesPipeline.length || row.UpsertType!==1"
+                 class="sortableBoxItem sortableBox">
+                <div style="width: 35%;margin: auto 0;text-align: center">
+                    <img class="remove-row" width="24" height="24"
+                         src="images/move-grey.png"/>
+                </div>
+                <div style="margin: auto 0">{{row.MachineName}}</div>
+
+                <div style="width: 35%;margin: auto 0;text-align: center">
+                    <img class="remove-row"
+                         ng-click="removeMachine(row,$index)"
+                         src="images/delete.png"/>
+                </div>
+
+
+                <div style="align-items: center;margin-left: auto;">
+                    <div class="pull-right"
+                         style="text-align:center;color:white;font-size:12px;width: 16px;height: 16px;background-color: #0b58a2">
+                        {{$index+1}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="sortableBoxItemEnd sortableBox">
+                <div class="form-group" style="margin: auto 0.208vw;height: 2.083vw;">
+                    <select ng-model="selectedMachine" style="height: 100%;margin: 0; min-width: 6.250vw;"
+                            ng-init="selectedMachine = allMachinesOptions[0]"
+                            ng-change="onChangeSelectedMachine()"
+                            ng-options="item.MachineName for item in allMachinesOptions"></select>
+                </div>
+                <div style="margin:auto" class="text-center" ng-click="createNewMachineInPipeLine()">
+                    <img src="images/operators/plus.png" height="32px" width="32px">
+                </div>
+            </div>
+        </div>
+
+        <hr style="background-color: red;width:100%"/>
+
+        <div class="col-md-12" style="text-align: center;">
+            <button type="submit" class="btn btn-primary pull-right" ng-disabled="!(productionLineChangedKey || productionLineChangedValue)" >{{"SAVE" | translate}}</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,269 @@
+[
+  {
+    "name": "shuge",
+    "structure": {
+      "class": "shuge ss-active-child huge",
+      "dataColSpan": 6,
+      "boxId": 9,
+      "height" : 200,
+      "width": 300,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "sbig1",
+    "structure": {
+      "class": "sbig1 ss-active-child big1",
+      "dataColSpan": 4,
+      "boxId": 5,
+      "height" : 200,
+      "width": 150,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "sbig2",
+    "structure": {
+      "class": "sbig2 ss-active-child big2",
+      "dataColSpan": 4,
+      "boxId": 6,
+      "height" : 200,
+      "width": 200,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+
+      ]
+    }
+  },
+  {
+    "name": "sbig3",
+    "structure": {
+      "class": "sbig3 ss-active-child big3",
+      "dataColSpan": 3,
+      "boxId": 7,
+      "height": 120,
+      "width": 150,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            },
+            {
+              "FieldName": ""
+            },
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "sbig4",
+    "structure": {
+      "class": "sbig3 ss-active-child big3",
+      "dataColSpan": 3,
+      "boxId": 8,
+      "height": 120,
+      "width": 150,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }]
+        }
+      ]
+    }
+  },
+  {
+    "name": "ssmall1",
+    "structure": {
+      "class": "ssmall1 ss-active-child small1",
+      "dataColSpan": 4,
+      "boxId": 3,
+      "height": 80,
+      "width": 200,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }, {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "ssmall2",
+    "structure": {
+      "class": "ssmall2 ss-active-child small2",
+      "dataColSpan": 3,
+      "height": 80,
+      "width":150,
+      "boxId": 4,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }, {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "sminiSmall1",
+    "structure": {
+      "class": "sminiSmall1 ss-active-child miniSmall1",
+      "dataColSpan": 2,
+      "boxId": 1,
+      "height": 80,
+      "width":100,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "sminiSmall2",
+    "structure": {
+      "class": "sminiSmall2 ss-active-child miniSmall2",
+      "dataColSpan": 3,
+      "boxId": 2,
+      "height": 40,
+      "width":150,
+      "areas": [
+        {
+          "fields": [
+            {
+              "FieldName": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
+

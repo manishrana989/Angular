@@ -1,0 +1,32 @@
+
+
+<div class="setting-sizes-selector-title" ng-if="showOptions.allowGraphTypes" style="margin: 10px 1.3vw 0">
+    <div>{{"DISPLAY_OPTION" | translate}}</div>
+  </div>
+  <div class="setting-sizes-selector" ng-if="showOptions.allowGraphTypes">
+    <div ng-if="showOptions.allowGraphTypesBar" ng-click="GAupdate('GRAPH_TYPE');graph.graphTypeID =0" class="graph-types-container">
+      <div>
+        <img ng-style="{'width' : '2.344vw','height' : '2.344vw'}" ng-src="images/dashboard/bars.png" ng-attr-alt="BARS" />
+      </div>
+      <div style="vertical-align: bottom">{{ "BARS" | translate}}</div>
+    </div>
+    <div  ng-if="showOptions.allowGraphTypesLine" ng-click="GAupdate('GRAPH_TYPE');graph.graphTypeID = 1" class="graph-types-container">
+      <div>
+        <img ng-style="{'width' : '2.344vw','height' : '2.344vw'}" ng-src="images/dashboard/line.svg" ng-attr-alt="LINES" />
+      </div>
+      <div style="vertical-align: bottom">{{ "LINES" | translate}}</div>
+    </div>
+    <div  ng-if="showOptions.allowGraphTypesTable" ng-click="GAupdate('GRAPH_TYPE');graph.graphTypeID = 2" class="graph-types-container">
+      <div>
+        <img ng-style="{'width' : '2.344vw','height' : '2.344vw'}" ng-src="images/dashboard/table.svg" ng-attr-alt="TABLE" />
+      </div>
+      <div style="vertical-align: bottom">{{"TABLE" | translate}}</div>
+    </div>
+    <div  ng-if="showOptions.allowGraphTypesPie" ng-click="GAupdate('GRAPH_TYPE');graph.graphTypeID = 3" class="graph-types-container">
+      <div>
+        <img ng-style="{'width' : '2.344vw','height' : '2.344vw'}" ng-src="images/pie@3x.png" ng-attr-alt="PIE" />
+      </div>
+      <div style="vertical-align: bottom">{{"PIE" | translate}}</div>
+    </div>
+  </div>
+

@@ -1,0 +1,132 @@
+<div class="ibox newGoalsModal editTemplatesModal" style="height:16vw">
+    <div class="ibox-title newGoalsTitle">
+        <span>{{templatesCtrl.title | translate}}</span>
+        <div class="pull-right x">
+            <img ng-click="closeModal()" src="images/close.png" width="15" height="15" />
+        </div>
+    </div>
+    <div id="toastr"></div>
+    <div class="ibox-content" style="height:100%">
+        <div ng-if="templatesCtrl.mode == 'save'">
+            <div ng-if="!templatesCtrl.isFactoryInsights && dashboardType !=2" style="display: flex;justify-content: center;margin:1vw 0;font-size: 0.8vw">
+                <div style="display: flex;align-items: center;margin:0 1vw">
+                    <input type="radio" id="LOCAL" name="isLocalDepartment"  style="margin:0 0.5vw" value="LOCAL" ng-model="templatesCtrl.newTemplateSettings.value"
+                    ng-change="printThat()">
+                    <label for="LOCAL" style="margin:0">{{"LOCAL" | translate}}</label>
+                </div>
+
+                <div style="display: flex;align-items: center;">
+                    <input type="radio" id="ALL_DEPARTMENTS" name="isLocalDepartment" style="margin:0 0.5vw" value="ALL_DEPARTMENTS" ng-model="templatesCtrl.newTemplateSettings.value"
+                           ng-change="printThat()">
+                    <label for="ALL_DEPARTMENTS" style="margin:0">{{"ALL_DEPARTMENTS" | translate}}</label>
+                </div>
+                <div style="display: flex;align-items: center;" ng-if="allowEdit">
+                    <input type="radio" id="DEFAULT_TEMPLATE" name="isLocalDepartment" style="margin:0 0.5vw" value="DEFAULT_TEMPLATE" ng-model="templatesCtrl.newTemplateSettings.value"
+                           ng-change="printThat()">
+                    <label for="DEFAULT_TEMPLATE" style="margin:0">{{"DEFAULT_TEMPLATE" | translate}}</label>
+                    <div ng-show="templatesCtrl.newTemplateSettings.value == 'DEFAULT_TEMPLATE'">     
+                        <select ng-show="groupsData && groupsData.length > 0" style="width:100%" class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen ng-model="templatesCtrl.chosenGroups" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in groupsData"></select>
+                      </div>
+                </div>
+            </div>
+            <div class="templateName">
+                <input class="pull-left form-control" ng-model="templatesCtrl.templateName" ng-change="checkName()">
+                <button ng-disabled="disabled || templatesCtrl.saving || nameExists" type="button" class="btn newPrimaryBtn" ng-click="templatesCtrl.checkNameEmpty();templatesCtrl.saveStructure()">{{"SAVE"
+                    | translate}}</button>
+            </div>
+            <p style="color:red" ng-show="nameExists">{{"TEMPLATE_NAME_EXISTS1" | translate}}</p>
+            <p style="color:red" ng-show="noName == true">{{"PLEASE_FILL_THE_TEMPLATE_NAME" | translate}}</p>
+
+            <!-- <p style="color:red" ng-show="nameExists">{{"TEMPLATE_NAME_EXISTS2" | translate}}</p> -->
+
+        </div>
+        <div class="savedTemplates" ng-if="templatesCtrl.mode == 'load'">
+            <div class="row">
+                <div class="col-lg-4 pull-left" ng-if="true" style="margin-bottom: 30px;" ng-repeat="template in templatesCtrl.templates track by $index">
+                    <div class="templateContainer" ng-click="templatesCtrl.getTemplateByStructID(template)" style="max-width: 100%">
+                        <div>
+                             <img src="{{template.Image}}" width="179" height="275">
+                            <a ng-click="templatesCtrl.deleteTemplate(template);$event.stopPropagation();" class="remove-icon pull-right"><img
+                                    width="10" src="images/templates/delete@2x.png"></a>
+                            <a ng-init="template.popup=false" ng-click="template.popup= true;templatesCtrl.popupIndex = $index;$event.stopPropagation();"
+                                class="copyButton pull-right"><img width="15" src="images/copy.svg"></a>
+                        </div>
+                        <div style="font-size: 14px;font-weight: 600; white-space: nowrap;
+                        -ms-text-overflow: ellipsis;
+                        -o-text-overflow: ellipsis;
+                        text-overflow: ellipsis;
+                        overflow: hidden;">{{templatesCtrl.localLanguage
+                            ? template.LName :
+                            template.EName}}</div>
+                    </div>
+                    <div class="copyModal" ng-if="template.popup && templatesCtrl.popupIndex == $index" off-click-activator="template.popup" off-click="template.popup = false">
+                        <div class="panel-body">
+                            <form role="form" name="leaderForm" ng-submit="copyToUser(template,templatesCtrl.chosenGroups,templatesCtrl.chosenUsers)">
+                                <div class="row">
+                                    <!-- <div ng-if="groupsData && groupsData.length > 0" class="col-lg-12 pull-left">
+                                        <label style="margin-bottom: 0px;">{{"COPY_DEFINITION_GROUPS" | translate}}</label>
+                                        <div ng-init="templatesCtrl.chosenGroups = []">
+                                            <select class="form-control"  tabindex="4" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                                                multiple chosen ng-model="templatesCtrl.chosenGroups" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in groupsData"></select>
+                                        </div>
+                                    </div> -->
+                                    <div ng-if="usersData && usersData.length > 0" class="col-lg-12 pull-left">
+                                        <label style="margin-bottom: 0px;">{{"COPY_DEFINITION_USERS" | translate}}</label>
+                                        <div ng-init="templatesCtrl.chosenUsers = []">
+                                            <select class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                                                multiple chosen ng-model="templatesCtrl.chosenUsers" ng-options="option.id as (option | customTranslate: 'displayname':'displayhname':localLanguage) for option in usersData"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" style="margin-top: 20px;">
+                                    <div class="col-lg-12">
+                                        <div class="pull-right floatOnBottom">
+                                            <button type="submit" class="btn btn-sm newPrimaryBtn pull-right m-t-n-xs">{{ "SEND"
+                                                | translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="doneLoading && !templatesCtrl.templates">{{"NO_TEMPLATES" | translate}}</div>
+            <div ng-if="!doneLoading">
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-wave">
+                        <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif"
+                             style="width: 45px;margin-bottom: 2px;">
+                        {{"LOADING_TEMPLATES" | translate}}..
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div ng-if="templatesCtrl.saving" ng-include="'views/common/emptyPage.html'">
+    <div class="panel-body emptyPage ng-scope">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="">
+                        <div class="spiner-example">
+                            <div class="sk-spinner sk-spinner-wave">
+                                <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif"
+                                    style="width: 45px;margin-bottom: 2px;">
+                                Saving Template..
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>

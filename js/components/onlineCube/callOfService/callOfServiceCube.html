@@ -1,0 +1,240 @@
+<div class="notifications-tabs col-lg-12">
+    <div class="pull-left col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <div class="tabs" ng-click="openNotifications('openCalls')"
+            ng-class="{'selectedTab' : selectedTab == 'openCalls'}">
+            {{"OPEN_CALLS" | translate}}</div>
+        <div class="tabs" ng-click="openNotifications('last24')" ng-class="{'selectedTab' : selectedTab == 'last24'}">
+            {{"LAST_24" | translate}}
+        </div>
+        <div class="tabs" ng-click="openNotifications('callTechnician')"
+            ng-class="{'selectedTab' : selectedTab == 'callTechnician'}">
+            <img src="images/technician-grey-new.svg" /> <span>{{"CALL_TECHNICIAN"
+                            | translate}}</span>
+
+        </div>
+        <img class="close-icon" src="images/close.png" ng-click="close();" />
+    </div>
+</div>
+
+
+
+
+<!-- 
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-show="callTechnicianEnabled">
+            <div class="call-technician" ng-init="callOfServiceCubeCtrl.showTechnicianList = false">
+                <div ng-click="callOfServiceCubeCtrl.showTechnicianList = !callOfServiceCubeCtrl.showTechnicianList">
+                    <img src="images/technician-grey-new" /> <span>{{"CALL_TECHNICIAN"
+                        | translate}}</span> </div>
+                <div ng-if="callOfServiceCubeCtrl.showTechnicianList"
+                    class="newScroll slim techniciansList">
+                    <div ng-show="!callingTech">
+                        <div ng-repeat="tech in allTechs track by $index" ng-click="callTechnician(tech)" style="padding:5px 10px">{{rtl
+                            ? tech.DisplayHName : tech.DisplayName}}</div>
+                    </div>
+                    <div ng-show="callingTech">
+                        <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+                    </div>
+                </div>
+            </div>
+    
+            <img class="close-icon" src="images/close.png" ng-click="close();" />
+        </div> -->
+
+
+<div class="notifications-list newScroll col-lg-12"
+    style="padding:0;height: calc(100% - 54px); z-index: 1; overflow-y: auto; overflow-x: hidden;">
+    <div ng-show="selectedTab === 'callTechnician'"
+        style="height: 100%; width: 100%; overflow-x: hidden; overflow-y: hidden;">
+        <div class="call-technician-div">
+            <label style="display:block;font-size: 18px;">{{"NEW_SERVICE_CALL" | translate}}</label>
+            <!-- <form ng-submit="callTechnician(techInfo)"> -->
+                <div style="margin-bottom:5%;width:80%">
+                    <label style="display:block">{{"TECHNICIAN_NAME" | translate}}*</label>
+                    <!-- <input name="username" type="text" class="ng-pristine ng-untouched ng-valid" style="display:block;width:100%;height: 35px"> -->
+                    <div class="call-technician" ng-init="callOfServiceCubeCtrl.showTechnicianList = false"
+                        off-click-activator="callOfServiceCubeCtrl.showTechnicianList" off-click="callOfServiceCubeCtrl.showTechnicianList = false;"
+                        ng-style="(techNameRequiredError && !techName) && {'border-color':'red'}">
+                        <img src="images/technician-grey-new.svg" />
+                        <span style="max-height:150px"
+                            class="newScroll slim techniciansList">
+
+                            <input id="techniciansNames" type="text" ng-model="techName" ng-bind="techName"
+                                style="border: white" placeholder="{{'CALL_TECHNICIAN' | translate}}"
+                                ng-change="callOfServiceCubeCtrl.filterItems(true, techName)"
+                                ng-click="callOfServiceCubeCtrl.filterItems(true, techName); callOfServiceCubeCtrl.showTechnicianList=true" required>
+                            <div class="newTechniciansSuggestions newScroll" ng-if="callOfServiceCubeCtrl.showTechnicianList">
+                                <div class="" ng-show="!callingTech"
+                                    ng-repeat="suggestion in callOfServiceCubeCtrl.filteredSuggestions"
+                                    ng-click="callOfServiceCubeCtrl.selectTech(suggestion.DisplayName,true);giveName(suggestion);callOfServiceCubeCtrl.showTechnicianList = false;callOfServiceCubeCtrl.suggestionsAreVisibleM=false">
+                                    {{suggestion.DisplayName}}
+                                </div>
+                            </div>
+
+                            <div ng-show="callingTech">
+                                <div ng-include="'views/common/emptyPage.html'" style="margin-top:0;" class="shift-loading">
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <span style="display:block;"> {{"DESCRIPTION" | translate}}</span>
+                    <div>
+                        <textarea ng-model="description" class="call-technician-description"></textarea>
+                    </div>
+                </div>
+                <!-- <div style="margin-bottom:5%;width:80%">
+                                <label style="display:block">Call reason</label>
+                                <select class="form-control" style="display:block;width:100%;height: 35px">                               
+                                </select>
+                                </div> 
+                                <div style="margin-bottom:5%;width:80%;height:20%">
+                                    <label style="display:block">Message</label>
+                                    <textarea style="display:block;resize: none;width:100%;height:100%"></textarea>
+                                    </div>-->
+                <div style="text-align: center;">
+                    <button type="button" class="btn btn-primary" style="padding: 0 20px; margin-top: 10px;" ng-click="callTechnician(techInfo)">{{"SEND_CALL" | translate}}</button>
+                </div>
+            <!-- </form> -->
+        </div>
+
+    </div>
+
+
+    <div ng-repeat="notification in callOfServiceCubeCtrl.openCallsNotifications track by $index"
+        ng-show="selectedTab === 'openCalls' && !callOfServiceCubeCtrl.dataLoad">
+        <div class="container-fluid ellipsisRuleOnAllChilds">
+            <div class="col-xs-2 no-padding pull-left">
+                <img ng-src="{{notification.ResponseTypeID | getTechnicianIcon}}" />
+                <div style="font-size: 10px;white-space: initial">
+                    {{rtl ? notification.ResponseTypeLName : notification.ResponseTypeEName}}
+                </div>
+            </div>
+            <div class=" col-xs-5 no-padding pull-left call-to " style="font-weight: 600; width:35%;"
+                title="Call To: {{notification.TargetUserName}}">{{"CALL_TO" | translate}}:
+
+                <div style="margin-bottom:5%;width:fit-content; display: inline-grid;" ng-init="openList = false"
+                    ng-click="openList = !openList" off-click-activator="openList" off-click="openList = false">
+                    <div style="display: flex;width: 100%;">
+                        <span
+                            style="color:blue;margin-right: 5px; display: block; width: 88px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                            {{notification.TargetUserName}}</span>
+
+                        <!-- <i class="fa pull-right" ng-show="!openList" ng-click="openList = !openList"><img class="fa-angle-down-expand" src="images\expand_list.jpg"/></i>
+                        <i class="fa pull-right" ng-show="openList" ng-click="openList = !openList"><img class="fa-angle-up-expand" src="images\expand_list.jpg"/></i> -->
+
+                        <img class=" fa-angle-down-expand pull-right"
+                            style="width: 13px;height: 13px;margin-right: 5px;align-items: center;" ng-show="!openList"
+                            ng-click="openList = !openList; $event.stopPropagation()" src="images\expand_list.jpg" />
+                        <img class=" fa-angle-up-expand pull-right"
+                            style="transform: rotate(180deg);width: 13px;height: 13px;margin-right: 5px;align-items: center;"
+                            ng-show="openList" ng-click="openList = !openList; $event.stopPropagation()"
+                            src="images\expand_list.jpg" />
+
+                        <!-- <i class="fa fa-angle-down pull-right" ng-show="!openList" ng-click="openList = !openList"></i>
+                        <i class="fa fa-angle-up pull-right" ng-show="openList" ng-click="openList = !openList"></i> -->
+                    </div>
+                    <div ng-if="openList" style="overflow:unset">
+                        <ul class="newTechniciansSuggestions newScroll slim" ng-show="!callingTech"
+                            style="z-index: 10000; padding-left: 0px; width: min-content;height: 115px;">
+                            <li ng-repeat="tech in allTechs track by $index" style="padding:5px 10px; overflow:unset">
+                                <div class="pull-left" style="overflow:unset"
+                                    ng-click="changeTech(tech,notification); openList = false">
+                                    {{rtl? tech.DisplayHName : tech.DisplayName}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div title="Call From: {{notification.SourceUserName}}" style="font-size: 12px;" class="o_hidden">
+                    {{"CALL_FROM" | translate}}: {{notification.SourceUserName}}
+                </div>
+
+                <div title="Event Reason: {{notification.AdditionalText}}" style="font-size: 12px;"
+                    ng-show="notification['AdditionalText'] !== null">
+                    {{"DESCRIPTION" | translate}}: {{notification.AdditionalText}}</div>
+
+                <div title="Event Name: {{notification.EventName}}" style="font-size: 12px;"
+                    ng-show="notification['EventName'] !== ''">
+                    {{"EVENT_REASON" | translate}}: {{notification.EventName}}</div>
+            </div>
+            <div class="col-xs-4 pull-left call-id" style="width:42%;">
+                <div class="col-xs-12 no-padding">
+                    <span class="notification-date col-xs-7 pull-left no-padding-left"
+                        ng-style="rtl  && {'direction': 'ltr'}" title="{{notification.ResponseDate | date:'dd/MM/yy'}}"
+                        style="width: 50%">{{notification.ResponseDate | date:"dd/MM/yy"}}</span>
+                    <span class="notification-time pull-right "
+                        title="{{notification.ResponseDate | date:'HH:mm'}}">{{notification.ResponseDate | date:"HH:mm"}}</span>
+                </div>
+                <div class="callID col-xs-12 no-padding pull-left" style="font-size: 12px">
+                    <span class="pull-left col-xs-5 no-padding-left"
+                        title="{{'CALL_ID' | translate}}">{{"CALL_ID" | translate}}</span>
+                    <span class="pull-right" title="{{notification.ID}}">{{notification.ID}}</span></div>
+            </div>
+            <div class="delete-notification col-xs-1 deleteCallButton pull-left no-padding"
+                ng-click="removeNotification(notification)" ng-hide="selectedTab == 'last24'">
+            </div>
+        </div>
+
+        <div class="changeCallStatus" ng-show="notification['ResponseTypeID']==0"
+            style="display: flex;flex-direction: row;gap:5%;margin-right: 19%; margin-left: 19%;">
+            <div class="technicianCallStatus" ng-click="$event.stopPropagation();changeTechStatus(notification,1)">
+                {{"ACCEPT"|translate}}
+            </div>
+            <div class="technicianCallStatus" ng-click="$event.stopPropagation();changeTechStatus(notification,2)">
+                {{"DENY"|translate}} </div>
+        </div>
+
+        <div class="changeCallStatus" ng-show="notification['ResponseTypeID']==1"
+            style="display: flex;flex-direction: row;gap:5%">
+            <div ng-click="$event.stopPropagation();changeTechStatus(notification,4)"
+                style="cursor: pointer;width:28%;text-align: center;font-size: 0.8vw;font-weight: bold;color:white;background-color: #0080ff;border-radius:2px;padding:0.1vw;margin-left: 19%;margin-right: 19%">
+                {{"START_SERVICE"|translate}}
+            </div>
+        </div>
+
+        <div class="changeCallStatus" ng-show="notification['ResponseTypeID']==4"
+            style="display: flex;flex-direction: row;gap:5%">
+            <div ng-click="$event.stopPropagation();changeTechStatus(notification,5); openServiceReport(notification)"
+                style="cursor: pointer;width:28%;text-align: center;font-size: 0.8vw;font-weight: bold;color:white;background-color: #0080ff;border-radius:2px;padding:0.1vw;margin-left: 19%;margin-right: 19%">
+                {{"FINISH_SERVICE"|translate}}
+            </div>
+        </div>
+    </div>
+
+    <div ng-repeat="notification in callOfServiceCubeCtrl.last24Notifications track by $index"
+        ng-show="selectedTab === 'last24' && !callOfServiceCubeCtrl.dataLoad">
+        <div class="last24Notfications">
+            <div class="tech-icon">
+                <img ng-src="{{notification.ResponseTypeID | getTechnicianIcon}}" />
+                <div style="font-size: 10px">
+                    {{rtl ? notification.ResponseTypeLName : notification.ResponseTypeEName}}
+                </div>
+            </div>
+            <div class="tech-name" style="margin: 0 10px" title="Call To: {{notification.TargetUserName}}">
+                {{"CALL_TO" | translate}}:
+                {{notification.TargetUserName}}
+                <div title="Call From: {{notification.SourceUserName}}" style="font-size: 12px;">
+                    {{"CALL_FROM" | translate}}: {{notification.SourceUserName}}</div>
+            </div>
+            <div class="pull-right" style="margin: 2%;">
+                <div>
+                    <span class="notification-date">{{notification.ResponseDate | date:"dd/MM/yy"}}</span>
+                    <span class="notification-time pull-right">{{notification.ResponseDate
+                            | date:"HH:mm"}}</span>
+                    <img class="delete-notification" ng-click="removeNotification(notification)"
+                        ng-hide="selectedTab == 'last24'" src="images/delete.png" />
+                </div>
+
+                <div class="callID" style="font-size: 12px">
+                    <span class="pull-left">{{"CALL_ID" | translate}}</span>
+                    <span class="pull-right">{{notification.ID}}</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="callOfServiceCubeCtrl.dataLoad" style="border-bottom:0">
+        <div ng-include="'views/common/emptyPage.html'" style="margin-top:70px" class="shift-loading"> </div>
+    </div>
+
+</div>

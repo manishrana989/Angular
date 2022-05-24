@@ -1,0 +1,134 @@
+<div class="filter-container">
+  <div class="filter-container-fields">
+    <div
+      init="stopEventsCtrl.stopEventsCtrl.machineListOpen = false;"
+      off-click-activator="stopEventsCtrl.machineListOpen" off-click="stopEventsCtrl.machineListOpen = false"
+      style="display: inline-block"
+    >
+      <span class="filter-container-fields-label">{{"MACHINE_LIST" | translate}}</span>
+      <div style="position: relative">
+        <input
+          name=""
+          class="form-input-filter form-control form-control-sm mr-3 w-75"
+          type="text"
+          ng-click="stopEventsCtrl.machineListOpen = !stopEventsCtrl.machineListOpen"
+          style="cursor: pointer"
+        />
+        <div class="fa fa-search form-control-search-icon" ng-click="stopEventsCtrl.machineListOpen = !stopEventsCtrl.machineListOpen"></div>
+      </div>
+
+      <div>
+        <ul class="departments-machines-container" ng-if="stopEventsCtrl.machineListOpen" ng-click="$event.stopPropagation()">
+          <div>
+            <div
+              class="checkBox"
+              style="display: inline-block"
+              check-box-directive
+              field-title=""
+              field="allDepartmentsTemp"
+              ng-custom-change="selectAllDepartmentsGlobal"
+              select-value="'selected'"
+            ></div>
+            <label>{{"DEPARTMENTS" | translate}}</label>
+          </div>
+          <div class="departmentsList">
+            <div ng-repeat="department in allDepartmentsTemp">
+              <div
+                class="checkBox"
+                style="display: inline-block"
+                check-box-directive
+                field-title="localLanguage ? department.Key.LName: department.Key.EName"
+                field="department"
+                ng-custom-change="selectAllDepartmentMachinesGlobal"
+                select-value="'selected'"
+              ></div>
+              <div
+                style="display: inline-block; padding-right: 8px"
+                class="pull-right"
+                ng-init="department.expanded=false"
+                ng-click="department.expanded=!department.expanded"
+              >
+                <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+              </div>
+              <div class="grid-list-machines" ng-if="department.expanded">
+                <div
+                  class="checkBox"
+                  style="display: inline-block"
+                  ng-repeat="machine in department.Value"
+                  check-box-directive
+                  field-title="localLanguage ? machine.MachineLName : machine.MachineName"
+                  field="machine"
+                  ng-custom-change="selectGlobalMachine"
+                  select-value="'selected'"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="filter-container-fields-dropbox">
+      <div class="filter-container-fields-label">{{"IS_ACTIVE" | translate}}</div>
+      <select ng-model="stopEventsCtrl.selectIsActive" class="form-input-filter form-control form-control-sm mr-3 w-75">
+        <option value="">{{"SELECT" | translate}}</option>
+        <option value="true">{{"TRUE_S" | translate}}</option>
+        <option value="false">{{"FALSE_S" | translate}}</option>
+      </select>
+    </div>
+  </div>
+  <div style="margin: 15px; display: flex; justify-content: flex-end">
+    <button ng-click="stopEventsCtrl.getEventReasonAndGroupsV2()" class="filter-container-searchBtn">{{"SEARCH" | translate}}</button>
+  </div>
+</div>
+
+<div class="op-app stop-events" ng-if="showTable">
+  <div class="wrapper wrapper-content animated fadeIn row">
+    <div id="toastr"></div>
+    <div class="ibox col-lg-12" style="background: white">
+      <div class="ibox-title ibox-title-flex">
+        <h5 class="pull-left">{{"EVENT_GROUP" | translate}}</h5>
+        <div class="buttons-groups-grid-table">
+          <div
+            style="cursor: pointer; margin: 0 13px"
+            ng-init="showSearchRow=false"
+            ng-click="showSearchRow = !showSearchRow"
+            title="{{'SEARCH' | translate}}"
+          >
+            <div class="fa fa-search"></div>
+          </div>
+          <div class="img-add-group-grid-table" ng-click="addNewEmptyGroupV2()" title="{{'ADD_NEW_GROUP' | translate}}">
+            <img ng-src="images/add-circle.svg" />
+          </div>
+          <div class="preview-button-groups" ng-click="openTablet()" title="{{'PREVIEW_&_CLONE' | translate}}">
+            <span>{{"PREVIEW_&_CLONE" | translate}}</span>
+          </div>
+
+          <div
+            class="save-button-groups-table"
+            ng-init="doneSaving = true"
+            ng-click="doneSaving && saveGroupOrder()"
+            ng-style="!doneSaving && {'cursor':'not-allowed'}"
+            title="{{'SAVE_DISPLAY_ORDER' | translate}}"
+          >
+            <span>{{"SAVE_DISPLAY_ORDER" | translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div ng-show="fetching" ng-include="'views/common/emptyPage.html'"></div>
+
+        <div class="gridTableEvents">
+          <events-table-directive
+            ng-if="groupsV2 && !fetching"
+            original-data="groupsV2"
+            all-departments="allDepartments"
+            show-search-row="showSearchRow"
+            style="height: 100%; width: 100%"
+          ></events-table-directive>
+        </div>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>

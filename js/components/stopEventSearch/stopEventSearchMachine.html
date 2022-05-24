@@ -1,0 +1,9 @@
+<div class="modal-header" ng-class="{rtl : machineStopEventCtrl.rtl}">
+    <button type="button" ng-click="machineStopEventCtrl.close();" class="close pull-right" data-dismiss="modal"><span
+            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title pull-left" >{{"MACHINE_EVENTS" | translate}}{{machineName ? " - " + machineName : ''}}</h3>
+</div>
+<div class="modal-body" ng-class="{rtl : machineStopEventCtrl.rtl}">
+    <!-- <search-results content="searchResultsRequest" modal="true"></search-results> -->
+    <react-search-results-stop-event content="searchResultsRequest"></react-search-results-stop-event>
+</div>

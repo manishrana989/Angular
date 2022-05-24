@@ -1,0 +1,46 @@
+<div class="translations-modal">
+
+    <div ng-if="fetching" class="notifications-history-loading" ng-include="'views/common/emptyPage.html'">
+    </div>
+
+    <div ng-style="fetching && {'opacity': '0.4'}">
+        <form ng-submit="save()">
+            <div class="ibox newGoalsModal">
+
+                <div class="ibox-title newGoalsTitle">
+                    <span>{{"TRANSLATIONS" | translate}} - {{verticalTranslationCtrl.currentTranslations[0][curLang]}}</span>
+                    <div class="pull-right x">
+                        <img ng-click="close()" src="images/close.png" width="15" height="15" />
+                    </div>
+                </div>
+
+                <div class="ibox-content newScroll slim" style="max-height:345px;">
+                    <div style="width: 100%;margin: 0" ng-repeat="row in verticalTranslationCtrl.currentTranslations track by $index " ng-init="parentIndex = $index">
+                        <div style="display: block" class="row" off-click-activator="row.commonDictionariesPopup" off-click="row.commonDictionariesPopup = false">
+                            <div style="display: block;margin: 0 10%"  ng-repeat="(key, value) in row "  ng-hide="key == 'NumOfMachines' || key =='commonDictionariesPopup'">
+                                <div style="font-weight: 900;margin: 15px;display: inline-block;width: 20%;" ng-if="$parent.$index == 0 && key!='ID'" >{{key | langTranslate:verticalTranslationCtrl.dict}}</div>
+                                <input style="display: inline-block;width: 75%;"  ng-model="row[key]" ng-if="key != 'ID'" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="lang" style="width: 30%;margin: 0px auto">
+                    <div>
+                        <select class="form-control" ng-model="selectedLang" style="text-transform: capitalize;"
+                                ng-options="item for item in verticalTranslationCtrl.emptyTranslations"></select>
+
+                        <div style="font-weight:bold; color:var(--color2);cursor: pointer" ng-click="addLanguage()">
+                            <img src="images/add-circle.svg" />
+                            {{"ADD_LANGUAGE" | translate}}
+                        </div>
+                    </div>
+                </div>
+                <button ng-disabled="disabled" type="submit" ng-click="saveAndClose()" class="btn btn-primary new-dep-header-buttons saveButton">
+                    {{"SAVE"| translate}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

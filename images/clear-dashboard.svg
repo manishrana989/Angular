@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="51" height="44" viewBox="0 0 51 44">
+    <defs>
+        <path id="d2fpwv8z4a" d="M36.667 20.167v16.5H23.833v-16.5h12.834zm-16.5 7.333v9.167H7.333V27.5h12.834zm13.75-4.583h-7.334v11h7.334v-11zm-16.5 7.333h-7.334v3.667h7.334V30.25zm2.75-22.917v16.5H7.333v-16.5h12.834zm-2.75 2.75h-7.334v11h7.334v-11zm19.25-2.75V16.5H23.833V7.333h12.834zm-2.75 2.75h-7.334v3.667h7.334v-3.667z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="htum61b4sb" fill="#fff">
+            <use xlink:href="#d2fpwv8z4a"/>
+        </mask>
+        <use fill="#979797" fill-rule="nonzero" xlink:href="#d2fpwv8z4a"/>
+        <g fill="#007AFF" mask="url(#htum61b4sb)">
+            <path d="M0 0H528V528H0z" transform="translate(-247.5 -242)"/>
+        </g>
+        <ellipse cx="39" cy="31.5" fill="#FFF" rx="7" ry="6.5"/>
+        <g>
+            <path d="M0 0L24 0 24 24 0 24z" transform="translate(27 19)"/>
+            <path fill="#0080FF" fill-rule="nonzero" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" transform="translate(27 19)"/>
+        </g>
+    </g>
+</svg>

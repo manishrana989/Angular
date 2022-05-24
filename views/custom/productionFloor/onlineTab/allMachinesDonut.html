@@ -1,0 +1,109 @@
+<div class="ibox"> 
+    <div class="ibox-title department-name-machines crop" ng-class='{"rtl" : rtl}'
+    title="{{depName}} | {{'MACHINES' | translate}}: {{allMachines}} {{'PE' | translate}}: {{type=='online' ? dep.DepartmentPEE : dep.PE}}"> 
+        <a style="text-decoration: underline" ng-if="departmentSubMenu && productionFloorMenu" 
+        ui-sref="{{departmentSubMenu.state}}({menuContent: {topMenu : productionFloorMenu, subMenu: departmentSubMenu},id : departmentSubMenu.fullView})"> {{depName}} </a>
+        <span style="margin:0 5px">|</span>
+        <span>{{"MACHINES" | translate}}:</span><span style="margin: 0 0 0 5px">{{allMachines}}</span>
+        <span style="margin:0 5px">|</span>
+        <span>{{"PE" | translate}}:
+            <span ng-if="type=='online'">{{dep.DepartmentPEE}}</span>
+            <span ng-if="type=='shift'">{{dep.PE}}</span>
+        </span>
+    </div>
+    
+    <div class="content-pie-goals" style="height: {{type == 'online' && !showgoals.value ? '237px' : ''}}">
+        <!-- IBOX content--> 
+        <div class="ibox-content outer-box" style="display: block;" >
+            <div class="inner-box" style="width:100%;padding-bottom: 20px;">
+                <div class="upper-wrapper-with-goals">
+                    <div ng-show="type !== 'target' && type == 'shift'">
+                        <div class="svg-put" ng-class="showgoals.value ? 'inner-container-pie-goals' : 'inner-container-pie'">
+                            <svg viewBox="0 0 150 200" ng-class="{'svg-with-goals' : showgoals.value , 'svg-no-goals' : !showgoals.value}">
+                                <g class="ref-cur-pie">
+                                    <g class="cur-pie"></g>
+                                    <g  class="ref-pie"></g>
+                                </g>
+                            </svg>
+    
+                            <!-- <div ng-if="showgoals.value">
+                                <div class="machines-sum" ng-if="type == 'online'">{{"MACHINES" | translate}}: {{dataSum}}</div>
+                                <div class="machines-sum" ng-if="type == 'shift'">{{"TOTAL_DURATION" | translate}}: {{(dataSum / 60) | displayHoursMinutes}}</div>
+                                <div class="pie-number-footer" ng-if="type == 'online'">{{"PE" | translate}}: {{dep.DepartmentPEE}}</div>
+                            </div> -->
+                            <svg viewBox="0 0 65 200" ng-style="{'height':'200px'}" style="{{rtl ? 'width: 48%' : 'width:52%'}}; overflow: visible; padding-left: 50px;">
+                                    <g class="icons-pies">
+
+                                    </g>
+                            </svg>
+    
+                        </div>
+                        <!--<div ng-if="!showgoals.value">-->
+                                <!--<div class="machines-sum" ng-if="type == 'online'">{{"MACHINES_IN_PRODUCTION" | translate}}: {{machinesInProduction}}</div>-->
+                                <!--<div class="machines-sum" ng-if="type == 'shift'">{{"TOTAL_DURATION" | translate}}: {{(dataSum / 60) | displayHoursMinutes}}</div>-->
+                                <!--<div class="pie-number-footer" ng-if="type == 'online'">{{"PE" | translate}}: {{dep.DepartmentPEE}}</div>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="goals-bars" ng-if="type == 'online' && !showgoals.value" >
+                       <all-machines-online-bars-directive                             
+                            dep="dep" 
+                            show-pencils="showPencils"
+                            type="type"
+                            longest="longest"
+                            showgoals="showgoals" 
+                            total-params="totalParams">
+                        </all-machines-online-bars-directive>
+
+                    </div>
+
+                    <div class="goals-bars" ng-if="showgoals.value && type == 'online' || type == 'target'" ng-init="allMachinesDonutCtrl.getTargets()">
+                            <div target-goals-directive  ng-repeat="target in allMachinesDonutCtrl.targets | hideTargets:showPencils"
+                                edges="10" 
+                                name="{{target.ui_name}}"
+                                id="target.Name"
+                                target-data="target"
+                                current="target.ActualTargetValue"
+                                target="target.TargetValue"
+                                class="goals-bars-parent"
+                                show-pencils="showPencils">
+                            </div>
+    
+                        </div>
+                </div>
+            </div>
+            <!-- <svg ng-show="!showgoals.value && type !== 'target'" viewBox="0 200 300 65" ng-style="{height:65}"  ng-class="{'svg-icons-with-goals' : showgoals.value , 'svg-icons-no-goals' : !showgoals.value}">
+                <g ng-hide="true" class="icons-pies-hor">
+                </g>
+            </svg> -->
+        </div> 
+        <!-- IBOX content END-->
+        <!-- BARS-->
+
+    </div>
+        <div class="ibox-goals" ng-if="!showgoals.value  && type !== 'target'">
+                <div class="goals-rect">
+                    <div class="goals-rect-wrapper">
+                        <p style="text-align:center">{{totalParams.events[departmentId].PercentageDuration || 0}}<span class="percentage">%</span></p>
+                        <p class="bottom-title" title="{{'REPORTED_STOP_EVENTS' | translate}}">{{"REPORTED_STOP_EVENTS" | translate}}</p>
+                    </div>
+                </div>
+                <div class="goals-rect">
+                    <div class="goals-rect-wrapper">
+                            <p style="text-align:center">{{totalParams.jobs[departmentId].Value || 0}}<span class="percentage"></span></p>
+                            <p class="bottom-title" title="{{'NUMBER_OF_JOBS' | translate}}">{{"NUMBER_OF_JOBS" | translate}}</p>
+                    </div>
+                </div>
+                <div class="goals-rect">
+                    <div class="goals-rect-wrapper">
+                         <p style="text-align:center">{{totalParams.rejects[departmentId].Value || 0}}<span class="percentage">%</span></p>
+                         <p class="bottom-title" title="{{'REJECTS' | translate}}">{{"REJECTS" | translate}}</p>
+                    </div>
+                </div>
+            </div>
+    <!-- IBOX content GOALS-->
+</div> <!-- END IBOX-->
+
+ 
+<div class="tooltip">
+    <div class="tooltip-event-name"></div>
+</div>

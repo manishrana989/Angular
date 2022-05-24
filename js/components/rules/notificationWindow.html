@@ -1,0 +1,95 @@
+<div class="newNotificationWindow">
+    <div class="newTaskRow newTaskRow1" style="height: 2.5vw !important;">
+        <div>{{"NEW_NOTIFICATION" | translate}}</div>
+        <div class="newTaskCloseX" ng-click="actionToSend.triggerTask.Assignee=0;$dismiss()">
+            <img src="images/close.png">
+        </div>
+    </div>
+
+    <form role="form" class="required" class="newScroll slim">
+
+        <div >
+            <div class="newTaskSubject newTaskFields" ng-class="{'ghost':tasksPermissionLevel===0}" style="margin-bottom: 15px;">
+                <div>
+                    <span style="font-size: x-large; font-weight: bold;"> {{"SEND_TO" | translate}}</span>
+                </div>
+                <div class="newTaskFieldsSelect">
+                    <span class="notificationAsterisk">*</span>
+                    <select style="font-size: large;" ng-model="notificationToSend.triggerTask.AssigneeSelected" ng-required="notificationToSend.triggerTask.AssigneeSelected">
+                        <option value="3">{{"USER" | translate}}</option>
+                        <option value="4">{{"USER_GROUP" | translate}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <div class="newTaskLevelObject newTaskFields">
+                    <div ng-show="notificationToSend.triggerTask.AssigneeSelected != 0" style="height: 5vw">
+                        <div>
+                            <span style="font-size: x-large; font-weight: bold;"> {{"SEND_TO" | translate}}</span>
+                        </div>
+
+                        <div ng-show="notificationToSend.triggerTask.AssigneeSelected == 3"
+                                            class="newTaskFieldsSelect"
+                                            off-click-activator="rulesCtrl.suggestionsAreVisibleM3" off-click="rulesCtrl.suggestionsAreVisibleM3=false"
+                                            ng-click="notificationToSend.triggerTask.AssigneeGroup=0;">
+                                            <span ng-show="notificationToSend.triggerTask.Assignee!=''"
+                                                class="notificationAsterisk">*</span>
+                                            <input id="newNotificationAssigneeMiddle" type="text"
+                                                ng-model="notificationToSend.triggerTask['AssigneeName']"
+                                                ng-bind="notificationToSend.triggerTask['AssigneeName']"
+                                                ng-change="rulesCtrl.filterItems(true)" style="padding:2%;height: 100%;"
+                                                ng-click="rulesCtrl.filterItems(true)">
+                                            <div class="newTaskAssigneeSuggestionsMiddle newScroll"
+                                                ng-show="rulesCtrl.suggestionsAreVisibleM3==true">
+                                                <div class="newTaskAssigneeSubject" id="{{suggestion.ID}}"
+                                                    ng-repeat="suggestion in rulesCtrl.filteredNotSuggestions"
+                                                    ng-click="rulesCtrl.selectAssignee(suggestion.ID,suggestion.DisplayName,true);rulesCtrl.suggestionsAreVisibleM3=false">
+                                                    {{suggestion.DisplayName}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="notificationToSend.triggerTask.AssigneeSelected == 4"
+                                            class="newTaskFieldsSelect"
+                                            off-click-activator="rulesCtrl.suggestionsAreVisibleM4" off-click="rulesCtrl.suggestionsAreVisibleM4=false"
+                                            ng-click="notificationToSend.triggerTask.Assignee=0;">
+                                            <span ng-show="notificationToSend.triggerTask.Assignee!=''"
+                                                class="notificationAsterisk">*</span>
+                                            <input id="newNotificationAssigneeMiddle" type="text"
+                                                ng-model="notificationToSend.triggerTask['AssigneeGroupName']"
+                                                ng-bind="notificationToSend.triggerTask['AssigneeGroupName']"
+                                                ng-change="rulesCtrl.filterItems(true)" style="padding:2%;height: 100%;"
+                                                ng-click="rulesCtrl.filterItems(true)">
+                                            <div class="newTaskAssigneeSuggestionsMiddle newScroll"
+                                                ng-show="rulesCtrl.suggestionsAreVisibleM4==true">
+                                                <div class="newTaskAssigneeSubject" id="{{suggestion.ID}}"
+                                                    ng-repeat="suggestion in rulesCtrl.filteredUsers"
+                                                    ng-click="rulesCtrl.suggestionsAreVisibleM4=false; rulesCtrl.selectAssignee(suggestion.ID,suggestion.HName,true)">
+                                                    {{localLanguage? suggestion.EName : suggestion.HName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="newTaskFields newTaskDescription" style="height: unset">
+            <div>
+                <span style="font-size: x-large; font-weight: bold;"> {{"NOTIFICATION" | translate}}</span>
+            </div>
+            <div class="newTaskFieldsTextField" style="height: unset">
+                <span ng-show="newTaskFields['Text']==''" class="notificationAsterisk">*</span>
+                <textarea ng-model="notificationToSend.triggerTask.Text" style="height: 100%;" ng-required="notificationToSend.triggerTask.Text"
+                    required></textarea>
+            </div>
+        </div>
+    </form>
+
+    <div style="text-align: right">
+        <button class="pull-right btn btn-primary" style="margin: 19px 16px;"
+            ng-click="$close(true)" ng-disabled="!rulesCtrl.checkNotificationToSend()">{{"ADD_NOTIFICATION" | translate}}</button>
+    </div>
+
+</div>

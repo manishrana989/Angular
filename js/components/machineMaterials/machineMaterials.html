@@ -1,0 +1,12 @@
+<div class="panel-body">
+    <div style="margin: 15px;" ng-repeat="table in machineMaterialsCtrl.tables" ng-if="!machineMaterialsCtrl.loading && table.columns.length > 0" >
+        <label style="font-size: 15px;color: black;">{{"CHANNEL" | translate}} {{table.channel}} <span ng-show="table.channelPC">:</span> {{table.channelPC}}<span ng-show="{{table.channelPC}}">%</span></label>
+        <div custom-table-directive 
+            columns="table.columns" 
+            data="table.rows">
+        </div>  
+    </div>
+    <div class="responsive-table-directive" ng-if="machineMaterialsCtrl.loading">
+        <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+    </div>
+</div>

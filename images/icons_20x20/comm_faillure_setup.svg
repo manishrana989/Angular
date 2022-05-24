@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>comm faillure setup</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Production-Floor-new-icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="New-Icons-20" transform="translate(-105.000000, -63.000000)">
+            <g id="comm-faillure-setup" transform="translate(105.000000, 63.000000)">
+                <path d="M10.000294,20 C4.47776112,20 0,15.5232832 0,10 C0,4.4773048 4.47776112,0 10.000294,0 C15.5228268,0 20,4.4773048 20,10 C20,15.5232832 15.5228268,20 10.000294,20 Z" id="Fill-1" fill="#A6A8AB"></path>
+                <g id="Group" transform="translate(5.066667, 5.066667)" fill="#FEFEFE">
+                    <polygon id="Fill-4" points="8.9435 5.62505556 5.60238889 8.96561111 3.37572222 6.73838889 6.71627778 3.39783333"></polygon>
+                    <path d="M5.9775,2.65927778 L5.2625,1.94372222 C4.70416667,1.38594444 3.79083333,1.38594444 3.23305556,1.94372222 L1.92138889,3.25538889 C1.36361111,3.81316667 1.36361111,4.7265 1.92138889,5.28483333 L2.63694444,5.99983333 L5.9775,2.65927778 Z" id="Fill-6"></path>
+                    <polygon id="Fill-8" points="9.78283333 9.10544444 9.08338889 9.80544444 6.26783333 6.98988889 6.96783333 6.29044444"></polygon>
+                    <polygon id="Fill-10" points="3.56322222 2.88555556 2.86322222 3.58555556 0.0482222222 0.77 0.748222222 0.0705555556"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

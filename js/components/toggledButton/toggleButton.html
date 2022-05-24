@@ -1,0 +1,12 @@
+<div class="hide-material-switch onoffswitch pull-right" style="direction: ltr;text-align: left">
+    <input type="checkbox" ng-model="toggled" class="onoffswitch-checkbox"
+        id="toggleID_{{uniq}}">
+    <label class="onoffswitch-label" ng-style="!toggled && {'border-color':'#4a4a4a'}" for="toggleID_{{uniq}}">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch" ng-class="{'unchecked': !toggled}">
+            <span ng-if="toggled" class="material-switch-v">
+            </span>
+            <span ng-if="!toggled" class="material-switch-x"></span>
+        </span>
+    </label>
+</div>

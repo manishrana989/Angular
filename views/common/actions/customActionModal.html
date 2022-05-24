@@ -1,0 +1,14 @@
+
+
+
+
+    <div class="modal-header" ng-class="{rtl : actionModalInstanceCtrl.rtl}">
+        <button type="button" ng-click="actionModalInstanceCtrl.close();" class="close pull-right" data-dismiss="modal"><span
+                aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title pull-left">{{actionModalInstanceCtrl.title | translate}}</h3>
+    </div>
+    <div ng-class="{rtl : actionModalInstanceCtrl.rtl}">
+        <div ng-if="actionModalInstanceCtrl.loading === false"  ng-include="actionModalInstanceCtrl.template"></div>
+    </div>
+
+

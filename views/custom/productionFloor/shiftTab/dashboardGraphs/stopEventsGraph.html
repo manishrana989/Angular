@@ -1,0 +1,111 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <div ng-if="containerOptions.header.length <= 1">
+            {{ (containerOptions.header[0] + (containerOptions.machine ? '_MACHINE' : '')) || "" | convertToTranslate}}
+        </div>
+        <div class="btn-group" ng-if="containerOptions.header.length > 1">
+            <button type="button" class="btn dropdown-toggle shift-drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="param-name">{{ containerOptions.header[containerOptions.settings.group] + (containerOptions.machine ? '_MACHINE' : '') | convertToTranslate}}</div>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu newScroll slim"  style="max-height: 20.313vw;overflow: auto">
+                    <li ng-repeat="i in containerOptions.header"><a href="" style="width: calc(100% - 0.417vw);" ng-click="containerOptions.settings.group=$index">{{ (i | convertToTranslatePlaceholder) | translate}}</a></li>
+            </ul>
+        </div>
+    </header-title>
+    <graph>
+        <shift-distribution-directive options="containerOptions" graph="graph"></shift-distribution-directive>
+    </graph>
+    <setting>
+        <div class="settings-title">{{"DISTRIBUTION_SETTINGS" | translate}}</div>
+        <div>
+            <div class="stop-event">
+                <span>{{"UNDER" | translate}}</span> <input type="number" class="input-number-settings-sm" ng-model="containerOptions.settings.minVal"/> <span>{{"MIN" | translate}}</span>
+    
+                <div class="hide-material-switch onoffswitch">
+                    <input type="checkbox" ng-model="containerOptions.settings.minBar" class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid" id="datesL0{{$parent.$index}}">
+    
+                    <label class="onoffswitch-label" ng-style="!containerOptions.settings.minBar && {'border-color':'#4a4a4a'}" ng-attr-for="datesL0{{$parent.$index}}">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch" ng-class="{'unchecked': !containerOptions.settings.minBar}">
+                                <span ng-if="containerOptions.settings.minBar" class="material-switch-v"> </span>
+                                <span ng-if="!containerOptions.settings.minBar" class="material-switch-x"> </span>
+                            </span>
+                    </label>
+                </div>
+            </div>
+            <hr style="margin: 0px;">
+            <div class="stop-event between-range">
+                <span>{{"BETWEEN" | translate}}</span> <input style="margin-left:8px" class="input-number-settings-sm" type="number" ng-model="containerOptions.settings.midMinVal"/> - <input class="input-number-settings-sm" style="margin-left:5px" type="number" ng-model="containerOptions.settings.midMaxVal"/>  <span>{{"MIN" | translate}}</span>
+    
+                <div class="hide-material-switch onoffswitch" >
+                    <input type="checkbox" ng-model="containerOptions.settings.midBar" class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid" id="datesL1{{$parent.$index}}">
+    
+                    <label class="onoffswitch-label" ng-style="!containerOptions.settings.midBar && {'border-color':'#4a4a4a'}" ng-attr-for="datesL1{{$parent.$index}}">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch" ng-class="{'unchecked': !containerOptions.settings.midBar}">
+                                    <span ng-if="containerOptions.settings.midBar" class="material-switch-v"> </span>
+                                <span ng-if="!containerOptions.settings.midBar" class="material-switch-x"> </span>
+    
+                            </span>
+                    </label>
+                </div>
+            </div>
+            <hr style="margin: 0px;">
+            <div class="stop-event">
+                <span>{{"OVER" | translate}}</span> <input type="number" class="input-number-settings-sm" ng-model="containerOptions.settings.maxVal"/> <span>{{"MIN" | translate}}</span>
+                
+                <div class="hide-material-switch onoffswitch" >
+                    <input type="checkbox" ng-model="containerOptions.settings.maxBar" class="onoffswitch-checkbox" id="datesL2{{$parent.$index}}">
+    
+                    <label class="onoffswitch-label" ng-attr-for="datesL2{{$parent.$index}}">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch" ng-class="{'unchecked': !containerOptions.settings.maxBar}">
+                                    <span ng-if="containerOptions.settings.maxBar" class="material-switch-v"> </span>
+                                <span ng-if="!containerOptions.settings.maxBar" class="material-switch-x"> </span>
+                            </span>
+                    </label>
+                </div>
+            </div>
+            <div class="event-reason-filter" ng-init="graph.options.settings.filterR = graph.options.settings.filterR || {'selectAll': true}">
+                <div class="event-reason-filter-header" >{{"EVENT_REASON" | translate}}
+                </div>
+                <div class="col-sm-12" style="padding: 5px" ng-click="graph.options.settings.filterR['selectAll'] = !graph.options.settings.filterR['selectAll'];updateSelectAll(graph.options.settings.filterR['selectAll'],graph.options.settings.filterR);$event.stopPropagation()">
+                    <input id="event_reason_all_{{$id}}" type="checkbox" value="true" class="graph-option-li" ng-model="graph.options.settings.filterR['selectAll']" ng-click="graph.options.settings.filterR['selectAll'] = !graph.options.settings.filterR['selectAll']">
+                    <img ng-if="graph.options.settings.filterR['selectAll']" src="images/dashboard/checkbox.svg" />
+                    <img ng-if="!graph.options.settings.filterR['selectAll']" width="18" height="18" />
+                    <span for="event_reason_all_{{$id}}" style="padding-left: 10px;cursor: pointer">{{"UN_SELECT_ALL" | translate}}</span>
+                </div>
+                <div class="event-reason-filter-body newScroll slim">
+                    <div ng-repeat="event in shiftData.stopEventsReasonFilter" ng-click="graph.options.settings.filterR[event.EventReasonID] = !graph.options.settings.filterR[event.EventReasonID];$event.stopPropagation()">
+                        <div class="col-lg-12 pull-left" style="padding: 5px" ng-init="graph.options.settings.filterR[event.EventReasonID] = (graph.options.settings.filterR[event.Name] === false) && !graph.options.settings.filterR['selectAll'] ? false : true" ng-click="graph.options.settings.filterR[event.EventReasonID] != graph.options.settings.filterR[event.EventReasonID]">
+                            <input id="event_reason_{{$index}}" type="checkbox" class="graph-option-li" ng-model="graph.options.filterR[event.EventReasonID]">
+                            <img ng-if="graph.options.settings.filterR[event.EventReasonID]" src="images/dashboard/checkbox.svg" />
+                            <img ng-if="!graph.options.settings.filterR[event.EventReasonID]" ng-init="graph.options.settings.filterR['selectAll'] = false" width="18" height="18" />
+                            <span for="event_reason_{{$index}}" style="padding-left: 10px;cursor: pointer">{{event.EventReason}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="event-group-filter" ng-init="graph.options.settings.filterG = graph.options.settings.filterG || {'selectAll': true}">
+                <div class="event-group-filter-header">{{"EVENT_GROUP" | translate}}</div>
+                <div class="col-sm-12" style="padding: 5px" ng-click="graph.options.settings.filterG['selectAll'] = !graph.options.settings.filterG['selectAll'];updateSelectAll(graph.options.settings.filterG['selectAll'],graph.options.settings.filterG);$event.stopPropagation()">
+                    <input id="event_group_all_{{$id}}" type="checkbox" value="true" class="graph-option-li" ng-model="graph.options.settings.filterG['selectAll']" ng-click="graph.options.settings.filterG['selectAll'] = !graph.options.settings.filterG['selectAll']">
+                    <img ng-if="graph.options.settings.filterG['selectAll']" src="images/dashboard/checkbox.svg" />
+                    <img ng-if="!graph.options.settings.filterG['selectAll']" width="18" height="18" />
+                    <span for="event_group_all_{{$id}}" style="padding-left: 10px;cursor: pointer">{{"UN_SELECT_ALL" | translate}}</span>
+                </div>
+                <div class="event-group-filter-body newScroll slim">
+                    <div ng-repeat="event in shiftData.stopEventsGroupFilter" ng-click="graph.options.settings.filterG[event.EventGroupID] = !graph.options.settings.filterG[event.EventGroupID];$event.stopPropagation()">
+                        <div class="col-lg-12 pull-left" style="padding: 5px" ng-init="graph.options.settings.filterG[event.EventGroupID] = graph.options.settings.filterG[event.EventGroupID] === false ? false : true" ng-click="graph.options.settings.filterG[event.EventGroupID] !=graph.options.settings.filterG[event.EventGroupID]">
+                            <input id="event_group_{{$index}}" type="checkbox" value="true" class="graph-option-li" ng-model="graph.options.settings.filterG[event.EventGroupID]">
+                            <img ng-if="graph.options.settings.filterG[event.EventGroupID]" src="images/dashboard/checkbox.svg" />
+                            <img ng-if="!graph.options.settings.filterG[event.EventGroupID]" ng-init="graph.options.settings.filterG['selectAll'] = false"  width="18" height="18" />
+                            <span for="event_group_{{$index}}" style="padding-left: 10px;cursor: pointer">{{event.EventGroup}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </setting>
+</shift-container>

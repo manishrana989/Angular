@@ -1,0 +1,347 @@
+<div
+  style="display: inline-flex; position: relative;"
+  ng-style="
+     {
+        'margin': machineBox.selectedDisplayEndLines ? 'calc(0.05vw*'+settings.selectedScale.scale+')' : 'calc(0.2vw*'+settings.selectedScale.scale+')',        
+     }
+    "
+  class="machineProgress"
+  id="MProgressBox_{{machineBox.MachineID}}"
+>
+  <div>
+    <div class="start-connector" ng-class="{'displayEndLines' : machineBox.selectedDisplayEndLines}"></div>
+    <div class="end-connector" ng-class="{'displayEndLines' : machineBox.selectedDisplayEndLines}"></div>
+    <div>
+      <div
+        class="mainMachineCard"
+        ng-class="{
+            endOfLine : !machineBox.selectedDisplayEndLines && (machineBox.LineID>0 && machineBox.NextLineMachineID===0),
+            small: settings.selectedScale.scale == 0.5,
+            medium: settings.selectedScale.scale == 1,
+            large: settings.selectedScale.scale == 1.5,
+        }"
+        style="width:calc(9.635vw * {{settings.selectedScale.scale}});height:calc(9.635vw * {{settings.selectedScale.scale}})"
+      >
+        <div
+          class="upperPart"
+          style="position: relative; display: flex; flex-direction: column; justify-content: center; height: 30%; padding: 1%;"
+          ng-style=" {'background-color': machineBox.ProductionModeID > 1 && settings.calculateBy == 'currentJob' ? 'var(--machine-status-' + machineBox.MachineStatusID + ')' :  machineColor}"
+        >
+          <div style="display: flex; flex-direction: row;">
+            <div
+              class="productName"
+              dir="auto"
+              ng-repeat="menuTitle in machineEditParams.productMenuList | filter:{ selected:true }"
+              title="{{machineBox[menuTitle.FieldName]}}"
+              ng-if="(settings.selectedScale.scale>=1)"
+              style="overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+                         white-space: unset;height: 2em;line-height: 1em;font-size: calc(0.625vw * {{settings.selectedScale.scale}});"
+            >
+              {{!machineBox.showEndLine?machineBox[menuTitle.FieldName]:""}}
+            </div>
+
+            <div style="position: relative" ng-init="machineProgressCtrl.titleEnabled = false">
+              <img
+                ng-show="showPencils && (settings.selectedScale.scale>=1)"
+                class="pencilEdit"
+                ng-click="machineProgressCtrl.titleEnabled = !machineProgressCtrl.titleEnabled"
+                src="images/edit-grey-new.svg"
+                title="{{'EDIT' | translate}}"
+              />
+              <div ng-if="machineProgressCtrl.titleEnabled" off-click-activator="machineProgressCtrl.titleEnabled" off-click="machineProgressCtrl.titleEnabled = false">
+                <div class="btn-group expandedEditParamsDropdown" style="top: 0; left: 0; right: 0; bottom: 0">
+                  <ul
+                    ng-style="{'color': settings.colorMode.textColor,'background-color': settings.colorMode.colorCode+' !important'}"
+                    class="dropdown-menu collapsed-machines"
+                    style="display: block; max-height: 35vh; overflow-y: auto; z-index: 1001; position: sticky"
+                  >
+                    <li
+                      ng-repeat="param in machineEditParams.productMenuList"
+                      ng-style="param.selected && {'color':'green'}"
+                      ng-click="machineProgressCtrl.titleEnabled = false;onMenuChange(param,machineEditParams.productMenuList,'production');"
+                    >
+                      <a
+                        style="max-width: 7.813vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                        title="{{param.FieldEName | translate}}"
+                        ng-class="{'color-red' : param.FieldName == 'removeParam'}"
+                      >
+                        {{param.FieldEName | translate}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            ng-show="machineBox.showEndLine"
+            ng-style="!rtl &&{'left': 'calc('+ settings.selectedScale.scale/2+'vw)'} || rtl &&{'right': 'calc('+ settings.selectedScale.scale/2+'vw)'}"
+            style="position:absolute;top:calc(0.1vw * {{settings.selectedScale.scale}});"
+          >
+            <img src="images/line_icon_end.png" style="transform: scale({{settings.selectedScale.scale}})" />
+          </div>
+          <div class="machineEName" dir="auto">
+            <a
+              style="color: inherit;"
+              ng-show="!machineBox.showEndLine"
+              ng-style="{'font-size': calcMachineFontSize()}"
+              title="{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}"
+              ui-sref="appObjectMachineFullView({appObjectName: 'MachineScreenEditor',ID: machineBox.MachineID})"
+              target="MachineScreenEditor"
+            >
+              {{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}
+            </a>
+            <a
+              style="color: inherit;"
+              ng-show="machineBox.showEndLine"
+              ng-style="{'font-size': calcMachineFontSize()}"
+              title="{{machineBox.productionName}}"
+              >{{machineBox.productionName}}</a
+            >
+          </div>
+        </div>
+        <div
+          ng-show="settings.selectedScale.scale>=1 && selectedMenu['bar'].FieldName!=='removeParam' || showPencils"
+          style="
+            position: relative;
+            border: solid 1px gray;
+            border-width: 0px 1px;
+            height: 22%;
+            display: flex;
+            justify-items: center;
+            padding: 0 3%;
+          "
+              ng-style="{'opacity':!showPencils && machineBox.ProductionModeID > 1 && settings.calculateBy == 'currentJob' ?  '0.2':''}"
+        >
+          <current-shift-performance
+            ng-show="selectedMenu['bar'].FieldName === 'progressBar'  && !redTarget"
+            style="height: 100%; width: 100%; font-size: 1vw;"
+            percentage-colors="percentageColors"
+            calculate-by="calculateBy"
+            theoretical-custom-field="settings.calculateBy === 'shiftUnitTarget' ? selectedMenu : null"
+            selected-scale="selectedScale"
+            machine-color="machineColor"
+            type="'machine'"
+            content="machineBox"
+          >
+          </current-shift-performance>
+
+          <div ng-show="redTarget && paramsByCalc[settings.calculateBy][counterItems+1].FieldName == 'UnitsProducedOKShift' && (selectedMenu['bar'].FieldName==='percentageBar' || selectedMenu['bar'].FieldName === 'progressBar')" style="white-space: unset; font-size: calc(0.6vw * 1); margin: auto; color: rgb(255, 0, 0);">
+            <label for="" title="{{'PLEASE_SET_SHIFT_TARGET' | translate}}" ng-style= "{'margin-bottom': 0, 'font-size':'calc(0.6vw *'+settings.selectedScale.scale+')'}"
+              >{{"PLEASE_SET_SHIFT_TARGET" | translate}}</label
+            >
+          </div>
+          <div ng-show="redTarget && paramsByCalc[settings.calculateBy][counterItems+1].FieldName == 'UnitsProducedOKJosh' && (selectedMenu['bar'].FieldName==='percentageBar' || selectedMenu['bar'].FieldName === 'progressBar')" style="white-space: unset; font-size: calc(0.6vw * 1); margin: auto; color: rgb(255, 0, 0);">
+          <label for="" title="{{'PLEASE_SET_SHIFT_TARGET' | translate}}" ng-style= "{'margin-bottom': 0, 'font-size':'calc(0.6vw *'+settings.selectedScale.scale+')'}"
+              >{{"ACTIVE_NEW_JOB" | translate}}</label
+            >
+          </div>
+          <div
+            ng-show="selectedMenu['bar'].FieldName==='percentageBar' && !redTarget"
+            dir="ltr"
+            style="width: 80%; height: 100%; margin: auto;"
+          >
+            <span style="display: none;"
+              >{{machineProgressCtrl.pcValue = content[paramsByCalc[settings.calculateBy][0].FieldName]}}</span
+            >
+            <div style="height: 100%; display: flex; flex-direction: column;">
+              <div
+                class="percentage-text"
+                style="height: auto; padding: 1px;"
+                ng-style="{'font-size': 'calc(0.6vw *'+settings.selectedScale.scale+')','margin': '2px -20px 2px auto'}"
+              >
+                {{machineProgressCtrl.pcValue |toFixedLessThanHundered}}%
+              </div>
+              <div style="position: relative; height: 20%; display: flex; flex-direction: row; background: gray;">
+                <span ng-style="{'width':machineProgressCtrl.pcValue+'%','background-color': machineColor}" style="height: 100%;"></span>
+                <span
+                  class="dot"
+                  ng-style="{'border-color': machineColor,
+                                  'left': 'calc('+min(machineProgressCtrl.pcValue)+'% - 0.417vw)',
+                                  'width': 'calc(0.733vw*'+settings.selectedScale.scale+')',
+                                  'height': 'calc(0.733vw*'+settings.selectedScale.scale+')',
+                                  'top': 'calc('+settings.selectedScale.scale+'*-0.208vw)'}"
+                ></span>
+                <span ng-style="{'width':(100-min(machineProgressCtrl.pcValue))+'%'}" style="height: 100%; background-color: gray;"></span>
+              </div>
+            </div>
+          </div>
+          <div ng-if="selectedMenu['bar'].FieldName==='removeParam'" style="height: 100%; width: 100%;"></div>
+          <div
+            style="position: absolute; top: 10px; display: flex;"
+            ng-style="{
+                        right: rtl ? 'unset' : '-4px',
+                        left: rtl ? '-4px' : 'unset',
+                    }"
+                    ng-style="{
+                      right: rtl ? 'unset' : '-4px',
+                      left: rtl ? '-4px' : 'unset',
+                  }"
+          ng-init="machineProgressCtrl.barEnabled = false"
+          off-click-activator="machineProgressCtrl.barEnabled" off-click="machineProgressCtrl.barEnabled = false"           
+        >
+        
+          <img  ng-click="machineProgressCtrl.barEnabled = true;" ng-show="showPencils" class="pencilEdit" src="images/edit-grey-new.svg" title="{{'EDIT' | translate}}" />
+         
+          <div ng-if="machineProgressCtrl.barEnabled">
+            <div class="btn-group expandedEditParamsDropdown">
+              <ul
+                ng-style="{'color': settings.colorMode.textColor,'background-color': settings.colorMode.colorCode+' !important'}"
+                class="dropdown-menu collapsed-machines"
+                style="display: block; max-height: 35vh; overflow-y: auto; z-index: 1001;"
+              >
+                <li ng-repeat="param in machineEditParams.barMenuList" ng-style="param.selected && {'color':'green'}">
+                  <a
+                    style="max-width: 7.813vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                    ng-click="machineProgressCtrl.barEnabled = false;onMenuChange(param,machineEditParams.barMenuList,'bar')"
+                    title="{{param.FieldEName | translate}}"
+                    ng-class="{'color-red' : param.FieldName == 'removeParam'}"
+                  >
+                    {{param.FieldEName | translate}}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div
+          ng-repeat="itemShape in  [].constructor(shapes.length) track by $index"
+          ng-if="settings.shapeType===$index"
+          ng-style="(((settings.selectedScale.scale < 1 || (selectedMenu['bar'] && selectedMenu['bar'].FieldName==='removeParam')) && !showPencils)  && {'height':'70%','opacity':!showPencils && machineBox.ProductionModeID  > 1 && settings.calculateBy == 'currentJob' ? '0.2':''})
+                 || (((settings.selectedScale.scale>=1 && (selectedMenu['bar'] && selectedMenu['bar'].FieldName!=='removeParam')) || showPencils) && {'height':'48%','opacity':!showPencils && machineBox.ProductionModeID > 1  && settings.calculateBy == 'currentJob' ? '0.2':''})"
+          class="lowerPart"
+        >
+          <div
+            ng-if="shapes[settings.shapeType]"
+            style="width:100%;height: {{100/(shapes[settings.shapeType].length)}}%"
+            ng-repeat="row in shapes[settings.shapeType] track by $index"
+            ng-init="rowIndex = $index"
+          >
+            <div
+              style="display: grid;grid-template-columns: repeat({{ row.col }}, 1fr);
+                        grid-auto-columns: 50%;height: 100%;"
+            >
+              <div
+                ng-repeat="number in [].constructor(row.col) track by $index"
+                class="timeDown-rejects-part"
+                ng-class="{'vertical-boxes' : row.col === 3, 'horizontal-boxes' : row.col === 1 , 'red-shift-target-container' : redTarget && (paramsByCalc[settings.calculateBy][counterItems+1].FieldName == 'UnitsTargetShift' || paramsByCalc[settings.calculateBy][counterItems+1].FieldName == 'UnitsTargetJosh')}"
+              >
+          
+                <span style="display: none;" ng-init="counterItems = pastColumnCount(rowIndex) +  $index">{{counterItems}}</span>
+                <div
+                  class="part"
+                  style="flex-direction:{{row.detailsDirection}};font-size: calc({{row.fontSize}}*{{settings.selectedScale.scale}})"
+                >
+                  <div class="pencil-container" ng-init="paramsByCalc[settings.calculateBy][counterItems+1].pencilEnabled = false">
+                    <div
+                      class="part-number"
+                      ng-style="{'font-size': 'calc('+row.numberFontSize*settings.selectedScale.scale+')'} && (settings.selectedScale.scale<1 && {'margin':'0'})"
+                      ng-if="(!paramsByCalc[settings.calculateBy][counterItems+1].editable || !showPencils && paramsByCalc[settings.calculateBy][counterItems+1].editType == editTypeEnum.INPUT )"
+                      title="{{machineBox[paramsByCalc[settings.calculateBy][counterItems+1].FieldName] |toFixedLessThanHundered}}"
+                    >
+                      {{machineBox[paramsByCalc[settings.calculateBy][counterItems+1].FieldName] | toFixedLessThanHundered}}
+                    </div>
+                    <div
+                      class="part-number"
+                      ng-style="{'font-size': 'calc('+row.numberFontSize*settings.selectedScale.scale+')'} && (settings.selectedScale.scale<1 && {'margin':'0'})"
+                      ng-if="(paramsByCalc[settings.calculateBy][counterItems+1].editType == editTypeEnum.DROP_LIST)"
+                      title="{{machineBox[selectedMenu[paramsByCalc[settings.calculateBy][counterItems+1].FieldName].FieldName] | toFixedLessThanHundered}}"
+                    >
+                      {{machineBox[selectedMenu[paramsByCalc[settings.calculateBy][counterItems+1].FieldName].FieldName] | toFixedLessThanHundered}}
+                    </div>
+                    <input
+                      class="part-number"
+                      ng-show="paramsByCalc[settings.calculateBy][counterItems+1].editable && showPencils
+                                           && paramsByCalc[settings.calculateBy][counterItems+1].editType === editTypeEnum.INPUT"
+                      style="height: 75%;"
+                      ng-model="editValue.value"
+                      ng-disabled="!paramsByCalc[settings.calculateBy][counterItems+1].editable"
+                      ng-value="editValue.value | toFixedLessThanHundered"
+                      title="{{editValue.value | toFixedLessThanHundered}}"
+                    />
+                    <div
+                      style="position: absolute; right: 0px;"
+                      class="pencilEditContainer"
+                      ng-style="{
+                                            right: rtl ? 'unset' : '0px',
+                                            left: rtl ? '0px' : 'unset',
+                                        }"
+                      ng-show="paramsByCalc[settings.calculateBy][counterItems+1].editable && showPencils"
+                    >
+                      <img
+                        ng-show="!paramNeedToSaving"
+                        class="pencilEdit"
+                        ng-style="settings.colorMode.colorCode!='#ffffff' && {'filter': 'invert(100%)'}"
+                        ng-click="paramsByCalc[settings.calculateBy][counterItems+1].pencilEnabled = true;$event.stopPropagation()"
+                        src="images/edit-grey-new.svg"
+                        title="{{'EDIT' | translate}}"
+                      />
+                      <img
+                        ng-show="paramNeedToSaving && paramsByCalc[settings.calculateBy][counterItems+1].editType === editTypeEnum.INPUT"
+                        class="pencilEdit"
+                        ng-style="settings.colorMode.colorCode!='#ffffff' && {'filter': 'invert(100%)'}"
+                        ng-init="paramsByCalc[counterItems].pencilEnabled = false"
+                        ng-click="onSaveEditableValue()"
+                        src="images/send.png"
+                      />
+                    
+                    <div
+                      off-click-activator="paramsByCalc[settings.calculateBy][counterItems+1].pencilEnabled" off-click="paramsByCalc[settings.calculateBy][counterItems+1].pencilEnabled = false"
+                      ng-show="paramsByCalc[settings.calculateBy][counterItems+1].editable && showPencils
+                                    && paramsByCalc[settings.calculateBy][counterItems+1].pencilEnabled
+                                    &&  paramsByCalc[settings.calculateBy][counterItems+1].editType === editTypeEnum.DROP_LIST"
+                    >
+                      <div
+                        class="btn-group expandedEditParamsDropdown"
+                        ng-init="paramsByCalc[settings.calculateBy][counterItems+1].applyAll = false"
+                      >
+                        <ul
+                          ng-style="{'color': settings.colorMode.textColor,'background-color': settings.colorMode.colorCode+' !important'}"
+                          class="dropdown-menu collapsed-machines"
+                          style="display: block; max-height: 35vh; overflow-y: auto; z-index: 1001"
+                        >
+                          <li
+                            ng-repeat="param in machineEditParams[paramsByCalc[settings.calculateBy][counterItems+1].editTypeList]"
+                            ng-style="param.selected && {'color':'green'}"
+                            class="ng-scope"
+                          >
+                            <a
+                              ng-click="paramsByCalc[settings.calculateBy][counterItems+1].pencilEnabled = false;
+                                                                    onMenuChange(param,machineEditParams[paramsByCalc[settings.calculateBy][counterItems+1].editTypeList],paramsByCalc[settings.calculateBy][counterItems+1].FieldName)"
+                              style="max-width: 7.813vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                              title="{{param.FieldEName | translate}}"
+                              ng-class="{'color-red' : param.FieldEName == 'removeParam'}"
+                            >
+                              {{param.FieldEName | translate}}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div
+                    class="part-title"
+                    style="max-width: 100%;margin:0;width:100%;white-space: unset;font-size: calc({{row.fontSize}}*{{settings.selectedScale.scale}})"
+                    ng-style="(row.detailsDirection =='column' && {'margin':'0.104vw','max-width':'100%'})"
+                    ng-class="{'pencilEnabled' : showPencils}"
+                    title="{{paramsByCalc[settings.calculateBy][counterItems+1].title | translate}}"
+                  >
+                    {{ (paramsByCalc[settings.calculateBy][counterItems+1].editable ?
+                    selectedMenu[paramsByCalc[settings.calculateBy][counterItems+1].FieldName].FieldEName :
+                    paramsByCalc[settings.calculateBy][counterItems+1].title) | translate }}
+                    <!-- {{selectedMenu[paramsByCalc[settings.calculateBy][counterItems+1].FieldName].FieldEName | translate }} -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

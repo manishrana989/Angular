@@ -1,0 +1,52 @@
+<div class="newNotificationWindow">
+    <div class="newTaskRow newTaskRow1" style="height: 2.5vw !important;">
+        <div>{{"NEW_SERVICE_CALL" | translate}}</div>
+        <div class="newTaskCloseX" ng-click="$dismiss()">
+            <img src="images/close.png">
+        </div>
+    </div>
+
+    <form role="form" class="required" class="newScroll slim">
+
+        <div>
+            <div>
+                <div class="newTaskLevelObject newTaskFields">
+                    <!-- <div ng-show="notificationToSend.triggerTask.AssigneeSelected != 0" style="height: 5vw"> -->
+                    <div ng-show="true" style="height: 5vw">
+                        <div>
+                            <span style="font-size: x-large; font-weight: bold;"> {{"TECHNICIAN_NAME" | translate}}</span>
+                        </div>
+                        <select 
+                                ng-model="currentAssignee"
+                                ng-change="eventToSend.triggerTask.Assignee = currentAssignee.ID; 
+                                eventToSend.triggerTask.AssigneeName = currentAssignee.DisplayName"
+                                ng-options="tech as tech.DisplayName for tech in techniciansNames"
+                                ng-required="currentAssignee">
+                                <option></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="newTaskFields newTaskDescription" style="height: unset">
+            <div>
+                <span style="font-size: x-large; font-weight: bold;"> {{"DESCRIPTION" | translate}}</span>
+            </div>
+            <div class="newTaskFieldsTextField" style="height: unset">
+                <textarea ng-model="eventToSend.triggerTask.Text" style="height: 100%;"></textarea>
+            </div>
+        </div>
+    </form>
+
+    
+    <div style="text-align: right">
+        <button class="pull-right btn btn-primary" style="margin: 19px 16px;"
+            ng-click="$close(true)" ng-disabled="!eventToSend.triggerTask.Assignee">{{"ADD_SERVICE_CALL" | translate}}</button>
+    </div>
+
+</div>
+
+<!--\
+    checkNotificationToSend or checkServiceCallToSend = this function return false if at least one of the form fields is empty
+ -->

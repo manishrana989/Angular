@@ -1,0 +1,46 @@
+<div class="shiftInsightsTrendsElement">
+
+    <div class="shiftInsightsTrendsElementHeader" >
+        <div><span >{{elementname | translate}}</span></div>
+
+    </div>
+    <div class="shiftInsightsTrendsElementBody">
+        <div>
+            <div ng-show="view=='Quantity'" ng-style="rtl && {'direction':'ltr','text-align':'right'}">
+                <span  style="font-size: 2.777vw;font-weight: bold" ng-bind="elementData.Comparison[0].Unreported"></span>
+                /
+                <span  style="font-size: 1.111vw;font-weight: bold" ng-bind="elementData.Comparison[0].Total"></span>
+            </div>
+            <div ng-show="view=='Precentage'" ng-style="rtl && {'direction':'ltr','text-align':'right'}">
+                <span style="font-size: 2.777vw;font-weight: bold" ng-bind="elementData.currentPC"></span>
+                <span style="font-size: 2.777vw;font-weight: bold">%</span>
+            </div>
+            <div ng-show="name=='unreportedStops'" style="display: flex;position: relative;align-items: center">
+                    <div ng-show="elementData.precentageDiff >0" class="trendArrowUp" style="border-bottom:5px solid #d0021b "></div>
+                    <div class="precentageView" ng-show="elementData.precentageDiff >0">
+                    <span style="font-size: 1.667vw;font-weight: bold;color:#d0021b"
+                          ng-bind="elementData.precentageDiff"></span>
+                        <span style="font-size: 1.667vw;font-weight: bold;color:#d0021b">%</span>
+                    </div>
+
+
+                    <div ng-show="elementData.precentageDiff <=0" class="trendArrowDown" style="border-top:5px solid #50bc4e"></div>
+                    <div class="precentageView" ng-show="elementData.precentageDiff <=0">
+                    <span style="font-size: 1.667vw;font-weight: bold;color:#50bc4e"
+                          ng-bind="elementData.precentageDiff"></span>
+                        <span style="font-size: 1.667vw;font-weight: bold;color:#50bc4e">%</span>
+                    </div>
+            </div>
+            <div>
+                <span style="font-size:0.8vw">{{"COMPARE_WITH_B" | translate}}: </span>
+                <span style="font-size:0.7vw" ng-show="compareoption==1">{{"LAST_24_HOURS" | translate}}</span>
+                <span style="font-size:0.7vw" ng-show="compareoption==4">{{"LAST_SIMILAR_SHIFT"| translate}}</span>
+                <span style="font-size:0.7vw" ng-show="compareoption==5">{{"WEEKLY_AVERAGE" | translate}}</span>
+                <span style="font-size:0.7vw" ng-show="compareoption==6">{{"MONTHLY_AVERAGE"|translate}}</span>
+                <span style="font-size:0.7vw" ng-show="compareoption==7">{{"LAST_SHIFT" | translate}}</span>
+                <span style="font-size:0.6vw" ng-show="compareoption==8">{{"ALL_SHIFTS_LAST_WEEK" | translate}}</span>
+            </div>
+        </div>
+        <div id="{{name + 'Trend'}}"></div>
+    </div>
+</div>

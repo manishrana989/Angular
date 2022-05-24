@@ -1,0 +1,23 @@
+<a href ng-click="showMachinesReason = !showMachinesReason;$event.stopPropagation()"
+  >{{"MACHINE_LIST" | translate}}({{dataTemp.length}})</a
+>
+<div style="position: relative;" off-click-activator="showMachinesReason" off-click="showMachinesReason = false;">
+  <ul
+    class="departments-machines-container"
+    ng-init="showMachinesReason = false"
+    ng-click="$event.stopPropagation()"
+    ng-if="showMachinesReason"
+  >
+    <div class="grid-list-machines-reasons">
+      <div class="childFilter" style="margin-right: 10px;" ng-repeat="machine in dataTemp track by $index">
+        <div
+          class="checkBox"
+          check-box-directive
+          field-title="localLanguage ?  machine.MachineLName : machine.MachineName "
+          field="machine"
+          select-value="'selected'"
+        ></div>
+      </div>
+    </div>
+  </ul>
+</div>

@@ -1,0 +1,14 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="">
+        <form role="form" ng-submit="saveForm()">
+            <div class="col-sm-12">
+                <div  ng-repeat="common in recordValue">
+                    <div class="form-group col-sm-3">
+                        <input-directive content="common"></input-directive>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ "SAVE_CHANGES" | translate}}</button>
+        </form>
+    </div>
+</div>

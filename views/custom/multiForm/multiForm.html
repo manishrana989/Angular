@@ -1,0 +1,83 @@
+<div ng-if="showBreadCrumb == true">
+    <div class="row wrapper border-bottom white-bg page-heading col-lg-12"
+         style="padding: 0 10px 7px 10px;position: fixed; top: 40px; width: 100%;z-index :9999" ng-if="modal === undefined || modal === null">
+        <div class="col-lg-10 floatRight">
+            <h2 style="margin-top: 7px;margin-bottom: 7px;">{{topPageTitle}}</h2>
+            <bread-crumbs></bread-crumbs>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeIn row" style="margin-top: 105px">
+        <div class="ibox col-lg-12">
+            <div class="ibox-title">
+                <h5 class="pull-left">{{"SEARCH" | translate}} {{topPageTitle}}</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="form-group col-sm-3 pull-left" ng-repeat="field in searchBoxFields">
+                        <input-directive content="field" multiform="true"></input-directive>
+                        
+                        <!-- <react-input-generic
+                        content="field"
+                        multiform="true"
+                        ></react-input-generic> -->
+
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 pull-right">
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" ng-disabled="requestInProgress" ng-click="searchMultiForm()">{{ "SEARCH" | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox col-lg-12" ng-if="dataLoaded === true">
+            <div class="ibox-title">
+                <h5 class="pull-left" ng-if="!multiFormHeaderTitle">{{topPageTitle}}</h5>
+                <h5 class="pull-left" ng-if="multiFormHeaderTitle" style="font-weight: 300" ><span style="font-weight: 900">{{"ACTIVE_JOB" | translate}}</span> {{multiFormHeaderTitle}}</h5>
+            </div>
+            <div class="ibox-content">
+                <h5 class="pull-left" style="font-size: 14px;padding: 0px 15px;" ng-if="multiFormHeaderTitle">{{"JOBS_FOR_SCHEDULE" | translate}}</h5>
+                <div ng-include="'views/common/multiFormTemplate.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="showBreadCrumb == false">
+
+    <div class="wrapper wrapper-content animated fadeIn col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5 class="pull-left">{{"SEARCH" | translate}} {{topPageTitle}}</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="form-group col-sm-3 pull-left" ng-repeat="field in searchBoxFields">
+                        <input-directive content="field" multiform="true"></input-directive>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 pull-right">
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" ng-disabled="requestInProgress" ng-click="searchMultiForm()">{{ "SEARCH" | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox" ng-if="dataLoaded === true">
+            <div class="ibox-title">
+                <h5 class="pull-left" ng-if="!multiFormHeaderTitle">{{topPageTitle}}</h5>
+                <h5 class="pull-left" ng-if="multiFormHeaderTitle" style="font-weight: 300" ><span style="font-weight: 900">{{"ACTIVE_JOB" | translate}}</span> {{multiFormHeaderTitle}}</h5>
+            </div>
+            <div class="ibox-content">
+                <h5 class="pull-left" style="font-size: 14px;padding: 15px;"  ng-if="multiFormHeaderTitle">{{"JOBS_FOR_SCHEDULE" | translate}}</h5>
+                <div ng-include="'views/common/multiFormTemplate.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>

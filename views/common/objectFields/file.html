@@ -1,0 +1,38 @@
+<!--
+<div class="row">
+    <div class="col-lg-6 pull-left">
+        <label class="pull-left" ng-if="inputValue.content.fileType != 'General'">{{"PREVIEW" | translate}}</label>
+    </div>
+    <div class="col-lg-6 pull-right">
+        <a class="btn btn-primary pull-right" href="{{inputValue.value}}" ng-if="inputValue.fileName" type="button" target="_blank"> {{"DOWNLOAD" | translate}}</a>
+    </div>
+</div>
+<div class="row" style="margin-top: 15px">
+    <div class="col-lg-12" ng-if="inputValue.content.fileType == 'Pdf'">
+        <div class="text-center">
+            <div class="wrapper">
+                <ng-pdf template-url="views/common/pdf_viewer.html"  canvasid="pdf-canvas" scale="page-fit" ></ng-pdf>
+                <canvas style="height: 100%;width : 100%" class="m-t-md" id="pdf-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" ng-if="inputValue.content.fileType == 'Picture'" >
+        <img style="height:100%;width: 100%" ngf-src="inputValue.value">
+    </div>
+</div>
+-->
+
+<label style="margin-bottom: 0px;" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{"PREVIEW" | translate}}</label>
+<div class="" style="width: 100%;min-height:106px">
+    <div class="col-lg-12" ng-if="inputValue.content.fileType == 'Pdf'">
+        <div class="text-center">
+            <div class="wrapper">
+                <ng-pdf template-url="views/common/pdf_viewer.html"  canvasid="pdf-canvas" scale="page-fit" ></ng-pdf>
+                <canvas style="height: 100%;width : 100%" class="m-t-md" id="pdf-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12" ng-if="inputValue.content.fileType == 'Picture'" style="    border: 1px solid #e0e0e0;">
+        <img style="width: 100%;" ngf-src="inputValue.value">
+    </div>
+</div>

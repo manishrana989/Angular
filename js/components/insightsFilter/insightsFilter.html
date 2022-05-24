@@ -1,0 +1,352 @@
+<div class="insights-filter-grid">
+  <div style="border-bottom: 1px solid #cecece">
+    <div class="insights-filter-header"
+      style="display: flex; flex-direction: column; justify-content: space-around; margin: 0px 35px; padding: 10px 0">
+      <label> {{"SAVED_FILTER" | translate}} </label>
+      <div class="containerVariant">
+        <select ng-model="insightsFilterCtrl.selectedFilterVariant"
+          style="height: 100%; width: 163px; border-radius: 2px; border: solid 1px #d0cfd0; background-color: var(--white)"
+          ng-options="item.FilterName for item in insightsFilterCtrl.filterVariants  track by item.FilterID"
+          ng-change="initWrapper(insightsFilterCtrl.selectedFilterVariant)">
+          <option value="">{{"SELECT" | translate}}</option>
+        </select>
+
+        <button ng-click="insightsFilterCtrl.filterChanged && saveFilterVariant()" class="containerVariantButton"
+          ng-class="{'buttonChanged':insightsFilterCtrl.filterChanged == false}">{{"SAVE" | translate}}</button>
+        <button ng-click="deleteFilterVariant()" class="containerVariantButton"
+          ng-class="{'buttonChanged':!insightsFilterCtrl.selectedFilterVariant}">{{"DELETE" | translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="insights-filter-header newScroll slim">
+    <!--Machine Container-->
+    <div style="border-bottom: 1px solid #cecece">
+      <div class="insights-filter-header-form" style="border-bottom: 1px solid #cecece">
+        <div>
+          <div style="margin-right: 15px; width: 100%">
+            <div class="insights-filter-form-radio-label" ng-init="machinesToggled = false" style="display: flex">
+              <strong class="insights-label-strong insights-filter-form-radio-label-machine"> {{"MACHINES" | translate}}
+              </strong>
+
+              <strong class="arrows" ng-click="machinesToggled = !machinesToggled">
+                <i ng-show="machinesToggled" class="fa fa-chevron-up"></i>
+                <i ng-show="!machinesToggled" class="fa fa-chevron-down"></i>
+              </strong>
+            </div>
+
+            <div ng-show="machinesToggled"
+              style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0">
+              <label class="insights-filter-form-radio-label" title="{{'END_LINE' | translate}}">
+                {{"END_LINE" | translate}} </label>
+              <div class="checkBox" check-box-directive field-title="'END_LINE'" field="insightsFilterCtrl"
+                type="'toggle'" select-value="'endLine'" ng-click="insightsFilterCtrl.filterChanged = true;"></div>
+            </div>
+
+            <div>
+              <div ng-if="checkLines || checkGroup || checkType || checkDepartment">
+                <span ng-show="machinesToggled" style="margin: 0 10px 0 0"> {{"GROUP_BY" | translate}}:</span>
+                <select ng-show="machinesToggled"
+                  ng-init="insightsFilterCtrl.selectedMachinesGroupBy = insightsFilterCtrl.groupByMachines[0]"
+                  ng-model="insightsFilterCtrl.selectedMachinesGroupBy"
+                  style="width: 163px; border-radius: 2px; border: solid 1px #d0cfd0; background-color: var(--white)"
+                  ng-options="item.dropBoxName for item in insightsFilterCtrl.groupByMachines track by item.ID"
+                  ng-change="insightsFilterCtrl.filterChanged = true;"></select>
+              </div>
+
+              <div ng-show="machinesToggled" class="insights-filter-body-name"
+                ng-init="machinesSelectAllToggled = true;machinesValue=true">
+                <strong style="padding: 0px 10px 0 0; display: flex">
+                  <input type="checkbox" ng-model="insightsFilterCtrl.groupByMachinesSelectAllValue"
+                    ng-init="insightsFilterCtrl.groupByMachinesSelectAllValue = true" style="margin: 4px 0 0"
+                    ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;"
+                    ng-change="insightsFilterCtrl.selectUnSelectAllGroups(insightsFilterCtrl.selectedMachinesGroupBy.machinesSort,insightsFilterCtrl.groupByMachinesSelectAllValue)" />
+                  <span style="margin: 0 10px"> {{"SELECT_UNSELECT_ALL" | translate}}</span>
+                </strong>
+
+                <strong style="cursor: pointer" ng-click="machinesSelectAllToggled =! machinesSelectAllToggled;" >
+                  <i ng-show="machinesSelectAllToggled" class="fa fa-angle-up"></i>
+                  <i ng-show="!machinesSelectAllToggled" class="fa fa-angle-down"></i>
+                </strong>
+              </div>
+              <div ng-class="{'unsortedFilter': insightsFilterCtrl.selectedMachinesGroupBy.idType == 0}"
+                style="margin: 0 10px">
+                <div ng-show="machinesToggled &&  machinesSelectAllToggled"
+                  ng-repeat="machineSort in insightsFilterCtrl.selectedMachinesGroupBy.machinesSort">
+                  <div class="groupsFilterContainer" ng-init="machineSort.valueToggle = false;"
+                    ng-if="(checkLines || checkGroup || checkType) && insightsFilterCtrl.selectedMachinesGroupBy.idType != 0">
+                    <input type="checkbox" style="margin: 4px 0 0" ng-model="machineSort.value"
+                      ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;"
+                      ng-change="insightsFilterCtrl.selectUnSelectAll(machineSort.array, machineSort.value)" />
+                    <strong class="groupsFilterContainerLabel">
+                      {{localLanguage ? machineSort.LName : machineSort.EName }} </strong>
+
+                    <strong class="groupsFilterContainerArrow"
+                      ng-click="machineSort.valueToggle=!machineSort.valueToggle;">
+                      <i ng-show="machineSort.valueToggle" class="fa fa-angle-up"></i>
+                      <i ng-show="!machineSort.valueToggle" class="fa fa-angle-down"></i>
+                    </strong>
+                  </div>
+                  <div class="insights-filter-body-list newScroll slim"
+                    ng-if="machineSort.valueToggle || insightsFilterCtrl.selectedMachinesGroupBy.idType == 0">
+                    <div ng-if="machineSort.array" class="col-lg-6 col-md-6 col-sm-6 pull-left filterLabels"
+                      ng-repeat="machine in machineSort.array"
+                      ng-click="machine.value = !machine.value;insightsFilterCtrl.filterChanged = true;">
+                      <input id="machine_{{$index}}" type="checkbox" ng-model="machine.value"
+                        ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;" />
+
+                      <span for="machine_{{$index}}" style="padding-left: 0.521vw; cursor: pointer"
+                        title="{{localLanguage ? machine.LName: machine.EName}}">
+                        {{localLanguage ? machine.LName : machine.EName}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insights-filter-header">
+        <div style="border-bottom: 1px solid #cecece">
+          <div class="insights-filter-header-form">
+            <div>
+              <div style="margin-right: 15px; width: 100%">
+                <div class="insights-filter-form-radio-label" ng-init="shiftToggled = false" style="display: flex">
+                  <strong class="insights-label-strong insights-filter-form-radio-label-shift"> {{"SHIFT" | translate}}
+                  </strong>
+
+                  <strong class="arrows" ng-click="shiftToggled = !shiftToggled;">
+                    <i ng-show="shiftToggled" class="fa fa-chevron-up"></i>
+                    <i ng-show="!shiftToggled" class="fa fa-chevron-down"></i>
+                  </strong>
+                </div>
+
+                <div class="insights-filter-form-radio" ng-show="shiftToggled" style="width: fit-content">
+                  <label class="insights-filter-form-radio-label"
+                    style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0"
+                    title="{{'IS_WORKING' | translate}}"> {{"IS_WORKING" | translate}} </label>
+                  <div class="checkBox" check-box-directive field-title="'WORKING_SHIFT'" field="insightsFilterCtrl"
+                    type="'toggle'" select-value="'isWorking'" ng-click="insightsFilterCtrl.filterChanged = true;">
+                  </div>
+                </div>
+                <div>
+                  <span ng-show="shiftToggled" style="margin: 0 10px 0 0"> {{"GROUP_BY" | translate}} </span>
+                  <select ng-show="shiftToggled"
+                    ng-init="insightsFilterCtrl.selectedShiftGroupBy = insightsFilterCtrl.groupByShifts[0]"
+                    ng-model="insightsFilterCtrl.selectedShiftGroupBy"
+                    style="width: 163px; border-radius: 2px; border: solid 1px #d0cfd0; background-color: var(--white)"
+                    ng-options="item.dropBoxName for item in insightsFilterCtrl.groupByShifts track by item.ID"
+                    ng-change="insightsFilterCtrl.filterChanged = true;"></select>
+                  <div
+                    style="display: flex; align-items: center; justify-content: space-between; margin: 5px 0; padding: 10px 0"
+                    ng-show="shiftToggled" ng-init="shiftSelectAllToggled = true; shiftsValue=true">
+                    <strong style="padding: 0px 10px 0 0; display: flex">
+                      <input type="checkbox" ng-model="insightsFilterCtrl.groupByShiftsSelectAllValue"
+                        ng-init="insightsFilterCtrl.groupByShiftsSelectAllValue=true" style="margin: 4px 0 0"
+                        ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;"
+                        ng-change="insightsFilterCtrl.selectUnSelectAllGroups(insightsFilterCtrl.selectedShiftGroupBy.shiftTypeSort, insightsFilterCtrl.groupByShiftsSelectAllValue)" />
+                      <span style="margin: 0 10px"> {{"SELECT_UNSELECT_ALL" | translate}} </span>
+                    </strong>
+
+                    <strong style="cursor: pointer" ng-click="shiftSelectAllToggled=!shiftSelectAllToggled;">
+                      <i ng-show="shiftSelectAllToggled" class="fa fa-angle-up"></i>
+                      <i ng-show="!shiftSelectAllToggled" class="fa fa-angle-down"></i>
+                    </strong>
+                  </div>
+                  <div ng-class="{'unsortedFilter': insightsFilterCtrl.selectedShiftGroupBy.idType == 0}"
+                    style="margin: 0 10px">
+                    <div ng-show="shiftToggled &&  shiftSelectAllToggled"
+                      ng-repeat="shiftSort in insightsFilterCtrl.selectedShiftGroupBy.shiftTypeSort">
+                      <div style="display: inline-flex; justify-content: space-between; padding: 10px 0; width: 100%"
+                        ng-init="shiftSort.valueToggle = false;"
+                        ng-if="insightsFilterCtrl.selectedShiftGroupBy.idType != 0" class="groupsFilterContainer">
+                        <input type="checkbox" style="margin: 4px 0 0" ng-model="shiftSort.value"
+                          ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;"
+                          ng-change="insightsFilterCtrl.selectUnSelectAll(shiftSort.array, shiftSort.value)" />
+
+                        <strong class="groupsFilterContainerLabel">
+                          {{localLanguage ? shiftSort.LName : shiftSort.EName }} </strong>
+
+                        <strong class="groupsFilterContainerArrow"
+                          ng-click="shiftSort.valueToggle=!shiftSort.valueToggle;">
+                          <i ng-show="shiftSort.valueToggle" class="fa fa-angle-up"></i>
+                          <i ng-show="!shiftSort.valueToggle" class="fa fa-angle-down"></i>
+                        </strong>
+                      </div>
+                      <div class="insights-filter-body-list newScroll slim"
+                        ng-if="shiftSort.valueToggle || insightsFilterCtrl.selectedShiftGroupBy.idType == 0">
+                        <div ng-if="shiftSort.array" class="col-lg-6 col-md-6 col-sm-6 pull-left filterLabels"
+                          ng-repeat="shift in shiftSort.array"
+                          ng-click="shift.value = !shift.value;insightsFilterCtrl.filterChanged = true;">
+                          <input id="shift_{{$index}}" type="checkbox" ng-model="shift.value"
+                            ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;" />
+
+                          <span for="shift_{{$index}}" style="padding-left: 0.521vw; cursor: pointer"
+                            title="{{localLanguage ? shift.LName: shift.EName}}">
+                            {{localLanguage ? shift.LName : shift.EName}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insights-filter-header">
+        <div style="border-bottom: 1px solid #cecece">
+          <div class="insights-filter-header-form">
+            <div>
+              <div style="margin-right: 15px; width: 100%">
+                <div class="insights-filter-form-radio-label" ng-init="jobToggled = false" style="display: flex">
+                  <strong
+                    style="width: 100px; height: 20px; font-size: 16px; font-weight: 600; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; color: #000000">
+                    {{"JOB_DEFINITION" | translate}} </strong>
+
+                  <strong class="arrows" ng-click="jobToggled = !jobToggled">
+                    <i ng-show="jobToggled" class="fa fa-chevron-up"></i>
+                    <i ng-show="!jobToggled" class="fa fa-chevron-down"></i>
+                  </strong>
+                </div>
+
+                <div ng-show="jobToggled">
+                  <div ng-init="jobsToggled = true; jobDefinitionValue=true"
+                    style="display: flex; align-items: center; justify-content: space-between; margin: 5px 0; padding: 10px 0">
+                    <strong>
+                      <input type="checkbox" ng-model="jobDefinitionValue"
+                        ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;"
+                        ng-change="insightsFilterCtrl.selectUnSelectAll(jobDefinition, jobDefinitionValue)" />
+                      <span style="margin: 0 10px 0 0">{{"SELECT_UNSELECT_ALL" | translate}}</span>
+                    </strong>
+                    <strong style="cursor: pointer" ng-click="jobsToggled=!jobsToggled">
+                      <i ng-show="jobsToggled" class="fa fa-angle-up"></i>
+                      <i ng-show="!jobsToggled" class="fa fa-angle-down"></i>
+                    </strong>
+                  </div>
+                  <div class="insights-filter-body-list newScroll slim" ng-show="jobsToggled" style="margin: 0 10px">
+                    <div ng-if="jobDefinition" class="col-lg-6 col-md-6 col-sm-6 pull-left filterLabels"
+                      ng-repeat="job in jobDefinition"
+                      ng-click="job.value = !job.value;insightsFilterCtrl.filterChanged = true;">
+                      <input id="job_{{$index}}" type="checkbox" ng-model="job.value"
+                        ng-click="$event.stopPropagation();insightsFilterCtrl.filterChanged = true;" />
+
+                      <span for="job_{{$index}}" style="padding-left: 0.521vw; cursor: pointer"
+                        title="{{localLanguage ? job.lname : job.ename}}">
+                        {{localLanguage ? job.lname : job.ename}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="insights-filter-header">
+
+        <div class="insights-filter-header-form">
+          <div>
+            <div style="margin-right: 15px; width: 100%">
+              <div class="insights-filter-form-radio-label" ng-init="advancedFilters = false" style="display: flex">
+                <strong
+                  style="width: 100px; height: 20px; font-size: 16px; font-weight: 600; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; color: #000000">{{"ADVANCED_FILTERS" | translate}}</strong>
+
+                <strong class="arrows" ng-click="advancedFilters = !advancedFilters">
+                  <i ng-show="advancedFilters" class="fa fa-chevron-up"></i>
+                  <i ng-show="!advancedFilters" class="fa fa-chevron-down"></i>
+                </strong>
+              </div>
+              <div class="insights-filter-body-col newScroll slim" style="padding-top: 15px;" ng-if="advancedFilters">
+                <form ng-repeat="form in insightsFilterCtrl.forms track by $index"
+                  class="form-inline d-flex align-items-center" style="margin: 0 0 15px 0"
+                  ng-if="!($index == 2 && insightsFilterCtrl.forms[1].value.length == 0)">
+                  <label style="margin: 0 10px 0 0; width: 85px" for="">{{form.name | translate}}</label>
+                  <div class="insights-filter-forms">
+                    <span style="cursor: pointer" ng-if="form.fieldName != 'UnitsProducedFilter' && form.fieldName != 'ActiveTimeFilter'"
+                      ng-click="insightsFilterCtrl.clearFieldForm(form);insightsFilterCtrl.filterChanged = true;"> <i
+                        class="fa fa-trash-o"></i></span>
+                    <input readonly  ng-if="form.fieldName != 'UnitsProducedFilter' && form.fieldName != 'ActiveTimeFilter'" ng-model="form.valueNames" style="text-overflow: ellipsis;"
+                      class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" title="{{form.valueNames.toString()}}"
+                      aria-label="Search" />
+                      <input type="text" only-digits ng-if="form.fieldName == 'UnitsProducedFilter' || form.fieldName == 'ActiveTimeFilter'" ng-model="form.value" style="text-overflow: ellipsis;"
+                      class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" title="{{form.value.toString()}}"
+                      aria-label="Search" ng-change="insightsFilterCtrl.filterChanged = true;" />
+                    <div class="fa fa-search form-control-search-icon"  ng-if="form.name !== 'ERP_JOB_ID' && form.fieldName != 'UnitsProducedFilter' && form.fieldName != 'ActiveTimeFilter'"
+                      ng-click="searchForData(form);insightsFilterCtrl.filterChanged = true;"></div>
+                    <div class="fa fa-search form-control-search-icon" ng-if="form.name == 'ERP_JOB_ID'  && form.fieldName != 'UnitsProducedFilter' && form.fieldName != 'ActiveTimeFilter'"
+                      ng-click="insightsFilterCtrl.forms[1].value.length > 0 && searchForData(form);insightsFilterCtrl.filterChanged = true;"
+                      ng-class="{'no-drop':insightsFilterCtrl.forms[1].value.length == 0}"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="insights-filter-header">
+        <div style="border-top: 1px solid #cecece">
+          <div class="insights-filter-header-form">
+            <div>
+              <div style="margin-right: 15px; width: 100%">
+                <div class="insights-filter-form-radio-label" ng-init="displayToggled = true" style="display: flex">
+                  <strong
+                    style="width: 53px; height: 20px; font-size: 16px; font-weight: 600; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; color: #000000">
+                    {{"DISPLAY" | translate}} </strong>
+
+                  <strong class="arrows" ng-click="displayToggled = !displayToggled;">
+                    <i ng-show="displayToggled" class="fa fa-chevron-up"></i>
+                    <i ng-show="!displayToggled" class="fa fa-chevron-down"></i>
+                  </strong>
+                </div>
+
+                <div style="width: fit-content">
+                  <div>
+                    <div class="insights-filter-form-radio" ng-show="displayToggled">
+                      <label class="insights-filter-form-radio-label" title='{{"DEVIATIONS" | translate}}'
+                        style="display: flex; align-items: center; justify-content: space-between">
+                        {{"DEVIATIONS" | translate}} </label>
+                      <div class="checkBox" check-box-directive field-title="'SCALE'" field="insightsFilterCtrl"
+                        type="'toggle'" select-value="'deviation'" ng-click="insightsFilterCtrl.filterChanged = true;">
+                      </div>
+                    </div>
+                    <div class="insights-filter-form-radio" ng-show="displayToggled">
+                      <label class="insights-filter-form-radio-label" title='{{"STATIC_LIMIT" | translate}}'
+                        style="display: flex; align-items: center; justify-content: space-between">
+                        {{"STATIC_LIMIT" | translate}} </label>
+                      <div class="checkBox" check-box-directive field-title="'SCALE'" field="insightsFilterCtrl"
+                        type="'toggle'" select-value="'scale'" ng-click="insightsFilterCtrl.filterChanged = true;">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="insights-filter-form-radio" ng-show="displayToggled">
+                    <label class="insights-filter-form-radio-label" title='{{"DATA_LABEL" | translate}}'
+                      style="display: flex; align-items: center; justify-content: space-between">
+                      {{"DATA_LABELS" | translate}} </label>
+                    <div class="checkBox" check-box-directive field-title="'DATA_LABELS'" field="insightsFilterCtrl"
+                      type="'toggle'" select-value="'dataLabels'" ng-click="insightsFilterCtrl.filterChanged = true;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style="padding-top: 15px; padding-bottom: 15px; display: flex; justify-content: center; width: 100%; align-items: center">
+    <div class="insights-filter-header-btn" style="width: 179px; height: 37px">
+      <button class="insights-filter-header-btn-content" style="width: 100%; height: 100%"
+        ng-click="insightsFilterCtrl.apply()">{{"APPLY" | translate}}</button>
+    </div>
+  </div>
+</div>

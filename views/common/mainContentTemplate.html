@@ -1,0 +1,138 @@
+<div ng-if="showBreadCrumb == true" class="{{rtl}}">
+  <nav
+    ng-show="!subPages[pageDisplay - 1].data.data.fullScreen"
+    ng-if="modal === undefined || modal === null"
+    class="navbar navbar-fixed-top white-bg fixed"
+    role="navigation"
+    style="top: 85px; margin-bottom: 0; z-index: 9999"
+  >
+    <div class="navbar-header" style="padding-top: 15px">
+      <bread-crumbs></bread-crumbs>
+    </div>
+    <ul class="nav navbar-top-links navbar-right" style="padding-top: 2px">
+      <li>
+        <button class="btn btn-primary" ng-click="openNewObject()" ng-if="content.SubMenuNewObjectLinkID !== 0">
+          <i class="fa fa-plus"></i>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <nav
+    ng-show="!subPages[pageDisplay - 1].data.data.fullScreen"
+    ng-if="modal === undefined || modal === null"
+    class="navbar navbar-fixed-top white-bg fixed"
+    role="navigation"
+    style="padding-left: 20px; border-bottom: 0px !important; top: 40px; margin-bottom: 0; z-index: 9999; font-size: 24px; color: #4a4a4a"
+  >
+    <div class="navbar-header" style="padding-top: 12px; width: 90%">
+      <!--<li tooltip-placement="bottom" tooltip="{{topPageTitle.title}}" style="width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: inherit"><strong>{{topPageTitle.title}}</strong></li>-->
+      <!--{{content.SubMenuEName}} -->
+      <li
+        tooltip-placement="bottom"
+        tooltip="{{topPageTitle.title.substring(0,topPageTitle.title.indexOf('#'))}}"
+        style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inherit"
+      >
+        <span style="font-size: 24px">{{topPageTitle.title.substring(0,topPageTitle.title.indexOf('#'))}}</span>
+        <span
+          ng-show="content.fullViewData.ID != 0"
+          style="font-size: 20px"
+          ng-bind-html="topPageTitle.title.substring(topPageTitle.title.indexOf('#'),topPageTitle.title.length) | getHtmlCode"
+        ></span>
+      </li>
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right" style="padding-top: 2px">
+      <li ng-if="content.SubMenuExtID ==11270">
+        <div class="video-library-button-groups" ng-click="openVideo()" title="{{'VIDEO_LIBRARY' | translate}}">
+          <img ng-src="images/video-library-grey.svg" /> <span>{{"VIDEO_LIBRARY" | translate}}</span>
+        </div>
+      </li>
+      <!-- <li>
+        <button
+          class="btn btn-primary"
+          style="width: 37px"
+          ng-show="content.SubMenuObjectInformation || tabsObject.TopMenuObjectInformation"
+          ng-click="openObjectDescription()"
+          ng-if="content.SubMenuObjectInformationLink !== 0 || content.SubMenuObjectInformation"
+        >
+          <i class="fa fa-info"></i>
+        </button>
+      </li> -->
+    </ul>
+  </nav>
+  <div
+    class="wrapper wrapper-content animated fadeIn row"
+    style="{{(modal === undefined || modal === null) ?  (!subPages[pageDisplay - 1].data.data.fullScreen ? 'margin-top: 120px;' : 'margin-top: 20px;') : ''}}"
+    ng-repeat="subPage in subPages"
+    ng-show="subPage.pageDisplay === pageDisplay"
+    ng-if="subPage.pageDisplay === pageDisplay || (subPage.pageDisplay === 1 && searchPage === true)"
+  >
+    <div id="toastr" ng-if="!(subPage.pageDisplay === 1 && searchPage === true)"></div>
+    <div ng-include="subPage.template" class="col-lg-12 appObjectBox" style="z-index:1;"></div>
+  </div>
+</div>
+
+<div ng-if="showBreadCrumb == false" style="background-color: transparent" class="{{rtl}}">
+  <nav
+    ng-if="modal === undefined || modal === null"
+    class="navbar navbar-fixed-top white-bg fixed"
+    role="navigation"
+    style="padding-left: 20px; top: 46px; left: 0; right: 0; margin-bottom: 0; z-index: 9999"
+  >
+    <div class="navbar-header" style="padding-top: 15px">
+      <bread-crumbs></bread-crumbs>
+    </div>
+    <ul class="nav navbar-top-links navbar-right" style="padding-top: 2px">
+      <li>
+        <button class="btn btn-primary" ng-click="openNewObject()" ng-if="content.SubMenuNewObjectLinkID !== 0">
+          <i class="fa fa-plus"></i>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <nav
+    ng-if="modal === undefined || modal === null"
+    class="navbar navbar-fixed-top white-bg fixed"
+    role="navigation"
+    style="padding-left: 20px; top: 0px; left: 0; right: 0; margin-bottom: 0; z-index: 9999; border-bottom: 0 !important"
+  >
+    <div class="navbar-header" style="padding-top: 12px; width: 90%">
+      <li
+        tooltip-placement="bottom"
+        tooltip="{{topPageTitle.title.substring(0,topPageTitle.title.indexOf('#'))}}"
+        style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inherit"
+      >
+        <span style="font-size: 24px">{{topPageTitle.title.substring(0,topPageTitle.title.indexOf('#'))}}</span>
+        <span
+          style="font-size: 20px"
+          ng-show="content.fullViewData.ID != 0"
+          ng-bind-html="topPageTitle.title.substring(topPageTitle.title.indexOf('#'),topPageTitle.title.length) | getHtmlCode"
+        ></span>
+      </li>
+    </div>
+    <!-- <ul class="nav navbar-top-links navbar-right" style="padding-top: 2px">
+      <li>
+        <button
+          class="btn btn-primary"
+          style="width: 37px"
+          ng-show="content.SubMenuObjectInformation || tabsObject.TopMenuObjectInformation"
+          ng-click="openObjectDescription()"
+          ng-if="content.SubMenuObjectInformationLink !== 0 || content.SubMenuObjectInformation"
+        >
+          <i class="fa fa-info"></i>
+        </button>
+      </li>
+    </ul> -->
+  </nav>
+  <div
+    class="wrapper wrapper-content animated fadeIn row"
+    style="min-height: 300px; {{(modal === undefined || modal === null) ? 'margin-top: 80px;' : ''}}"
+    ng-repeat="subPage in subPages"
+    ng-show="subPage.pageDisplay === pageDisplay"
+    ng-if="subPage.pageDisplay === pageDisplay || (subPage.pageDisplay === 1 && searchPage === true)"
+  >
+  <!-- <div style="background:red; height:50vh;">sami</div> -->
+  <div style="height:100%;width:100%">    <div ng-include="subPage.template" class="col-lg-12" style="z-index:1;"></div></div>
+
+  </div>
+</div>

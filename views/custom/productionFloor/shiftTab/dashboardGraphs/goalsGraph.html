@@ -1,0 +1,26 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <span class="head_txt">
+            {{containerOptions.header| convertToTranslate}}
+        </span>
+    </header-title>
+    <graph>
+        <div style="padding: 35px" ng-init="showPencils = {value : containerOptions.settings.enableEdit}">
+            {{shiftData.target}}
+            <span style="display: none">{{showPencils.value = containerOptions.settings.enableEdit}}</span>
+            <div style="margin-top: 0px;margin-bottom: 40px;" ng-repeat="target in shiftData.targets | hideTargets:showPencils">
+                <div target-goals-directive
+
+                        edges="10"
+                        target-data="target"
+                        id="target.Name"
+                        name="{{target.ui_name}}"
+                        current="target.ActualTargetValue"
+                        target="target.TargetValue"
+                        class="stam"
+                        show-pencils="showPencils"
+                        parent="stam"></div>
+            </div>
+        </div>
+    </graph>
+</shift-container>

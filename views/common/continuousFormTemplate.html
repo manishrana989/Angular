@@ -1,0 +1,15 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="row">
+        <div class="form-group col-sm-3 pull-left" ng-repeat="field in searchBoxFields">
+            <input-directive content="field" multiform="true"></input-directive>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 pull-right">
+            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" ng-disabled="requestInProgress" ng-click="searchMultiForm()">{{ "SEARCH" | translate}}</button>
+        </div>
+    </div>
+    <div class="row" ng-if="dataLoaded == true">
+        <div ng-if="editableTableData" ng-include="'views/common/multiFormTemplate.html'"></div>
+    </div>
+</div>

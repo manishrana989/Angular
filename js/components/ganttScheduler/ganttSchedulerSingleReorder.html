@@ -1,0 +1,50 @@
+<div class="reorder-container">
+    <div class="header">
+        <div class="column-text"
+            title="{{column.labelText | translate}}"
+            ng-style="{
+                width: (100 / ganttSchedulerCtrl.calendarResourceColumns.length) + '%'
+            }"
+            ng-repeat="column in ganttSchedulerCtrl.calendarResourceColumns">
+                {{column.labelText | translate}}
+        </div>
+    </div>
+    <div class="body newScroll slim" ui-sortable="ganttSchedulerCtrl.sortableOptions" 
+        ng-model="ganttSchedulerCtrl.singleMachineJobEvents">
+        <div class="item-event" ng-repeat="event in ganttSchedulerCtrl.singleMachineJobEvents" 
+                ng-class="{'not-sortable': $index === 0}">
+                <div class="event-details" ng-style="{
+                    width: (100 / ganttSchedulerCtrl.calendarResourceColumns.length) + '%'
+                }"
+                     title="{{event[column.fieldParam]}}"
+                     ng-repeat="column in ganttSchedulerCtrl.calendarResourceColumns">
+                        <div class="handle-icon" 
+                            ng-show="column.field === 'title' && $parent.$index > 0">
+                            <i class="fa fa-bars"></i>
+                        </div>
+                        <a ng-show="column.field === 'title'"
+                            ng-style="{
+                                'padding-left' : $parent.$index === 0 && !ganttSchedulerCtrl.rtl ? '21px'  : '0px',
+                                'padding-right' : $parent.$index === 0 && ganttSchedulerCtrl.rtl ? '21px'  : '0px',
+                            }"
+                            ui-sref="appObjectFullView({appObjectName: 'Job',ID: event[column.fieldParam]})"
+                            target="Job"
+                            >
+                            {{event[column.fieldParam]}}
+                        </a>
+                        <span ng-show="column.field !== 'title'">
+                            <span ng-if="column.type !== 'number'">
+                                {{event[column.fieldParam]}}
+                            </span>
+                            <span ng-if="column.type === 'number'">
+                                    {{event[column.fieldParam] | number:2}}
+                            </span>
+                        </span>
+                </div>
+        </div>
+
+    </div>
+</div>
+<div class="resize-reorder">
+
+</div>

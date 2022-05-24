@@ -1,0 +1,226 @@
+<div class="machine-dashboard" style="margin-bottom: 20px; background-color: #f3f3f4;">
+  <div class="machine-dashboard-header">
+    <div style="display: flex; justify-content: space-between">
+      <div class="machine-name">
+        <div class="machine-status-header">
+          <div style="display: flex; flex-direction: column; text-align: center; min-width: 50px; position: relative">
+            <div>{{shiftData.machineData.StatusTimeMin | minutesToHHMM}}</div>
+            <div class="img-container show-as-inline">
+              <div style="position: absolute;z-index: 2;width: 30px;height: 30px;"
+                ng-style="{
+                  right: rtl ? 'unset' : '-4px',
+                  left: rtl ? '-4px' : 'unset',
+                  bottom: '-7px',
+                }">
+                <img style="width: 30px;height: 30px;" ng-if="shiftData.machineData.MachineClassification === 2" src="images/Line.svg" />
+                <img style="width: 30px;height: 30px;" ng-if="shiftData.machineData.MachineClassification === 3" src="images/Peripheral systems.svg" />
+                <img style="width: 30px;height: 30px;" ng-if="shiftData.machineData.MachineClassification === 4" src="images/Sensor.svg" />
+                <img style="width: 30px;height: 30px;" ng-if="shiftData.machineData.MachineClassification === 5" src="images/Manual work stations.svg" />
+              </div>
+              <img ng-if="shiftData.machineData.MachineStatusID !== undefined" style="width: 65px; height: 65px" ng-src="images/icons_40x40/{{shiftData.machineData.MachineStatusID | machineIdToIcon}}" alt="" />
+              <div ng-if="shiftData.machineData.MachineStatusID === undefined" style="height: 65px; width: 65px"></div>
+            </div>
+
+            <div class="colorBullet" ng-show="shiftData.machineData.JobColoredShadow" ng-style="true && {'background-color': shiftData.machineData.JobColor}"></div>
+          </div>
+          <div class="show-as-inline" style="margin-left: 5px; margin-right: 5px; font-size: 13px">
+            <div class="machine-name" style="position: relative" off-click-activator="showDepartmentMachines" off-click="showDepartmentMachines = false">
+              <button type="button" class="btn dropdown-toggle shift-drop-down" ng-click="showDepartmentMachines = !showDepartmentMachines" style="font-family: BreeSerif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="machine-name" style="cursor: pointer" title="{{localLanguage === true ? shiftData.machineData.MachineLname : shiftData.machineData.MachineEName}}"> {{localLanguage === true ? shiftData.machineData.MachineLname : shiftData.machineData.MachineEName}} </span>
+                <span style="text-decoration: underline; margin: 0 0.26vw; font-size: 0.729vw; font-family: ProximaNova" class="ng-binding"> {{"CHANGE" | translate}} </span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu select-dep-dropdown department newScroll slim" ng-show="showDepartmentMachines" style="max-height: 22.396vw">
+                <li ng-repeat="machine in departmentMachines" class="ng-scope">
+                  <a style="width: calc(100% - 0.417vw)" class="pull-left ng-binding" href="#/appObjectMachineFullView/MachineScreenEditor/{{machine.Id}}?firstTime=true">{{machine.MachineName}}</a>
+                </li>
+              </ul>
+            </div>
+            <div class="machine-description" ng-if="shiftData.machineData.ProductionModeID == 1 && 
+            shiftData.machineData.MachineClassification !== 3 && 
+            shiftData.machineData.MachineClassification !== 4">
+              {{machineDataStructure.staticField4.translate | translate}}
+              :
+              <div class="edit-icon-expand-values" title="{{'EDIT' | translate}}">
+                <img ng-click="machineExpandedCtrl.openEditMode4 = true"  src="images/edit-grey-new.svg" />
+              </div>
+               <!-- model pen-->
+               <div class="btn-group" style="width: 100%; right: 0; position: absolute; display: block; z-index: 5000; top: 0" ng-if="machineExpandedCtrl.openEditMode4" style="position: absolute; margin-top: 50px">
+                <ul  class="newScroll slim dropdown-menu" style="width: fit-content; top: 10px; display: block; max-height: 149px; overflow-y: auto" off-click-activator="machineExpandedCtrl.openEditMode4" off-click="machineExpandedCtrl.openEditMode4 = false">
+                  <li ng-repeat="param in productMenuList" >
+                    <a ng-click="editModeCallback(param, 'false', 'staticField4')">{{param.translate | translate }} </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- end model pen-->
+      
+              <a ui-sref="appObjectFullView({appObjectName: 'Product',ID: shiftData.machineData.ProductID})" ng-if="machineDataStructure.staticField4.FieldName!='Product'"  target="Product">{{shiftData.machineData[machineDataStructure.staticField4.FieldName]}}</a>
+              <a ui-sref="appObjectFullView({appObjectName: 'Product',ID: shiftData.machineData.ProductID})" ng-if="machineDataStructure.staticField4.FieldName==='Product'"  target="Product">{{localLanguage ? shiftData.machineData.ProductLName : shiftData.machineData.ProductEName}}</a>
+           
+           
+            </div>
+            <div class="machine-description" ng-if="shiftData.machineData.ProductionModeID == 1 && 
+              shiftData.machineData.MachineClassification !== 3 && 
+              shiftData.machineData.MachineClassification !== 4">
+              <span>{{"JOB" | translate}} : <a ui-sref="appObjectFullView({ID: shiftData.machineData.JobID,appObjectName : 'Job'})" target="Job">{{shiftData.machineData.JobID}} ( {{shiftData.machineData.ErpJobID || '-'}} ) </a></span>
+            </div>
+            <div class="machine-description" ng-if="(shiftData.machineData.OpenEventLName || shiftData.machineData.OpenEventEName) && shiftData.machineData.ProductionModeID == 1">
+              <span>{{"EVENT_TYPE" | translate}}: {{localLanguage === true ? shiftData.machineData.OpenEventLName : shiftData.machineData.OpenEventEName}}</span>
+            </div>
+            <div style="margin-top: 7px" class="machine-description" ng-if="(shiftData.machineData.ProductionModeLName || shiftData.machineData.ProductionModeEName) && shiftData.machineData.ProductionModeID !== 1">
+              <span>{{"PRODUCTION_STATUS" | translate}}: {{localLanguage === true ? shiftData.machineData.ProductionModeLName : shiftData.machineData.ProductionModeEName}}</span>
+            </div>
+            <div style="margin-top: 7px" class="machine-description" ng-if="shiftData.machineData.WorkerName && shiftData.machineData.WorkerName != ''">
+              <span>{{"WORKER_NAME" | translate}}: {{shiftData.machineData.WorkerName}}</span>
+            </div>
+          </div>
+          <div class="show-as-inline" style="margin: 0px 15px; font-size: 13px">
+            <div class="machine-name">
+              <div style="font-size: 15px" class="show-as-inline pull-left" ng-show="shiftData.machineData.WorkerName && shiftData.machineData.WorkerName != ''">
+                <img class="techIcon clickable" style="height: 75px" ng-src="{{shiftData.machineData.ProductImagePath}}" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false" />
+              </div>
+            </div>
+          </div>
+          <div class="show-as-inline" style="margin-left: 20px; margin-right: 20px; font-size: 13px">
+            <div class="machine-name">
+              <div style="font-family: ProximaNova; font-size: 10px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; text-align: center; color: var(--color2)">
+                <div style="position: relative" ng-init="TNdrop= false" off-click-activator="TNdrop" off-click="TNdrop= false">
+                  <img class="techIcon clickable" style="width: 40px" ng-src="{{shiftData.technicianIcon}}" ng-click="openCallServiceCube()" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false" />
+                  <div ng-show="shiftData.machineData.totalOpenCalls" class="numberCircle clickable pull-right" ng-class="{'hover': hovering}" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false">{{shiftData.machineData.totalOpenCalls}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="machine-dashboard-btns" ng-init="machineDashboard.settingMenu=false" style="display: flex; justify-content: flex-end">         
+          <div>
+            <span ng-click="shiftData.hideClicked = !shiftData.hideClicked" ng-show="shiftData.hideClicked" class="Hide-Show-Time-Bar"> {{"SHOW_THE_TIME_BAR" | translate}} </span>
+            <span ng-click="shiftData.hideClicked = !shiftData.hideClicked" ng-show="!shiftData.hideClicked" class="Hide-Show-Time-Bar"> {{"HIDE_THE_TIME_BAR" | translate}} </span>
+          </div>
+          <span off-click-activator="machineDashboard.showTemplates" off-click="machineDashboard.showTemplates = false;" class="Rectangle-2 flex-center" ng-click="machineDashboard.showTemplates = !machineDashboard.showTemplates;;$event.stopPropagation()">
+            <img ng-if="!machineDashboard.showTemplates" src="images/template-grey-new.svg" class="shift-header-btns-img" ng-style="{width: '1.042vw', height: '1.042vw'}" alt="Templates" title="{{'TEMPLATES' | translate}}" />
+            <img ng-if="machineDashboard.showTemplates" src="images/template-blue-new.svg" class="shift-header-btns-img" ng-style="{width: '1.042vw', height: '1.042vw'}" alt="Insights" />
+            <span class="shift-header-btns-text"
+              >{{"DASH_TEMPLATES" | translate}}
+              <span class="caret"> </span>
+            </span>
+            <ul class="dropdown-menu select-dep-dropdown templates" style="top: 4.1vw" ng-show="machineDashboard.showTemplates">
+              <li ng-click="editTemplate('load');gaE('Machine_screen','Load_shift_template')">
+                <a style="width: calc(100% - 8px)" class="pull-left">{{"LOAD_DASH_TEMPLATE" | translate}}</a>
+              </li>
+
+              <li ng-click="editTemplate('save');gaE('Machine_screen','Load_shift_template')">
+                <a style="width: calc(100% - 8px)" class="pull-left">{{"SAVE_DASH_TEMPLATE" | translate}}</a>
+              </li>
+            </ul>
+          </span>
+          <div class="Rectangle-2 flex-center" ng-click="machineDashboard.settingMenu=!machineDashboard.settingMenu">
+            <img style="width: 1.042vw; height: 1.042vw" ng-src="{{machineDashboard.settingMenu && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}" title="{{'SETTINGS' | translate}}" alt="settings" />
+            <span class="shift-header-btns-text">{{"DASHBOARD_SETTINGS" | translate}}</span>
+          </div>
+          <ul ng-if="machineDashboard.settingMenu" class="dashboard-settings-tooltip machine-screen" off-click-activator="machineDashboard.settingMenu" off-click="machineDashboard.settingMenu=false" style="width: 18.021vw; padding-top: 15px">
+            <div>
+              <img class="dashboard-settings-close-btn" ng-click="machineDashboard.settingMenu=false" title="{{'CLOSE' | translate}}" src="images/dashboard/close.svg" alt="close" />
+            </div>
+            <div class="drag-show-hide-explain">{{"DRAG_SHOW_HIDE_EXPLAIN" | translate}}</div>
+            <div ui-sortable="sortableOptions" ng-model="containers.data" style="margin-top: 20px">
+              <div class="graph-display-container" ng-repeat="graph in containers.data" ng-hide="graph.options.disableClose">
+                <div style="display: inline-block; margin: 0px 10px; float: right; cursor: move">
+                  <i class="fa fa-bars"></i>
+                </div>
+                <div ng-if="!graph.options.disableClose" class="pull-right options-drop-down graph-display-checkbox active row">
+                  <div class="hide-material-switch onoffswitch" style="direction: ltr; text-align: left">
+                    <input type="checkbox" ng-model="graph.options.display" class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid" id="graphIndex{{$index}}" />
+                    <label class="onoffswitch-label" ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" for="graphIndex{{$index}}">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch" ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" ng-class="{'unchecked': !graph.options.display}">
+                        <span ng-if="graph.options.display" class="material-switch-v"> </span>
+                        <span ng-if="!graph.options.display" class="material-switch-x"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox">
+                  <span
+                    >{{graph.name | convertToTranslate}}
+                    <span
+                      ng-if="graph.options.settings.parametersDisplay[graph.options.settings.parameter] ||
+                                                         graph.options.settings.parameters[graph.options.settings.parameter].value ||
+                                                        graph.options.settings.parameter"
+                    >
+                      ({{ graph.options.settings.parametersDisplay[graph.options.settings.parameter] || (graph.options.settings.parameters[graph.options.settings.parameter].value | translate) || (graph.options.settings.parameter | convertToTranslate) }})
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div style="height: 30px; margin-bottom: 10px; margin-top: 20px">
+              <div class="shift-settings-reset-btn" ng-click="resetDefault()">{{"RESET" | translate}}</div>
+            </div>
+            <!-- <hr /> -->
+            <!-- <div style="display:grid;grid-template-rows:0.3fr 1fr;    font-weight: 700;
+            font-size: 0.729vw;
+            color: #072345;">
+              <div>{{"APPLY_THIS_STRUCTURE_TO" | translate}}:</div>
+              <div style="border-bottom:1px solid #cecece;display:flex;flex-direction: column;">
+                  <div check-box-directive field-title="'MY_TEMPLATE'" field="shiftData.machineDashboardStructure"  select-value="'value'" type="'radio'" value="false"></div>
+                  <div check-box-directive field-title="'DEFAULT_TEMPLATE'" field="shiftData.machineDashboardStructure"  select-value="'value'" type="'radio'" value="true"></div>
+              </div>
+            </div> -->
+          </ul>
+        </div>
+        <div class="shift-duration-keys pull-left">
+          <div style="width: 37px; display: flex; min-width: 37px; justify-content: center" ng-click="openInfo()" class="Rectangle-2 flex-center">
+            <!--<i class="fa fa-info"></i>-->
+            <img src="images/info-grey-new.svg" alt="info" title="{{'INFO' | translate}}" />
+          </div>
+          <div ng-init="periodDropDown = false" style="height: 35px">
+            <div class="Rectangle-2 period-dashboard-dropdown-selection" off-click-activator="periodDropDown" off-click="periodDropDown = false" ng-click="(!shiftData.dataLoading) && (periodDropDown = !periodDropDown)" ng-class="{'disable-btns': shiftData.dataLoading,'selected': shiftData.selectedTab != 4}">
+              <!-- <span ng-show="shiftData.selectedTab == 2" class="pull-left"> {{"CUSTOM" | translate}}:&nbsp;</span> -->
+              {{shiftData.selectedTab == 2 ? (shiftData.customDay | date:"dd/MM/yyyy") : (periodsOptions[shiftData.selectedTab] | translate) }}
+              <span class="caret"></span>
+            </div>
+            <ul class="period-dashboard-dropdown" ng-if="periodDropDown" style="position: relative; z-index: 1000">
+              <!-- <li ng-click="shiftData.selectedTab != 5 && updateData(5)" ng-class="{'selected': shiftData.selectedTab == 5}">{{"LAST_HOUR" | translate}}</li>
+                            <hr> -->
+              <li ng-click="shiftData.selectedTab != 4 && updateData(4)" ng-class="{'selected': shiftData.selectedTab == 4}">{{"THIS_SHIFT" | translate}}</li>
+              <hr />
+              <li ng-click="shiftData.selectedTab != 6 && updateData(6)" ng-class="{'selected': shiftData.selectedTab == 6}">{{"LAST_SHIFT" | translate}}</li>
+              <hr />
+              <li ng-click="shiftData.selectedTab != 8 && updateData(8)" ng-class="{'selected': shiftData.selectedTab == 8}">{{"LAST_24_HOURS" | translate}}</li>
+              <hr />
+              <li ng-click="openDatePicker()" ng-class="{'selected': shiftData.selectedTab == 2}">
+                <img src="images/dashboard/calendar.svg" />
+                <span style="vertical-align: middle"> {{"CUSTOM" | translate}} </span>
+              </li>
+            </ul>
+          </div>
+          <!--<div ng-click ="updateData(3)" ng-class="{'selected': shiftData.selectedTab == 3, 'disable-btns': shiftData.dataLoading}" class="Rectangle-2">{{"LAST_24_HOURS" | translate}}</div>-->
+          <!--<div ng-if="shiftData.lastShiftID" ng-click ="updateData(6)" ng-class="{'selected': shiftData.selectedTab == 6, 'disable-btns': shiftData.dataLoading}" class="Rectangle-2">{{"LAST_SHIFT" | translate}}</div>-->
+          <!--<div ng-click ="updateData(4)" ng-class="{'selected': shiftData.selectedTab == 4, 'disable-btns': shiftData.dataLoading}" class="Rectangle-2">{{"SHIFT" | translate}}</div>-->
+          <!--<div ng-click ="updateData(5)" ng-class="{'selected': shiftData.selectedTab == 5, 'disable-btns': shiftData.dataLoading}" class="Rectangle-2">{{"LAST_HOUR" | translate}}</div>-->
+          <div ng-click="!shiftData.dataLoading && refresh(shiftData.selectedTab)" ng-class="{'disable-btns': shiftData.dataLoading}" class="Rectangle-2" style="min-width: 38px">
+            <div title="{{'LAST_UPDATE' | translate}}" class="Rectangle-2 lastRefresh flex-center" style="display: inline; margin: 0; padding: 0 10px"> {{ shiftData.lastRefresh | date:"dd/MM/yyyy HH:mm:ss" }}</div>
+            <i class="fa fa-refresh" ng-class="{'rotating' : shiftData.loadingAPI}"></i>
+          </div>
+          <div style="display: grid">
+            <span class="addNewTaskMain" ng-click="shiftData.openNewTaskModal = true">
+               <task-form-modal on-update="newTaskWindowUpdate" open="shiftData.openNewTaskModal"></task-form-modal>
+              <img src="images/add.png" />
+              <span class="addNewTaskBtnText">{{"ADD_NEW_TASK" | translate}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="!shiftData.dataLoading">
+    <machine-timeline-directive ></machine-timeline-directive>
+    <div class="container-fluid">
+      <div ng-repeat="graph in containers.data| filter:{options : {display: true}}" ng-include="'views/custom/productionFloor/shiftTab/dashboardGraphs/'+graph.template+'.html'"></div>
+    </div>
+  </div>
+  <div ng-if="shiftData.dataLoading" ng-include="'views/common/emptyPage.html'"></div>
+</div>

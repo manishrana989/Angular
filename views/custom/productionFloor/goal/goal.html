@@ -1,0 +1,23 @@
+<div class="goal-title">
+    {{goalname}}
+</div>
+<div class="blue-bar-title">
+    <div ng-style="{'margin-right': (100 - (blue/ ((maximum - start)|| 1)*100))+'%',float: 'right',width: '8px'}">
+        {{blue}}
+    </div>
+</div>
+<div class="goal-wrapper">
+    <div class="goal-black-bar" ng-style="{'width': (black/ ((maximum - start)|| 1)*100)+'%'}">
+        <div class="blue-bar-container">
+            <div class="goal-blue-bar" ng-style="{'width': (blue/ ((black)|| 1))*100+'%'}">
+
+            </div>
+            <div class="goal-blue-bar-dot">
+               
+            </div>
+        </div>
+    </div>
+    <div class="goal-black-bar-icon">
+            {{black}}
+    </div>
+</div>

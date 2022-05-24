@@ -1,0 +1,161 @@
+<div class="op-app wrapper animated fadeIn row" ng-style="id === undefined && {'margin-top':'30px'}" ng-class="{'wrapper-content' : id===undefined}">
+    <div id="toastr"></div>
+    <div class="ibox col-lg-12" style="background: white;padding-bottom:35px">
+        <div class="ibox-title" ng-hide="id !== undefined">
+            <h5 class="pull-left">{{"ORDER_TEST" | translate}}</h5>
+        </div>
+
+        <div class="ibox-content">
+            <div ng-if="id === undefined" style="margin:20px;" class="col-lg-3 col-md-12 col-sm-12 col-xs-12 tablet-left-side">
+                <select-machine-type
+                        hide-apply-all="true"
+                        screen-view="'department'"
+                        data="machineTypeData"
+                        save="save"
+                        type="'tablet'"
+                        update-machine-params="updateMachineData"
+                        get-field-parameters-api="'GetControllerFieldsParameters'"
+                        field-parameters="'ControllerFieldsParams'">
+                </select-machine-type>
+            </div>
+            <div style="margin:20px" ng-class="{
+                'col-lg-8 col-md-4 col-sm-6 col-sx-12' : id === undefined,
+                'col-lg-12 col-md-12 col-sm-12 col-sx-12' : id !== undefined,
+            }">
+
+                <div ng-if="loading && !dataLoaded.value" >
+                    <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+                </div>
+
+                <div ng-if="!loading && !dataLoaded.value" style="margin-top:80px;text-align: center">
+                    <strong>{{"SELECT_MACHINE_ORDER_NEW_TEST" | translate}}</strong>
+                </div>
+
+                <div class="translations-modal reorder qctest-pop-first" ng-show="dataLoaded.value && !stepTwo.value" style="border: 1px solid gainsboro;">
+                    <form ng-submit="runFirstStep()">
+                        <div class="ibox newGoalsModal">
+                            <div class="ibox-title newGoalsTitle">
+                                <span>{{"ORDER_TEST" | translate}}</span>
+                                <div class="pull-right x" ng-hide="id !== undefined">
+                                    <img ng-click="close()" src="images/close.png" width="15" height="15" />
+                                </div>
+                            </div>
+
+                            <div ng-if="updating"
+                                style="position: absolute;
+                                    z-index: 99999;
+                                    width: 100%;
+                                    margin: 0;
+                                    opacity: 0.5;
+                                    height: 100%;
+                                    padding: 0;">
+                                <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+
+                            </div>
+
+                            <div class="ibox-content list-group newScroll slim" id="sortable" style="max-height: 59vh">
+                                <div ng-if="joshOptions && joshOptions.length > 0"  ng-show="type !== 'material'">
+                                    <div>
+                                        {{"JOSH" | translate}}
+                                    </div>
+                                    <div>
+                                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                                ng-options="option.id as option.name for option in joshOptions"
+                                                ng-model="orderTestFirstStepCtrl.joshID"
+                                                ng-change="updateInputsAccordingToSelection()">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div>
+                                        {{"QUALITY_GROUP" | translate}}
+                                    </div>
+                                    <div>
+                                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                                ng-options="option.id as option.name for option in qualityGroupOptions"
+                                                ng-model="qualityGroupID"
+                                                ng-change="updateInputsAccordingToSelection()">
+                                            <option value="">{{"NONE" | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div ng-show="type !== 'material'">
+                                    <div>
+                                        {{"PRODUCT_GROUP" | translate}}
+                                    </div>
+                                    <div>
+                                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                                ng-options="option.id as option.name for option in productGroupOptions"
+                                                ng-model="productGroupID"
+                                                ng-change="updateInputsAccordingToSelection()">
+                                            <option value="">{{"NONE" | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div ng-show="type !== 'material'">
+                                    <div>
+                                        {{"PRODUCT" | translate}}
+                                    </div>
+                                    <div>
+                                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                                ng-options="option.id as option.name for option in productsOptions"
+                                                ng-model="productID"
+                                                ng-change="updateInputsAccordingToSelection()">
+                                            <option value="">{{"NONE" | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div style="font-weight: 700;color: blue">
+                                        {{"TEST" | translate}}
+                                    </div>
+                                    <div>
+                                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                                ng-options="option.id as option.name for option in subTypesOptions"
+                                                ng-model="test"
+                                                required
+                                                ng-change="updateInputsAccordingToSelection();updateValuesSamples(test)">
+                                            <option value="">{{"SELECT_TEST" | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div ng-if="showSamples">
+                                    <div>
+                                        {{"SAMPLES" | translate}}
+                                    </div>
+                                    <div>
+                                        <input class="form-control" min="1" ng-disabled="!alloweditsamplescount" ng-model="orderTestFirstStepCtrl.samples" type="number" step="1"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="horizontal-line"></div>
+
+                            <div style="text-align: center;
+    margin-bottom: 35px;">
+                                <button ng-disabled="disabled" type="submit"
+                                        style="width: 204px"
+                                        class="btn btn-primary">
+                                    {{"RUN"| translate}}
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                <div class="translations-modal reorder qctest-pop-first" ng-if="testID && dataLoaded.value && stepTwo.value" style="border: 1px solid gainsboro">
+                    <second-step test-id="testID" step-two="stepTwo" loaded="dataLoaded" close-modal="close" id="id"></second-step>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

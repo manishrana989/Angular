@@ -1,0 +1,246 @@
+<form class="op-app job-list calculatorPopup" ng-submit="save()">
+    <div class="ibox newGoalsModal">
+
+        <div class="ibox-title newGoalsTitle">
+            <span>{{"CALCULATOR" | translate}}</span>
+            <div class="pull-right x">
+                <img ng-click="close()" src="images/close.png" width="15" height="15"/>
+            </div>
+        </div>
+
+        <div class="ibox-content">
+            <!-- sortable operation -->
+            <div class="row-flex newScroll slim list-group" dnd-list="operation"
+                 ng-show="row.InputType == 33 || row.InputType == 66" ui-sortable ng-model="operation" ui-sortable-update="dragCB()">
+                <div class="dotted-boxes list-group-item"
+                     ng-repeat="argument in operation track by $index"
+                     ng-style="argument.error && {'border': '1px solid red'}">
+                    <div class="inner-boxes">
+                        <div class="vertical-aligned" ng-if="!argument.src" style="word-break: break-all;">
+                            {{argument.name}}
+                        </div>
+                        <div class="vertical-aligned" ng-if="argument.src">
+                            <img src="images/operators/{{argument.src}}"/>
+                        </div>
+                        <img class="remove-dotted-cube" ng-click="removeArgument($index, argument)"
+                             src="images/close.png"/>
+                    </div>
+
+                </div>
+
+                <div class="dotted-boxes blue list-group-item ui-state-disabled disabled">
+                </div>
+            </div>
+
+            <div style="text-align: center" class="missing-required text-danger" ng-show="opAtEdge">
+                <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+                <p>
+                    Make sure NOT to have an operator at the edge of the operation.
+                </p>
+            </div>
+
+            <div class="missing-required text-danger" ng-show="invalidOperation">
+                <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+                <p>
+                    Make sure to have a valid operator before and after each field.
+                </p>
+
+            </div>
+
+            <div class="missing-required text-danger" ng-show="unbalancedParenthesis">
+                <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+                <p>
+                    Make sure to have Balanced Parenthesis in your operation.
+                </p>
+
+            </div>
+
+            <div class="missing-required text-danger" ng-show="doubleOperators">
+                <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+                <p>
+                    You have two sequenced operators. Please fix your operation.
+                </p>
+
+            </div>
+
+
+            <!-- sortable operators -->
+            <div ng-show="row.InputType == 33 || row.InputType == 66"
+                 class="list-group calculatorSortableOperators"
+                 style=" max-width: 480px;
+                 display: block;
+                 height: 250px;">
+
+                <div class="pull-left all-job-item list-group-item operator-item opdigit"
+                     ng-repeat="operator in operators track by $index" ng-click="addArgument(operator, 'op')">
+                    <div class="vertical-aligned">
+                        <img src="images/operators/{{operator.src}}"/>
+                    </div>
+                </div>
+
+                <div class="pull-left all-job-item list-group-item operator-item opdigit"
+                     ng-repeat="digit in digits track by $index" ng-click="addArgument(digit, 'digit')">
+                    <div class="vertical-aligned digits">
+                        {{digit.name}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- sortable fields -->
+
+            <div ng-show="row.InputType == 33 || row.InputType == 66"
+                 class="list-group calculatorSortableFields newScroll slim">
+                <div class="all-job-item list-group-item field-item opdigit"
+                     ng-repeat="field in fields track by $index" ng-click="addArgument(field, 'field', $index)"
+                     ng-class="{'ui-state-disabled disabled': field.hidden}">
+
+                    <div class="vertical-aligned">{{field.name}}</div>
+                </div>
+            </div>
+
+            <div class="conditions" style="display: block">
+                <div class="calc-if" ng-hide="row.InputType == 44">
+
+                    <div style=" font-size: 18px;">
+                        {{"CALC_IF" | translate}}
+                    </div>
+
+                    <div style="display: flex;">
+                        <div>
+                            <select class="form-control ng-pristine ng-valid ng-touched"
+                                    style="width:126px"
+                                    ng-options="option.id as option.name for option in responseDictionary.ConditionFields"
+                                    ng-model="testData.ConditionField">
+                                <option value="">{{"NONE" | translate}}</option>
+                            </select>
+                        </div>
+                        <div style="align-items: center;    display: flex;    margin: 0 15px;">                            
+                            {{"IS" | translate}}
+                        </div>
+                        <div>
+                            <select class="form-control ng-pristine ng-valid ng-touched"
+                                    style="width:126px"
+                                    ng-options="option.id as option.name for option in responseDictionary.CompSigns"
+                                    ng-model="testData.ConditionCompSign">
+                                <option value="">{{"NONE" | translate}}</option>
+                            </select>
+                        </div>
+
+                        <div style="align-items: center;    display: flex;    margin: 0 15px;">                            
+                            {{"FROM" | translate}}
+                        </div>
+
+                        <div>
+                            <input ng-model="testData.ConditionValue" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-if" ng-show="row.InputType == 44">
+                    <div style=" font-size: 18px;">
+                        {{"SRC_FIELD" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                style="width:126px"
+                                ng-options="option.id as option.name for option in responseDictionary.SourceFields"
+                                ng-model="testData.SourceField">
+                            <option value="">{{"NONE" | translate}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calc-if" ng-show="row.InputType == 44">
+                    <div style=" font-size: 18px;">
+                        {{"CALC_FUNC" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                style="width:126px"
+                                ng-options="option.id as option.name for option in responseDictionary.CalcFunctions"
+                                ng-model="testData.CalcString">
+                            <option value="">{{"NONE" | translate}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calc-if" style="flex-direction: row;">
+                    <div>
+                        <div style=" font-size: 18px;">
+                            {{"ROUND_TYPE" | translate}}
+                        </div>
+                        <div>
+                            <select class="form-control ng-pristine ng-valid ng-touched"
+                                    style="width:126px"
+                                    ng-options="option.id as option.name for option in responseDictionary.RoundTypes"
+                                    ng-model="testData.RoundType">
+                                <option value="">{{"NONE" | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin: 0 10px">
+                        <div style=" font-size: 18px;">
+                            {{"ROUND_DIGIT" | translate}}
+                        </div>
+                        <div>
+                            <select class="form-control ng-pristine ng-valid ng-touched"
+                                    style="width:126px"
+                                    ng-options="option.id as option.name for option in responseDictionary.RoundDigits"
+                                    ng-model="testData.RoundDigits">
+                                <option value="">{{"NONE" | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <button ng-disabled="invalidOperation || unbalancedParenthesis" type="submit" style="width: 150px"
+                class="btn btn-primary new-dep-header-buttons saveButton">
+            {{"SAVE" | translate}}
+        </button>
+
+        <div style="text-align: center" class="missing-required text-danger" ng-show="opAtEdge">
+            <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+            <p>
+                Make sure NOT to have an operator at the edge of the operation.
+            </p>
+
+        </div>
+
+        <div style="text-align: center" class="missing-required text-danger" ng-show="invalidOperation">
+            <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+            <p>
+                Make sure to have a valid operator before and after each field.
+            </p>
+
+        </div>
+
+        <div style="text-align: center" class="missing-required text-danger" ng-show="unbalancedParenthesis">
+            <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+            <p>
+                Make sure to have Balanced Parenthesis in your operation
+            </p>
+
+        </div>
+
+        <div style="text-align: center" class="missing-required text-danger" ng-show="doubleOperators">
+            <img style="margin: 0 10px 10px 10px;" src="images/warning-red.svg"/>
+
+            <p>
+                You have two sequenced operators. Please fix your operation.
+            </p>
+
+        </div>
+    </div>
+</form>

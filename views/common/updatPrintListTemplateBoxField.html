@@ -1,0 +1,1174 @@
+
+
+<form id="printForm" name="printForm" ng-submit="printModalCtrl.updateWidget()"
+      ng-class="{submitted : printModalCtrl.submitted}">
+    <div class="row wrapper border-bottom white-bg page-heading" style="z-$index: 10001;margin-top:0px"
+         ng-class="{{printModalCtrl.rtl==''?'':'rtl'}}">
+
+        <div class="modal-header ng-scope" ng-class="{rtl : actionModalInstanceCtrl.rtl}">
+            <button type="button" ng-click="printModalCtrl.close('exit');" class="close pull-right"
+                    data-dismiss="modal">
+                <span aria-hidden="true">×</span><span class="sr-only">{{"CLOSE" | translate}}
+    </span></button>
+            <h3 class="modal-title pull-left ng-binding">{{"PRINT_TEMPLATE" | translate}}</h3>
+        </div>
+        <!--<div class="" style="margin-top:10px">-->
+        <div class="row" style="{{printModalCtrl.rtl ? 'padding-right:15px':'padding-left:15px'}}">
+            <div class="col-lg-2 pull-left   printerMargin">
+                <label>{{"SELECT_TYPE" | translate}}:</label>
+                <select ng-if="printModalCtrl.contentType.type=='object'" class="form-control" required
+                        ng-model="printModalCtrl.typeContent"
+                        ng-change="printModalCtrl.typeContentClicked()">
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                    <option value="table">{{"TABLE" | translate}}</option>
+                    <option value="staticfield">{{"STATIC_FIELD" | translate}}</option>
+                    <option value="barcode">{{"BARCODE" | translate}}</option>
+                    <option value="qrcode">{{"QRCODE" | translate}}</option>
+                    <!--<option value="image">{{"IMAGE" | translate}}</option>-->
+                    <!--<option value="text">{{"TEXT" | translate}}</option>-->
+                </select>
+                <select ng-if="printModalCtrl.contentType.type=='label'" class="form-control"
+                        ng-model="printModalCtrl.typeContent"
+                        ng-change="printModalCtrl.typeContentClicked();printModalCtrl.clearLabelField('type')" required>
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                    <option value="dynamicfield">{{"DYNAMIC_FIELD" | translate}}</option>
+                    <option value="table">{{"TABLE" | translate}}</option>
+                    <option value="blanktable">{{"BLANK_TABLE" | translate}}</option>
+                    <option value="staticfield">{{"STATIC_FIELD" | translate}}</option>
+                    <option value="barcode">{{"BARCODE" | translate}}</option>
+                    <option value="qrcode">{{"QRCODE" | translate}}</option>
+                    <!--<option value="image">{{"IMAGE" | translate}}</option>-->
+                    <!--<option value="text">{{"TEXT" | translate}}</option>-->
+                </select>
+            </div>
+        </div>
+
+        <!--</div>-->
+        <div class="row printerMargin"
+             ng-if="printModalCtrl.typeContent=='table' || printModalCtrl.typeContent=='barcode'  || printModalCtrl.typeContent=='qrcode' "
+             style="{{printModalCtrl.rtl ? 'padding-right: 15px' : 'padding-left: 15px'}}">
+
+            <div class="col-lg-2 pull-left form-group" ng-if="printModalCtrl.typeContent=='qrcode'">
+                <label>{{"SELECT_QRCODE_TYPE" | translate}}:</label>
+                <select class="form-control" ng-model="printModalCtrl.qrcodeType" required
+                        ng-change="printModalCtrl.clearQrcode()">
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                    <option value="dynamicfield">{{"DYNAMIC_FIELD" | translate}}</option>
+                    <option value="staticfield">{{"TEXT_FIELD" | translate}}</option>
+                </select></div>
+            <div class="col-lg-2 pull-left form-group" ng-if="printModalCtrl.typeContent=='barcode'">
+                <label>{{"SELECT_BARCODE_TYPE" | translate}}</label>
+                <select class="form-control" ng-model="printModalCtrl.barcodeType" required
+                        ng-change="printModalCtrl.clearBarcode()">
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                    <option value="dynamicfield">{{"DYNAMIC_FIELD" | translate}}</option>
+                    <option value="staticfield">{{"TEXT_FIELD" | translate}}</option>
+                </select></div>
+            <div ng-if=" printModalCtrl.tables && (printModalCtrl.typeContent=='table'|| printModalCtrl.barcodeType=='dynamicfield' || printModalCtrl.qrcodeType=='dynamicfield') ">
+                <div class="col-lg-2 pull-left form-group">
+                    <label>{{"SELECT_TABLE" | translate}}:</label>
+                    <select class="form-control" ng-model="printModalCtrl.currentTable" required
+                            ng-change="printModalCtrl.resetWidthPercentage(0);printModalCtrl.clearDefaultFields();"
+                            ng-options="option as (option | customTranslate: 'ename':'lname':printModalCtrl.rtl) for option in printModalCtrl.tables">
+                        <option value="">{{"SELECT_TABLE" | translate}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 pull-left form-group" style="min-width: 231px;"
+                     ng-if="printModalCtrl.typeContent=='table' && printModalCtrl.currentTable" required>
+                    <label>{{"SELECT_FIELDS" | translate}}:</label>
+
+                    <print-multiselect-dropdown class="Printmultiselect" style="display:block"
+                                                model=" printModalCtrl.currentFields"
+                                                options=" printModalCtrl.currentTable.fields "></print-multiselect-dropdown>
+                </div>
+                <div class="col-lg-2 pull-left form-group "
+                     ng-if="(printModalCtrl.barcodeType=='dynamicfield' || printModalCtrl.qrcodeType=='dynamicfield')  && printModalCtrl.currentTable">
+                    <label>{{"SELECT_FIELDS" | translate}}:</label>
+                    <select ng-show="printModalCtrl.typeContent=='barcode'" class="form-control"
+                            ng-model="printModalCtrl.currentFields"
+                            ng-change="printModalCtrl.barcodeFieldClicked()" required
+                            ng-options=" option as (option | customTranslate: 'EName':'LName':printModalCtrl.rtl) for option in printModalCtrl.currentTable.fields">
+                        <option value="">{{"SELECT_FIELD" | translate}}</option>
+                    </select>
+
+                    <select ng-if="printModalCtrl.typeContent=='qrcode'" class="form-control"
+                            ng-model="printModalCtrl.currentFields"
+                            required
+                            ng-options=" option as (option | customTranslate: 'EName':'LName':printModalCtrl.rtl) for option in printModalCtrl.currentTable.fields">
+                        <option value="">{{"SELECT_FIELD" | translate}}</option>
+                    </select>
+
+                </div>
+                <div class="col-lg-3 form-group pull-left"
+                     ng-show="printModalCtrl.typeContent=='table' && printModalCtrl.currentTable"
+                     style="border: 1px solid #e7eaec;min-width: 100px;max-width: 300px;">
+                    <label>{{"CURRENT_FIELDS" | translate}}:</label>
+                    <div>
+            <span data-ng-repeat="field in printModalCtrl.currentFields track by $index">
+                   <span ng-show="$last && !printModalCtrl.rtl "> {{field.EName}} </span> <span
+                    ng-show="$last && printModalCtrl.rtl"> {{field.LName}} </span>
+                   <span ng-show="!$last && !printModalCtrl.rtl"> {{field.EName}}-</span>  <span
+                    ng-show="!$last && printModalCtrl.rtl"> {{field.LName}}-</span>
+            </span>
+                    </div>
+
+                    <!--<select chosen multiple-->
+                    <!--class="form-control  chosen-select"-->
+                    <!--ng-model="printModalCtrl.currentFields" ng-change="printModalCtrl.resetWidthPercentage(1)"-->
+                    <!--ng-options="option as (option | customTranslate: 'EName':'LName':printModalCtrl.rtl) for option in printModalCtrl.currentTable.fields">-->
+
+                    <!--&lt;!&ndash;ng-options="option as (option | customTranslate: 'EName':'LName':true)for option in PrintFields"&ndash;&gt;-->
+
+                    <!--<option value="">{{"SELECT_FIELDS" | translate}}</option>-->
+                    <!--</select>-->
+
+                </div>
+            </div>
+
+            <div ng-if="printModalCtrl.contentType.type=='label' && ( printModalCtrl.typeContent=='barcode' && printModalCtrl.barcodeType=='dynamicfield'  ) ||(printModalCtrl.qrcodeType=='dynamicfield' &&  printModalCtrl.typeContent== 'qrcode')">
+                <!--<div class="col-lg-6 pull-left">-->
+                <!--<div class="col-lg-5 form-group pull-left">-->
+                <!--<label>{{"SELECT_LABEL" | translate}}:</label>-->
+                <!--<select  class="form-control "-->
+                <!--ng-model="printModalCtrl.Label"-->
+                <!--required    ng-options="option as option.EName | translate for option in printModalCtrl.currentTypeValue.Labels">-->
+                <!--<option value="">{{"SELECT_LABEL" | translate}}</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--<div class="col-lg-5 form-group pull-left printNestedCol" ng-if="printModalCtrl.Label">-->
+                <!--<label>{{"SELECT_LABEL_FIELD" | translate}}:</label>-->
+                <!--<select-->
+                <!--class="form-control "-->
+                <!--ng-model="printModalCtrl.LabelTableField" required-->
+                <!--ng-options="option as option.EName | translate for option in printModalCtrl.Label.Labelfields"-->
+                <!--ng-change="printModalCtrl.removeKeyValueDetails(3)">-->
+                <!--<option value="">{{"SELECT_LABEL_FIELD" | translate}}</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+
+
+            </div>
+
+
+        </div>
+        <div class="row printerMargin"  style="{{printModalCtrl.rtl ? 'padding-right:15px':'padding-left:15px'}}" ng-if="printModalCtrl.typeContent=='dynamicfield'">
+            <div class="col-lg-2 pull-left form-group">
+                <label>{{"SELECT_SHAPE" | translate}}:</label>
+                <select class="form-control  " required
+                        ng-model="printModalCtrl.style"
+                        ng-change="printModalCtrl.removeKeyValueDetails(1);printModalCtrl.clearLabelField('labelTable')">
+                    <option value="" disabled selected>{{"SELECT_TYPE" | translate}}</option>
+                    <option value="vertical">{{"KEY-VALUE-VERTICAL" | translate}}</option>
+                    <option value="horizontal">{{"KEY-VALUE-HORIZONTAL" | translate}}</option>
+                </select></div>
+            <div class="col-lg-6 pull-left"
+                 ng-show="printModalCtrl.style == 'vertical' || printModalCtrl.style == 'horizontal'">
+
+                <!--<div class="col-lg-5 form-group pull-left">-->
+                <!--<label>{{"SELECT_LABEL" | translate}}:</label>-->
+                <!--<select ng-if="printModalCtrl.currentTypeValue" class="form-control" ng-change="printModalCtrl.removeKeyValueDetails(2)"-->
+                <!--ng-model="printModalCtrl.Label"-->
+                <!--required    ng-options="option as option.EName | translate for option in printModalCtrl.currentTypeValue.Labels">-->
+                <!--<option value="">{{"SELECT_LABEL" | translate}}</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--<div class="col-lg-5 form-group pull-left printNestedCol" ng-if="printModalCtrl.Label">-->
+                    <!--<label>{{"SELECT_LABEL_OBJECT_TYPE" | translate}}:</label>-->
+                    <!--<select-->
+                            <!--class="form-control " required-->
+                            <!--ng-model="printModalCtrl.LabelObjectType"-->
+                            <!--ng-options="option as option.EName | translate for option in printModalCtrl.Label"-->
+                            <!--ng-change="printModalCtrl.clearLabelField('labelfield')"-->
+                    <!--&gt;-->
+                        <!--<option value="">{{"SELECT_LABEL_OBJECT_TYPE" | translate}}</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+
+                <div class="col-lg-5 form-group pull-left " ng-if="printModalCtrl.Label && printModalCtrl.Label.TableFields">
+                    <label>{{"SELECT_LABEL_TABLE" | translate}}:</label>
+                    <select
+                            class="form-control " required
+                            ng-model="printModalCtrl.LabelTable"
+                            ng-options="option as option.Tbl | translate for option in  printModalCtrl.Label.TableFields">
+                        <option value="">{{"SELECT_LABEL_FIELD" | translate}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-5 form-group pull-left " ng-if="printModalCtrl.LabelTable ">
+                    <label>{{"SELECT_LABEL_FIELDS" | translate}}:</label>
+                    <select
+                            class="form-control " required
+                            data-ng-model="printModalCtrl.LabelTableField" ng-change="printModalCtrl.initTablePercent()"
+                            ng-options="option as option.EName | translate for option in printModalCtrl.LabelTable.fields">
+                        <option value="">{{"SELECT_LABEL_FIELD" | translate}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row printerMargin" ng-if="printModalCtrl.typeContent=='staticfield'"
+             style="{{printModalCtrl.rtl ? 'padding-right:15px':'padding-left:15px'}}">
+
+            <div class="col-lg-2 form-group pull-left">
+                <label>{{"SELECT_STATIC_FIELD_TYPE"| translate}}:</label>
+                <select class="form-control pull-left" ng-model="printModalCtrl.staticContent" required
+                        ng-change="printModalCtrl.staticFieldClicked(printModalCtrl.staticContent)">
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                    <option value="file">{{"FILE" | translate}}</option>
+                    <!--<option value="diagram">{{"DIAGRAM" | translate}}</option>-->
+                    <option value="image">{{"IMAGE" | translate}}</option>
+                    <option value="text">{{"TEXT" | translate}}</option>
+                    <option value="datenow">{{"DATE_NOW" | translate}}</option>
+                    <option value="datetimenow">{{"DATE_TIME_NOW" | translate}}</option>
+                    <option value="timenow">{{"TIME_NOW" | translate}}</option>
+                </select>
+            </div>
+            <div class="col-lg-4 form-group pull-left" ng-if="printModalCtrl.staticContent=='text'">
+                <label>{{"TEXT"| translate}}:</label>
+                <input class="form-control" required
+                       type="text" ng-model="printModalCtrl.staticText" placeholder='{{"ENTER_TEXT_HERE" | translate}}'>
+            </div>
+
+            <div class="col-lg-2 form-group pull-left"
+                 ng-if="printModalCtrl.staticContent=='image' ||printModalCtrl.staticContent=='diagram'  ">
+                <label>{{"SELECT_FIELD"| translate}}:</label>
+                <select class="form-control" ng-model="printModalCtrl.currentImageDiagramType" required
+                    ng-options=" option as (option | customTranslate: 'EName':'LName':printModalCtrl.rtl) for option in printModalCtrl.printImagesFields">
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                </select>
+
+            </div>
+
+            <div class="col-lg-2 form-group pull-left" ng-if="printModalCtrl.staticContent=='file' ">
+                <label>{{"SELECT_FILE_ID"| translate}}:</label>
+                <div class="input-group">
+                    <input type="number" disabled="" ng-init="printModalCtrl.currentFileID" required
+                           class="form-control ng-pristine ng-untouched ng-valid"
+                           ng-model="printModalCtrl.currentFileID">
+                    <span class="input-group-btn"><button type="button" class="btn btn-primary"
+                                                          ng-click="printModalCtrl.AddNewItem('MoldID',351)"><i
+                            class="fa fa-search"></i>
+                </button>
+                </span></div>
+            </div>
+        </div>
+        <!--<div class="row printerMargin"-->
+        <!--ng-show="printModalCtrl.typeContent=='staticfield' && printModalCtrl.staticContent=='image' ">-->
+
+        <!--<div class="col-lg-12">-->
+        <!--<div type="button" class="btn btn-success pull-left" ngf-change="printModalCtrl.onImageChange($files)"-->
+        <!--ngf-select="upload($file)" ngf-pattern="image/*" ng-disabled="printModalCtrl.disabled == true">-->
+        <!--{{printModalCtrl.PictureLink ? "REPLACE_IMAGE" : "UPLOAD_IMAGE" | translate}}-->
+        <!--</div>-->
+        <!--<div type="button" class="btn btn-success pull-left" ng-if="printModalCtrl.PictureLink"-->
+        <!--ng-click="printModalCtrl.PictureLink = ''" ng-disabled="printModalCtrl.disabled == true">-->
+        <!--{{"REMOVE_IMAGE" | translate}}-->
+        <!--</div>-->
+        <!--<p class=" pull-left" style="color:red" ng-show="printModalCtrl.showImage == true">-->
+        <!--{{"PLEASE_UPLOAD_IMAGE_WITH_DIM" | translate}}: 400x400 </p>-->
+        <!--</div>-->
+        <!--<div class="col-lg-12" style="margin-top: 10px;">-->
+        <!--<img class=" pull-left" ng-src="{{printModalCtrl.PictureLink}}" ng-if="printModalCtrl.PictureLink"-->
+        <!--alt="Description"/>-->
+        <!--</div>-->
+        <!--</div>-->
+
+
+        <!--barcode fields-->
+        <div class="row printerMargin " style="padding-left:0"
+             ng-if="printModalCtrl.typeContent=='qrcode' &&
+         ((printModalCtrl.currentFields && printModalCtrl.currentFields.toString().length>0 ) || printModalCtrl.qrcodeType=='staticfield'
+          || (printModalCtrl.qrcodeType=='dynamicfield' && printModalCtrl.LabelTableField) )"
+             ng-init="printModalCtrl.qrcode==null ?{}:printModalCtrl.qrcode">
+            <div class="col-lg-12 pull-left">
+                <div class="col-lg-2 pull-left printerMargin printNestedCol">
+                    <div class="form-group">
+                        <label ng-if="printModalCtrl.qrcodeType=='dynamicfield'">{{"QRCODE_TEXT_EXAMPLE" |
+                            translate}}:</label>
+                        <label ng-if="printModalCtrl.qrcodeType=='staticfield'">{{"QRCODE_TEXT" | translate}}:</label>
+                        <input class="form-control pull-left " required
+                               type="text" ng-model="printModalCtrl.qrcode.text"
+                               placeholder='{{"ENTER_TEXT_HERE" | translate}}'
+                               ng-init="printModalCtrl.qrcode.text = printModalCtrl.qrcode.text |'example text'  ">
+                    </div>
+                </div>
+                <!--<div class="col-lg-1 printerMargin form-group pull-left">-->
+                    <!--<label>{{"FONT_SIZE" | translate}}:</label>-->
+                    <!--<div></div>-->
+                    <!--<input class="form-control pull-left"-->
+                           <!--ng-init="printModalCtrl.qrcode.fontSize = printModalCtrl.qrcode.fontSize || 20"-->
+                           <!--type="number" ng-model="printModalCtrl.qrcode.fontSize"-->
+                           <!--placeholder='{{"ENTER_FONT_SIZE" | translate}}'>-->
+                <!--</div>-->
+                <div class="col-lg-1 printerMargin form-group pull-left">
+                    <label>{{"SIZE" | translate}}:</label>
+                    <div></div>
+                    <input class="form-control pull-left"
+                           ng-init="printModalCtrl.qrcode.size = printModalCtrl.qrcode.size || 100"
+                           type="number" ng-model="printModalCtrl.qrcode.size"
+                           placeholder='{{"ENTER_SIZE" | translate}}'>
+                </div>
+                <div class=" col-lg-1 printerMargin form-group pull-left printModalComponents">
+                    <label>{{"BACKGROUND_COLOR" | translate}}:</label>
+                    <select class="form-control "
+                            ng-model="printModalCtrl.qrcode.color"
+                            ng-init="printModalCtrl.qrcode.color =printModalCtrl.qrcode.color || 'black'">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+
+                <div class=" col-lg-1 printerMargin form-group pull-left printModalComponents">
+                    <label>{{"BACKGROUND_COLOR" | translate}}:</label>
+                    <select class="form-control "
+                            ng-model="printModalCtrl.qrcode.background"
+                            ng-init="printModalCtrl.qrcode.background =printModalCtrl.qrcode.background || 'white'">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#99cc99">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+
+                <div class=" col-lg-1 printerMargin form-group pull-left printModalComponents">
+                    <label>{{"LEVEL" | translate}}:</label>
+                    <select class="form-control "
+                            ng-model="printModalCtrl.qrcode.level"
+                            ng-init="printModalCtrl.qrcode.level =printModalCtrl.qrcode.level || 'M'">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="L">{{"LOW" | translate}}</option>
+                        <option value="M">{{"MEDIUM" | translate}}</option>
+                        <option value="Q">{{"QUARTILE" | translate}}</option>
+                        <option value="H">{{"HIGH" | translate}}</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row printerMargin  " style="padding-left:0"
+             ng-if="printModalCtrl.typeContent=='barcode' && ((printModalCtrl.currentFields && printModalCtrl.currentFields.toString().length>0 ) || printModalCtrl.barcodeType=='staticfield' || (printModalCtrl.barcodeType=='dynamicfield' && printModalCtrl.LabelTableField )) "
+             ng-init="printModalCtrl.barcode==null ?{}:printModalCtrl.barcode">
+            <div class="col-lg-12 pull-left">
+                <div class="col-lg-2 pull-left printNestedCol ">
+                    <div class="form-group">
+                        <label ng-if="printModalCtrl.barcodeType=='dynamicfield'">{{"BARCODE_TEXT_EXAMPLE" |
+                            translate}}</label>
+                        <label ng-if="printModalCtrl.barcodeType=='staticfield'">{{"BARCODE_TEXT" | translate}}</label>
+                        <input ng-if="printModalCtrl.barcode.barcodeStringType" class="form-control pull-left"
+                               type="text" maxlength="{{printModalCtrl.inputMaxlength}}" required autocomplete="off"
+                               ng-model="printModalCtrl.barcode.text" placeholder='{{"ENTER_TEXT_HERE" | translate}}'
+                               ng-change="printModalCtrl.generateBarcode()"
+                               ng-init="printModalCtrl.barcode.text = printModalCtrl.barcode.text |'example text'  ">
+                        <input id="barcodeInput" ng-if="!printModalCtrl.barcode.barcodeStringType"
+                               class="form-control pull-left" type="text"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                               maxlength="{{printModalCtrl.inputMaxlength}}" required autocomplete="off"
+                               ng-model="printModalCtrl.barcode.text" placeholder='{{"ENTER_NUMBER_HERE" | translate}}'
+                               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                               ng-change="printModalCtrl.generateBarcode(undefined,true)"></div>
+                </div>
+
+                <div class="col-lg-2 pull-left ">
+                    <div class="form-group">
+                        <label>{{"BARCODE_FORMAT" | translate}}:</label>
+                        <select class="form-control pull-left" ng-model="printModalCtrl.barcode.format"
+                                ng-change="printModalCtrl.generateBarcode(true)"
+                                ng-init="!printModalCtrl.barcode.format ? printModalCtrl.barcode.format='CODE128' :printModalCtrl.barcode.format">
+                            <option value="CODE128">{{"CODE128" | translate}}</option>
+                            <option value="CODE128A">{{"CODE128A" | translate}}</option>
+                            <option value="CODE128B">{{"CODE128B" | translate}}</option>
+                            <option value="CODE128C">{{"CODE128C" | translate}}</option>
+                            <option value="EAN2">{{"EAN2" | translate}}</option>
+                            <option value="EAN5">{{"EAN5" | translate}}</option>
+                            <option value="EAN8">{{"EAN8" | translate}}</option>
+                            <option value="EAN13">{{"EAN13" | translate}}</option>
+                            <option value="CODE39">{{"CODE39" | translate}}</option>
+                            <option value="ITF14">{{"ITF14" | translate}}</option>
+                            <option value="MSI">{{"MSI" | translate}}</option>
+                            <option value="msi10">{{"MSI10" | translate}}</option>
+                            <option value="MSI11">{{"MSI11" | translate}}</option>
+                            <option value="MSI1010">{{"MSI1010" | translate}}</option>
+                            <option value="MSI1110">{{"MSI1110" | translate}}</option>
+                            <option value="pharmacode">{{"Pharmacode" | translate}}</option>
+                            <option value="codabar">{{"Codabar" | translate}}</option>
+                        </select></div>
+                </div>
+
+                <div ng-show="printModalCtrl.barcode.message" class="col-lg-2 pull-left ">
+                    <div class="form-group">
+                        <label>{{"BARCODE_FORMAT_SUPPORTING" | translate}}:</label></br>
+                        <div style="margin-top: 8px;    font-size: 15px;color:red"> {{printModalCtrl.barcode.message}}
+                        </div>
+                        </strong>
+                    </div>
+                </div>
+                <div class="col-lg-1 pull-left printModalComponents">
+                    <div class="form-group">
+                        <label>{{"BARCODE_WIDTH" | translate}}:</label>
+                        <input class="form-control pull-left"
+                               type="number" ng-model="printModalCtrl.barcode.width"
+                               placeholder='{{"ENTER_WIDTH_HERE" | translate}}'
+                               ng-init="printModalCtrl.barcode.width= printModalCtrl.barcode.width || 2.0"
+                               step="0.1" min="0" max="3" ng-change="printModalCtrl.generateBarcode()"></div>
+                </div>
+                <div class="col-lg-1 pull-left printModalComponents">
+                    <div class="form-group">
+                        <label>{{"BARCODE_HEIGHT" | translate}}:</label>
+                        <input class="form-control pull-left"
+                               type="number" ng-model="printModalCtrl.barcode.height"
+                               placeholder='{{"ENTER_HEIGHT_HERE" | translate}}'
+                               ng-init="printModalCtrl.barcode.height= printModalCtrl.barcode.height || 100"
+                               ng-change="printModalCtrl.generateBarcode()"
+
+                        ></div>
+                </div>
+            </div>
+            <!--<div class="col-lg-2 pull-left">-->
+            <!--<div class="form-group" ng-init="printModalCtrl.barcode.margins =printModalCtrl.barcode.margins || 10">-->
+            <!--<label>{{"BARCODE_MARGINS" | translate}}:</label>-->
+            <!--<input class="form-control pull-left"-->
+            <!--type="number" ng-model="printModalCtrl.barcode.margins" placeholder="enter margin here"-->
+            <!--ng-change="printModalCtrl.generateBarcode()"></div>-->
+            <!--</div>-->
+            <!--<div class="col-lg-2" range-slider min="0" max="100" model-min="printModalCtrl.barcode.min" model-max="printModalCtrl.barcode.max"></div>-->
+            <!--<div class="col-lg-2 pull-left">-->
+            <!--<div class="form-group">-->
+            <!--<label>barcode margins</label>-->
+            <!--<input class="form-control pull-left"-->
+            <!--type="text" ng-model="printModalCtrl.barcode.margins" placeholder="enter margin here"-->
+            <!--ng-change="printModalCtrl.generateBarcode()">-->
+            <!--</div>-->
+            <!--</div>-->
+            <div class="col-lg-12">
+                <div class="col-lg-2 printerMargin pull-left printNestedCol ">
+                    <label  style="{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                        <input class="pull-left" icheck type="checkbox"
+                               ng-init="printModalCtrl.barcode.displayvalue=printModalCtrl.barcode.displayvalue || true"
+                               ng-model="printModalCtrl.barcode.displayvalue"
+                               ng-change="printModalCtrl.generateBarcode()"/>
+                        <span class="pull-left marginrightleft">   {{"DISPLAY_VALUE" | translate}}:</span></label>
+                </div>
+                <!--<div class="col-lg-3 printerMargin pull-left" ng-if="printModalCtrl.rtl">-->
+                <!--<div class="form-group pull-left"-->
+                <!--ng-init="printModalCtrl.barcode.textalign= printModalCtrl.barcode.textalign || 'center'">-->
+                <!--<label>{{"ALIGN" | translate}}:</label>-->
+                <!--<input type="radio" name="textalign" value="left" ng-model="printModalCtrl.barcode.textalign"-->
+                <!--ng-click="printModalCtrl.generateBarcode()">{{"CENTER" | translate}}-->
+                <!--<input type="radio" name="textalign" value="center" ng-model="printModalCtrl.barcode.textalign"-->
+                <!--ng-click="printModalCtrl.generateBarcode()">{{"RIGHT" | translate}}-->
+                <!--<input type="radio" name="textalign" value="right" ng-model="printModalCtrl.barcode.textalign"-->
+                <!--ng-click="printModalCtrl.generateBarcode()">{{"LEFT" | translate}}-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-3 printerMargin pull-left" ng-if="printModalCtrl.rtl">-->
+                    <!--<label class="pull-left" style="margin-top: 2px;margin-right:2px;margin-left:2px">{{"ALIGN" |-->
+                        <!--translate}}:</label>-->
+                    <!--<div class="form-group pull-left"-->
+                         <!--ng-init="printModalCtrl.barcode.textalign= printModalCtrl.barcode.textalign || 'center'">-->
+
+                    <!--<span class="pull-left">  <input type="radio" name="textalign" value="right"-->
+                                                     <!--ng-model="printModalCtrl.barcode.textalign"-->
+                                                     <!--ng-click="printModalCtrl.generateBarcode()">{{"RIGHT" | translate}}</span>-->
+
+                        <!--<span class="pull-left">   <input type="radio" name="textalign" value="center"-->
+                                                          <!--ng-model="printModalCtrl.barcode.textalign"-->
+                                                          <!--ng-click="printModalCtrl.generateBarcode()">{{"CENTER" | translate}}</span>-->
+                        <!--<span class="pull-left">   <input type="radio" name="textalign" value="left"-->
+                                                          <!--ng-model="printModalCtrl.barcode.textalign"-->
+                                                          <!--ng-click="printModalCtrl.generateBarcode()">{{"LEFT" | translate}}</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="col-lg-3 printerMargin pull-left" >
+                <h4 >{{"DATA_ALIGN" | translate}}:</h4>
+                <div class="input-group col-lg-6" ng-style="printModalCtrl.rtl?{'direction':'ltr'}:{}" ng-init="printModalCtrl.barcode.textalign=printModalCtrl.barcode.textalign || 'center'">
+                         <span class="barcodeDisplay1"   ng-class="{'barcodeDisplayActive' :printModalCtrl.barcode.textalign=='left'}"
+                               ng-click="printModalCtrl.updateBarcodeAlign('left')" title="{{'LEFT' | translate}}"><i
+                                 class="fa fa-align-left fa-2x"/></span>
+                    <span class="barcodeDisplay2"  ng-class="{'barcodeDisplayActive' : printModalCtrl.barcode.textalign=='center'}"
+                          ng-click="printModalCtrl.updateBarcodeAlign('center')" title="{{'CENTER' | translate}}"><i
+                            class="fa fa-align-center fa-2x"/></span>
+                    <span class="barcodeDisplay3"  ng-class="{'barcodeDisplayActive' : printModalCtrl.barcode.textalign=='right'}"
+                          ng-click="printModalCtrl.updateBarcodeAlign('right')" title="{{'RIGHT' | translate}}"><i
+                            class="fa fa-align-right fa-2x"/></span>
+                </div>
+                </div>
+                <!--<div class="col-lg-3 printerMargin pull-left form-group" ng-if="!printModalCtrl.rtl">-->
+                    <!--<div class="form-group pull-left"-->
+                         <!--ng-init="printModalCtrl.barcode.textalign= printModalCtrl.barcode.textalign || 'center'">-->
+                        <!--<label style="margin-top: 2px;margin-right:2px;margin-left:2px" class="pull-left">{{"ALIGN" |-->
+                            <!--translate}}: </label>-->
+                        <!--<span class="pull-left">   <input type="radio" name="textalign" value="left"-->
+                                                          <!--ng-model="printModalCtrl.barcode.textalign"-->
+                                                          <!--ng-click="printModalCtrl.generateBarcode()">{{"LEFT" | translate}}</span>-->
+                        <!--<span class="pull-left">   <input type="radio" name="textalign" value="center"-->
+                                                          <!--ng-model="printModalCtrl.barcode.textalign"-->
+                                                          <!--ng-click="printModalCtrl.generateBarcode()">{{"CENTER" | translate}}</span>-->
+                        <!--<span class="pull-left">  <input type="radio" name="textalign" value="right"-->
+                                                         <!--ng-model="printModalCtrl.barcode.textalign"-->
+                                                         <!--ng-click="printModalCtrl.generateBarcode()">{{"RIGHT" | translate}}</span>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<label class="checkbox-inline">-->
+                <!--<input type="checkbox" name="favoriteColors" ng-model="printModalCtrl.barcode.textalign" ng-click="printModalCtrl.generateBarcode()"> Left-->
+                <!--</label>-->
+                <!--<label class="checkbox-inline">-->
+                <!--<input type="checkbox" name="favoriteColors" ng-model="printModalCtrl.barcode.textalign" ng-click="printModalCtrl.generateBarcode()"> Center-->
+                <!--</label>-->
+                <!--<label class="checkbox-inline">-->
+                <!--<input type="checkbox" name="favoriteColors" ng-model="printModalCtrl.barcode.textalign" ng-click="printModalCtrl.generateBarcode()"> Right-->
+                <!--</label>-->
+
+
+                <!--<div class="form-group">-->
+                <!--<div class="btn-group btn-group-md" role="toolbar" ng-model="printModalCtrl.barcode.textalign" >-->
+                <!--<button type="button" class="btn btn-default text-align" value="left" ng-click="printModalCtrl.generateBarcode()">Left</button>-->
+                <!--<button type="button" class="btn btn-default text-align" value="center" ng-click="printModalCtrl.generateBarcode()">Center</button>-->
+                <!--<button type="button" class="btn btn-default text-align" value="right" ng-click="printModalCtrl.generateBarcode()">Right</button>-->
+                <!--</div></div>-->
+                <div class="col-lg-3 printerMargin form-group pull-left" ng-if="printModalCtrl.rtl"
+                     ng-init="printModalCtrl.barcode.textposition =printModalCtrl.barcode.textposition|| 'bottom'">
+                    <label class="marginrightleft">{{"TEXT_POSITION" | translate}}:</label>
+                    <input type="radio" name="textposition" value="top" ng-model="printModalCtrl.barcode.textposition"
+                           ng-click="printModalCtrl.generateBarcode()">{{"TOP" | translate}}
+                    <input type="radio" name="textposition" value="bottom"
+                           ng-model="printModalCtrl.barcode.textposition"
+                           ng-click="printModalCtrl.generateBarcode()">{{"BOTTOM" | translate}}
+                </div>
+                <div class="col-lg-3 printerMargin form-group pull-left" ng-if="!printModalCtrl.rtl"
+                     ng-init="printModalCtrl.barcode.textposition =printModalCtrl.barcode.textposition|| 'bottom'">
+                    <label class="marginrightleft">{{"TEXT_POSITION" | translate}}:</label>
+                    <input type="radio" name="textposition" value="bottom"
+                           ng-model="printModalCtrl.barcode.textposition"
+                           ng-click="printModalCtrl.generateBarcode()">{{"BOTTOM" | translate}}
+                    <input type="radio" name="textposition" value="top" ng-model="printModalCtrl.barcode.textposition"
+                           ng-click="printModalCtrl.generateBarcode()">{{"TOP" | translate}}
+                </div>
+                <!--<div class="col-lg-2 printerMargin form-group pull-left "  ng-init="printModalCtrl.barcode.fontoptions= printModalCtrl.barcode.fontoptions || 'default'">-->
+
+                <!--<label>{{"FONT_TYPE"| translate}}:</label>-->
+                <!--<input type="radio" name="fontoptions" value="default" ng-model="printModalCtrl.barcode.fontoptions"-->
+                <!--ng-click="printModalCtrl.generateBarcode()">{{"DEFAULT" | translate}}-->
+                <!--<input type="radio" name="fontoptions" value="bold" ng-model="printModalCtrl.barcode.fontoptions"-->
+                <!--ng-click="printModalCtrl.generateBarcode()">{{"BOLD" | translate}}-->
+                <!--<input type="radio" name="fontoptions" value="italic" ng-model="printModalCtrl.barcode.fontoptions"-->
+                <!--ng-click="printModalCtrl.generateBarcode()">{{"ITALIC" | translate}}-->
+                <!--</div>-->
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group col-lg-1 pull-left printModalComponents printNestedCol" style="margin-top: 20px">
+                    <label>{{"LINE_COLOR" | translate}}:</label>
+                    <select class="form-control "
+                            ng-init="printModalCtrl.barcode.lineColor =printModalCtrl.barcode.lineColor || 'black'"
+                            ng-model="printModalCtrl.barcode.lineColor" ng-change="printModalCtrl.generateBarcode()">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+                <div class=" col-lg-1 printerMargin form-group pull-left printModalComponents">
+                    <label>{{"BACKGROUND_COLOR" | translate}}:</label>
+                    <select class="form-control "
+                            ng-model="printModalCtrl.barcode.background" ng-change="printModalCtrl.generateBarcode()"
+                            ng-init="printModalCtrl.barcode.background =printModalCtrl.barcode.background || 'white'">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+                <!--<div class="col-lg-2 printerMargin form-group pull-left">-->
+                <!--<label>{{"FONT_STYLE"| translate}}:</label>-->
+                <!--<select class="form-control pull-left" ng-model="printModalCtrl.barcode.font"-->
+                <!--ng-change="printModalCtrl.generateBarcode()"-->
+                <!--ng-init="printModalCtrl.barcode.font = printModalCtrl.barcode.font || 'monospace' ">-->
+                <!--<option value="">{{"SELECT_FONT_STYLE" | translate}}</option>-->
+                <!--<option value="monospace">{{"monospace" | translate}}</option>-->
+                <!--<option value="serif">{{"serif" | translate}}</option>-->
+                <!--<option value="cursive">{{"cursive" | translate}}</option>-->
+                <!--</select>-->
+                <!--</div>-->
+
+
+                <div class="col-lg-1 printerMargin form-group pull-left">
+                    <label>{{"FONT_SIZE" | translate}}:</label>
+                    <div></div>
+                    <input class="form-control pull-left"
+                           ng-init="printModalCtrl.barcode.fontSize = printModalCtrl.barcode.fontSize || 20"
+                           type="number" ng-model="printModalCtrl.barcode.fontSize"
+                           placeholder='{{"ENTER_FONT_SIZE_HERE" | translate}}'
+                           ng-change="printModalCtrl.generateBarcode()">
+                </div>
+
+                <div class="col-lg-2 printerMargin form-group pull-left">
+                    <label>{{"TEXT_MARGIN" | translate}}:</label>
+                    <div></div>
+                    <input class="form-control pull-left"
+                           ng-init="printModalCtrl.barcode.textmargin = printModalCtrl.barcode.textmargin || 2"
+                           type="number" ng-model="printModalCtrl.barcode.textmargin"
+                           placeholder='{{"ENTER_TEXT_MARGIN_HERE" | translate}}'
+                           ng-change="printModalCtrl.generateBarcode()"></div>
+                <!--<div class="col-lg-2 printMargin form-group">-->
+                <!--<label>{{"MARGIN" | translate}}:</label>-->
+                <!--<div></div>-->
+                <!--<input class="form-control pull-left"-->
+                <!--type="number" ng-model="printModalCtrl.barcode.margin" placeholder="enter margin here"-->
+                <!--ng-init="printModalCtrl.barcode.margin =printModalCtrl.barcode.margin || 10"-->
+                <!--ng-change="printModalCtrl.generateBarcode()"></div>-->
+
+            </div>
+        </div>
+
+        <!-- fields for all types-->
+
+        <div ng-show="(printModalCtrl.typeContent== 'table' && printModalCtrl.currentFields.length>0) || ( printModalCtrl.typeContent== 'staticfield' && printModalCtrl.staticContent) || (printModalCtrl.typeContent=='dynamicfield' && printModalCtrl.LabelTableField)  "
+             class="row printerMargin" style="padding-left:0">
+            <div class="col-lg-12">
+                <h4 class="pull-left col-lg-1 printNestedCol">{{"TITLES" | translate}}:</h4>
+                <div class="form-group col-lg-1 pull-left printModalComponents ">
+                    <label>{{"BACKGROUND_COLOR" | translate}}:</label>
+                    <select class="form-control "
+                            ng-init="printModalCtrl.backgroundColor=printModalCtrl.backgroundColor || printModalCtrl.defaultbackgroundColor"
+                            ng-model="printModalCtrl.backgroundColor">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-lg-1 pull-left printModalComponents ">
+                    <label>{{"FONT_COLOR" | translate}}:</label>
+                    <select class="form-control"
+                            ng-init="printModalCtrl.fontColor=printModalCtrl.fontColor || printModalCtrl.defaultfontColor"
+                            ng-model="printModalCtrl.fontColor">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-lg-2 pull-left printModalComponents">
+                    <label>{{"FONT_SIZE" | translate}}:</label>
+                    <div class="input-group col-lg-7">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.creaseFontSize(-1)">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </button>
+          </span>
+                        <input type="number" class="form-control input-number printListModalPlusMinus"
+                               ng-init="printModalCtrl.fontSize=printModalCtrl.fontSize || printModalCtrl.defaultfontSize"
+                               ng-model="printModalCtrl.fontSize" style="text-align: center;min-width:80px">
+                        <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.creaseFontSize(1)">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </button>
+          </span>
+                    </div>
+                </div>
+                <div ng-if="printModalCtrl.typeContent!=='table'" class="col-lg-1 pull-left">
+                <h4 >{{"ALIGN" | translate}}:</h4>
+                <div class="input-group col-lg-12" ng-style="printModalCtrl.rtl?{'direction':'ltr'}:{}">
+                         <span class="printMDisplay1"   ng-class="{'printDisplayActive' : printModalCtrl.tdir=='left'}"
+                               ng-click="printModalCtrl.updateDirection('left',true)" title="{{'LEFT' | translate}}"><i
+                                 class="fa fa-align-left fa-2x"/></span>
+                    <span class="printMDisplay2"  ng-class="{'printDisplayActive' : printModalCtrl.tdir=='center'}"
+                          ng-click="printModalCtrl.updateDirection('center',true)" title="{{'CENTER' | translate}}"><i
+                            class="fa fa-align-center fa-2x"/></span>
+                    <span class="printMDisplay3"  ng-class="{'printDisplayActive' : printModalCtrl.tdir=='right'}"
+                          ng-click="printModalCtrl.updateDirection('right',true)" title="{{'RIGHT' | translate}}"><i
+                            class="fa fa-align-right fa-2x"/></span>
+                </div>
+                </div>
+
+                <div ng-if=" printModalCtrl.staticContent=='text'" class="col-lg-1 pull-left">
+                    <h4 >{{"DIRECTION" | translate}}:</h4>
+                <label>
+                    <input type="radio"
+                           ng-model="printModalCtrl.staticTextDirection" value="ltr">
+                    {{"LTR" | translate}}
+                </label>
+                <label>
+                    <input type="radio"
+                           ng-model="printModalCtrl.staticTextDirection"
+                           value="rtl">
+                    {{"RTL" | translate}}
+                </label></div>
+
+
+                <div class="input-group col-lg-4">
+                <label style="margin-top:33px;{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <input pull-left icheck type="checkbox" ng-model="printModalCtrl.fontWeightKeys"/>{{"FONT_BOLD_KEYS"
+                    | translate}}</label>
+                <label style="margin-top:33px;{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <input pull-left icheck type="checkbox" ng-model="printModalCtrl.fontUnderlineKeys"/>{{"FONT_UNDERLINE_KEYS"
+                    | translate}}</label>
+                <label style="margin-top:33px;{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <input pull-left icheck type="checkbox" ng-model="printModalCtrl.fontItalicKeys"/>{{"FONT_ITALIC_KEYS"
+                    | translate}}</label>
+                <label style="margin-top:33px;{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}" ng-show="printModalCtrl.typeContent=='dynamicfield' || printModalCtrl.typeContent=='table'" >
+                    <input pull-left icheck type="checkbox" ng-model="printModalCtrl.noTitleKeys"/>{{"NO_TEXT_KEYS"
+                    | translate}}</label>
+                    <label ng-show="printModalCtrl.typeContent=='staticfield' && printModalCtrl.staticContent=='text'" style="margin-top:33px;{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <input pull-left icheck type="checkbox" ng-model="printModalCtrl.textHasBorder"/>{{"WITH_BORDER"
+                    | translate}}</label>
+                    <select ng-if="printModalCtrl.textHasBorder" ng-init="printModalCtrl.borderStyle = printModalCtrl.borderStyle || 'solid'" style="display: inline;padding:0 20px" class="form-control" ng-model="printModalCtrl.borderStyle">
+                        <option value="" disabled selected>{{"SELECT_BORDER_STYLE" | translate}}</option>
+                        <option value="solid">solid</option>
+                        <option value="dotted">dotted</option>
+                        <option value="dashed">dashed</option>
+                        <option value="double">double</option>
+                        <option value="groove">groove</option>
+                        <option value="ridge">ridge</option>
+                        <option value="inset">inset</option>
+                        <option value="outset">outset</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row"
+             ng-show="(printModalCtrl.typeContent=='table' && printModalCtrl.currentFields.length>0) || printModalCtrl.staticContent=='text' || (printModalCtrl.typeContent=='dynamicfield' && printModalCtrl.LabelTableField)  "
+             style="padding-left:0;margin-top:14px">
+
+
+            <div class="col-lg-12" ng-show="printModalCtrl.staticContent!=='text'">
+                <h4  class="pull-left col-lg-1 printNestedCol">
+                    {{"VALUES"|
+                    translate}}:</h4>
+                <label ng-show="printModalCtrl.staticContent!=='text'"
+                       style="{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}"> <input pull-left icheck type="checkbox" ng-model="printModalCtrl.fontWeightValues"/>{{"FONT_BOLD_VALUES"
+                    | translate}}</label>
+                <label ng-show="printModalCtrl.staticContent!=='text'"
+                       style="{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}"> <input pull-left icheck type="checkbox" ng-model="printModalCtrl.fontUnderlineValues"/>{{"FONT_UNDERLINE_VALUES"
+                    | translate}}</label>
+                <label style="margin-top:33px;{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <input pull-left icheck type="checkbox" ng-model="printModalCtrl.fontItalicValues"/>{{"FONT_ITALIC_VALUES"
+                    | translate}}</label>
+                <div class="form-group col-lg-1 pull-left printModalComponents ">
+                    <label>{{"BACKGROUND_COLOR" | translate}}:</label>
+                    <select class="form-control "
+                            ng-init="printModalCtrl.backgroundColorValues=printModalCtrl.backgroundColorValues || printModalCtrl.defaultbackgroundColor"
+                            ng-model="printModalCtrl.backgroundColorValues">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-lg-1 pull-left printModalComponents ">
+                    <label>{{"FONT_COLOR" | translate}}:</label>
+                    <select class="form-control"
+                            ng-init="printModalCtrl.fontColorValues=printModalCtrl.fontColorValues || printModalCtrl.defaultfontColor"
+                            ng-model="printModalCtrl.fontColorValues">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="#ff3300">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="#00cc66">{{"GREEN" | translate}}</option>
+                        <option value="#3399ff">{{"BLUE" | translate}}</option>
+                        <option value="white">{{"WHITE" | translate}}</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-lg-2 pull-left printModalComponents">
+                        <label>{{"FONT_SIZE" | translate}}:</label>
+                    <div class="input-group col-lg-7">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.creaseFontSize(-1,true)">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </button>
+          </span>
+                        <input type="number" class="form-control input-number printListModalPlusMinus"
+                               ng-init="printModalCtrl.fontSizeValues=printModalCtrl.fontSizeValues || printModalCtrl.defaultfontSize"
+                               ng-model="printModalCtrl.fontSizeValues" style="text-align: center;min-width:80px">
+                        <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.creaseFontSize(1,true)">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </button>
+          </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-1 pull-left printModalComponents" ng-if="printModalCtrl.typeContent!== 'table'">
+                <h4 >{{"ALIGN" | translate}}:</h4>
+                <div class="input-group col-lg-12" ng-style="printModalCtrl.rtl?{'direction':'ltr'}:{}">
+                         <span class="printMDisplay1"   ng-class="{'printDisplayActive' : printModalCtrl.dir=='left'}"
+                               ng-click="printModalCtrl.updateDirection('left',false)" title="{{'LEFT' | translate}}"><i
+                                 class="fa fa-align-left fa-2x"/></span>
+                    <span class="printMDisplay2"  ng-class="{'printDisplayActive' : printModalCtrl.dir=='center'}"
+                          ng-click="printModalCtrl.updateDirection('center',false)" title="{{'CENTER' | translate}}"><i
+                            class="fa fa-align-center fa-2x"/></span>
+                    <span class="printMDisplay3"  ng-class="{'printDisplayActive' : printModalCtrl.dir=='right'}"
+                          ng-click="printModalCtrl.updateDirection('right',false)" title="{{'RIGHT' | translate}}"><i
+                            class="fa fa-align-right fa-2x"/></span>
+                </div></div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+            <div class="form-group col-lg-1 pull-left printModalComponents" ng-if="printModalCtrl.typeContent=='table'">
+                <label>{{"START_FROM" | translate}}:</label>
+                <div class="input-group col-lg-12">
+                    <input type="number" class="form-control input-number printListModalPlusMinus"
+                           ng-init="printModalCtrl.startFromRowValues=printModalCtrl.startFromRowValues || printModalCtrl.defaultstartFromRow"
+                           ng-model="printModalCtrl.startFromRowValues" style="text-align: center;min-width:80px" min="1">
+                </div>
+            </div>
+            <!--<div class="form-group col-lg-2 pull-left printModalComponents">-->
+            <!--<label>{{"TO" | translate}}:</label>-->
+            <!--<div class="input-group col-lg-7">-->
+            <!--<input type="number" class="form-control input-number printListModalPlusMinus"-->
+            <!--ng-init="printModalCtrl.toRowValues=printModalCtrl.toRowValues || printModalCtrl.defaultToRow" ng-change="printModalCtrl.refreshNumberOfRowsValues()"-->
+            <!--ng-model="printModalCtrl.toRowValues" style="text-align: center;min-width:80px">-->
+            <!--</div>-->
+            <!--</div>-->
+            <div class="form-group col-lg-2 pull-left printModalComponents" ng-if="printModalCtrl.typeContent=='table'">
+                <label>{{"NUMBER_OF_ROWS" | translate}}:</label>
+                <div class="input-group col-lg-7">
+                    <input type="number" class="form-control input-number printListModalPlusMinus"
+                           ng-init="printModalCtrl.numberOfRowsValues=printModalCtrl.numberOfRowsValues||printModalCtrl.defaultNumberOfRowsValues"
+                           ng-model="printModalCtrl.numberOfRowsValues" style="text-align: center;min-width:80px"  min="1">
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- percent of width and height of table,vertical and heroizntal-->
+
+
+        <div class="row"  ng-if="printModalCtrl.typeContent=='blanktable'">
+            <div class="col-lg-12">
+                <div class="form-group col-lg-2 pull-left printModalComponents">
+                    <label>{{"NUMBER_OF_ROWS" | translate}}:</label>
+                    <div class="input-group col-lg-7">
+                        <input type="number" class="form-control input-number printListModalPlusMinus"
+                               ng-init="printModalCtrl.numberOfRowsValues=printModalCtrl.numberOfRowsValues||printModalCtrl.defaultNumberOfRowsValues"
+                               ng-model="printModalCtrl.numberOfRowsValues" style="text-align: center;min-width:80px"  min="1">
+                    </div>
+                </div>
+                <div class="form-group col-lg-2 pull-left printModalComponents">
+                    <label>{{"NUMBER_OF_COLS" | translate}}:</label>
+                    <div class="input-group col-lg-7">
+                        <input type="number" class="form-control input-number printListModalPlusMinus"
+                               ng-init="printModalCtrl.numberOfColsValues=printModalCtrl.numberOfColsValues||printModalCtrl.defaultNumberOfColsValues"
+                               ng-model="printModalCtrl.numberOfColsValues" style="text-align: center;min-width:80px"  min="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row printerMargin  "
+                 style="margin-right:15px;margin-left:15px">
+
+                <table  ng-init="printModalCtrl.initTablePercent()" resizeable class="tablez"
+                        style="border: 3px solid black;">
+                    <tr ng-repeat="row in printModalCtrl.getNumArray(printModalCtrl.numberOfRowsValues) track by $index">
+                        <th
+                            ng-repeat="column in printModalCtrl.getNumArray(printModalCtrl.numberOfColsValues) track by $index"
+                            style="width:50px; height:50px;border:1px solid black">
+                        </th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div ng-if="printModalCtrl.typeContent=='table'" class="row printerMargin ">
+
+
+            <div class="col-lg-9 pull-left">
+                <div class="col-lg-2 form-group pull-left printModalPercents "
+                     ng-repeat="column in printModalCtrl.currentFieldsModified track by $index">
+                    <label ng-if="printModalCtrl.rtl">{{printModalCtrl.currentFieldsModified[$index].LName}}:</label>
+                    <label ng-if="!printModalCtrl.rtl">{{printModalCtrl.currentFieldsModified[$index].EName}}:</label>
+                    <h4 >{{"TITLE_ALIGN" | translate}}:</h4>
+                    <div class="input-group col-lg-6" ng-style="printModalCtrl.rtl?{'direction':'ltr'}:{}">
+                         <span class="printMDisplay1"  ng-class="{'printDisplayActive' : printModalCtrl.currentFieldsModified[$index].tdir=='left'}"
+                               ng-click="printModalCtrl.updateColumnTDirection('left',$index)" title="{{'LEFT' | translate}}" title="{{'LEFT' | translate}}"><i
+                                 class="fa fa-align-left fa-2x"/></span>
+                        <span class="printMDisplay2" ng-style="printModalCtrl.currentFieldsModified[$index].tdir=='center'? {'color': '#00004f'}:{}"
+                              ng-click="printModalCtrl.updateColumnTDirection('center',$index)" title="{{'CENTER' | translate}}"><i
+                                class="fa fa-align-center fa-2x"/></span>
+                        <span class="printMDisplay2"  ng-style="printModalCtrl.currentFieldsModified[$index].tdir=='right'? {'color': '#00004f'}:{}" ng-click="printModalCtrl.updateColumnTDirection('right',$index)" title="{{'RIGHT' | translate}}"><i
+                            class="fa fa-align-right fa-2x"/></span>
+                    </div>
+                    <h4 >{{"DATA_ALIGN" | translate}}:</h4>
+                    <div class="input-group col-lg-6" ng-style="printModalCtrl.rtl?{'direction':'ltr'}:{}">
+                         <span class="printMDisplay1"   ng-class="{'printDisplayActive' : printModalCtrl.currentFieldsModified[$index].dir=='left'}"
+                               ng-click="printModalCtrl.updateColumnDirection('left',$index)" title="{{'LEFT' | translate}}"><i
+                                 class="fa fa-align-left fa-2x"/></span>
+                        <span class="printMDisplay2"  ng-class="{'printDisplayActive' : printModalCtrl.currentFieldsModified[$index].dir=='center'}"
+                              ng-click="printModalCtrl.updateColumnDirection('center',$index)" title="{{'CENTER' | translate}}"><i
+                                class="fa fa-align-center fa-2x"/></span>
+                        <span class="printMDisplay3"  ng-class="{'printDisplayActive' : printModalCtrl.currentFieldsModified[$index].dir=='right'}"
+                              ng-click="printModalCtrl.updateColumnDirection('right',$index)" title="{{'RIGHT' | translate}}"><i
+                                class="fa fa-align-right fa-2x"/></span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div ng-show="printModalCtrl.style=='vertical' && printModalCtrl.LabelTableField" class="col-lg-12 printerMargin">
+            <div class="col-lg-5 printNestedCol" style="margin-bottom: 50px">
+                <div><label>{{"HEIGHT_PERCENTS" | translate}}:</label></div>
+                <div class="row">
+                    <div class="input-group col-lg-6" style="float:left">
+               <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-number"
+                 ng-click="printModalCtrl.cellLabelPercent('label','vertical',-1,'key')">
+             <span class="glyphicon glyphicon-minus"></span>
+         </button>
+     </span>
+                        <input class="form-control  input-number" type="number" style="text-align: center;" step="any" disabled
+                               ng-init="printModalCtrl.cellKeyHeight= printModalCtrl.cellKeyHeight || 50"
+                               type="number" ng-model="printModalCtrl.cellKeyHeight "
+                               placeholder="enter percent of {{printModalCtrl.LabelTableField.EName}} here"
+                               ng-change="">
+                        <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-number"
+                 ng-click="printModalCtrl.cellLabelPercent('label','vertical',1,'key')">
+             <span class="glyphicon glyphicon-plus"></span>
+         </button>
+     </span>
+                    </div>
+                    <div class="input-group col-lg-6" style="float:left">
+               <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-number"
+                 ng-click="printModalCtrl.cellLabelPercent('label','vertical',-1,'value')">
+             <span class="glyphicon glyphicon-minus"></span>
+         </button>
+     </span>
+                        <input class="form-control  input-number" type="number" style="text-align: center;" step="any"
+                               type="number" ng-model="printModalCtrl.cellValueHeight" disabled
+                               ng-init="printModalCtrl.cellValueHeight= printModalCtrl.cellValueHeight || 50"
+                               placeholder="enter percent of {{printModalCtrl.LabelTableField.EName}} value here"
+                               ng-change="">
+                        <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-number"
+                 ng-click="printModalCtrl.cellLabelPercent('label','vertical',1,'value')">
+             <span class="glyphicon glyphicon-plus"></span>
+         </button>
+     </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div ng-show="printModalCtrl.style=='horizontal' && printModalCtrl.LabelTableField" class="col-lg-12 printerMargin">-->
+            <!--<div class="col-lg-5 printNestedCol" style="margin-bottom: 50px">-->
+                <!--<div><label>{{"WIDTH_PERCENTS" | translate}}:</label></div>-->
+                <!--<div class="input-group col-lg-6" style="float:left">-->
+               <!--<span class="input-group-btn">-->
+         <!--<button type="button" class="btn btn-default btn-number"-->
+                 <!--ng-click="printModalCtrl.cellLabelPercent('label','horizontal',-1,'key')">-->
+             <!--<span class="glyphicon glyphicon-minus"></span>-->
+         <!--</button>-->
+     <!--</span>-->
+                    <!--<input class="form-control  input-number" type="number" style="text-align: center;" step="any"-->
+                           <!--ng-init="printModalCtrl.cellKeyWidth= printModalCtrl.cellKeyWidth || 50"-->
+                           <!--type="number" ng-model="printModalCtrl.cellKeyWidth "-->
+                           <!--placeholder="enter percent of {{printModalCtrl.LabelTableField.EName}} here"-->
+                           <!--ng-change="">-->
+                    <!--<span class="input-group-btn">-->
+         <!--<button type="button" class="btn btn-default btn-number"-->
+                 <!--ng-click="printModalCtrl.cellLabelPercent('label','horizontal',1,'key')">-->
+             <!--<span class="glyphicon glyphicon-plus"></span>-->
+         <!--</button>-->
+     <!--</span>-->
+                <!--</div>-->
+                <!--<div class="input-group col-lg-6" style="float:left">-->
+               <!--<span class="input-group-btn">-->
+         <!--<button type="button" class="btn btn-default btn-number"-->
+                 <!--ng-click="printModalCtrl.cellLabelPercent('label','horizontal',-1,'value')">-->
+             <!--<span class="glyphicon glyphicon-minus"></span>-->
+         <!--</button>-->
+     <!--</span>-->
+                    <!--<input class="form-control  input-number" type="number" style="text-align: center;" step="any"-->
+                           <!--type="number" ng-model="printModalCtrl.cellValueWidth"-->
+                           <!--ng-init="printModalCtrl.cellValueWidth= printModalCtrl.cellValueWidth || 50"-->
+                           <!--placeholder="enter percent of {{printModalCtrl.LabelTableField.EName}} value here"-->
+                           <!--ng-change="printModalCtrl.cellKeyWidthClicked(false)">-->
+                    <!--<span class="input-group-btn">-->
+         <!--<button type="button" class="btn btn-default btn-number"-->
+                 <!--ng-click="printModalCtrl.cellLabelPercent('label','horizontal',1,'value')">-->
+             <!--<span class="glyphicon glyphicon-plus"></span>-->
+         <!--</button>-->
+     <!--</span>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <!--<div class="col-lg-2">-->
+            <!--<span class="input-group-btn">    <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.cellLabelPercent('label','horizontal',-1,'key')">-->
+            <!--<span class="glyphicon glyphicon-minus"></span>-->
+            <!--</button></span>-->
+            <!--<input class="form-control"-->
+            <!--type="number" ng-model="printModalCtrl.cellKeyWidth" ng-init="printModalCtrl.cellKeyWidth= printModalCtrl.cellKeyWidth || 50"-->
+            <!--placeholder="enter percent of {{printModalCtrl.LabelTableField.EName}} here">-->
+            <!--<span class="input-group-btn">   <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.cellLabelPercent('label','horizontal',1,'key')" style="display: inline;">-->
+            <!--<span class="glyphicon glyphicon-plus"></span>-->
+            <!--</button></span>-->
+            <!--</div>-->
+            <!--<div class="col-lg-2">-->
+            <!--<span class="input-group-btn">  <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.cellLabelPercent('label','horizontal',-1,'value')" >-->
+            <!--<span class="glyphicon glyphicon-minus"></span>-->
+            <!--</button></span>-->
+            <!--<input class="form-control"-->
+            <!--type="number" ng-model="printModalCtrl.cellValueWidth" ng-init="printModalCtrl.cellValueWidth= printModalCtrl.cellValueWidth || 50"-->
+            <!--placeholder="enter percent of {{printModalCtrl.LabelTableField.EName}} value here" style="display: inline;"-->
+            <!--ng-change="printModalCtrl.cellKeyWidthClicked(false)">-->
+            <!--<span class="input-group-btn"> <button type="button" class="btn btn-default btn-number" ng-click="printModalCtrl.cellLabelPercent('label','horizontal',1,'value')">-->
+            <!--<span class="glyphicon glyphicon-plus"></span>-->
+            <!--</button></span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        <!-- barcode simulator-->
+        <div class="col-lg-12 printerMargin"
+             ng-if="printModalCtrl.typeContent=='barcode'&& printModalCtrl.barcodeType">
+            <div ng-if="printModalCtrl.showBarcode" class="col-lg-5 pull-left "
+                 style="{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                <svg id="barcode">
+                </svg>
+            </div>
+            <div ng-if=" printModalCtrl.showBarcodeErrorMessage==true && !printModalCtrl.showBarcode && (printModalCtrl.barcodeType=='staticfield'
+             || (printModalCtrl.barcodeType=='dynamicfield' && printModalCtrl.currentTable && printModalCtrl.currentFields)) "
+                 class="col-lg-5 pull-left "
+                 style="{{printModalCtrl.rtl ? 'margin-right: 10px' : 'margin-left: 10px'}}; color:red;font-size:20px">
+                {{"NOT_VALID_INPUT_FOR_THIS_BARCODE_FORMAT" | translate}}
+            </div>
+
+        </div>
+
+
+        <!-- simulator for table,key-value vertical , key-value-herozintal ,statictext-->
+        <div ng-show="printModalCtrl.typeContent=='staticfield' && printModalCtrl.staticContent=='text'"
+             class="row printerMargin ">
+            <div class=" " style="width:70%;margin-right:15px;margin-left:15px">
+                <div class=""
+                        style="width:100%;min-height:40px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;border-style:{{printModalCtrl.borderStyle}};direction:{{printModalCtrl.staticTextDirection}};text-align:  {{printModalCtrl.tdir}};color:{{printModalCtrl.fontColor}};font-size:{{printModalCtrl.fontSize}}px ;height:{{printModalCtrl.rowHeight}} ;line-height:{{printModalCtrl.rowHeight}}; background-color: {{printModalCtrl.backgroundColor}} ;{{printModalCtrl.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }}; {{printModalCtrl.fontItalicKeys?'font-style: italic':'font-style: normal;'}};
+                        {{printModalCtrl.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};"
+                     ng-style="printModalCtrl.borderStyle == 'double' && {'border-width':'3px'}"
+                        ng-class="{'noborder': !printModalCtrl.textHasBorder, 'textboder': printModalCtrl.textHasBorder}"
+                >{{printModalCtrl.staticText}}
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="printModalCtrl.typeContent=='staticfield' &&  printModalCtrl.arrayOfDates.indexOf(printModalCtrl.staticContent)!==-1"
+             class="row printerMargin ">
+            <div class=" " style="width:70%;margin-right:15px;margin-left:15px">
+                <button class=""
+                        style="width:100%;min-height:40px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align:  {{printModalCtrl.tdir}};color:{{printModalCtrl.fontColor}};font-size:{{printModalCtrl.fontSize}}px ;border: 1px solid black; height:{{printModalCtrl.rowHeight}}px ; background-color: {{printModalCtrl.backgroundColor}} ;{{printModalCtrl.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }}; {{printModalCtrl.fontItalicKeys?'font-style: italic':'font-style: normal;'}};{{printModalCtrl.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}}"
+                >
+                    <div ng-if="printModalCtrl.staticContent=='datenow'">  {{printModalCtrl.staticDateNow | date:'dd/MM/yyyy'}}</div>
+                    <div ng-if="printModalCtrl.staticContent=='datetimenow'"> {{printModalCtrl.staticDateNow | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+                    <div ng-if="printModalCtrl.staticContent=='timenow'">  {{printModalCtrl.staticDateNow | date:'HH:mm:ss'}}</div>
+                </button>
+            </div>
+        </div>
+
+        <div ng-show="printModalCtrl.typeContent=='table'" class="row printerMargin  "
+             style="margin-right:15px;margin-left:15px">
+            <table  ng-init="printModalCtrl.initTablePercent()" resizeable class="tablez"
+                    style="width:70%;border: 5px solid black; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;">
+                <tr ng-if="!printModalCtrl.noTitleKeys">
+                    <th ng-show="printModalCtrl.currentFieldsModified"
+                        ng-repeat="column in printModalCtrl.currentFieldsModified track by $index"
+                        style="direction:{{column.templateDir}};color:{{printModalCtrl.fontColor}};font-size:{{printModalCtrl.fontSize}}px ;background-color:{{printModalCtrl.backgroundColor}};
+                        text-align: {{column.tdir}};{{printModalCtrl.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};{{printModalCtrl.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{printModalCtrl.fontItalicKeys?'font-style: italic':'font-style: normal;'}};width:{{printModalCtrl.currentFieldsModified[$index].cellWidth}}%; height:{{printModalCtrl.rowHeight}};border:1px solid black">
+                        <span ng-if="printModalCtrl.rtl" class="printTableWhiteSpace"> {{column.LName}}</span>
+                        <span
+                            class="printTableWhiteSpace" ng-if="!printModalCtrl.rtl"> {{column.EName}}</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th ng-show="printModalCtrl.currentFieldsModified"
+                        ng-repeat="column in printModalCtrl.currentFieldsModified track by $index"
+                        style="direction:{{column.templateDir}};color:{{printModalCtrl.fontColorValues}};font-size:{{printModalCtrl.fontSizeValues}}px ;
+                        background-color:{{printModalCtrl.backgroundColorValues}};text-align: {{column.dir}};{{printModalCtrl.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};{{printModalCtrl.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};{{printModalCtrl.fontItalicValues?'font-style: italic':'font-style: normal;'}};width:{{printModalCtrl.currentFieldsModified[$index].cellWidth}}%; height:{{printModalCtrl.rowHeight}};border:1px solid black">
+                        <span class="printTableWhiteSpace">   {{'VALUE'| translate}}</span>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div ng-show="printModalCtrl.style=='horizontal' && printModalCtrl.LabelTableField"
+             class="row printerMargin"
+             style="margin-right:15px;margin-left:15px">
+            <table ng-init="printModalCtrl.initTablePercent()" resizeable class="tablez"
+                   style="width:70%;border: 3px solid black; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;height:{{printModalCtrl.rowHeight}} ;">
+                <tr>
+                <th ng-if="!printModalCtrl.noTitleKeys" style="text-align:  {{printModalCtrl.tdir}};{{printModalCtrl.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};color:{{printModalCtrl.fontColor}};font-size:{{printModalCtrl.fontSize}}px ;background-color:{{printModalCtrl.backgroundColor}};{{printModalCtrl.fontItalicKeys?'font-style: italic':'font-style: normal;'}};{{printModalCtrl.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};width:{{printModalCtrl.cellKeyWidth}}%;border:1px solid black">
+                    {{printModalCtrl.LabelTableField.EName}}
+                </th>
+
+                <th style="color:{{printModalCtrl.fontColorValues}};font-size:{{printModalCtrl.fontSizeValues}}px ;background-color:{{printModalCtrl.backgroundColorValues}};text-align:  {{printModalCtrl.dir}};{{printModalCtrl.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};{{printModalCtrl.fontItalicValues?'font-style: italic':'font-style: normal;'}};{{printModalCtrl.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};width:{{printModalCtrl.cellValueWidth}}%;border:1px solid black">
+                    {{'VALUE'| translate}}
+                </th>
+              </tr>
+            </table>
+        </div>
+        <div ng-show="printModalCtrl.style=='vertical'" class="row printerMargin "
+             style="margin-right:15px;margin-left:15px">
+            <table  ng-show="printModalCtrl.LabelTableField"
+                   style="width:70% ;border: 3px solid black; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;height:{{printModalCtrl.rowHeight}}">
+                <tr style="" ng-if="!printModalCtrl.noTitleKeys">
+                    <td style="color:{{printModalCtrl.fontColor}};font-size:{{printModalCtrl.fontSize}}px ;background-color:{{printModalCtrl.backgroundColor}};text-align: {{printModalCtrl.tdir}};{{printModalCtrl.fontItalicKeys?'font-style: italic':'font-style: normal;'}};{{printModalCtrl.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};;{{printModalCtrl.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}}; height:{{printModalCtrl.cellKeyHeight}}%;border:1px solid black">
+                        {{printModalCtrl.LabelTableField.EName}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:{{printModalCtrl.fontColorValues}};font-size:{{printModalCtrl.fontSizeValues}}px ;background-color:{{printModalCtrl.backgroundColorValues}};text-align:  {{printModalCtrl.dir}};{{printModalCtrl.fontItalicValues?'font-style: italic':'font-style: normal;'}};{{printModalCtrl.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};;{{printModalCtrl.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}}; height:{{printModalCtrl.cellValueHeight}}%;border:1px solid black">
+                        {{'VALUE'| translate}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row printerMargin">
+            <div class="col-lg-12 pull-left" ng-show="printModalCtrl.typeContent=='qrcode' && printModalCtrl.qrcode && printModalCtrl.qrcode.text"
+                 style="margin-left:50px;margin-right:50px">
+                <!--<qrcode version="{{version}}" error-correction-level="{{printModalCtrl.qrcode.level}}" size="{{size}}" data="{{var}}" href="{{var}}" color="{{color}}" background="{{background}}" download></qrcode>-->
+                <qrcode version="5" error-correction-level="{{printModalCtrl.qrcode.level}}"
+                        size="{{printModalCtrl.qrcode.size}}" data="{{printModalCtrl.qrcode.text}}"
+                        color="{{printModalCtrl.qrcode.color}}"
+                        background="{{printModalCtrl.qrcode.background}}"></qrcode>
+            </div>
+        </div>
+        <!-- buttons-->
+
+        <div class="printerMargin">
+            <div class="col-lg-12 pull-left">
+                <button class="btn btn-primary" type="submit" ng-click="printModalCtrl.submitted = true">
+                    {{"SAVE_CHANGES"| translate}}
+                </button>
+                <button class="btn btn-white" type="button" ng-click="printModalCtrl.clearAll()">{{"CLEAR_ALL" |
+                    translate}}
+                </button>
+                <button class="btn btn-white" ng-click="printModalCtrl.exit()">{{"CANCEL" | translate}}</button>
+            </div>
+        </div>
+
+    </div>
+</form>

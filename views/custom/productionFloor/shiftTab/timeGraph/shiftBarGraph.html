@@ -1,0 +1,18 @@
+<div class="donuts-duration donutsDuration" ng-style="{'text-align': 'center', right: options.settings.compare ? -15 : 10}"
+      ng-if="latestEventDuration >= 0">{{ latestEventDuration | minutesToHHMM}}
+      <img ng-src="{{'images/icons_20x20/' + machineStatus.icon}}" width="10" height="10" />
+</div>
+<svg width="100%" height="90" style="display: flex;flex-direction: column;width: 100%;">
+      <rect ng-repeat="obj in eventsC" ng-mouseover="mouseoverHandler(obj)" ng-mousemove="mousemoveHandler($event, obj)"
+            ng-mouseleave="mouseleaveHandler(obj)" class="bar-chunk" x="{{options.settings.compare?'15%':'40%'}}"
+            ng-attr-y="{{90 - (obj.y/(shiftduration || barShiftDuration))*90}}" width="20%"
+            ng-attr-height="{{(obj.Duration/(shiftduration|| barShiftDuration ))*90}}" fill="{{obj.Color}}"></rect>
+      <rect ng-if="options.settings.compare" ng-repeat="obj in eventsR" ng-mouseover="mouseoverHandler(obj)"
+            ng-mousemove="mousemoveHandler($event, obj)" ng-mouseleave="mouseleaveHandler(obj)" class="bar-chunk"
+            x="65%" ng-attr-y="{{90 - (obj.y/(shiftduration|| barShiftDuration ))*90}}" width="20%"
+            ng-attr-height="{{(obj.Duration/(shiftduration|| barShiftDuration ))*90}}" fill="{{obj.Color}}"></rect>
+</svg>
+<div class="tooltip">
+      <div class="tooltip-event-name"></div>
+      <div class="tooltip-event-duration"></div>
+</div>

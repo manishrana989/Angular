@@ -1,0 +1,99 @@
+<div id="toastr"></div>
+<div class="step-two-container fullHeight">
+    <div class="title">{{"FACTORY_DETAILS" | translate}}</div>
+    <p class="secondry-title">{{"STEP_TWO_SECONDRY_TITLE" | translate}}</p>
+
+    <!-- step 2.1-->
+    <div ng-if="currentStep == 0">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-wave">
+                <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif"
+                    style="width: 45px;margin-bottom: 2px;">
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="currentStep == 1">
+        <div ng-click="factoryDetailsCtrl.addDepartmentForm()" class="add-dep-container">
+            <img src="images/add-department.png" />
+            <div>{{"ADD_DEPARTMENT" | translate}}</div>
+        </div>
+    </div>
+
+    <!-- step 2.2-->
+    <div ng-if="currentStep == 2" class="row body">
+
+        <div class="col-lg-4 left-side pull-left" style="height: 100%">
+            <div class="add-department" ng-click="factoryDetailsCtrl.addDepartmentForm();factoryDetailsCtrl.formResultsMode = true">
+                <img src="images/add-circle.svg" />
+                <span>{{"ADD_DEPARTMENT" | translate}}</span>
+            </div>
+            <div class="departmentsContainer newScroll">
+                <div class="department" ng-repeat="department in factoryDetailsCtrl.departments">
+                    <div style="width: 90%">
+                        <div class="name clickable" ng-click="factoryDetailsCtrl.openDepartmentEdit(department)">
+                            {{factoryDetailsCtrl.localLanguage ?  department.Key.LName : department.Key.EName}}
+                        </div>
+                        <p class="machines">
+                            {{"MACHINES" | translate}}: {{department.Value.length}}
+                        </p>
+                    </div>
+                    <img class="pull-right clickable" ng-click="factoryDetailsCtrl.chosenDepartment = department" src="images/chevron.png"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 right-side pull-left fullHeight" ng-if="factoryDetailsCtrl.chosenDepartment">
+
+            <div class="title">
+                {{factoryDetailsCtrl.localLanguage ?  factoryDetailsCtrl.chosenDepartment.Key.LName : factoryDetailsCtrl.chosenDepartment.Key.EName}}
+            </div>
+
+            <div class="machines-container newScroll">
+                    <div class="add-machine" ng-click="factoryDetailsCtrl.addMachineForm();factoryDetailsCtrl.formResultsMode = true">
+                            <div>
+                                <div>
+                                    <img src="images/add-circle-outline.svg" />
+                                </div>
+                                <div>
+                                    {{"ADD_MACHINE" | translate}}
+                                </div>
+                            </div>
+                        </div>
+                <div ng-repeat="machine in factoryDetailsCtrl.chosenDepartment.Value" ng-click="factoryDetailsCtrl.openMachine(machine)">
+                    <!-- <img src="images/onlineIcons/duplicate.png" /> -->
+                    <div class="machine-name">
+                        {{machine.MachineName}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div ng-if="factoryDetailsCtrl.formResultsMode" class="editModal newScroll slim">
+                <div  ng-include="'views/common/form.html'"></div>
+            <!-- <form role="form" name="leaderForm" ng-submit="saveForm()" style="height: 100%;">
+                <div style="height: 100%;">
+                    <div class="title-container">
+                        <div>
+                            <span>{{factoryDetailsCtrl.formResultsTitle | translate}}</span>
+                            <img class="pull-right" ng-click="factoryDetailsCtrl.formResultsMode = false;" src="images/close.png" />
+                        </div>
+                    </div>
+                    <div class="inputs-container row newScroll slim">
+                        <div ng-repeat="common in recordValue" class="col-lg-6">
+                            <div class="form-group">
+                                <input-directive content="common" formObject="leaderForm"></input-directive>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="buttons-container">
+                        <div>
+                            <button type="submit" class="pull-right btn btn-primary">{{"SAVE" | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            <form> -->
+        </div>
+    </div>
+</div>

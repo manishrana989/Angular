@@ -1,0 +1,13 @@
+
+
+<div ng-if="doneLoading === true">
+    <div class="row {{$last ? 'departmentLastChild' : ''}} {{$first && showBreadCrumb == true ? 'departmentFirstChild' : ''}}" style="margin-left: 10px"
+         ng-style="content.allMachinesFullScreen.value && {'margin-top':'2.6vw'}
+                                          || (!content.allMachinesFullScreen || !content.allMachinesFullScreen.value) && {'margin-top':'8.0vw'} "
+        ng-repeat="dep in departmentsDataStructure.AllDepartments" ng-if="content.SubMenuExtID === 0 || dep.DepartmentID === content.SubMenuExtID">
+        <new-dep-directive old-view="oldView" content="dep" is-default-structure="isDefaultStructure" all-machines-full-screen="content.allMachinesFullScreen" last-update="lastUpdate"
+                           update-data="manualUpdateData" class="col-lg-12 depDirective" ng-if="dep.done === true"></new-dep-directive>
+    </div>
+</div>
+
+<div ng-if="doneLoading === false" style="margin-top: 135px;" ng-include="'views/common/emptyPage.html'"></div>

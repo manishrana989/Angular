@@ -1,0 +1,63 @@
+<div class="target-goals" ng-class="{'box-mode-targets' : boxMode, 'flex-mode-targets': !boxMode}" ng-style="(!showAll && !targetData.IsActive) && {'opacity': '0.4'}">
+    <div class="target-goals-name">
+         <div class="names">
+            {{name}}
+        </div>
+
+        <div ng-show="boxMode" class="percentage">
+            {{current}}%
+        </div>
+
+        <span ng-show="showPencils.value">
+             <i class="fa" ng-class="{'fa-minus' : targetData.IsActive,'fa-plus' : !targetData.IsActive}" 
+             ng-click="updateTargetView()"></i>
+        </span>
+    </div>
+    <div class="target-goals-directive" ng-if="current > 300 || current < 0">
+        <div ng-if="current>300 || current <0">
+            <div style="font-weight: bold;
+            font-size: 20px;
+            line-height: 12px;
+            text-align: center;">error</div>
+        </div>
+    </div>
+    <div class="target-goals-directive" ng-if="current <= 300 && current >= 0" style="direction: ltr;">
+        <span class="circled" style="{{targetDirection}} : {{targetLeftPx}}">
+            <span style="color: black;
+                         position: relative;
+                         top: 10px;
+                         right: 5px;"
+                  ng-style="rtl && {'right': '-10px'}">
+                {{parsedTarget}}%</span>
+        </span>
+
+        <div class="min-value">
+            <span ng-if="!isRtl">0%</span>
+            <span ng-if="isRtl">100%</span>
+        </div>
+
+        <div class="max-value">
+            <span ng-if="isRtl">0%</span>
+            <span ng-if="!isRtl">100%</span>
+        </div>
+
+        <div style="width:{{100-edges*2}}%;position:absolute;left:{{edges}}%;   bottom: 5px;">
+            <div class="current-value-area" style="width:{{currentValAreaWidth}};{{currentValAreaDirection}}:{{currentLeftValue}}"
+                ng-class="{'greenCurrentArea': greenArea}">
+                <div class="target-val">
+                    <span ng-hide="target<=20 || target>=80 || hideTarget || true"
+                          style="{{targetDirection}} : {{targetLeftPx}};position: absolute;top: 10px;color: black;">
+                        {{target}}%
+                    </span>
+                </div>
+                <span style="left:{{currentValLeftPx}}" class="currentVal" ng-style="greenArea && {'color': '#127510'}">{{current}}%</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div ng-show="!boxMode && showPercentage"
+         class="percentage">
+        {{target}}%
+    </div>
+</div>

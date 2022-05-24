@@ -1,0 +1,122 @@
+<div class="translations-modal reorder qctest-pop-first">
+    <form ng-submit="save()">
+        <div class="ibox newGoalsModal">
+            <div class="ibox-title newGoalsTitle">
+                <span>{{"ORDER_TEST" | translate}}</span>
+                <div class="pull-right x">
+                    <img ng-click="close()" src="images/close.png" width="15" height="15" />
+                </div>
+            </div>
+
+            <div ng-if="fetching"
+                 style="    position: absolute;
+                        z-index: 99999;
+                        width: 100%;
+                        margin: 0;
+                        opacity: 0.5;
+                        height: 100%;
+                        padding: 0;">
+                <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+
+            </div>
+
+            <div class="ibox-content list-group newScroll slim" id="sortable" style="max-height: 59vh">
+                <div>
+                    <div>
+                        {{"JOSH" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                ng-options="option.id as option.name for option in joshOptions"
+                                ng-model="joshID"
+                                ng-change="updateInputsAccordingToSelection()">
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        {{"QUALITY_GROUP" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                ng-options="option.id as option.name for option in qualityGroupOptions"
+                                ng-model="qualityGroupID"
+                                ng-change="updateInputsAccordingToSelection()">
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        {{"PRODUCT_GROUP" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                ng-options="option.id as option.name for option in productGroupOptions"
+                                ng-model="productGroupID"
+                                ng-change="updateInputsAccordingToSelection()">
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        {{"PRODUCT" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                ng-options="option.id as option.name for option in productsOptions"
+                                ng-model="productID"
+                                ng-change="updateInputsAccordingToSelection()">
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-weight: 700;color: blue">
+                        {{"TEST" | translate}}
+                    </div>
+                    <div>
+                        <select class="form-control ng-pristine ng-valid ng-touched"
+                                ng-options="option.id as option.name for option in subTypesOptions"
+                                ng-model="test"
+                                required
+                                ng-change="updateInputsAccordingToSelection();enableDisableSamples(test)">
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        {{"SAMPLES" | translate}}
+                    </div>
+                    <div>
+                        <input class="form-control" min="1" ng-model="samples" type="number" step="1"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="horizontal-line">
+
+            </div>
+
+            <div style="    text-align: center;
+    margin-bottom: 35px;">
+                <button ng-disabled="disabled" type="submit"
+                        style="width: 204px"
+                        class="btn btn-primary">
+                    {{"RUN"| translate}}
+                </button>
+            </div>
+
+        </div>
+    </form>
+
+
+
+
+</div>
+

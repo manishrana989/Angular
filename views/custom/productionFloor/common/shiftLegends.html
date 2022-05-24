@@ -1,0 +1,53 @@
+
+<div
+        style="width: 1.927vw;min-width: 1.927vw;position: relative;text-align: unset;cursor: initial"
+        class="Rectangle-2 flex-center"
+>
+    <!-- legend btn  -->
+    <img
+            ng-show="!showLegendMenu"
+            class="shift-tools-icon"
+            title="{{'LEGEND' | translate}}"
+            ng-src="images/info-grey-new.svg"
+            ng-click="$event.stopPropagation();(showLegendMenu = true) && GAupdate('legend')"
+            style="height: 1.042vw;width: 1.042vw;margin: 0;cursor: pointer"
+            alt="graph"
+    />
+    <img
+            ng-show="showLegendMenu"
+            class="shift-tools-icon"
+            title="{{'LEGEND' | translate}}"
+            ng-src="images/info-blue-new.svg"
+            ng-click="$event.stopPropagation();(showLegendMenu = false) && GAupdate('legend')"
+            style="height: 1.042vw;width: 1.042vw;margin: 0;cursor: pointer"
+            alt="graph"
+    />
+    <ul
+            class="dashboard-settings-tooltip shift-menu legend-menu"
+            ng-show="showLegendMenu"
+            style="top:0;margin-top: 2.344vw"
+            off-click-activator="showLegendMenu" off-click="$event.stopPropagation();showLegendMenu=false"
+    >
+        <li style="border-radius: 2px;border: solid 1px #d0cfd0;height: 1.8vw;margin-bottom: 1vw">
+            <div style="font-size: 0.72vw;font-weight: 600;display: flex;cursor: pointer" ng-click="openInfo()">
+                <img ng-src="images/knowledge.svg" style="margin:0 0.5vw" />
+               {{"KNOWLEDGE_BASE_F"|translate}}
+            </div>
+        </li>
+        <li style="border-radius: 2px;border: solid 1px #d0cfd0;height: 1.8vw;">
+            <div style="font-size: 0.72vw;font-weight: 600;display: flex;cursor: pointer">
+                <img ng-src="images/video-library.svg" style="margin:0 0.5vw" />
+                {{"VIDEO_LIBRARY"|translate}}
+            </div>
+        </li>
+        <li class="shiftLegendTitle shiftLegendListText" >
+            <span style="font-size: 0.83vw;font-weight: 600"> {{"LEGEND" | translate}}</span>
+        </li>
+        <li ng-repeat="legend in legends" class="shiftLegendListText">
+            <span class="availble-square" ng-style="{'background-color': legend.Color}"></span
+            ><span style="font-weight: 600;">{{legend.Name}}</span>
+        </li>
+        <li style="height:0"></li>
+    </ul>
+</div>
+      

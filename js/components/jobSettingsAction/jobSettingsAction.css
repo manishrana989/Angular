@@ -1,0 +1,82 @@
+.jobSettingsActionContainer .header {
+    height: 60px;
+    background-color: #f6f6f6;
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+}
+.jobSettingsActionContainer .header .close-icon {
+    position: absolute;
+    right: 16px;    
+    cursor: pointer;
+}
+
+.jobSettingsActionContainer .header .job-name {
+    font-size: 18px;
+    color: #000000;   
+}
+
+.jobSettingsActionContainer .body {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+}
+
+.jobSettingsActionContainer label {
+    margin-bottom: 2px;
+}
+
+.jobSettingsActionContainer div[select-custom] .select-option {
+    width: 360px;
+}
+
+.rtl .jobSettingsActionContainer div[select-custom] .select-option {
+    margin-right: unset;
+    margin-left: 5px;
+}
+
+.jobSettingsActionContainer .body .unit-target,
+.jobSettingsActionContainer .body .setup-duration{
+    width: 360px;
+    margin-bottom: 15px;
+}
+
+.jobSettingsActionContainer .body .unit-target input,
+.jobSettingsActionContainer .body .setup-duration input { 
+    margin-right: 12px;
+    height: 37px;
+    width: 172px;
+}
+
+.rtl .jobSettingsActionContainer .body .unit-target input,
+.rtl .jobSettingsActionContainer .body .setup-duration input { 
+    margin-right: unset;
+    margin-left: 12px;
+}
+
+.jobSettingsActionContainer .body .dates-container{
+    display: flex;
+    justify-content: space-between;
+    width: 360px;
+    margin-bottom: 15px;
+}
+
+.jobSettingsActionContainer input {
+    border: 1px solid #d0cfd0;
+}
+
+.jobSettingsActionContainer .save-button{
+    border-radius: 1.4px;
+    background-color: #0080ff;
+    width: 360px;
+    height: 31px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}

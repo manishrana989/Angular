@@ -1,0 +1,31 @@
+<div class="translations-modal reorder">
+    <form ng-submit="save()">
+        <div class="ibox newGoalsModal">
+            <div class="ibox-title newGoalsTitle">
+                <span>{{"GROUP_SETTINGS" | translate}}</span>
+                <div class="pull-right x">
+                    <img ng-click="close()" src="images/close.png" width="15" height="15" />
+                </div>
+            </div>
+
+            <div class="ibox-content list-group newScroll slim" ui-sortable ng-model="modalScope.groups" style="height:345px">
+                <div ng-init="group.reOrderColorPicke=false" class="list-group-item lang-item"
+                    ng-repeat="group in modalScope.groups">
+
+                    <div class="drag-icon">
+                        <img src="images/drag-handle.svg" />
+                    </div>
+
+                    <div class="description">
+                        {{isEng ? group.EName : group.LName}}
+                    </div>
+                </div>
+            </div>
+
+            <button ng-disabled="disabled" ng-click="saveAndClose()" type="submit"
+                class="btn btn-primary new-dep-header-buttons saveButton">
+                {{"SAVE"| translate}}
+            </button>
+        </div>
+    </form>
+</div>

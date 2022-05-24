@@ -1,0 +1,21 @@
+<script>
+  (function () {
+    if(!document.getElementById("page-wrapper")) {
+      document.getElementById("react-kpi-wrapper").style.paddingTop = "80px";
+    } else {
+      document.getElementById("react-kpi-wrapper").style.paddingTop = "40px";
+    }
+  })();
+</script>
+<div>
+  <custom-kpi></custom-kpi>
+  <div
+    id="react-kpi-wrapper"
+    class="wrapper wrapper-content animated fadeIn row"
+    style="padding-top: 40px; background-color: white"
+  >
+    <div class="react_kpi_customization">
+      <react-kpi-customization></react-kpi-customization>
+    </div>
+  </div>
+</div>

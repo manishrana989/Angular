@@ -1,0 +1,24 @@
+<div class="left-menu">
+    <div class="big-title">
+        {{"MY_CALENDARS" | translate}}
+    </div>
+    <div class="myCalendars newScroll slim">
+        <div ng-repeat="calendar in calendarDirectiveCtrl.myCalendars | filter:{IsDepartment : false}" 
+            check-box-directive 
+            field-title="calendar.CalendarName" field="calendar" 
+            ng-custom-change="calendarDirectiveCtrl.toggleCalendar"
+            select-value="'selected'"></div>  
+    </div>
+    <div class="big-title" style="margin-top: 5px;">
+        {{"DEPARTMENT_CALENDARS" | translate}}
+    </div>
+    <div class="myCalendars newScroll slim">
+        <div ng-repeat="calendar in calendarDirectiveCtrl.myCalendars | filter:{IsDepartment : true}" 
+            check-box-directive 
+            field-title="calendar.CalendarName" field="calendar" 
+            ng-custom-change="calendarDirectiveCtrl.toggleCalendar"
+            select-value="'selected'"></div>  
+    </div>
+</div>
+    
+    

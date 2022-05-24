@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="js/components/machineProgressBar/machineProgressBar.css">
+<div style="margin-top: -7%;">
+    {{machineProgressBarCtrl.value}}%
+</div>
+<div class="machine-progress-container">
+    <div class="units-percentage" 
+        ng-style="{
+            width: machineProgressBarCtrl.unitsProducedOK.percentage, 
+            'background-color': machineProgressBarCtrl.unitsProducedOK.backgroundColor, 
+            'z-index': 2
+        }">
+    </div>
+    <div class="units-percentage" 
+        ng-style="{
+            width: machineProgressBarCtrl.theoreticalUnits.percentage, 
+            'background-color': '#cecece'
+        }">
+    </div>
+</div>

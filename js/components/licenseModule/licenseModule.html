@@ -1,0 +1,15 @@
+<div ng-show="licenseModuleCtrl.message" 
+     ng-class="{
+        'moduleLicense' : licenseModuleCtrl.message,
+        'rtl': rtl
+    }" 
+    style="position : {{mode}}">
+    <img ng-click="licenseModuleCtrl.message = null;" class="close-icon" src="images/gantt/grey-600.svg">
+    <!-- <div style="height: 64px;width: 900px;display: flex;justify-content: space-evenly;align-items: center;"> -->
+        <img style="height: 100%" src="images/Trial_banner.svg" />
+        {{licenseModuleCtrl.message}}
+    <!-- </div> -->
+</div>
+<div ng-if="licenseModuleCtrl.viewChild" ng-transclude >
+
+</div>

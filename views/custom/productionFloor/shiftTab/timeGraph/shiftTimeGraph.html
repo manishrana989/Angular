@@ -1,0 +1,351 @@
+<div class="printShiftTime">	<div class="printShiftTime">
+  <div
+  ng-show="!options.isTableView "
+  class="shiftTimeGraphTimeStamp removeInPrint"
+  style="position: relative; background: white; width: calc(100% - 53px); padding: 10px 20px;"
+  >
+    <div
+      class="shift-progress total"
+      style="
+        font-size: 12px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #272727;
+        width: 100%;
+        text-align: right;
+        float: right;
+      "
+    >
+      {{"TOTAL_TIME_CURR_SHIFTS" | translate}}: {{shiftData.summaryBar.total | getDurationInHoursMinutes }}
+    </div>
+
+    <div class="shift-time-compare-title" ng-if="!shiftData.customRangeEnabled">
+      <span ng-if="shiftData.tab != 3">
+        {{shiftData.data.CurrentShift[0].Name}} {{shiftData.currentDate | date:'dd/MM/yyyy'}}
+        <span ng-if="shiftData.data.ReferanceShift && options.settings.compare">
+          {{"COMPARE_WITH" | translate}}
+          <span ng-show="shiftData.data.ReferanceShift.length > 0">
+            {{shiftData.data.ReferanceShift[0].Name}} {{shiftData.referenceDate | date:'dd/MM/yyyy'}}
+          </span>
+          <span ng-show="shiftData.data.ReferanceShift.length == 0">
+            {{"NO_DATA_TO_COMPARE" | translate}}
+          </span>
+        </span>
+      </span>
+      <span ng-if="shiftData.tab == 3">
+        {{shiftData.data.CurrentShift[(shiftData.data.CurrentShift.length - 1)].Name +' - '+ shiftData.data.CurrentShift[0].Name}}
+        <span ng-if="shiftData.data.ReferanceShift && options.settings.compare"
+          >{{"COMPARE_WITH" | translate}}
+          <span ng-show="shiftData.data.ReferanceShift.length > 0">
+            {{shiftData.data.ReferanceShift[(shiftData.data.ReferanceShift.length - 1)].Name+' - '+ shiftData.data.ReferanceShift[0].Name}}
+          </span>
+          <span ng-show="shiftData.data.ReferanceShift.length == 0">
+            {{"NO_DATA_TO_COMPARE" | translate}}
+          </span>
+        </span>
+      </span>
+      <span ng-if="(slider.minValue != slider.options.floor) || (slider.maxValue != slider.options.ceil)">
+        {{slider.minValue*1000*60 | date:'HH:mm'}}-{{slider.maxValue*1000*60 | date:'HH:mm'}}
+      </span>
+    </div>
+    <div
+      class="shift-progress disableInTableView"
+      style="
+        display: flex;
+        padding-bottom: 0px;
+        height: 30px;
+        font-family: ProximaNova;
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #272727;
+        background-color: white;
+        width: 100%;
+      "
+    >
+      <div
+        class="event-bar"
+        ng-repeat="event in shiftData.summaryBar.events"
+        title="{{event.Duration | getDurationInHoursMinutes }} {{(event.Duration/shiftData.summaryBar.total)*100| number:0}}%"
+        ng-style="{width: (event.Duration/shiftData.summaryBar.total*100) + '%','border-bottom': 'solid 8px '+event.Color}"
+      >
+        <div
+          ng-if="event.Duration > (shiftData.summaryBar.total*0.02)"
+          style="z-index: 100;"
+          title="{{event.Duration | getDurationInHoursMinutes }} {{(event.Duration/shiftData.summaryBar.total)*100| number:0}}%"
+        >
+          {{event.Duration | getDurationInHoursMinutes }}
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="shift-progress disableInTableView"
+      style="
+        display: flex;
+        padding-bottom: 0px;
+        height: 30px;
+        font-family: ProximaNova;
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #272727;
+        background-color: white;
+        width: 100%;
+      "
+    >
+      <div
+        class="event-bar"
+        ng-repeat="event in shiftData.summaryBar.events"
+        title="{{event.Duration | getDurationInHoursMinutes }} {{(event.Duration/shiftData.summaryBar.total)*100| number:0}}%"
+        ng-style="{width: (event.Duration/shiftData.summaryBar.total*100) + '%'}"
+      >
+        <span ng-if="event.Duration > (shiftData.summaryBar.total*0.02)">
+          {{(event.Duration/shiftData.summaryBar.total)*100| number:0}}%
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    ng-if="!options.isTableView"
+    class="donuts-container"
+    style="
+      padding: 25px;
+      text-align: left;
+      padding-left: 50px;
+      padding-right: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #101010;
+    "
+  >
+    <div style="display: flex; flex-wrap: wrap;">
+      <div
+        class="donut-container"
+        ng-if="!shiftData.customRangeEnabled && shiftData.machinesDisplay[i.machineID]"
+        style="text-align: center; margin: 10px 15px; flex-direction: column; display: flex;"
+        ng-repeat="i in Machines"
+        ng-style="{width: 120*options.settings.scale}"
+      >
+        <shift-donut-graph-directive
+          style="position: relative;"
+          ng-if="options.selectedGraph == 'pie'"
+          machine="i"
+          shiftduration="(slider.maxValue - slider.minValue)"
+          machinestatus="i.CurrShift.MachineStatus"
+          scale="options.settings.scale"
+          options="options"
+        ></shift-donut-graph-directive>
+
+        <shift-bar-graph-directive
+          ng-if="options.selectedGraph == 'bar'"
+          machine="i"
+          shiftduration="(slider.maxValue - slider.minValue)"
+          machinestatus="i.CurrShift.MachineStatus"
+          options="options"
+          class="shift-bar-graph-container"
+        ></shift-bar-graph-directive>
+        <div class="machine-name" style="margin-top: 18px;">
+          <a ui-sref="appObjectMachineFullView({appObjectName: 'MachineScreenEditor',ID: i.CurrShift.Id})" title="{{i.CurrShift.MachineName}}" target="MachineScreenEditor"
+            >{{i.CurrShift.MachineName}}</a
+          >
+        </div>
+        <div
+          class="machine-code"
+          style="
+            font-size: 11px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #101010;
+          "
+        >
+          {{"PE" | translate}} {{i.CurrShift.PE}}
+        </div>
+      </div>
+
+      <div
+        class="donut-container"
+        ng-if="shiftData.customRangeEnabled && shiftData.machinesDisplay[i.Id]"
+        style="text-align: center; margin: 10px 15px; flex-direction: column; display: flex;"
+        ng-repeat="i in shiftData.aggregateData"
+        ng-style="{width: 120*options.settings.scale}"
+      >
+        <shift-donut-graph-directive
+          style="position: relative;"
+          ng-if="options.selectedGraph == 'pie'"
+          machine="i"
+          shiftduration="slider"
+          machinestatus="i.MachineStatus"
+          scale="options.settings.scale"
+          options="options"
+        ></shift-donut-graph-directive>
+
+        <shift-bar-graph-directive
+          ng-if="options.selectedGraph == 'bar'"
+          machine="i"
+          machinestatus="i.MachineStatus"
+          options="options"
+        ></shift-bar-graph-directive>
+        <div class="machine-name" style="margin-top: 18px;">
+          <a ui-sref="appObjectMachineFullView({appObjectName: 'MachineScreenEditor',ID: i.Id})" target="MachineScreenEditor">{{i.MachineName}}</a>
+        </div>
+        <div
+          class="machine-code"
+          style="
+            font-size: 11px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #101010;
+          "
+        >
+          {{"PE" | translate}} {{i.PE}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="options.isTableView" class="shiftTable">
+    <div class="col-lg-12" style="margin-top: 15px;">
+      <div ng-if="tableData && machinesOrder.length > 0" class="simple-table-directive col-lg-12 no-padding">
+        <div class="simple-table-directive-container" style="padding: 10px 0;">
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <div
+                      class="btn new-dep-header-buttons filtering-button removeInPrint"
+                      off-click-activator="showFilters" off-click="showFilters = false;"
+                      style="color: #101010; border: 1px solid #d0cfd0; margin-top: 15px;"
+                      ng-click="showFilters = !showFilters;gaE('main_dashboard_table_filter','filter')"
+                      ng-init="showFilters=false"
+                    >
+                      <img
+                        ng-show="showFilters || hasFiltering"
+                        src="images/filter-blue-new.svg"
+                        ng-attr-title="{{'FILTER_GRAPH' |translate}}"
+                      />
+                      <img
+                        ng-show="!showFilters && !hasFiltering"
+                        src="images/filter-grey-new.svg"
+                        ng-attr-title="{{'FILTER_GRAPH' |translate}}"
+                      />
+                      <ul
+                        ng-show="showFilters"
+                        class="dashboard-settings-tooltip show-filters newScroll slim"
+                        style="max-height: 350px; overflow: auto;margin-top: 0.5vw;"
+                        ng-click="$event.stopPropagation()"
+                      >
+                        <li>
+                          <!-- <filter-table-directive></filter-table-directive> -->
+                          <div class="filter-table-directive">
+                            <div class="title">
+                              <span class="titleText">{{"FILTER_TABLE" | translate}}</span>
+                              <span class="resetButton pull-right"
+                                ><a ng-click="shiftTimeGraphCtrl.clearFilter()">{{"RESET" | translate}}</a></span
+                              >
+                            </div>
+                            <!-- Statuses -->
+                            <div class="filter-section" ng-repeat="filter in graph.filterData  track by $index" ng-init="expanded=false">
+                              <div
+                                class="group pull-right"
+                                style="display: contents;"
+                                class="checkBox"
+                                check-box-directive
+                                field-title="filter.name"
+                                ng-custom-change="shiftTimeGraphCtrl.toggleFilterGroup"
+                                field="filter"
+                                select-value="'display'"
+                                unique="$index"
+                              ></div>
+                              <i
+                                class="fa fa-angle-down pull-right"
+                                aria-hidden="true"
+                                ng-show="!expanded"
+                                ng-click="expanded=!expanded"
+                              ></i>
+                              <i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded" ng-click="expanded=!expanded"></i>
+
+                              <div class="data-container newSlimScroll" ng-show="expanded">
+                                <div
+                                  class="checkBox"
+                                  ng-repeat="subFilter in filter.data track by $index"
+                                  check-box-directive
+                                  field-title="subFilter.name"
+                                  ng-custom-change="shiftTimeGraphCtrl.updateFilter"
+                                  field="subFilter"
+                                  select-value="'display'"
+                                  unique="filter.id"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <simple-table-directive
+              machine-names="machineNames"
+              event-y="yStatus"
+              table-name="statusTableName"
+              data="dataSimpleTableStatus"
+              ref-data="dataSimpleTableRefStatus"
+            ></simple-table-directive>
+          </div>
+          <div style="margin-top: 15px;">
+            <simple-table-directive
+              machine-names="machineNames"
+              event-y="yTimes"
+              table-name="timesTableName"
+              data="dataSimpleTableTimes"
+              ref-data="dataSimpleTableRefTimes"
+            ></simple-table-directive>
+          </div>
+          <div style="margin-top: 15px;">
+            <simple-table-directive
+              ng-if="showKPIS"
+              machine-names="machineNames"
+              event-y="yKPIS"
+              table-name="KPISTableName"
+              data="dataSimpleTableKPIS"
+              ref-data="dataSimpleTableRefKPIS"
+            ></simple-table-directive>
+          </div>
+
+          <div style="margin: 15px 0;">
+            <simple-table-directive
+              machine-names="machineNames"
+              event-y="yUnit"
+              table-name="UnitsTableName"
+              data="dataSimpleTableUnits"
+              ref-data="dataSimpleTableRefUnits"
+            ></simple-table-directive>
+          </div>
+        </div>     
+      </div>
+    </div>
+  </div>
+</div>

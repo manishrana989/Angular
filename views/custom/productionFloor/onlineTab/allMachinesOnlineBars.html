@@ -1,0 +1,15 @@
+<div style="text-align: center;margin-top:{{diffMargin}}px">
+
+    <div class="truncated-bars" ng-repeat="bar in barsData" style="width: {{100 / barsData.length}}%;max-width :60px;">
+        <span>{{bar.MachineCount}}</span>
+
+        <div title="{{localLanguage ? bar.MachineLStatus : bar.MachineStatus}}" class="allMachines progress-bar-{{bar.MachineStatusID}}" 
+        style="margin:0 15px;width:35px;height: {{bar.barHeight}}px;">
+        </div>
+
+        <span class="titles" title="{{localLanguage ? bar.MachineLStatus : bar.MachineStatus}}">{{localLanguage ? bar.MachineLStatus : bar.MachineStatus}}</span>
+    </div>
+
+</div>
+
+<hr>

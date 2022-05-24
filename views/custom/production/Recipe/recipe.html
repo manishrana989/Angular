@@ -1,0 +1,8 @@
+<div class="panel-body">
+    <div class="row" ng-if="showRecipeMatrix">
+        <button type="button" ng-click="changeView()" class="btn btn-sm btn-primary pull-right m-t-n-xs recipeMatrixButton">{{
+            currentRecipe | translate}}
+        </button>
+    </div>
+    <div ng-include="'views/custom/production/Recipe/recipeOrig.html'"></div>
+</div>

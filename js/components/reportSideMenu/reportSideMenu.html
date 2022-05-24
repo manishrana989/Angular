@@ -1,0 +1,19 @@
+<div ng-show="loaded" class="side-menu-report" off-click-activator="showReport" off-click="reportClose()" ng-style="!showReport && {'transform': 'translate(' + translateCalculate + 'vw)'}" ng-class="{'closed' : !showReport}">
+        <div class="Reports column" ng-click="reportOpen()">
+                <div class="report-text">{{"REPORTS" | translate}}</div>   
+                <div class="report-img"><img src="images/report.png" style="height: 2vh;width: 2vh;"></div>                                                                     
+        </div>
+        <div class="more-options" style="overflow: visible;max-width: 100%">
+
+                <div ng-init="loadStructures()" class="reportRectangle" ng-repeat="structure in structures" ng-click="openStructure(structure)">
+                        <img  class="imgReport" style="width: 1.667vw;height: 1.667vw;" ng-src="{{structure.icon}}">
+                        <span class="fontReport" title="{{structure.name | translate}}">{{structure.name | translate}}</span>
+                </div>
+
+                <div class="closeIcon">
+                    <img style="width:0.781vw;height:0.781vw" src="images/close.png"
+                    srcset="images/close@2x.png 2x,
+                            images/close@3x.png 3x" ng-click="reportClose()">
+                </div>                           
+        </div>        
+</div>

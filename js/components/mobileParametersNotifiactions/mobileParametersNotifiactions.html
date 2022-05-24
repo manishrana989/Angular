@@ -1,0 +1,21 @@
+<div class="row op-app panel-body">
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 tablet-left-side pull-left">
+        <select-machine-type screen-view="'department'" data="mobileParamNotifactionCtrl.permissionsData"
+            save="mobileParamNotifactionCtrl.save" type=""
+            update-machine-params="mobileParamNotifactionCtrl.updateMachineData"
+            get-field-parameters-api="''" field-parameters="">
+        </select-machine-type>
+
+    </div>  
+    <div class="col-lg-4 col-md-4 col-sm-6 col-sx-12">
+    <div style="margin-bottom: 35px;" ng-show="!loading">
+        <ul style="list-style: none">      
+            <li class="customization-permissions-list-li" ng-repeat="section in mobileParamNotifactionCtrl.data">
+                <span class="customization-permissions-list-element">{{localLanguage ?  section.lname:section.ename}}</span>
+                <div class="checkBox" check-box-directive field-title="" type="'toggle'" field="section"
+                    select-value="'value'" ng-custom-change="">
+                </div>
+            </li>
+        </ul>
+    </div>      
+</div>

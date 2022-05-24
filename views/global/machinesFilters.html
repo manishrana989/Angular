@@ -1,0 +1,282 @@
+<div
+  class="machine-filters-directive machine-filters-directive data-container newScroll slim"
+  style="line-height: 1.21vw; padding: 0.05vw; margin: 0.5vw 0; max-height: 30vw; overflow-x: hidden;"
+>
+  <div class="title">
+    <span class="titleText">{{"FILTER_MACHINES" | translate}}</span>
+    <span class="resetButton pull-right"><a ng-click="machinesFiltersCtrl.resetData()">{{"RESET" | translate}}</a></span>
+  </div>
+
+  <!-- production Lines   -->
+  <div class="filter-section" ng-if="true">
+    <div ng-repeat="productionLine in machinesFiltersCtrl.productionLinesFilter">
+      <div style="width: 100%; height: 40px; display: block;">
+        <span class="pull-left">{{productionLine.ui_text | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="productionLine"
+          field-title="productionLine"
+          select-value="'selected'"
+          type="'toggle'"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPARTMENT -->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"DEPARTMENT" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-if="expanded">
+      <div class="parentFilter" ng-repeat="department in machinesFiltersCtrl.departments">
+        <div
+          class="checkBox"
+          style="width: calc(100% - 20px); display: inline-block;"
+          check-box-directive
+          ng-click="machinesFiltersCtrl.filterData(2,department.DepartmentID,department.selected)"
+          field-title="machinesFiltersCtrl.localLanguage ? department.DepartmentLname : department.DepartmentEname"
+          field="department"
+          select-value="'selected'"
+          value="'selected'"
+        ></div>
+        <div
+          style="display: inline-block; padding-right: 8px;"
+          class="pull-right"
+          ng-init="department.expanded=false"
+          ng-click="department.expanded=!department.expanded"
+        >
+          <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+          <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+        </div>
+        <div
+          class="childFilter"
+          style="margin-left: 15px; line-height: 12px;"
+          ng-repeat="machine in machinesFiltersCtrl.machines"
+          ng-if="department.expanded && department.DepartmentID === machine.DepartmentID"
+        >
+          <div
+            class="checkBox"
+            check-box-directive
+            ng-click="machinesFiltersCtrl.filterData(3,machine.MachineID,machine.selected)"
+            field-title="machinesFiltersCtrl.localLanguage ? machine.MachineLname : machine.MachineEName"
+            field="machine"
+            select-value="'selected'"
+            value="'selected'"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"MACHINES_GROUP" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-if="expanded">
+      <div class="parentFilter" ng-repeat="machineGroup in  machinesFiltersCtrl.machinesGroups">
+        <div
+          class="checkBox"
+          style="width: calc(100% - 20px); display: inline-block;"
+          check-box-directive
+          ng-click="machinesFiltersCtrl.filterData(4,machineGroup.machineGroupName,machineGroup.selected)"
+          field-title="machineGroup.machineGroupName || machinesFiltersCtrl.otherText"
+          field="machineGroup"
+          select-value="'selected'"
+          value="'selected'"
+        ></div>
+        <div
+          style="display: inline-block; padding-right: 8px;"
+          class="pull-right"
+          ng-init="machineGroup.expanded=false"
+          ng-click="machineGroup.expanded=!machineGroup.expanded"
+        >
+          <i class="fa fa-angle-down" aria-hidden="true" ng-show="!machineGroup.expanded"></i>
+          <i class="fa fa-angle-up" aria-hidden="true" ng-show="machineGroup.expanded"></i>
+        </div>
+        <div
+          class="childFilter"
+          style="margin-left: 15px; line-height: 12px;"
+          ng-repeat="machine in machinesFiltersCtrl.machines"
+          ng-if="machineGroup.expanded && machineGroup.machineGroupName === machine[machinesFiltersCtrl.machineGroupFieldName]"
+        >
+          <div
+            class="checkBox"
+            check-box-directive
+            ng-click="machinesFiltersCtrl.filterData(1,machine.MachineID,machine.selected)"
+            field-title="machinesFiltersCtrl.localLanguage ? machine.MachineLname : machine.MachineEName"
+            field="machine"
+            select-value="'selected'"
+            value="'selected'"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Machine Type -->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"MACHINE_TYPE" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-if="expanded">
+      <div class="parentFilter" ng-repeat="department in  machinesFiltersCtrl.machineTypes">
+        <div
+          class="checkBox"
+          style="width: calc(100% - 20px); display: inline-block;"
+          check-box-directive
+          ng-click="machinesFiltersCtrl.filterData(0,department.MachineTypeID,department.selected)"
+          field-title="machinesFiltersCtrl.localLanguage ? department.MachineTypeLName : department.MachineTypeEName"
+          field="department"
+          select-value="'selected'"
+          value="'selected'"
+        ></div>
+        <div
+          style="display: inline-block; padding-right: 8px;"
+          class="pull-right"
+          ng-init="department.expanded=false"
+          ng-click="department.expanded=!department.expanded"
+        >
+          <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+          <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+        </div>
+        <div
+          class="childFilter"
+          style="margin-left: 15px; line-height: 12px;"
+          ng-repeat="machine in machinesFiltersCtrl.machines"
+          ng-if="department.expanded && department.MachineTypeID === machine.MachineTypeID"
+        >
+          <div
+            class="checkBox"
+            check-box-directive
+            ng-click="machinesFiltersCtrl.filterData(1,machine.MachineID,machine.selected)"
+            field-title="machinesFiltersCtrl.localLanguage ? machine.MachineLname : machine.MachineEName"
+            field="machine"
+            select-value="'selected'"
+            value="'selected'"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--    &lt;!&ndash; Machines &ndash;&gt;-->
+  <!--    <div class="filter-section" ng-if="true">-->
+  <!--        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"MACHINE" | translate }}<i class="fa fa-angle-down pull-right"-->
+  <!--                aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right" aria-hidden="true"-->
+  <!--                ng-show="expanded"></i></div>-->
+  <!--        <div class="data-container newScroll slim" ng-show="expanded">-->
+  <!--            <div class="checkBox" ng-repeat="machine in machinesFiltersCtrl.machines"  check-box-directive field-title="machinesFiltersCtrl.localLanguage ? machine.MachineLname : machine.MachineEName"-->
+  <!--                field="machine" select-value="'selected'" value="'selected'"></div>-->
+  <!--        </div>-->
+  <!--    </div>-->
+
+  <!-- Statuses -->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"STATUS" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-show="expanded">
+      <div
+        class="checkBox"
+        ng-repeat="machineStatus in machinesFiltersCtrl.machineStatues"
+        check-box-directive
+        field-title="machinesFiltersCtrl.localLanguage ? machineStatus.MachineStatusName : machineStatus.MachineStatusEname"
+        field="machineStatus"
+        select-value="'selected'"
+      ></div>
+    </div>
+  </div>
+  <!-- Alaram -->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"ALARM" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-show="expanded">
+      <div
+        class="checkBox ng-newlines"
+        ng-repeat="machineAlarm in machinesFiltersCtrl.machineAlarms"
+        check-box-directive
+        field-title="machineAlarm.ui_text"
+        field="machineAlarm"
+        select-value="'selected'"
+      ></div>
+    </div>
+  </div>
+
+  <!-- KPIS -->
+  <div class="filter-section kpis" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"KPIS" | translate }}<span ng-if="expanded"> ({{"VALUES_BETWEEN_0_1" | translate}})</span
+      ><i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-show="expanded">
+      <div ng-repeat="kpi in machinesFiltersCtrl.kpiInput" style="display: flex; flex-direction: row; margin-bottom: 3px;">
+        <span style="width: 80%;">{{kpi.TEXT| translate}} {{"LESS_THAN" | translate}}</span>
+        <span>
+          <input type="text" ng-model="kpi.value" unit-interval />
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service-->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"SERVICE_CALL" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-show="expanded">
+      <div
+        class="checkBox ng-newlines"
+        ng-repeat="machineService in machinesFiltersCtrl.machineServices"
+        check-box-directive
+        field-title="machineService.ui_text"
+        field="machineService"
+        select-value="'selected'"
+      ></div>
+    </div>
+  </div>
+
+  <!--    jobDefinition-->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"JOB_DEFINITIONS" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-show="expanded">
+      <div
+        class="checkBox ng-newlines"
+        ng-repeat="jobDef in machinesFiltersCtrl.jobDefinition"
+        check-box-directive
+        field-title="jobDef.Name"
+        field="jobDef"
+        select-value="'selected'"
+      ></div>
+    </div>
+  </div>
+  <!--    machine Classification-->
+  <div class="filter-section" ng-if="true">
+    <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+      {{"MACHINE_CLASSIFICATION" | translate }}<i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i
+      ><i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+    </div>
+    <div class="data-container newScroll slim" ng-show="expanded">
+      <div
+        class="checkBox ng-newlines"
+        ng-repeat="machineClassification in machinesFiltersCtrl.machineClassifications"
+        check-box-directive
+        field-title="machineClassification.text"
+        field="machineClassification"
+        select-value="'selected'"
+      ></div>
+    </div>
+  </div>
+</div>

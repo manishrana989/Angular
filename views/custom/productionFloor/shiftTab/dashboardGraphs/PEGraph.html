@@ -1,0 +1,70 @@
+<shift-container graph="graph" style="width: 100%" containers="containers">
+    <header-title>
+        <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle shift-drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="param-name">{{graph.options.settings.parametersDisplay[graph.options.settings.parameter]}}</div>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu newScroll slim" style="max-height: 20.313vw;overflow: auto">
+                       <li ng-repeat="i in graph.options.settings.parameters">
+                        <a style="width: calc(100% - 0.417vw);" ng-click="GAupdate('Select_parameter');graph.options.settings.parameter=i">
+                           {{graph.options.settings.parametersDisplay[i]}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    </header-title>
+
+    <graph style="width: 100%">
+        <pe-chart-directive options="graph.options" graph="graph" style="width: 100%"></pe-chart-directive>
+    </graph>
+    
+    <setting>
+        <div class="settings-title">{{"Y_AXIS" | translate}}</div>
+            <div>
+                <div class="stop-event">
+                    <span>{{"MINIMUM" | translate}}:</span> <input ng-disabled="!containerOptions.settings.autoY" type="number" style="width: 60px;text-align: center;height: 25px;"  ng-model="containerOptions.settings.minY"/>
+                    <span>{{"MAX" | translate}}:</span> <input ng-disabled="!containerOptions.settings.autoY" type="number" style="width: 60px;text-align: center;height: 25px;"  ng-model="containerOptions.settings.maxY"/>
+
+                    <div class="hide-material-switch onoffswitch pull-right">
+                        <input type="checkbox" ng-model="containerOptions.settings.autoY" ng-change="GAupdate('axis_min_max')" class="onoffswitch-checkbox" id="datesL0{{$parent.$index}}">
+                        <label class="onoffswitch-label" ng-style="!containerOptions.settings.autoY && {'border-color':'#4a4a4a'}" ng-attr-for="datesL0{{$parent.$index}}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch" ng-class="{'unchecked': !containerOptions.settings.autoY}">
+                                    <span ng-if="containerOptions.settings.autoY" class="material-switch-v"> </span>
+                                    <span ng-if="!containerOptions.settings.autoY" class="material-switch-x"> </span>
+                                </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="stop-event">
+                    <div class="hide-material-switch onoffswitch pull-right">
+                        <input type="checkbox" ng-model="containerOptions.settings.showLimit" class="onoffswitch-checkbox" id="datesL00{{$parent.$index}}">
+                        <label class="onoffswitch-label" ng-style="!containerOptions.settings.showLimit && {'border-color':'#4a4a4a'}" ng-attr-for="datesL00{{$parent.$index}}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch" ng-class="{'unchecked': !containerOptions.settings.showLimit}">
+                                <span ng-if="containerOptions.settings.showLimit" class="material-switch-v"></span>
+                                <span ng-if="!containerOptions.settings.showLimit" class="material-switch-x"></span>
+                                </span>
+                        </label>
+                    </div>
+                    <span>{{"SHOW_LIMITS" | translate}}</span>
+                </div>
+                <div class="stop-event">
+                    <div class="hide-material-switch onoffswitch pull-right">
+                        <input type="checkbox" ng-model="containerOptions.settings.filterPoints" class="onoffswitch-checkbox" id="datesL01{{$parent.$index}}">
+                        <label class="onoffswitch-label" ng-style="!containerOptions.settings.filterPoints && {'border-color':'#4a4a4a'}" ng-attr-for="datesL01{{$parent.$index}}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch" ng-class="{'unchecked': !containerOptions.settings.filterPoints}">
+                                <span ng-if="containerOptions.settings.filterPoints" class="material-switch-v"></span>
+                                <span ng-if="!containerOptions.settings.filterPoints" class="material-switch-x"></span>
+                                </span>
+                        </label>
+                    </div>
+                    <span>{{"FILTER_POINTS_OUT" | translate}}</span>
+                </div>
+                <hr style="margin: 0px;">
+            </label>
+        </div>
+    </setting>
+</shift-container>

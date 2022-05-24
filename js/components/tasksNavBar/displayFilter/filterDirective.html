@@ -1,0 +1,296 @@
+<div class="filterMenuPointer"></div>
+<div  class="filterWrapper newScroll">
+
+
+    <div class="filterGrid">
+        <div style="display: grid;grid-template-columns: 1fr 1fr;padding-top: 12.5%;padding-bottom: 2.5%;">
+            <span style="font-size: 1.2em;align-self: center;">{{"FILTER_TASKS" | translate}}</span>
+            <span class="resetFilterBtn" ng-click="resetFilter()">{{"RESET" | translate}}</span>
+        </div>
+        <div class="filterDisplayByRow" ng-if="true">
+            <div style="position:relative;" ng-model="filter['filtered']">
+
+                <span style="margin-bottom: 10%;">{{"SAVED_FILTER"| translate}}</span>
+                <div>
+                    <select ng-model="filterDirective.data.selectedFilterVariant" class="tasksManagementSavedFilterSelect" ng-options="item.FilterName for item in filterVariants track by item.FilterID" ng-change="initWrapper(filterDirective.data.selectedFilterVariant)">
+                        <option value="">{{"SELECT" | translate}}</option>
+                    </select>
+                    <button class="containerVariantButton" ng-disabled="!filter['filtered']" ng-class="{'buttonChanged':!filter['filtered']}" ng-click="saveFilterVariant()">{{"SAVE"| translate}}</button>
+                    <button class="containerVariantButton" ng-disabled="!filter['filtered']" ng-class="{'buttonChanged':!filter['filtered']}" ng-click="deleteFilterVariant(filterDirective.data.selectedFilterVariant)">{{"DELETE"| translate}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="filterDisplayByRow" ng-if="true">
+            <div ng-init="filter['OnlyLate']=false"
+                ng-click="filter['OnlyLate']=!filter['OnlyLate'];checkIfFilteredByOnlyLate()"
+                style="position:relative;cursor: pointer;" ng-model="filter['OnlyLate']">
+                <div class="checkBox pull-right" check-box-directive field="filter" field-title="'OnlyLate'"
+                    select-value="'OnlyLate'" type="'toggle'"></div>
+                <span style="margin-bottom: 10%;">{{"LATE_TASKS"| translate}}</span>
+            </div>
+        </div>
+
+
+        <div class="filterDisplayByRow " ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;cursor: pointer;">
+                <div ng-click="expanded=!expanded">
+                    <span>{{"PRIORITY" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                            aria-hidden="true"></i></span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                            aria-hidden="true"></i></span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                        ng-click="checkAll=!checkAll;checkAllF(filter['Priority'],checkAll);checkIfFilteredBySeverity()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_PRIORITIES" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-init="filter['Priority'][3]=true" ng-model="filter['Priority'][3]"
+                        ng-click="filter['Priority'][3]=!filter['Priority'][3];checkIfFilteredBySeverity()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['Priority'][3]==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['Priority'][3]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{"HIGH_PRIORITY" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-init="filter['Priority'][2]=true" ng-model="filter['Priority'][2]"
+                        ng-click="filter['Priority'][2]=!filter['Priority'][2];checkIfFilteredBySeverity()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['Priority'][2]==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['Priority'][2]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{"MEDIUM_PRIORITY" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-init="filter['Priority'][1]=true" ng-model="filter['Priority'][1]"
+                        ng-click="filter['Priority'][1]=!filter['Priority'][1];checkIfFilteredBySeverity()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['Priority'][1]==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['Priority'][1]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{"LOW_PRIORITY" | translate}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+<!--        subjects-->
+        <div class="filterDisplayByRow " ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;cursor: pointer;">
+                <div ng-click="expanded=!expanded">
+                    <span>{{"SUBJECTS" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                                                                             aria-hidden="true"></i></span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                                                                          aria-hidden="true"></i></span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                         ng-click="checkAll=!checkAll;checkAllF(filter['Subjects'],checkAll);checkIfFilteredBySeverity()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                                class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_SUBJECTS" | translate}}</span>
+                    </div>
+
+                    <div class="nestedFilter" ng-repeat="subject in subjects" ng-init="filter['Subjects'][subject.ID]=true" ng-model="filter['Subjects'][subject.ID]"
+                         ng-click="filter['Subjects'][subject.ID]=!filter['Subjects'][subject.ID];checkIfFilteredBySubjects()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                                class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['Subjects'][subject.ID]==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['Subjects'][subject.ID]==false" width="18"
+                             src="images/global_icons/check-box-empty.png">
+                        <span>{{subject.name | translate}}</span>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="statusFilter filterDisplayByRow " ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;cursor: pointer;">
+                <div ng-click="expanded=!expanded">
+                    <span>{{"STATUS" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                                                                             aria-hidden="true"></i></span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                                                                          aria-hidden="true"></i></span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                         ng-click="checkAll=!checkAll;checkAllStatuses(checkAll);checkIfFilteredByStatus()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                                class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_STATUSES" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-repeat="status in filter['Status'] track by $index"  ng-model="filter['Status'][status['ID']]['visible']"
+                         ng-click="filter['Status'][status['ID']]['visible']=!filter['Status'][status['ID']]['visible'];checkIfFilteredByStatus()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                                class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['Status'][status['ID']]['visible']===true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['Status'][status['ID']]['visible']===false" width="18"
+                             src="images/global_icons/check-box-empty.png">
+                        <span>{{status.DisplayName}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filterDisplayByRow newScroll" ng-if="filter['AssigneeDisplayName'].visible===true">
+            <div ng-init="expanded=false" style="position:relative;height:100%;">
+                <div ng-click="expanded=!expanded" style="cursor: pointer;">
+                    <span>{{"USERS" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                        ng-click="checkAll=!checkAll;checkAllF(filter['AssigneeDisplayName'],checkAll);checkIfFilteredByUsers()">
+                        <input  type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_USERS" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-repeat="user in users | orderBy:propertyName" ng-model="filter['AssigneeDisplayName'][user]"
+                        ng-model="user" ng-init="filter['AssigneeDisplayName'][user]=true;"
+                        ng-click="filter['AssigneeDisplayName'][user]=!filter['AssigneeDisplayName'][user];checkIfFilteredByUsers()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['AssigneeDisplayName'][user]==true" with="18"
+                            src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['AssigneeDisplayName'][user]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{user}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filterDisplayByRow newScroll" ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;height:100%;">
+                <div ng-click="expanded=!expanded" style="cursor: pointer;">
+                    <span>{{"MACHINES" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                        ng-click="checkAll=!checkAll;checkAllF(filter['TaskObject'][3],checkAll);checkIfFilteredByMachines()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_MACHINES" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-repeat="machine in machines"
+                        ng-model="filter['TaskObject'][3][machine.ID]" ng-model="machine"
+                        ng-init="filter['TaskObject'][3][machine.ID]=true;"
+                        ng-click="filter['TaskObject'][3][machine.ID]=!filter['TaskObject'][3][machine.ID];checkIfFilteredByMachines()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['TaskObject'][3][machine.ID]==true" with="18"
+                            src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['TaskObject'][3][machine.ID]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{rtl?machine.LName :machine.EName}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filterDisplayByRow newScroll" ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;height:100%;">
+                <div ng-click="expanded=!expanded" style="cursor: pointer;">
+                    <span>{{"DEPARTMENTS" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                        ng-click="checkAll=!checkAll;checkAllF(filter['TaskObject'][2],checkAll);checkIfFilteredByDepartments()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_DEPARTMENTS" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-repeat="department in departments"
+                        ng-model="filter['TaskObject'][2][department.ID]" ng-model="department"
+                        ng-init="filter['TaskObject'][2][department.ID]=true;"
+                        ng-click="filter['TaskObject'][2][department.ID]=!filter['TaskObject'][2][department.ID];checkIfFilteredByDepartments()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['TaskObject'][2][department.ID]==true" with="18"
+                            src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['TaskObject'][2][department.ID]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{rtl?department.LName:department.EName}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filterDisplayByRow newScroll " ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;height:100%;">
+                <div ng-click="expanded=!expanded" style="cursor: pointer;">
+                    <span>{{"USER_GROUP" | translate}}</span>
+                    <span ng-show="expanded==false" class="arrowDownText"><i class="fa fa-angle-down pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                    <span ng-show="expanded==true" class="arrowUpText"><i class="fa fa-angle-up pull-right"
+                            aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="hiddenFilter newScroll" ng-show="expanded==true" ng-init="checkAll=true">
+                    <div class="nestedFilter" ng-model="checkAll"
+                        ng-click="checkAll=!checkAll;checkAllF(filter['TaskObject'][5],checkAll);checkIfFilteredByUserGroup()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="checkAll==true" with="18" src="images/global_icons/checkbox.png">
+                        <img ng-if="checkAll==false" width="18" src="images/global_icons/check-box-empty.png">
+                        <span>{{"ALL_USER_GROUPS" | translate}}</span>
+                    </div>
+                    <div class="nestedFilter" ng-repeat="group in groups" ng-model="filter['TaskObject'][5][group.ID]"
+                        ng-model="group" ng-init="filter['TaskObject'][5][group.ID]=true;"
+                        ng-click="filter['TaskObject'][5][group.ID]=!filter['TaskObject'][5][group.ID];checkIfFilteredByUserGroup()">
+                        <input id="" type="checkbox" ng-disabled="disabled"
+                            class="graph-option-li ng-pristine ng-untouched ng-valid">
+                        <img ng-if="filter['TaskObject'][5][group.ID]==true" with="18"
+                            src="images/global_icons/checkbox.png">
+                        <img ng-if="filter['TaskObject'][5][group.ID]==false" width="18"
+                            src="images/global_icons/check-box-empty.png">
+                        <span>{{rtl?group.LName:group.EName}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filterDisplayByRow newScroll doneCancelLastXDays" ng-if="true">
+            <div ng-init="expanded=false" style="position:relative;height:80%;">
+                <div  style="height: 100%;">
+                    <span>
+                        {{statuses[4].DisplayName}}\{{statuses[5].DisplayName}} {{"IN_THE_LAST_B" | translate}}:
+                         <input ng-model="filter['doneCancelLastXDays']" ng-change="checkIfFilteredByLastXDays()" style="width:15%;text-align: center;"></input>
+                          {{"LAST_DAYS" | translate}} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="inbox-section">
+    <div class="inbox-status">
+        <div class="v-container" ng-if="lastMessage.data.ResponseTypeID !== null && lastMessage.data.ResponseTypeID !== undefined">
+            <img style="position: relative;top: 3px;left: 1px;" ng-src="images/messagesStatus/status-{{lastMessage.data.ResponseTypeID}}.svg"
+                class="inbox-v" />
+        </div>
+    </div>
+    <div class="inbox-message">
+        {{lastMessage.data.Text}}
+    </div>
+    <div class="inbox-mail">
+        <div class="message-hour">
+            <div ng-if="lastMessage.data && lastMessage.data.SentTime">
+                {{lastMessage.data.SentTime.split('T')[0].split('-').reverse().join('/')}} {{lastMessage.data.SentTime
+                | dateToHour}}
+            </div>
+            
+            <div style="width: 100%; overflow: hidden;text-overflow: ellipsis;white-space: nowrap" title="{{lastMessage.data.SourceUserName}}">
+                {{localLanguage ? lastMessage.data.SenderUserDisplayHName : lastMessage.data.SenderUserDisplayName}}
+
+            </div>
+        </div>
+        <div>
+            <img style="cursor: pointer" ng-click="openMessagesModal(machineData, parent)" src="images/message_gray.png">
+        </div>
+    </div>
+</div>

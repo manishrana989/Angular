@@ -1,0 +1,596 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<style type="text/css">
+    /*.grid1 {*/
+    /*background: white;*/
+    /*}*/
+
+    .grid-stack-item-content {
+        color: #2c3e50;
+        text-align: center;
+        background-color: white;
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+    }
+</style>
+<!--</head>-->
+
+<!--
+  ng-options="option as option.EName | translate for option in TemplateOption"
+-->
+
+<div class="panel-body" style="background-color: #fff">
+    <div class="printDifintionHeader">
+        <div class="row" style="margin-top:30px">
+            <div class="form-group col-lg-2 pull-left" ng-show="content && content.type=='object' && PrintFields">
+                <label>{{"SELECT_TYPE" | translate}}:</label>
+                <select class="form-control"
+                        ng-model="currentObjectType"
+                        ng-options="option as (option | customTranslate: 'EName':'LName':rtl) for option in PrintFields"
+                        ng-change="objectTypeClicked(currentObjectType)">
+                    <option value="">{{"SELECT_TYPE" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-3 pull-left" ng-show="content && content.type=='label' && TemplateOption">
+                <label>{{"SELECT_TEMPLATE" | translate}}:</label>
+                <select class="form-control"
+                        ng-model="currentTemplateOption"
+                        ng-options="option as (option | customTranslate: 'EName':'LName':rtl) for option in TemplateOption"
+                        ng-change="templateOptionClicked(currentTemplateOption);showLabelAreas()" >
+                    <option value="">{{"SELECT_TEMPLATE" | translate}}</option>
+                </select>
+            </div>
+            <div ng-repeat=" x in currentAttributeArray track by $index" >
+                <div class="col-lg-3 pull-left" ng-if="$index!==0" ></div>
+                <!--<div -->
+                <!--class=" col-lg-9 row pull-left" >-->
+                <!--<div >-->
+                <!--<div cloass="row">-->
+                <div class="col-lg-4 pull-left" ng-if="content && content.type=='label' && currentTemplateOption" > <label ng-if="$index==0">{{"SELECT_ATTRIBUTE_DATA" | translate}}: </label>
+                    <input  class="form-control" type="text" ng-model="currentAttributeArray[$index].AttributeEName" disabled>
+                    <!--<select class="form-control"-->
+                    <!--ng-model="currentAttributeArray[$index].attribute" ng-change="currentAttributeClicked(currentAttributeArray[$index])"-->
+                    <!--ng-options="option as option.AttributeEName | translate for option in currentTemplateOption.AttributeData">-->
+                    <!--<option value="">{{"SELECT_ATTRIBUTE" | translate}}</option>-->
+                    <!--</select>-->
+
+                </div>
+                <div class="col-lg-4 pull-left" ng-if="content && content.type=='label' && currentTemplateOption">
+                    <div ng-if="currentAttributeArray[$index] &&  currentAttributeArray[$index].SearchLinkReportID " class="form-group  pull-left" >
+                        <label ng-if="$index==0">{{"SELECT_REPORT" | translate}}:</label>
+                        <div class="input-group">
+                            <input type="number"  readonly
+                                   class="form-control ng-pristine ng-untouched ng-valid" ng-model="currentAttributeArray[$index].field ? currentAttributeArray[$index].field.ID:''"     >
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="AddNewObject(currentAttributeArray[$index].SearchLinkReportID,$index);hideTemplate()"><i
+                                    class="fa fa-search"></i>
+                            </button>
+                                <!--<span class="input-group-btn" ng-if="currentAttributeArray[$index].attribute &&  (currentAttributeArray[$index].attribute.ComboValues || currentAttributeArray[$index].attribute.SearchLinkReportID)">-->
+                                <!--<button ng-disabled="!$last" type="button" class="btn btn-default btn-number" ng-click="addMoreAttribute()"-->
+                                <!--&gt;-->
+                                <!--<span class="glyphicon glyphicon-plus"></span>-->
+
+                                <!--</button>-->
+                                <!--<button ng-disabled="$first" type="button" class="btn btn-default btn-number" ng-click="removeMoreAttribute($index)"-->
+                                <!--&gt;-->
+                                <!--<span class="glyphicon glyphicon-minus"></span>-->
+
+                                <!--</button>-->
+                                <!--</span>-->
+                                    </span>
+                        </div>
+                    </div>
+
+                    <!--<
+                                </button>
+                                        </span></div></div>-->
+
+                    <div ng-if="currentAttributeArray[$index] &&  currentAttributeArray[$index].ComboValues && currentAttributeArray[$index].SearchLinkReportID==null" class="form-group pull-left " style="width: 100%" >
+                        <label ng-if="$index==0">{{"SELECT_ATTRIBUTE_FIELD" | translate}}:</label>
+                        <select class="form-control"
+                                ng-model="currentAttributeArray[$index].field"
+                                ng-options="option as option.DisplayEName | translate for option in currentAttributeArray[$index].ComboValues" ng-change="hideTemplate()">
+                            <option value="">{{"SELECT_ATTRIBUTE_FIELD" | translate}}</option>
+                        </select>
+                        <!--<span class="input-group-btn" ng-if="currentAttributeArray[$index].attribute &&  (currentAttributeArray[$index].attribute.ComboValues || currentAttributeArray[$index].attribute.SearchLinkReportID)">-->
+                        <!--<button ng-disabled="!$last" type="button" class="btn btn-default btn-number" ng-click="addMoreAttribute()"-->
+                        <!--&gt;-->
+                        <!--<span class="glyphicon glyphicon-plus"></span>-->
+
+                        <!--</button>-->
+                        <!--<button ng-disabled="$first" type="button" class="btn btn-default btn-number" ng-click="removeMoreAttribute($index)"-->
+                        <!--&gt;-->
+                        <!--<span class="glyphicon glyphicon-minus"></span>-->
+
+                        <!--</button>-->
+                        <!--</span>-->
+                    </div>
+
+                </div>
+
+
+                <!--</div>-->
+
+                <!--</div>-->
+
+
+
+
+
+                <!--<div ng-if="currentTemplateOption.AttributeData" class="form-group  pull-left col-lg-4" >-->
+                <!--<label>{{"SELECT_ATTRIBUTE_DATA1" | translate}}:</label>-->
+                <!--<select class="form-control"-->
+                <!--ng-model="currentTemplateOptionAttribute" ng-change="AttributeClicked(currentTemplateOptionAttribute);showLabelAreas();"-->
+                <!--ng-options="option as option.AttributeEName | translate for option in currentTemplateOption.AttributeData">-->
+                <!--<option value="">{{"SELECT_ATTRIBUTE" | translate}}</option>-->
+                <!--</select>-->
+
+                <!--</div>-->
+                <!--<div ng-if="currentTemplateOptionAttribute &&  currentTemplateOptionAttribute.SearchLinkReportID " class="form-group  pull-left col-lg-4" >-->
+                <!--<label>{{"SELECT_REPORT1" | translate}}:</label>-->
+                <!--&lt;!&ndash;<select class="form-control"&ndash;&gt;-->
+                <!--&lt;!&ndash;ng-model="currentTemplateOptionAttribute" ng-change="AttributeClicked(currentTemplateOptionAttribute)"&ndash;&gt;-->
+                <!--&lt;!&ndash;ng-options="option as option.AttributeEName | translate for option in currentTemplateOption.AttributeData">&ndash;&gt;-->
+                <!--&lt;!&ndash;<option value="">{{"SELECT_ATTRIBUTE" | translate}}</option>&ndash;&gt;-->
+                <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                <!--&lt;!&ndash;<label>{{"SELECT_OBJECTS"| translate}}:</label>&ndash;&gt;-->
+                <!--<div class="input-group">-->
+                <!--<input type="number" ng-init="ObjectID" readonly-->
+                <!--class="form-control ng-pristine ng-untouched ng-valid" ng-model="ObjectID"  ng-change="showLabelAreas();"   >-->
+                <!--<span class="input-group-btn">-->
+                <!--<button type="button" class="btn btn-primary"  ng-change="showLabelAreas(currentTemplateOptionAttribute,'label')"-->
+                <!--ng-click="AddNewObject(currentTemplateOptionAttribute.SearchLinkReportID)"><i-->
+                <!--class="fa fa-search"></i>-->
+                <!--</button>-->
+                <!--</span></div>-->
+
+                <!--</div>-->
+                <!--<div ng-if="currentTemplateOptionAttribute &&  currentTemplateOptionAttribute.ComboValues && currentTemplateOptionAttribute.SearchLinkReportID==null" class="form-group pull-left col-lg-4" >-->
+                <!--<label>{{"SELECT_ATTRIBUTE_FIELD1" | translate}}:</label>-->
+                <!--<select class="form-control"-->
+                <!--ng-model="currentTemplateOptionAttributeField"  ng-change="showLabelAreas(currentTemplateOptionAttributeField,true);"-->
+                <!--ng-options="option as option.DisplayEName | translate for option in currentTemplateOptionAttribute.ComboValues">-->
+                <!--<option value="">{{"SELECT_ATTRIBUTE_FIELD" | translate}}</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+
+            <!--<div ng-if="currentTemplateOption.RID==0" class="form-group  pull-left" style="width:100%">-->
+            <!--<label>{{"SELECT_LANG" | translate}}:</label>-->
+            <!--<select class="form-control"-->
+            <!--ng-model="currentTemplateOptionLang" ng-change="labelGroupClicked(currentTemplateOptionLang)"-->
+            <!--ng-options="option as option.SystemLng | translate for option in currentTemplateOption.Lang">-->
+            <!--<option value="">{{"SELECT_LANG" | translate}}</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--<div ng-show="currentTemplateOption.RID!==0" class="form-group pull-left" style="width:100%"-->
+            <!--&gt;-->
+            <!--<label>{{"SELECT_OBJECTS"| translate}}:</label>-->
+            <!--<div class="input-group">-->
+            <!--<input type="number" ng-init="ObjectID" readonly-->
+            <!--class="form-control ng-pristine ng-untouched ng-valid" ng-model="ObjectID"  ng-change="labelObjectClicked(ObjectID)"  >-->
+            <!--<span class="input-group-btn">-->
+            <!--<button type="button" class="btn btn-primary"-->
+            <!--ng-click="AddNewObject()"><i-->
+            <!--class="fa fa-search"></i>-->
+            <!--</button>-->
+            <!--</span></div>-->
+            <!--</div>-->
+
+
+            <!--<div ng-show="content && currentTemplateOptionLang || ObjectID"-->
+            <!--class="form-group col-lg-2 pull-left">-->
+            <!--<label>{{"SELECT_LABEL"| translate}}:</label>-->
+            <!--<select  class="form-control "-->
+            <!--ng-model="Label" ng-change="labelChange(Label)"-->
+            <!--required    ng-options="option as option.EName | translate for option in currentLabels.Labels">-->
+            <!--<option value="">{{"SELECT_LABEL" | translate}}</option>-->
+            <!--</select>-->
+
+            <!--</div>-->
+            <!--<div  class="form-group col-lg-2 pull-left" ng-if="content && content.type=='label' && currentTemplateOption">-->
+
+
+            <!--</div>-->
+        </div>
+        <div clas="row">
+            <div  class="form-group col-lg-2 pull-left"  ng-if="content && content.type=='label' && currentTemplateOption" >
+
+                <label class="pull-left">{{"SHOW_TEMPLATE" | translate}}:</label>
+                    <button class="btn btn-sm btn-primary pull-left ng-binding col-lg-7" style="margin-right:5px;margin-left:5px;min-width:133px"
+                            ng-disabled="disablePrintTemplateButton"   ng-click="getExistingTemplate()">{{"SHOW_TEMPLATE"| translate}}
+                    </button>
+                </div>
+
+
+            <div class="form-group col-lg-2 pull-left"  ng-show="(visible || showLabelArea) && content && content.type=='label'   ">
+
+                <label class="pull-left">{{"CLONE_FROM_OTHER" | translate}}:</label>
+                <button class=" btn btn-sm btn-primary pull-left ng-binding" style="margin-right:5px;margin-left:5px;"
+                        ng-click="cloning()">{{"CLONE_TEMPLATE_FROM"| translate}}
+                </button> </div>
+                <!--<label>{{"CLONE_FROM_OTHER" | translate}}:</label>-->
+                <!--<select ng-model="cloningid" class="pull-left paperType form-control"-->
+                <!--&gt;-->
+                    <!--<option value="1">1</option>-->
+                    <!--<option value="2">2</option>-->
+                    <!--<option value="3">3</option>-->
+                <!--</select>-->
+                <!--<button class="printFocus btn btn-sm btn-primary pull-left ng-binding form-control"-->
+                        <!--ng-click="cloning()">{{"CLONE"| translate}}-->
+                <!--</button>-->
+            <!--</div>-->
+            <div ng-show="visible || showLabelArea  " class="form-group col-lg-2 pull-left" >
+                <label>{{"PAPER_TYPE" | translate}}:</label>
+                <select ng-model="paperType" class="pull-left paperType form-control"
+                        ng-change="changeSize(paperType);" >
+                    <option value="a4">{{"A4" | translate}}</option>
+                    <option value="a3">{{"A3" | translate}}</option>
+                    <option value="a5">{{"A5" | translate}}</option>
+                </select>
+
+            </div>
+
+
+            <div  ng-show="visible || showLabelArea  " class="form-group col-lg-1 pull-left printModalComponents">
+                <label>{{"HEADER_LENGTH" | translate}}:</label>
+                <div class="input-group col-lg-7">
+                    <input type="number" class="form-control input-number printListModalPlusMinus" ng-click="draweLine()"
+
+                           ng-model="headerAreaHeight" style="text-align: center;min-width:80px">
+                </div>
+            </div>
+            <div  ng-show="visible || showLabelArea  " class="form-group col-lg-1 pull-left printModalComponents">
+                <label>{{"FOOTER_LENGTH" | translate}}:</label>
+                <div class="input-group col-lg-7">
+                    <input type="number" class="form-control input-number printListModalPlusMinus" ng-click="draweLine()"
+                           ng-model="footerAreaHeight" style="text-align: center;min-width:80px">
+                </div>
+            </div>
+
+            <div  ng-show="visible || showLabelArea  " class="form-group col-lg-1 pull-left printModalComponents">
+                <label>{{"PAGE_LAYOUT_MARGIN" | translate}}:</label>
+                <div class="input-group col-lg-7">
+                    <input type="number" class="form-control input-number printListModalPlusMinus" ng-click="draweLine()"
+                           ng-model="printSectionMargin" style="text-align: center;min-width:80px">
+                </div>
+            </div>
+
+            <div ng-show="visible || showLabelArea " class="form-group col-lg-3 pull-left">
+                <label>{{"CUBES_CONTROLLER" | translate}}:</label>
+                <div class="input-group">
+                    <!--<button class="printFocus btn btn-sm btn-primary pull-left ng-binding"-->
+                            <!--ng-click="addWidget()">{{"ADD_ITEM"| translate}}-->
+                    <!--</button>-->
+                    <!--<button class="printFocus btn btn-sm btn-primary pull-left ng-binding"-->
+                            <!--ng-class="{marginleftt: rtl == '', marginrightt: rtl !== ''}"-->
+                            <!--ng-click="clearWidgets()">{{"CLEAR_TEMPLATE"| translate}}-->
+                    <!--</button>-->
+                    <!--<button class="printFocus btn btn-sm btn-primary pull-left ng-binding"-->
+                            <!--ng-class="{marginleftt: rtl == '', marginrightt: rtl !== ''}"-->
+                            <!--ng-click="addNewPage()">{{"ADD_NEW_PAGE"| translate}}-->
+                    <!--</button>-->
+                    <label class="pull-left compareToOnOff" style="margin-top: 5px">{{"SHOW_BUTTONS" |
+                        translate}}:</label>
+                    <label class="pull-left" style="margin-top: 5px">
+                        <div class="onoffswitch" style="direction: ltr;text-align: left">
+                            <input type="checkbox" checked="" ng-model="isvisible1"
+                                   ng-change="onoffButtons()"
+                                   class="onoffswitch-checkbox" id="datesL1">
+                            <label class="onoffswitch-label" for="datesL1">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </label>
+                    <!--<div class=" col-lg-5 pull-left printDisplay">-->
+                        <!--<label style="vertical-align: super;{{rtl ? 'margin-left: 5px' : 'margin-right: 5px'}};">{{"DIRECTION_TEXT"-->
+                        <label style="vertical-align: super;margin-left: 15px;margin-right: 15px;">{{"DIRECTION_TEXT" | translate}}:</label>
+                    <div style="direction:ltr">
+                        <span class="printDisplay1"
+                              ng-click="updateTemplateDirection('ltr')" title="{{'LTR' | translate}}"><i
+                                class="fa fa-align-left fa-2x"/></span>
+                        <span class="printDisplay2"
+                              ng-click="updateTemplateDirection('rtl')" title="{{'RTL' | translate}}"><i
+                                class="fa fa-align-right fa-2x"/></span>
+                            </div>
+                    <!--</div>-->
+                </div>
+
+                    <!--<label class="pull-left compareToOnOff" style="margin-top: 5px">{{"ADD_HEADER" |-->
+                        <!--translate}}:</label>-->
+                    <!--<label class="pull-left" style="margin-top: 5px">-->
+                        <!--<div class="onoffswitch" style="direction: ltr;text-align: left">-->
+                            <!--<input type="checkbox" checked="" ng-model="isvisible2"-->
+                                   <!--ng-change="onoffHeader()"-->
+                                   <!--class="onoffswitch-checkbox" id="datesL2">-->
+                            <!--<label class="onoffswitch-label" for="datesL2">-->
+                                <!--<span class="onoffswitch-inner"></span>-->
+                                <!--<span class="onoffswitch-switch"></span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</label>-->
+                    <!--<label class="pull-left compareToOnOff" style="margin-top: 5px">{{"ADD_FOOTER" |-->
+                        <!--translate}}:</label>-->
+                    <!--<label class="pull-left" style="margin-top: 5px">-->
+                        <!--<div class="onoffswitch" style="direction: ltr;text-align: left">-->
+                            <!--<input type="checkbox" checked="" ng-model="isvisible3"-->
+                                   <!--ng-change="onoffFooter()"-->
+                                   <!--class="onoffswitch-checkbox" id="datesL3">-->
+                            <!--<label class="onoffswitch-label" for="datesL3">-->
+                                <!--<span class="onoffswitch-inner"></span>-->
+                                <!--<span class="onoffswitch-switch"></span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</label>-->
+
+
+                </div>
+            </div>
+            <!--<div ng-show="visible || showLabelArea " class="form-group col-lg-2 pull-left">-->
+                <!--<label>{{"GENERAL" | translate}}:</label>-->
+                <!--<div class="input-group">-->
+                    <!--<button class="printFocus btn btn-sm btn-primary pull-left ng-binding"-->
+                            <!--ng-click="saveWidgets()">{{"SAVE_TEMPLATE"| translate}}-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+
+    </div>
+        </div>
+        <div class="row" ng-show="visible || showLabelArea ">
+            <div class="col-lg-2 pull-left" style="margin-top:2px;">
+                <label style="{{rtl ? 'margin-right: 10px' : 'margin-left: 10px'}};"> <input icheck type="checkbox"
+                                                                                             ng-model="isActive"
+                                                                                             ng-init="isActive = isActive"/><span
+                        style="{{rtl ? 'margin-right: 5px' : 'margin-left: 5px'}}">{{"IS_ACTIVE" | translate}}</span></label>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row" ng-show="visible || showLabelArea ">
+
+            <div style="border-color: #e7eaec;
+                 border-style: solid solid none;
+                 border-width: 1px 0;"></div>
+            <div ng-show="loadingTemplate" ng-include="'views/common/emptyPage.html'"
+                 style="width:100%!important;height:880px;position: relative;top:50px;background: transparent"></div>
+            <div id="widgetArea" ng-show="!loadingTemplate && (visible || showLabelArea )" class="row A printerMargin"
+                 style="min-height:{{widgetheight}}px;width:{{widgetwidth}}px;padding-left: 0;padding-right: 0">
+                <div style="    position: fixed;
+    {{rtl ?'left: 37px':'right: 37px'}};
+    bottom: 50px;
+    z-index: 1000;
+    background: transparent;
+    border: 1px solid gray;
+    padding: 10px;
+    border-radius: 7px;
+    padding-bottom: 5px;">
+                    <div class="setings-item">
+                        <button style="margin-bottom: 5px;"
+                                class="printFocus btn btn-xs btn-w-m btn-primary pull-left "
+                                ng-click="saveWidgets()">{{"SAVE_TEMPLATE"| translate}}
+                        </button>
+                    </div>
+                    <div class="setings-item">
+                        <button style="margin-bottom: 5px;"
+                                class="printFocus btn btn-xs btn-w-m btn-primary pull-left "
+                                ng-click="addWidget()">{{"ADD_ITEM"| translate}}
+                        </button>
+
+                    </div>
+                    <div class="setings-item">
+                        <button style="margin-bottom: 5px;"
+                                class="printFocus btn btn-xs btn-w-m btn-primary pull-left "
+                                ng-click="addNewPage()">{{"ADD_NEW_PAGE"| translate}}
+                        </button>
+                    </div>
+                    <div class="setings-item">
+                        <button style="margin-bottom: 5px;"
+                                class="printFocus btn btn-xs btn-w-m btn-primary pull-left "
+                                ng-click="clearWidgets()">{{"CLEAR_TEMPLATE"| translate}}
+                        </button>
+                    </div>
+
+                </div>
+                <div class=" printSection" style="margin: {{printSectionMargin}}px">
+                    <div gridstack class="grid-stack grid1" options="options" on-change="onChange(event,items,widgets)"
+                         on-drag-start="onDragStart(event,ui,w)" on-drag-stop="onDragStop(event,ui)"
+                         on-resize-start="onResizeStart(event,ui)" on-resize-stop="onResizeStop(event,ui)">
+                        <div gridstack-item ng-repeat="w in widgets" class="grid-stack-item"
+                             gs-item-x="w.x"
+                             gs-item-y="w.y"
+                             gs-item-width="w.width" gs-item-height="w.height" gs-item-autopos="1"
+                             on-item-added="onItemAdded(item)" on-item-removed="onItemRemoved(item)"
+                             data-gs-width="w.width">
+                            <div class="grid-stack-item-content "
+                                 style=" overflow-y:hidden;padding: 10px;height: calc(100% + 15px);">
+                                <!--<div style="background-image:url('images/barcode.jpg') ">-->
+                                <a ng-show="isvisible1" style="z-index: 1200" ng-click="removeWidget($index)"> <i
+                                        style="padding-top: 2px"
+                                        class="fa fa-trash"></i></a>
+                                <a ng-show="isvisible1" style="z-index: 1200" ng-click="addWidgetItem(w,$index)">
+                                    <i style="padding-top: 2px" class="fa fa-plus"></i></a>
+                                <a ng-show="isvisible1" style="z-index: 1200" ng-click="duplicateItem(w)">
+                                    <i style="padding-top: 2px" class="fa fa-files-o"></i></a>
+
+                                <div ng-show="w.typeContent=='blanktable'"
+                                     style="width:100%;">
+                                    <div class="row printerMargin  "
+                                         style="margin-right:15px;margin-left:15px">
+                                        <table  resizeable class="tablez"
+                                                style="border: 3px solid black;">
+                                            <tr ng-repeat="row in getNumArray(w.numberOfRowsValues) track by $index">
+                                                <th
+                                                        ng-repeat="column in getNumArray(w.numberOfColsValues) track by $index"
+                                                        style="width:50px; height:50px;border:1px solid black">
+                                                </th>
+                                            </tr>
+                                        </table >
+                                    </div>
+                                </div>
+
+                                <div ng-show="w.typeContent=='table'"
+                                     style="width:100%;">
+                                    <table style="width:100%;border: 1px solid black;">
+
+                                      <tr ng-if="!w.noTitleKeys">
+                                        <th class="printTableRow" ng-show="w.currentFields"
+                                            ng-repeat="column in w.currentFields"
+                                            style="font-size: {{w.fontSize}}px!important;text-align:{{column.tdir}}!important;height:{{w.tableHeaderHeight}}%!important;background-color:{{w.backgroundColor}};color:{{w.fontColor}} ;
+                                            {{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};width:{{w.currentFields[$index].cellWidth}}%;border:1px solid black;
+                                            {{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};{{w.fontUnderlineKeys ?'text-decoration: underline':'text-decoration: null'}}">
+                                            <span class="printTableWhiteSpace "> {{rtl?column.LName:column.EName}}</span>
+                                        </th></tr>
+
+
+                                        <tr ng-repeat="row in w.RowsValuesArray"
+                                        style="width:100%!important;height:{{w.tableBodyHeight/w.RowsValuesArray.length}}%!important">
+                                        <td ng-if="w.currentFields" ng-repeat="coll in w.currentFields  track by $index "
+                                        style="direction:{{templateDir}};text-align:{{w.currentFields[$index].dir}}!important;border:1px solid black!important;font-size: {{w.fontSizeValues}}px!important;
+                                        color:{{w.fontColorValues}}!important;background-color:{{w.backgroundColorValues}};{{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};
+                                         {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicValues?'font-style: italic':'font-style: normal;'}};">
+                                        {{'VALUE' | translate}}
+                                        </td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                                <table ng-show="w.style=='vertical' && w.LabelTableField "
+                                       style="width:100%; border: 2px solid black;
+                                       ">
+                                          <tr ng-if="!w.noTitleKeys" style="">
+                                        <td class="printTableRow printTableWhiteSpace"
+                                            style="direction:{{templateDir}};font-size:{{w.fontSize}}px;background-color:{{w.backgroundColor}};color:{{w.fontColor}};text-align:{{w.tdir}};
+                                            {{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                                             height:{{w.cellKeyHeight}}px; border:1px solid black ;
+                                              {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">
+                                            <span class=" printTableWhiteSpace "> {{rtl?w.LabelTableField.LName:w.LabelTableField.EName}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="printTableRow printTableWhiteSpace"
+                                            style="direction:{{templateDir}};font-size:{{w.fontSizeValues}}px;background-color:{{w.backgroundColorValues}};color:{{w.fontColorValues}};text-align:{{w.dir}};{{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }}; height:{{w.cellValueHeight}}px;
+                                            border:1px solid black; {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicValues?'font-style: italic':'font-style: normal;'}};">
+                                            {{'VALUE'| translate}}
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table ng-show="w.style=='horizontal' && w.LabelTableField"
+                                       style="width:100%;border: 2px solid black;">
+                                    <th ng-if="!w.noTitleKeys"  class="printTableRow printTableWhiteSpace"
+                                        style="direction:{{templateDir}};color:{{w.fontColor}};
+                                       font-size:{{w.fontSize}}px ;background-color:{{w.backgroundColor}};text-align:{{w.tdir}};{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                                        width:{{w.cellKeyWidth}}%;border:1px solid black; {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};">
+                                       {{rtl?w.LabelTableField.LName:w.LabelTableField.EName}}
+                                    </th>
+                                    <th class="printTableRow printTableWhiteSpace"
+                                        style=" color:{{w.fontColorValues}};
+                                       font-size:{{w.fontSizeValues}}px ;background-color:{{w.backgroundColorValues}};text-align:{{w.dir}};{{w.fontWeightValues ?'font-weight:bold':'font-weight:lighter' }};{{w.fontItalicValues?'font-style: italic':'font-style: normal;'}};
+                                        width:{{w.cellValueWidth}}%;border:1px solid black; {{w.fontUnderlineValues?'text-decoration: underline':'text-decoration: null'}}">
+                                        {{'VALUE'| translate}}
+                                    </th>
+                                </table>
+
+                                <div ng-show="w.typeContent=='staticfield' && w.staticContent=='file'"
+                                     style="width:100%;">
+                                    <button class="form-control"
+                                            style="direction:{{templateDir}};white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+                                    border: 1px solid black;"
+                                    >{{"FILE" | translate}} :{{w.currentFileID}}
+                                    </button>
+                                </div>
+                                <div ng-show="w.typeContent=='staticfield' && w.staticContent=='diagram'"
+                                     style="width:100%;">
+                                    <button class="form-control"
+                                            style="direction:{{templateDir}};white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;
+                                    border: 1px solid black;"
+                                    >{{"DIAGRAM" | translate}}
+                                        {{rtl?w.currentImageDiagramType.LName:w.currentImageDiagramType.EName}}
+                                    </button>
+                                </div>
+                                <div ng-if="w.typeContent=='barcode'" style="width:100%;"
+                                     ng-init="buildBarcode($index,w)">
+                                    <svg class="barcode{{$index}}"
+                                    >
+
+                                    </svg>
+                                    <!--jsbarcode-fontoptions="{{w.barcode.fontoptions}}"-->
+                                    <!--{{w.barcode}}-->
+                                </div>
+                                <div ng-if="w.typeContent=='qrcode'" style="width:100%;">
+                                    <qrcode version="5" error-correction-level="{{w.qrcode.level}}"
+                                            size="{{w.qrcode.size}}" data="{{w.qrcode.text}}" color="{{w.qrcode.color}}"
+                                            background="{{w.qrcode.background}}"></qrcode>
+                                </div>
+                                <div ng-show="w.typeContent=='staticfield' && w.staticContent=='image'"
+                                     style="width:100%">
+                                    <button class="form-control"
+                                            style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;
+                                    border: 1px solid black;"
+                                    >{{"IMAGE" |
+                                        translate}}:{{rtl?w.currentImageDiagramType.LName:w.currentImageDiagramType.EName}}
+                                    </button>
+                                </div>
+                                <div ng-show="w.typeContent=='staticfield' && w.staticContent=='text'"
+                                     style="width:100%;color: {{w.fontColor}}">
+                                    <button class="form-control staticButton printTableWhiteSpace"
+                                            ng-class="{'noborder': !w.textHasBorder, 'textboder': w.textHasBorder}"
+                                            style="direction:{{w.staticTextDirection}};cursor:auto;text-align: {{w.tdir}};color:{{w.fontColor}};font-size:{{w.fontSize}}px ;
+                                    border: 1px solid black;border-style:{{w.borderStyle}};background-color: {{w.backgroundColor}} ;{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter'}};
+                                     {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};"
+                                    ><span></span>{{w.staticText}}
+                                    </button>
+                                </div>
+                                <div ng-show="w.typeContent=='staticfield' &&  arrayOfDates.indexOf(w.staticContent)!==-1"
+                                     style="width:100%;color: {{w.fontColor}}">
+                                    <button class="form-control staticButton printTableWhiteSpace"
+                                            style="direction:{{templateDir}};cursor:auto;text-align: {{w.tdir}};color:{{w.fontColor}};font-size:{{w.fontSize}}px ;
+                                    border: 1px solid black;
+                                    background-color: {{w.backgroundColor}} ;{{w.fontWeightKeys ?'font-weight:bold':'font-weight:lighter' }};
+                                     {{w.fontUnderlineKeys?'text-decoration: underline':'text-decoration: null'}};{{w.fontItalicKeys?'font-style: italic':'font-style: normal;'}};";
+                                    >
+                                        <div ng-if="w.staticContent=='datenow'">  {{staticDateNow | date:'dd/MM/yyyy'}}</div>
+                                        <div ng-if="w.staticContent=='datetimenow'"> {{staticDateNow | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+                                        <div ng-if="w.staticContent=='timenow'">  {{staticDateNow | date:'HH:mm:ss'}}</div>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <hr
+                                style="border: 1px dashed green;margin-top: {{headerAreaHeight}}px; position: absolute;width: {{minwidthp}};margin-bottom:0;padding: 0">
+                        <hr
+                                style="border: 1px dashed blue;margin-top: {{ widgetheight-footerAreaHeight}}px; position: absolute;width: {{minwidthp}};margin-bottom:0;padding: 0">
+                        <hr ng-repeat="n in lineSeprator track by $index"
+                            style="border: 1px dashed red;margin-top: {{widgetheight+(($index) * (widgetheight-footerAreaHeight-headerAreaHeight)) + (2 * $index)}}px; position: absolute;width: 100%;margin-bottom:0;padding: 0">
+
+                    </div>
+
+                    <!--<hr style="border: 1px dashed red;top: 1133px; position: absolute;width: 100px;margin:0">-->
+                </div>
+
+                <!--<hr  ng-repeat="n in footerSeprator track by $index"-->
+                     <!--style="border: 1px dashed blue;top: {{($index )*1280+ 1200}}px; position: absolute;width: {{minwidthp}};margin:0">-->
+
+
+                <!--<hr-->
+                    <!--style="border: 1px dashed red;margin-top: {{widgetheight}}px; position: absolute;width: {{minwidthp}};margin-bottom:0;padding: 0">-->
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

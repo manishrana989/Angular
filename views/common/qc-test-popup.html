@@ -1,0 +1,115 @@
+<form ng-submit="save()">
+
+<div class="qc-test-popup">
+
+    <div class="header-titles row-flex">
+
+        <div class="title-description">
+            Quality Test - {{secondStepCtrl.testID}}
+        </div>
+
+        <div ng-hide="hideFailedPassed">
+            <div class="passed" ng-if="$scope.passed">
+                <img style="margin:0 10px" src="images/passed.svg"/>
+                <span>{{"PASSED" | translate}}</span>
+            </div>
+
+            <div class="passed failed" ng-if="!scope.passed">
+                <img style="margin:0 10px" src="images/close-white.svg"/>
+                <span>{{"FAILED" | translate}}</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="fields-container">
+        <div class="left-side row">
+            <div class="row-flex col-lg-6"
+                 ng-repeat="(key, value) in testDetails[0] | limitTo: (testDetails[0].length/2): 0" ng-hide="key == 'Samples'">
+                <div class="field-title">{{key}}</div>
+
+                <div ng-if="key !== 'TestStatus'">
+                    <input ng-model="testDetails[0][key]" class="form-control"/>
+                </div>
+
+                <div ng-if="key == 'TestStatus'">
+                    <select class="form-control ng-pristine ng-valid ng-touched"
+                            style="width:175px"
+                            ng-options="option.ID as option.Name for option in statusesDropDownDictionary"
+                            ng-model="testDetails[0][key]">
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="test-results">
+        <div class="header-titles">Test Results</div>
+
+        <div class="params">
+
+            <div class="param-col" ng-repeat="testSample in testSampleFieldsData">
+
+                <div class="col-title">{{rtl && testSample.EName || testSample.LName || 'Parameter'}}</div>
+
+                <div class="col-input" ng-repeat="sample in testSample.SamplesData" style="display: flex;justify-content: space-between;">
+                    <input ng-model="sample.Value" class="form-control" style="width: 100px;"/>
+                    <img ng-hide="$parent.$index != testSampleFieldsData.length-1" ng-click="removeSamplesIndxFromTestSamples($index)" style="cursor: pointer" src="images/dashboard/close.svg"/>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="samples row-flex">
+            <span>Samples &nbsp;</span>
+            <input ng-model="testDetails[0].Samples" pattern="[0-9]*" ng-change="handleSamplesCounter(testDetails[0].Samples)" class="form-control"/>
+        </div>
+
+        <div class="header-titles"></div>
+
+        <div class="parameter-section row-flex">
+
+            <div class="left-side">
+
+                <div ng-repeat="param in testFieldsData" class="row-flex" ng-style="!param.BeginNewLine && {'float':'left'}">
+                    <div class="param-title" ng-style="!param.AllowNull && {'color':'blue'}">{{rtl && param.EName || param.LName || 'Parameter'}}</div>
+                    <div style="width:85px" ng-if="param.FieldType == 'Boolean'">
+                        <div check-box-directive
+                             field-title=""
+                             disabled="!param.AllowEntry"
+                             field="param"
+                             select-value="'CurrentValue'"></div>
+                    </div>
+
+                    <div style="width: 333px" ng-if="param.FieldType == 'Numeric'">
+                        <injection-values-directive avg="" min="param.LValue" max="param.HValue"
+                                                    standard= value="param.CurrentValue" showAverage="false">
+                        </injection-values-directive>
+                    </div>
+
+                    <div style="width: 333px" ng-if="param.FieldType != 'Numeric' && param.FieldType != 'Boolean'">
+                        <div>
+                            <input ng-disabled="!param.AllowEntry" ng-model="param.CurrentValue" style="width: 170px;" ng-required="!param.AllowNull" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit"
+                class="pull-right btn btn-primary new-dep-header-buttons saveButton">
+            {{"SAVE"| translate}}
+        </button>
+
+        <button ng-click="close()" style="margin:0 20px" class="pull-right btn btn-primary new-dep-header-buttons saveButton">
+            {{"CLOSE"| translate}}
+        </button>
+    </div>
+
+</div>
+
+</form>

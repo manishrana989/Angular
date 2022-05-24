@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>working</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="40.0000267 5.33333333e-05 40.0000267 40.0000533 2.66666667e-05 40.0000533 2.66666667e-05 5.33333333e-05"></polygon>
+    </defs>
+    <g id="Production-Floor-new-icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="New-Icons-40" transform="translate(-25.000000, -18.000000)">
+            <g id="working" transform="translate(25.000000, 18.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <path d="M40.0000267,20.0000533 C40.0000267,31.0454437 31.0454171,40.0000533 20.0000267,40.0000533 C8.95463626,40.0000533 2.66666667e-05,31.0454437 2.66666667e-05,20.0000533 C2.66666667e-05,8.95348701 8.95463626,5.33333333e-05 20.0000267,5.33333333e-05 C31.0454171,5.33333333e-05 40.0000267,8.95348701 40.0000267,20.0000533" id="Fill-1" fill="#1AA917" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

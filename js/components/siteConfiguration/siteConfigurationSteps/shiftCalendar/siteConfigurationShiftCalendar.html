@@ -1,0 +1,72 @@
+<div id="toastr"></div>
+<div class="step-three-container fullHeight">
+
+    <div class="header-container row" ng-init="apply=false">
+
+        <div class="col-lg-10 pull-left">
+            <div>
+                <div class="title">{{"DEPARTMENT_LOGS" | translate}}</div>
+                <p class="secondry-title">{{"STEP_THREE_SECONDRY_TITLE" | translate}}</p>        
+            </div>
+            <div class="row">
+                <div class="col-lg-6 pull-left">
+                    <select class="form-control" ng-model="shiftCalendarCtrl.chosenCalendarShift"
+                        ng-options="option as (option | customTranslate: 'LName':'EName':shiftCalendarCtrl.localLanguage | translate) for option in shiftCalendarCtrl.calendarShifts">
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top: 15px;" class="row" ng-if="shiftCalendarCtrl.chosenCalendarShift && shiftCalendarCtrl.chosenCalendarShift.ID == 'new'" 
+                ng-init="shiftCalendarCtrl.openCreateNewShift()">
+                <!-- <form role="form" name="leaderForm" ng-submit="saveForm()">
+                    <div class="inputs-container">
+                            <div ng-repeat="common in recordValue">
+                                <div class="form-group col-lg-6">
+                                    <input-directive content="common" formObject="leaderForm"></input-directive>
+                                </div>
+                            </div>
+                    </div>
+    
+                    <div class="buttons-container" ng-show="recordValue.length > 0">
+                        <div>
+                            <button type="submit" class="pull-right btn btn-primary">{{"CREATE" | translate}}</button>
+                        </div>
+                    </div>
+                <form> -->
+                <div  ng-include="'views/common/form.html'"></div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            
+            <!-- <div class="pull-right" >
+                <button ng-click="apply=!apply" class="add-user-button btn btn-primary">
+                    {{"APPLY_TO" | translate}}
+                    <span class="caret pull-right"></span>
+                </button>
+                <ul class="dashboard-settings-tooltip apply-to" ng-if="apply" >
+
+                    <div class="header">
+                        <span>
+                            {{"APPLY_TO" | translate}}: 
+                        </span>
+                    </div>
+
+                    <div class="apply-button">
+                        {{"APPLY" | translate}}
+                    </div>
+                </ul>
+            </div> -->
+            <div class="pull-right" ng-show="shiftCalendarCtrl.chosenCalendarShift && shiftCalendarCtrl.chosenCalendarShift.ID != 'new'">
+                <button ng-click="shiftCalendarCtrl.saveCalendarShift()" class="add-user-button btn btn-primary">
+                    {{"SAVE" | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendar-container row" ng-if="shiftCalendarCtrl.chosenCalendarShift.ID && shiftCalendarCtrl.chosenCalendarShift.ID != 'new'">
+            <calendar-directive view="'siteSetup'"  calendar-id="shiftCalendarCtrl.chosenCalendarShift.ID" 
+            department-id="" only-shifts="true" actions="shiftCalendarCtrl.actions"
+            height="shiftCalendarCtrl.getCalendarHeight"></calendar-directive>
+    </div>
+
+</div>

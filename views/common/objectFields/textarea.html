@@ -1,0 +1,5 @@
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="!inputValue.search">
+    <label style="margin-bottom: 0px;" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    <textarea ng-required="inputValue.required" ng-disabled="inputValue.disabled" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.value,'Eq','text')" ng-model="inputValue.value" class="form-control" style="width: 100%;resize: none;" ng-init="inputValue.initField(inputValue.value,'text')" placeholder="{{inputValue.content.Hint}}" rows="4" cols="50" >
+    </textarea>
+</div>

@@ -1,0 +1,70 @@
+<div class="timePicker-content" ng-init="mode = 'time' ">
+    <div
+        style="width:100%; height:850px; background-color:#dfe1e6; border-radius: 25px;z-index: 99999; position: relative;">
+        <div class="timePicker-header" style="background-color:#dfe1e6; padding: 100px;">
+            <input style="background-color:#dfe1e6; color:black; font-weight: 700"
+                placeholder="{{'TITLE' | translate }}*" ng-model="groupToSend.trigger.Name;" />
+        </div>
+        <div class="timePicker-body"
+            style="font-size: xx-large; text-align: center; background-color:#dfe1e6; height: 120px">
+            <span>
+                <span
+                    style=" border-bottom: 3px solid currentColor; display: inline-block; line-height: 0.85; cursor: pointer;">
+                    <b ng-if="groupToSend.trigger.RuleText === 'Every time period'"
+                        ng-click="openTimePickerWindow(); groupToSend.trigger.RuleText">{{"EVERY_TIME_PERIOD" | translate}},
+                    </b>
+                    <b ng-if="groupToSend.trigger.RuleText !== 'Every time period'"
+                        ng-click="openTimePickerWindow(); groupToSend.trigger.RuleText">{{translateRuleText(groupToSend.trigger.RuleText)}}
+                    </b>
+
+                    <!-- Daily -->
+                    <b ng-if="groupToSend.trigger.RuleText == 'Every day'"
+                        ng-click="openTimePickerWindow();"><b>{{"AT" | translate}}</b>
+                        {{twoDigitsTime(triggerToSend.trigger.IntervalHour)}}:{{twoDigitsTime(triggerToSend.trigger.IntervalMinute)}},</b>
+
+                    <!-- Weekly -->
+                    <b ng-if="groupToSend.trigger.RuleText == 'Every week'" ng-click="openTimePickerWindow();">
+                        <span>{{"ON" | translate}}</span>
+                        <span>{{allDaystoString.toString()}}</span>
+                        <b>{{"AT" | translate}}</b>
+                        <span>{{twoDigitsTime(triggerToSend.trigger.IntervalHour)}}:</span><span>{{twoDigitsTime(triggerToSend.trigger.IntervalMinute)}},</span></b>
+
+                    <!-- Monthly -->
+                    <b ng-if="groupToSend.trigger.RuleText == 'Every month'"
+                        ng-click="openTimePickerWindow();"><span>{{"ON" | translate}}</span>
+                        <span>{{triggerToSend.trigger.DaysInMonth.toString()}}</span>
+                        <b>{{"AT" | translate}}</b>
+                        <span>{{twoDigitsTime(triggerToSend.trigger.IntervalHour)}}:</span><span>{{twoDigitsTime(triggerToSend.trigger.IntervalMinute)}},</span></b>
+                </span>
+
+                {{"CREATE_SMALL" | translate}}
+
+                <span style="display: inline-flex; flex-direction: column;">
+                    <b ng-init="itemToggle=false" ng-click="itemToggle = !itemToggle"
+                        style="cursor: pointer;  border-bottom: 3px solid currentColor; display: inline-block; line-height: 0.85;">{{items}}
+                    </b>
+                    <span class="itemsList" ng-show="itemToggle">
+                        <b ng-click="openNewTaskWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 1">
+                            {{"TASK" | translate}}</b>
+                        <b
+                            ng-click="openNewNotificationWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 2; notificationToSend.notificationType=7; messageToSend.notificationType=0">
+                            {{"NOTIFICATION" | translate}}</b>
+                        <b
+                            ng-click="openNewMessageWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 2; messageToSend.notificationType=1; notificationToSend.notificationType=0">
+                            {{"MESSAGE" | translate}}</b>
+                        <!-- <b
+                            ng-click="openNewServiceCallWindow(); itemToggle=false; triggerToSend.trigger.TriggerType = 2; messageToSend.notificationType=1; notificationToSend.notificationType=0">
+                            {{"SERVICE_CALL" | translate}}</b> -->
+                    </span>
+                </span>
+
+            </span>
+        </div>
+        <div class="timePicker-footer" style="text-align: right; background-color:#dfe1e6">
+
+            <button class="pull-right btn btn-primary rulesButton" type="submit"
+                ng-disabled="!rulesCtrl.checkMandatoryFields()" type="submit"
+                ng-click="CreateARule(); $close();">{{"CREATE_RULE" | translate}}</button>
+        </div>
+    </div>
+</div>

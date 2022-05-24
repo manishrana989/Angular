@@ -1,0 +1,38 @@
+
+a {text-decoration: underline;}
+.header{background:#00004f;padding:20px 0;}
+.logo-section img {display: inline-block;}
+.logo-section ul.list-inline {display: inline-block;text-align: right;float: right;    margin-bottom: 0; margin-top: 8px;}
+.logo-section ul li a { width: 35px; height: 35px; background: #fff;display: block;border-radius: 100%;color: #00004f;text-align: center; line-height: 35px;font-size: 18px;}
+.logo-section ul li a:hover, .logo-section ul li a:focus { background: var(--color2); color: #fff;}
+.knowledge-section a {color: #fff; font-size: 14px;text-decoration: underline;font-family: 'Open Sans', sans-serif;}
+.knowledge-section h3 {color: #fff; font-size: 30px; margin: 0;font-family: 'Open Sans', sans-serif;}
+.knowledge-section { margin: 50px 0 0;}
+.body-section h3 {color: #00004f; font-size: 30px; margin: 20px 0;font-family: 'Bree Serif', serif;}
+.traceability {border: 1px solid #ccc; padding:20px;    margin-bottom: 20px;    display: inline-block;width: 100%;}
+.traceability h5 {font-size: 12px;color: #959595; text-transform: uppercase; margin: 0;font-family: 'Bree Serif', serif;}
+.traceability h4 { font-size: 18px;margin: 20px 0 0;font-family: 'Bree Serif', serif;color: #00004f;text-transform:uppercase;width: 80%;vertical-align: middle;display: inline-block;}
+.traceability  span img { display: inline-block; text-align: right;float: right;vertical-align: middle; margin-top: 0}
+hr { border-top: 1px solid #ccc;}
+.traceability p {color: #363636; font-size: 13px;font-family: 'Open Sans', sans-serif;    font-weight: 600;    line-height: 17px;}
+.setting-img{float:right;}
+.traceability ul { margin-bottom: 0px; padding: 15px 0px;}
+.traceability ul li{list-style:none;}
+.traceability ul li {color: #363636;font-size: 13px;font-family: 'Open Sans', sans-serif;    font-weight: 600;    line-height: 22px;}
+.traceability ul li:before { content: "• "; color: var(--color2); margin-right: 5px;    font-size: 18px;}
+.i-2-img { margin-left: 60px;}
+.body-section { padding: 20px 0;}
+
+
+
+
+
+/**right side content css**/
+.header1 .logo-section img{float:right;}
+.header1 .logo-section ul.list-inline{float:left;}
+.header1 .top-content {float: right;text-align: right;}
+.body-section1 .traceability{text-align:right;}
+.body-section1 .traceability span img{float:left;}
+.body-section1 .i-2-img {float: right;}
+.body-section1 .setting-img{float:none;}
+/**right side content css**/

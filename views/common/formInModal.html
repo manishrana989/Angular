@@ -1,0 +1,45 @@
+<div class="modal-header">
+        <button type="button" ng-click="close();" class="close pull-right" data-dismiss="modal"><span
+            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">{{formName | translate}} {{ID}}</h3>
+</div>
+<div class="panel-body">
+    <div  ng-include="'views/common/form.html'"></div>
+    <!-- <form name="leaderForm" ng-submit="saveForm()" role="form" style="height: 100%">
+        <div
+            class="col-sm-12"
+            ng-if="group.recordValue.length > 0"
+            ng-init="group.shownFieds == 0"
+            ng-repeat="group in groups"
+            style="border-style: solid solid solid;border-width: 1px;border-color: #e7eaec;margin-bottom: 15px;box-shadow: 5px 5px 2px #888888;">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-width: 0 0 0 !important; padding: 0; min-height: 20px">
+                    <h4 class="pull-left" style="font-weight: bold">
+                    {{localLanguage === true ? group.Value.GroupLName : group.Value.GroupEName}}
+                    </h4>
+                    <div ibox-tools group-data="group"></div>
+                </div>
+                <div class="ibox-content groupContainer" style="padding-bottom: 20px">
+                    <div
+                    class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left"
+                    ng-repeat="field in group.recordValue"
+                    style="height: 100%"
+                    >
+                    <input-directive content="field" formobject="leaderForm" show-collapse="true"></input-directive>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="common in recordValue">
+            <div style="height: 100%;" class="form-group  {{(common.DisplayType == 13 || common.ChildName !== null || common.DisplayType == 16 )  ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                <input-directive ng-if="!field.loading" content="common" formObject="leaderForm"></input-directive>
+            </div>
+        </div>
+        <div class="buttons-container">
+        <div>
+        <button class="pull-right btn btn-primary" type="submit">{{"SAVE" | translate}}</button>
+        </div>
+        </div>
+    </form> -->
+</div>
+    

@@ -1,0 +1,150 @@
+<div style="padding: 52px 40px" class="qc-test-edit">
+  <div style="cursor: pointer" ng-click="assignCurrentStep('test-fields', currentTest)">
+    <img src="images/back.png" /> <span style="font-size: 16px; position: relative; margin: 0 12px; top: 1px">{{"BACK" | translate}}</span>
+  </div>
+
+  <div ng-if="fetching" style="background-color: rgba(255, 255, 255, 0.75); position: absolute; top: 50%; z-index: 99999; width: 100%">
+    <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0" class="shift-loading"></div>
+  </div>
+
+  <div class="step-one-container">
+    <form>
+      <div class="page-title">Test-{{currentTest.id}}</div>
+
+      <div class="rows-title">
+        <div>{{"TEST_SAMPLE_FIELDS" | translate}}</div>
+        <div style="cursor: pointer" ng-click="addRow()">
+          <div>
+            <img src="images/add-circle.svg" />
+            {{"ADD_ROW" | translate}}
+          </div>
+        </div>
+      </div>
+
+      <div class="list-item header">
+        <!-- drag icon -->
+        <div></div>
+        <!-- row id -->
+        <div>{{"INDEX" | translate}}</div>
+        <!-- Name(Local) -->
+        <div>{{ "NAME_LOCAL" | translate }}</div>
+
+        <!-- Name(Not local) -->
+        <div>{{ "NAME_ENG" | translate }}</div>
+
+        <!-- field type -->
+        <div>{{"FIELD_TYPE" | translate}}</div>
+
+        <!-- data source -->
+        <div>{{"DATA_SOURCE" | translate}}</div>
+
+        <!-- allow null -->
+        <div>{{"ALLOW_EMPTY" | translate}}</div>
+      </div>
+
+      <div style="text-align: center; margin: 50px" ng-if="!fetching && !rows.length">
+        <div>{{"NO_ROWS_START_BY_ADDING" | translate}}</div>
+        <div style="cursor: pointer" ng-click="addRow()">
+          <div>
+            <img src="images/add-circle.svg" />
+            {{"ADD_ROW" | translate}}
+          </div>
+        </div>
+      </div>
+
+      <div id="sortable" class="list-group newScroll slim">
+        <div
+          ng-style="row.UpsertType == 1 && {'opacity': '0.3'}"
+          ng-repeat="row in rows track by $index"
+          class="list-item list-group-item"
+          ng-class="{'new-field': row.ID==0}"
+        >
+          <img class="remove-row" ng-if="row.UpsertType != 1" ng-click="removeRow(row.ID, $index)" src="images/delete.png" />
+          <img class="remove-row" ng-if="row.UpsertType == 1" width="16" ng-click="row.UpsertType = 3" src="images/add.png" />
+
+          <!-- drag icon -->
+          <div style="display: flex; flex-direction: row; align-items: center">
+            <img ng-if="row.ID != 0" style="cursor: pointer" src="images/drag-handle.svg" />
+            <img
+              width="16"
+              height="16"
+              style="margin: 0 7px; cursor: pointer"
+              src="images/calculator-blue.png"
+              ng-show="row.InputType==66"
+              ng-click="openCalculator(row)"
+            />
+          </div>
+
+          <!-- row id -->
+          <div>
+            <div ng-if="row.ID!=0">{{row.ID}}</div>
+            <div ng-if="row.ID==0" style="font-size: 12px; font-weight: 600; color: var(--color2)">{{"NEW_FIELD" | translate}}</div>
+          </div>
+
+          <!-- Name(Local) -->
+          <div>
+            <input
+              class="form-control"
+              style="max-width: 133px"
+              ng-model="row.LName"
+              ng-style="missingLocalName[$index] && {'border':'1px solid red'}"
+              ng-change="checkIfMissingLocalName(row, $index)"
+            />
+          </div>
+
+          <!-- Name(Not local) -->
+          <div>
+            <input class="form-control" style="max-width: 133px" ng-model="row.EName" ng-change="checkIfMissingLocalName(row, $index)" />
+          </div>
+
+          <!-- field type -->
+          <div ng-if="row.ID != 0">{{row.FieldType | getValByKey:fieldTypeOptions:'id':'name'}}</div>
+
+          <!-- (NEW) field type -->
+          <div ng-if="row.ID == 0">
+            <select
+              class="form-control"
+              style="max-width: 116px"
+              ng-model="row.FieldType"
+              ng-change="checkIfShouldOpenNumericPopup(row)"
+              ng-options="option.id as option.name for option in fieldTypeOptions"
+            ></select>
+          </div>
+
+          <!-- data source -->
+          <div>
+            <select
+              ng-disabled="row.FieldType=='Boolean' || row.FieldType=='text' || row.FieldType=='date' || row.FieldType=='time'"
+              class="form-control"
+              style="max-width: 116px"
+              ng-model="row.InputType"
+              ng-change="checkIfShouldOpenCalc(row)"
+              ng-options="option.id as option.name for option in dataSourceOptions"
+            ></select>
+          </div>
+
+          <!-- data param -->
+          <!--                    <div>-->
+          <!--                        <select ng-disabled="row.InputType==0 || row.InputType == 66" class="form-control" style="max-width: 116px" ng-model="row.InputField"-->
+          <!--                                ng-options="option.fieldname as option.name for option in getDataParamOptions(row.InputType)"></select>-->
+          <!--                    </div>-->
+
+          <!-- allow null -->
+          <div class="pull-left" check-box-directive field-title="" field="row" select-value="'AllowNull'"></div>
+        </div>
+      </div>
+
+      <!-- next should navigate to test sample fields -->
+      <div style="display: inline-block; width: 100%; padding-top: 34px; margin-top: 61px; border-top: 1px solid #f6f6f6">
+        <button class="pull-right btn btn-primary" ng-disabled="missingRequired" style="width: 133px" type="submit" ng-click="finish()">
+          {{"FINISH" | translate}}
+        </button>
+
+        <p class="pull-right missing-required text-danger" ng-show="missingRequired">
+          <img src="images/warning-red.svg" />
+          Missing required fields
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

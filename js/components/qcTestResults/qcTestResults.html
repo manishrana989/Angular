@@ -1,0 +1,282 @@
+<div class="qc-test-results" style="padding-bottom: 100px;">
+  <div id="toastr"></div>
+
+  <ul id="nav-id-qc-tests" class="nav nav-tabs">
+    <li ng-click="activeTab = 'tests'" class="nav-item" style="display: flex; flex-direction: row">
+      <a class="nav-link" ng-class="{'active': activeTab == 'tests'}">{{"TESTS" | translate}}</a>
+      <!--            <div id="source-bullet-id" class="source-bullet text-center" ng-click="qcTestResultsCtrl.addToDashboard($event)" >+</div>-->
+    </li>
+
+    <li class="nav-item" ng-click="activeTab = 'samples'">
+      <a ng-class="{'active': activeTab == 'samples'}" class="nav-link">{{"SAMPLES" | translate}}</a>
+    </li>
+
+    <li class="nav-item" style="display: flex" ng-click="activeTab = 'dashboard'">
+      <a ng-class="{'active': activeTab == 'dashboard'}" class="nav-link"> {{"DASHBOARD" | translate}} </a>
+      <div
+        id="target-bullet-id"
+        class="target-bullet text-center"
+        ng-show="graphCount > 0"
+        ng-style="hasItems && {background:'var(--color2)'}"
+      ></div>
+    </li>
+  </ul>
+
+  <div ng-if="!fetching && activeTab =='tests'">
+    <div
+      id="qcTestsGrid"
+      style="height:{{height}}px"
+      ui-grid="gridOptions"
+      dir="{{rtlDir}}"
+      ui-grid-resize-columns
+      ui-grid-selection
+      ui-grid-exporter
+      ui-grid-move-columns
+      ui-grid-save-state
+      class="grid"
+    ></div>
+  </div>
+    <button style="margin-top: 10px;" ng-click="editTestTable()" ng-if="!fetching && activeTab =='tests'" class="btn btn-sm btn-primary pull-right m-t-n-xs">
+    {{'SAVE_CHANGES' | translate }}
+</button>
+
+  <div ng-if="activeTab == 'samples' && sampleGridOptions">
+    <div
+      id="qcSampleTestsGrid"
+      style="height:{{height}}px"
+      ui-grid="sampleGridOptions"
+      ui-grid-resize-columns
+      ui-grid-exporter
+      dir="{{rtlDir}}"
+      ui-grid-grouping
+      class="grid"
+    ></div>
+  </div>
+
+  <div class="dashboard-tab dashboard-menu-container" ng-if="activeTab == 'dashboard'" >
+      <div class="dashboard-settings">
+        <div class="Rectangle-2" ng-click="qcTestResultsCtrl.settingMenu=!qcTestResultsCtrl.settingMenu">
+          <img
+            ng-src="{{qcTestResultsCtrl.settingMenu && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}"
+            title="{{'SETTINGS' | translate}}"
+            alt="settings"
+          />
+          <span class="shift-header-btns-text">{{"DASHBOARD_SETTINGS" | translate}}</span>
+        </div>
+        <ul
+          ng-if="qcTestResultsCtrl.settingMenu"
+          class="dashboard-settings-tooltip machine-screen fix-menu"
+          off-click-activator="qcTestResultsCtrl.settingMenu" off-click="qcTestResultsCtrl.settingMenu=false"
+        >
+          <div class="drag-show-hide-explain" style="margin-top:10px">{{"DRAG_SHOW_HIDE_EXPLAIN" | translate}}</div>
+          <div ui-sortable="sortableOptions" ng-model="graphs">
+            <div class="graph-display-container" ng-repeat="graph in graphs">
+              <div style="display: inline-block; margin: 0px 10px; float: right; cursor: move">
+                <i class="fa fa-bars"></i>
+              </div>
+              <div class="options-drop-down-tooltip-label">
+                <div class="options-drop-down graph-display-checkbox active row" style="padding-left:10px;padding-right:10px">
+                  <div class="hide-material-switch onoffswitch" style="direction: ltr; text-align: left">
+                    <input
+                      type="checkbox"
+                      ng-model="graph.display"
+                      ng-change="checkIfShouldBuildOrDestroy(graph)"
+                      class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid"
+                      id="graphIndex{{$index}}"
+                    />
+                    <label
+                      class="onoffswitch-label"
+                      ng-style="!graph.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                      for="graphIndex{{$index}}"
+                    >
+                      <span class="onoffswitch-inner"></span>
+                      <span
+                        class="onoffswitch-switch"
+                        ng-style="!graph.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                        ng-class="{'unchecked': !graph.display}"
+                      >
+                        <span ng-if="graph.display" class="material-switch-v"> </span>
+                        <span ng-if="!graph.display" class="material-switch-x"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox">
+                  <span>{{graph.name}}</span>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+            <div>
+              <div>{{"DISPLAY_TYPE" | translate}}:</div>
+              <div class="qc-display-type" style="display:flex;flex-direction: column;">
+                <div >
+                  <input type="radio" id="displayTypeBars" name="displayTypeBars" value="bars" ng-model="qcTestResultsCtrl.displayType" ng-click="choosingDotsBars(false)" />
+                  <label class="margin-side-10" for="displayTypeBars">{{"BARS" | translate}}</label><br />
+                </div>
+                <div>
+                  <input type="radio" id="displayTypeDots" name="displayTypeDots" value="dots" ng-model="qcTestResultsCtrl.displayType" ng-click="choosingDotsBars(true)" />
+                  <label class="margin-side-10" for="displayTypeDots">{{"DOTS" | translate}}</label><br />
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div style="display: flex; align-items: center">
+              <div>{{"COLOR" | translate}}:</div>
+              <div class="options-drop-down graph-display-checkbox active row" style="padding-left:10px;padding-right:10px" ng-click="choosingPlotBands();$event.stopPropagation()">
+                <div class="hide-material-switch onoffswitch" style="direction: ltr; text-align: left">
+                  <input type="checkbox" ng-model="plotBands" class="onoffswitch-checkbox" />
+                  <label
+                    class="onoffswitch-label"
+                    ng-style="!plotBands && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                    for="graphIndex{{$index}}"
+                  >
+                    <span class="onoffswitch-inner"></span>
+                    <span
+                      class="onoffswitch-switch"
+                      ng-style="!plotBands && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                      ng-class="{'unchecked': !plotBands}"
+                    >
+                      <span ng-if="plotBands" class="material-switch-v"> </span>
+                      <span ng-if="!plotBands" class="material-switch-x"> </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="settings-qc-test-results">
+              <div style="height: 30px; margin-bottom: 10px; margin-top: 20px">
+                <div class="shift-settings-reset-btn ng-binding" ng-click="applyDashboardSettings()">{{"APPLY" | translate}}</div>
+              </div>
+              <div style="height: 30px; margin-bottom: 10px; margin-top: 20px;margin-right:10px" class="test2">
+                <div class="shift-settings-reset-btn" ng-click="resetDashboardSettings()">{{"RESET" | translate}}</div>
+              </div>
+            </div>
+          </div>
+        </ul>   
+        <div class="Rectangle-2" ng-click="qcTestResultsCtrl.settingMenuSPC=!qcTestResultsCtrl.settingMenuSPC">
+          <img
+            ng-src="{{qcTestResultsCtrl.settingMenuSPC && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}"
+            title="{{'SPC_SETTINGS' | translate}}"
+            alt="settings"
+          />
+          <span class="shift-header-btns-text">{{"SPC_SETTINGS" | translate}}</span>
+        </div>
+        <ul
+          ng-if="qcTestResultsCtrl.settingMenuSPC"
+          class=" SPC-settings dashboard-settings-tooltip machine-screen"
+          off-click-activator="qcTestResultsCtrl.settingMenuSPC" off-click="qcTestResultsCtrl.settingMenuSPC=false"         
+        >
+            <div class="checkboxSPC" style="margin-top:10px">
+              <div class="SPCLabel">
+                <span class="SPCTestsParamLabel">{{"TEST_PARAM" | translate}}</span>
+              </div>
+            </div>
+
+            <div class="SPCTests">
+              <div ng-repeat="test in SPCTests" class="SPCTestsElements">
+                <div class="SPCTestsToggle">
+                  <div class="hide-material-switch onoffswitch" style="direction: ltr; text-align: left">
+                    <input
+                      type="checkbox"
+                      ng-model="test.show"
+                      class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid"
+                      id="SPCTestIndex{{$index}}"
+                    />
+                    <label
+                      class="onoffswitch-label"
+                      ng-style="!test.show && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                      for="SPCTestIndex{{$index}}"
+                    >
+                      <span class="onoffswitch-inner"></span>
+                      <span
+                        class="onoffswitch-switch"
+                        ng-style="!test.show && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                        ng-class="{'unchecked': !test.show}"
+                      >
+                        <span ng-if="test.show" class="material-switch-v"> </span>
+                        <span ng-if="!test.show" class="material-switch-x"> </span>
+                      </span>
+                    </label>
+                  </div>
+                  <span class="SPCTestsLabels" style="width: 10.916vw" title="{{test.newName}}">{{test.newName}}</span>
+                </div>
+
+                <div ng-if="test.show" class="SPCTestsParam">
+                  <input
+                    type="text"
+                    ng-model="test.testParam"
+                    ng-change="changeTestLabels(test)"
+                    style="width: 50px; height: 1.3vw; text-align: center"
+                    only-digits
+                  />
+                </div>
+              </div>
+              <div ng-repeat="section in limitsControl">
+                <hr />
+                <div>
+                  <div>{{section.sectionName | translate}}:</div>
+                  <div class="qc-display-type">
+                    <div ng-repeat="control in section.controls" style="display: flex;
+                    justify-content: space-between;">
+                      <div class="display-flex-combo">
+                        <input type="radio" id="{{control.id}}" name="{{section.id}}" value="{{control.id}}" ng-model="section.choose" />
+                        <label class="margin-side-10" for="{{control.id}}">{{control.controlName | translate}}</label>
+                      </div>
+                     <div ng-if="control.type == 1 || control.type == 2">
+                      <input
+                      type="text"
+                      ng-if="control.type == 1"
+                      ng-model="section.value"
+                      style="width: 50px; height: 1.3vw; text-align: center"
+                      only-digits />  
+                      <div style="display: flex;" ng-if="control.type == 2"> 
+                        <div style="display:flex;flex-direction: column;">
+                          <label for="">{{"LOW" | translate}}</label>
+                          <input
+                          type="text"
+                          ng-if="control.type == 2"
+                          ng-model="section.valueL"
+                              style="width: 50px; height: 1.3vw; text-align: center"
+                          only-Float />  
+                        </div>
+                        <div style="display:flex;flex-direction: column;">
+                          <label for="">{{"HIGH" | translate}}</label>
+                          <input
+                          type="text"
+                          ng-if="control.type == 2 "
+                          ng-model="section.valueH"
+                              style="width: 50px; height: 1.3vw; text-align: center"
+                          only-Float />   
+                        </div>                    
+                      </div>
+                      
+                     </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="settings-qc-test-results">
+                <div style="height: 30px; margin-bottom: 10px; margin-top: 20px">
+                  <div class="shift-settings-reset-btn ng-binding" ng-click="applySPC()">{{"APPLY" | translate}}</div>
+                </div>
+                <div style="height: 30px; margin-bottom: 10px; margin-top: 20px;margin-right:10px;">
+                  <div class="shift-settings-reset-btn" ng-click="resetDefaultSPC()">{{"RESET" | translate}}</div>
+                </div>
+              </div>    
+            </div>
+        </ul>
+        <select class="Rectangle-2"
+        ng-init="qcTestResultsCtrl.xAxisSelectedObject.value = qcTestResultsCtrl.xAxisOptions[2]" ng-change="applySPC()"
+        ng-options="interval for interval in qcTestResultsCtrl.xAxisOptions"
+        ng-model="qcTestResultsCtrl.xAxisSelectedObject.value"></select> 
+      </div>
+    </div>
+    <div ng-if="activeTab == 'dashboard'" ng-init="initGraphs()" id="graphs-container">
+    </div>
+    <!-- <div class="no-graphs" ng-show="graphCount <= 0">{{"NO_GRAPHS_TEST_RESULTS" | translate}}</div> -->
+  </div>
+</div>

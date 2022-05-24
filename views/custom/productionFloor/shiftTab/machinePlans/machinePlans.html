@@ -1,0 +1,119 @@
+
+<div ng-if ="graph.graphTypeID == 3"  >
+    <div ng-repeat="machine in Machines" style="display: inline-block">
+        <div id="machine-{{$index}}" class="activityGauge"></div>
+    </div>
+</div> 
+
+<div class="zoom-reset-btns-container" ng-show="graph.graphTypeID == 0">
+    <img class="zoom-reset-btn" ng-src="images/dashboard/reset-zoom{{resetZoomBtn ? '-selected' : ''}}.svg" alt="zoom"
+        ng-click="resetZoom($event)" ng-attr-title="{{'RESET_ZOOM' | translate}}">
+    <img class="zoom-reset-btn" ng-src="images/dashboard/zoom{{enableZoomBtn ? '-selected' : ''}}.svg" alt="zoom"
+        ng-click="enableZoom($event)" ng-attr-title="{{'SELECT_AREA_TO_ZOOM' | translate}}">
+</div>
+<div class="svgs-containers" style="overflow-x: hidden" ng-style="{'max-height' : (!graph.fullScreen ? options.height: '100%')}" ng-show="graph.graphTypeID == 0"
+    ng-keyup="updateMachinesFilter($event)" ng-keydown="updateMachinesFilter($event)">
+    <svg ng-style="{cursor: enableZoomBtn ? 'zoom-in' : 'default','max-height': (Machines.length*100 +60) +'px',height: (!graph.fullScreen ? options.height: '100%'),'min-height': options.height ,'overflow-y': 'auto',position: 'absolute',width: 'calc(100% - 45px)'}"
+        class="grid col-lg-12">
+        <g>
+            <g class="shift-start-line" ng-if="manyMachine">
+                <g ng-repeat="tick in sliderData.options.ticks" ng-if="tick.xIf">
+                    <g ng-if="tick.xIf" ng-style="{transform:'translate('+(tick.x || 0)+'px, 0px'}">
+                        <line stroke-dasharray="3,1" y1="0" y2="100%" ng-style="{stroke: 'blue','stroke-width': '2px'}">
+                        </line>
+                        <text x="20" y="-5" transform="rotate(90)">
+                            {{shiftsNames[$index]}}
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g class="x axis"></g>
+        </g>
+    </svg>
+    <svg ng-style="{height: options.settings.planClicked==true? (Machines.length*65 +120):(Machines.length*130 +120)+'px' ,'overflow-y': 'auto', 'min-height': options.height}"
+        class="data col-lg-12">
+        <g class="data-area">
+            <rect class="zoom-area" ng-style="{cursor: enableZoomBtn ? 'zoom-in' : 'default'}" height="100%"
+                fill="#044B94" fill-opacity="0" ng-mousemove="markerMove()" ng-mouseleave="markerLeave()"></rect>
+            <g ng-repeat="machine in Machines"
+                ng-style="options.settings.planClicked == true? {transform:'translate(0px,'+($index + 1)*70+'px)'} : {transform:'translate(0px,'+($index + 1)*130+'px)'}">
+                <text ng-click="openMachine(machine.machineID)" class="machine-plan-text">
+                    <tspan style="text-decoration: underline;fill: #337ab7;cursor: pointer;">{{machine.machineName}}
+                    </tspan>
+                    <tspan style="font-size: 0.625vw">
+                        ({{"DOWN_TIME" | translate}}:
+                        {{machine.machineDownDuration/machine.eventsTotalDuration*100 | number:0}}% ,
+                        {{"REPORTED_STOP_EVENTS" | translate}}:
+                        {{ (machine.uncategorizedDuration/machine.totalDurationWithoutSetupAndNoComm*100  | number:0)}}%)
+                    </tspan>
+                </text>
+                <line ng-hide="options.settings.planClicked==true" ng-repeat="plan in machine.CurrShift.Plan" y1="50"
+                    y2="50" style="pointer-events: none;" ng-attr-x1="{{(plan.x1 || 0)}}"
+                    ng-attr-x2="{{(plan.x2 || 0)}}" ng-style="{stroke: plan.Color,'stroke-width': '5px'}"></line>
+
+                <line ng-repeat="event in machine.CurrShift.Events" class="{{event.ID}}" ng-attr-x1="{{(event.x1 || 0)}}"
+                    ng-attr-x2="{{(event.x2 || 0)}}" ng-style="{stroke: event.Color,'stroke-width': '12px', cursor:'pointer'}"
+                    ng-mouseover="tooltip($event,event)" ng-mousemove="tooltipMove($event)" ng-click="openEvent(event.ID,event.Color, machine.machineID)"
+                    ng-mouseleave="tooltipLeave()"></line>
+
+                <text ng-repeat="event in machine.CurrShift.Events"
+                    ng-show="(event.EventReason != notStop) && (event.Color == '#850f16')" class="arrow-fontawsome-plan"
+                    ng-attr-x="{{(event.x1 || 0)}} " y='3'>&#xf107</text>
+
+                <g ng-show="options.settings.planClicked==true"
+                    ng-repeat="FirstCycleDateTime in  machine.CurrShift.firstCycle track by $index"
+                    style="pointer-events: none;">
+                    <line ng-if="FirstCycleDateTime" ng-style="{transform:'translate(0px, -15px)'}"
+                        ng-attr-x1="{{(FirstCycleDateTime || 0)}}" ng-attr-x2="{{(FirstCycleDateTime || 0)}}" y1="0"
+                        y2="30" style="stroke-width: 3px;stroke: black"></line>
+                </g>
+                <g ng-show="options.settings.planClicked==false"
+                    ng-repeat="FirstCycleDateTime in  machine.CurrShift.firstCycle track by $index"
+                    style="pointer-events: none;">
+                    <line ng-if="FirstCycleDateTime" ng-style="{transform:'translate(0px, -15px)'}"
+                        ng-attr-x1="{{(FirstCycleDateTime || 0)}}" ng-attr-x2="{{(FirstCycleDateTime || 0)}}" y1="0"
+                        y2="80" style="stroke-width: 3px;stroke: black"></line>
+                </g>
+                <g ng-show="options.settings.planClicked==true"
+                    ng-repeat="LastCycleDateTime in  machine.CurrShift.lastCycle track by $index"
+                    style="pointer-events: none;">
+                    <line ng-if="LastCycleDateTime" ng-style="{transform:'translate(0px, -15px)'}"
+                        ng-attr-x1="{{(LastCycleDateTime || 0)}}" ng-attr-x2="{{(LastCycleDateTime || 0)}}" y1="0"
+                        y2="30" style="stroke-width: 3px;stroke: black"></line>
+                </g>
+                <g ng-show="options.settings.planClicked==false"
+                    ng-repeat="LastCycleDateTime in  machine.CurrShift.lastCycle track by $index"
+                    style="pointer-events: none;">
+                    <line ng-if="LastCycleDateTime" ng-style="{transform:'translate(0px, -15px)'}"
+                        ng-attr-x1="{{(LastCycleDateTime || 0)}}" ng-attr-x2="{{(LastCycleDateTime || 0)}}" y1="0"
+                        y2="80" style="stroke-width: 3px;stroke: black"></line>
+                </g>
+                <g ng-hide="options.settings.planClicked==true" ng-repeat="job in joshData[machine.machineID]"
+                    ng-style="{transform:'translate('+(job.x || 0)+'px, 0px)'}"
+                    style="pointer-events: none;font-size: 0.677vw">
+                    <line y1="10" y2="55" style="stroke: black;stroke-width: 2"></line>
+                    <text x="5" y="25" style="direction: initial;">{{localLanguage  ? job.LName : job.EName}}</text>
+                    <text x="5" y="40" style="direction: initial;">{{job.JobID}}</text>
+                </g>
+                <rect y="-10" width="58" height="65" fill="white" style="pointer-events: none;"></rect>
+                <text ng-hide="options.settings.planClicked==true" class="machine-plan-graph-line-title" y="55"
+                    style="pointer-events: none;">{{"PLAN" | translate}}</text>
+                <text class="machine-plan-graph-line-title" y="5" style="pointer-events: none;"
+                    ng-hide="options.settings.planClicked">{{"ACTUAL" | translate}}</text>
+            </g>
+            <g class="marker"
+                ng-style="{'pointer-events': 'none' ,'transition-timing-function': 'linear',display: ( disableWMarker || outMarker ) ? 'block': 'none',transform: 'translate('+markerValue+'px,0px)'}">
+                <line y1="0" y2="100%" x1="0" x2="0" ng-style="{stroke: '#101010','stroke-width': '3px'}"></line>
+            </g>
+            <rect class="zoom-rect"></rect>
+        </g>
+    </svg>
+    <div style="position: relative" class="tooltip-container">
+        <div class="machine-plan-tooltip" ng-show="tooltipDisplay">
+            <div class="tooltip-start-date"></div>
+            <div class="tooltip-event-duration"></div>
+            <div class="tooltip-event-type"></div>
+        </div>
+    </div>
+
+</div>

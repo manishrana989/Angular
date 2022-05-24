@@ -1,0 +1,28 @@
+<div class="row op-app panel-body">
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 tablet-left-side pull-left">
+        <select-machine-type screen-view="'department'" data="opAppPermissionsCtrl.permissionsData"
+            save="opAppPermissionsCtrl.save" type="'tablet'"
+            update-machine-params="opAppPermissionsCtrl.updateMachineData"
+            get-field-parameters-api="'GetControllerFieldsParameters'" field-parameters="'ControllerFieldsParams'">
+        </select-machine-type>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1"></div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-sx-12">
+
+        <div ng-if="loading">
+            <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+        </div>
+
+        <div ng-repeat="section in opAppPermissionsCtrl.data" style="margin-bottom: 35px;" ng-show="!loading">
+            <ul style="list-style: none">
+                <div class="customization-permissions-list-title">{{section.name | translate}}</div>
+                <li class="customization-permissions-list-li" ng-repeat="menuItem in section.menus">
+                    <span class="customization-permissions-list-element">{{menuItem.menuName | translate }}</span>
+                    <div class="checkBox" check-box-directive field-title="" type="'toggle'" field="menuItem"
+                        select-value="'value'" ng-custom-change="opAppPermissionsCtrl.menuChange">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

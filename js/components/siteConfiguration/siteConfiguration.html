@@ -1,0 +1,30 @@
+<div class="site-configuration-directive">
+    <div class="steps-tabs">
+        <div ng-repeat="step in steps">
+            <div class="step-tab" ng-click="assignCurrentStep(step.number)" ng-style="currentStep>=step.number && {'border-bottom':'3px solid var(--color2)'}">
+                <span ng-style="currentStep==step.number && {'background':'var(--color2)', 'color':'white'}">
+                    <img src="images/v.svg" ng-if="currentStep > step.number"/>
+                    <i style="font-style: normal" ng-if="currentStep <= step.number">{{step.number}}</i>
+                </span>
+                <span>
+                    {{step.name | translate}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-container">
+        <div class="fullHeight" ng-if="currentStep == 1" site-configuration-step-one>
+        </div>
+        <div class="fullHeight" ng-if="currentStep == 2" site-configuration-shift-calendar>
+        </div>
+        <div class="fullHeight" ng-if="currentStep == 3" site-configuration-factory-details>
+        </div>
+        <div class="fullHeight" ng-if="currentStep == 4" site-configuration-users>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,36 @@
+<div id="appObjectTemplate" class="{{rtl}}" ng-if="openPage">
+    <nav id="breadCrumbsRecipe" ng-if="modal === undefined || modal === null" class="navbar navbar-fixed-top white-bg fixed" role="navigation" style=" top:46px;padding-left:20px;right: 0; margin-bottom: 0;z-index: 1000;left: 0;">
+        <div class="navbar-header" style="padding-top: 15px;">
+            <bread-crumbs></bread-crumbs>
+        </div>
+        <ul class="nav navbar-top-links navbar-right" style="padding-top: 3px;">
+            <li>
+                <button class="btn btn-primary" ng-click="openNewObject()" ng-if="showAdd"><i class="fa fa-plus"></i></button>
+            </li>
+        </ul>
+    </nav>
+    <nav id="oldPageTitle" ng-if="modal === undefined || modal === null" class="navbar navbar-fixed-top white-bg fixed" role="navigation" style="border-bottom:0 !important;padding-left:20px;top:0px;right: 0;  margin-bottom: 0;z-index: 1000;left: 0">
+        <div class="navbar-header" style="padding-top: 12px;width: 90%">
+            <li tooltip-placement="bottom"  tooltip="{{topPageTitle.title.substring(0,topPageTitle.title.indexOf('#'))}}" style="width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: inherit">
+                <span style="font-size: 24px;">{{topPageTitle.title.substring(0,topPageTitle.title.indexOf('#'))}}</span>
+                <span style="font-size: 20px;" ng-show="objectId != 0" ng-bind-html="topPageTitle.title.substring(topPageTitle.title.indexOf('#'),topPageTitle.title.length) | getHtmlCode"></span>
+            </li>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right" style="padding-top: 3px;">
+            <li>
+                <button class="btn btn-primary" style="width:37px" ng-show="content.SubMenuObjectInformation || tabsObject.TopMenuObjectInformation" ng-click="openObjectDescription()" ng-if="tabsObject.TopMenuObjectInformation">
+                    <i class="fa fa-info"></i></button>
+            </li>
+        </ul>
+    </nav>
+    <div class="wrapper wrapper-content fadeIn row" ng-repeat="subPage in subPages" ng-if="newObject == false && subPage.pageDisplay === pageDisplay"  style="{{modal === undefined || modal === null ? 'margin-top: 80px;' : ''}}">
+        <div id="toastr" ng-if="!(subPage.pageDisplay === 1 && searchPage === true)"></div>
+        <div ng-include="subPage.template" class="col-lg-12" style="padding-left: 0; padding-right: 0;"></div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn row" ng-repeat="subPage in subPages" ng-if="newObject == true && subPage.pageDisplay === pageDisplay"  style="{{modal === undefined || modal === null ? 'margin-top: 95px;' : ''}}">
+        <!--<app-object-directive content="subMenu" ng-if="newObject == true" ></app-object-directive>-->
+        <div id="toastr" ng-if="!(subPage.pageDisplay === 1 && searchPage === true)"></div>
+        <div ng-include="subPage.template" class="col-lg-12"></div>
+    </div>
+</div>

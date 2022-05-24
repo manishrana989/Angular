@@ -1,0 +1,56 @@
+
+<react-app-object-generic 
+content="content"
+tabs="tabs"
+tabsControl="tabsControl"
+></react-app-object-generic> 
+
+
+<!-- old 2 <react-app-object-generic 
+tabs="tabs" 
+leader-id="leaderId"
+form-id="formId"
+skip-save-operation="SkipSaveOperation"
+request="request"
+actionname="actionName"
+api="api"
+actions-data="actionsData"
+general-tab="generalTab"
+full-size="fullSize"
+add="add"
+tab-clicked="tabClicked" 
+custom-content="customContent"
+editable-table-data="editableTableData"
+continous-multi-form="continousMultiForm"
+save="save"
+page-display="pageDisplay"
+search-results-request="searchResultsRequest"
+search-box-fields="searchBoxFields"
+request-in-progress="requestInProgress"
+search-multi-form="searchMultiForm"
+dataLoaded="dataLoaded"></react-app-object-generic>
+=======
+
+
+<div class="{{rtl}}">
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">          
+            <li ng-class="{active: $index===(pageDisplay - 1)}" 
+            ng-repeat="tab in tabs" >
+                <a ng-class="{disabled : !tab.enabled}" aria-expanded="true" ng-hide="showOnlyTab && showOnlyTab !== tab.SubMenuAppPartID" ng-click="tab.enabled && tabClicked($index + 1)">
+                {{localLanguage === true ? tab.SubMenuLName : tab.SubMenuEName}}</a></li>
+        </ul>
+        <div class="tab-content">
+            <div ng-if="pageDisplay === 0" class="tab-pane active" ng-include="'views/common/emptyPage.html'"></div>
+            <div ng-if="pageDisplay === ($index + 1)" ng-repeat="tab in tabs" class="tab-pane active" style="background-color: inherit;">
+                <license-module module-id="{{tab.SubMenuModuleID}}">            
+                    <div ng-include="tab.template" ></div>                   
+                </license-module>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="showActions === true && actionsData.actions.length > 0">
+    <app-object-config-directive content="actionsData"></app-object-config-directive>
+</div>

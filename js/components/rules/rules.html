@@ -1,0 +1,201 @@
+<div class="manager-app">
+    <div ng-if="rulesCtrl.showBreadCrumb == true" class="wrapper border-bottom white-bg page-heading col-lg-12"
+        ng-if="(modal === undefined || modal === null)" style="	
+        padding: 0 10px 7px 10px;	
+        position: fixed;	
+        top: 40px;	
+        width: 100%;	
+        z-index: 9999;	
+      ">
+        <div class="col-lg-10 floatRight">
+            <h2 style="margin-top: 7px; margin-bottom: 7px">{{topPageTitle}}</h2>
+            <bread-crumbs></bread-crumbs>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeIn row" style="margin-top:4.167vw">
+        <div id="toastr"></div>
+        <div class="ibox col-lg-12" style="background: white;">
+            <div class="ibox-title">
+                <h5 style="font-size: 0.729vw;" class="pull-left"> {{"RULES" | translate}} </h5>
+            </div>
+
+            <div class="ibox-content">
+                <div class="rules">
+                    <div>
+                        <span style="font-size:22px; font-style: italic; margin:0 1.667vw 1.667vw;">
+                            {{"CREATE_RULES" | translate}}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="createRules" style="margin:0 1.667vw 1.667vw;border-radius: 15px; width: 325px">
+                <span style="font-size: 25px;"><b>{{"EVERY_TIME_PERIOD" | translate}},
+                    </b>{{"CREATE_SMALL" | translate}} <b>{{"AN_ITEM" | translate}}</b></span>
+                <span>
+                    <img ng-click="clearData(); openNewRuleWindow();"
+                        style="display: block; margin-left: auto; margin-right: auto; cursor: pointer;"
+                        src="images/add.png" /></span>
+            </div>
+
+            <!-- karma rules with service calls -->
+            <div class="createRules" style="margin:0 1.667vw 1.667vw;border-radius: 15px; width: 325px">
+                <span style="font-size: 25px;">{{"WHEN" | translate}} <b>{{"AN_EVENT_SMALL" | translate}}</b> {{"OCCURS_SMALL" |translate}},
+                    {{"CREATE_SMALL" | translate}} <b>{{"AN_ITEM" | translate}}</b></span>
+                <span>
+                    <img ng-click="clearData(); editMode = false; openNewEventRuleWindow();"
+                        style="display: block; margin-left: auto; margin-right: auto; cursor: pointer;"
+                        src="images/add.png" /></span>
+            </div>
+
+            <hr>
+            <div style="margin: 47px 38px 50px 9px;">
+                <span
+                    style="font-size:22px; font-style: italic; margin:0 1.667vw 1.667vw;">{{"RULES_BOARD" | translate}}</span>
+
+                <div class="pull-right" style="display:flex;font-size: 16px;align-items: center">
+                    <div ng-click="updateRuleView('list')"
+                        style="cursor: pointer;width: 48px;height: 37px;display: flex;justify-content: space-around;"
+                        ng-style="view=='list' && {'background': 'var(--color2)'}">
+                        <img ng-if="view=='grid'" style="width: fit-content" src="images/list.svg" />
+                        <img ng-if="view=='list'" style="width: fit-content" src="images/list-white.svg" />
+                    </div>
+                    <div ng-click="updateRuleView('grid')"
+                        style="cursor: pointer;width: 48px;height: 37px;display: flex;justify-content: space-around;"
+                        ng-style="view=='grid' && {'background': 'var(--color2)'}">
+                        <img ng-if="view=='list'" style="width: fit-content" src="images/grid-black.svg" />
+                        <img ng-if="view=='grid'" style="width: fit-content" src="images/grid-white.svg" />
+
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="view=='list' && tests" style="margin: 0 38px;">
+                <div style="height: 50vh;margin:0 1.667vw 1.667vw">
+                    <div id="rulesGrid" ui-grid="gridOptions" dir="{{direction}}" ui-grid-selection ui-grid-exporter
+                        ui-grid-resize-columns ui-grid-move-columns ui-grid-save-state class="grid"></div>
+                </div>
+            </div>
+
+            <div ng-if="view=='grid'" style="margin: 0 38px;">
+
+                <div style="font-size: 16px;display: inline-grid;
+                width: 232px;
+                background-color: #f6f6f6;
+                text-align: center;
+                padding: 12px 0;
+                margin-right: 31px;
+                margin-bottom: 40px;
+                height: 173px;" ng-repeat="test in groups">
+
+                    <div dir="ltr">
+                        <label class="switch" style="margin-bottom: 0px;">
+                            <input ng-if="test[0].IsActive === true" type="checkbox" checked>
+                            <input ng-if="test[0].IsActive === false" type="checkbox">
+                            <span class="sliderRules round" ng-click="EditIsActive(test[0],test[0].IsActive)"></span>
+                        </label>
+
+                        <img src="images/baseline_more_vert_black_18dp.png" off-click-activator="deleteToggle" off-click="deleteToggle=false"
+                            style="position: relative; display: inline-block;left: 85px;cursor: pointer;z-index: 10;"
+                            ng-init="deleteToggle=false" ng-click="deleteToggle=!deleteToggle">
+                        <span ng-show="deleteToggle" class="deleteGroup">
+                            <img src="images/delete.png">
+                            <b style="font-size: 15px;"
+                                ng-click="messageToggle=!messageToggle">{{"DELETE" | translate}}</b>
+                        </span>
+
+                        <span ng-show="messageToggle" class="newRuleTask"
+                            style="width: auto; margin-top: 10%; padding-top:2%; height:fit-content;border-radius: 8px;">
+                            <div class="sa-icon sa-warning pulseWarning" style="margin-left: 39%;"></div>
+
+                            <div
+                                style="font-size: 30px;width: 369px;margin: 48px 68px 30px 68px;color: grey; font-weight: bold; word-break: break-word;">
+                                {{"ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_RULE" | translate}}</div>
+
+                            <div style="width: 228px; margin-bottom: 18px; margin-left: 128px;">
+                                <button class="yesButton" ng-click="deleteTrigger(test)">{{"YES" | translate}}</button>
+                                <button class="cancelBitton"
+                                    ng-click="messageToggle=false">{{"CANCEL" | translate}}</button>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div style="margin-bottom: 12px;
+                                   display: flow-root;justify-content: space-between;
+                                   border-bottom: 1px solid #cecece;
+                                   padding-bottom: 5px; text-align: center;">
+                        <div style="font-weight: bold;text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;"
+                            data-toggle="tooltip" ng-click="getSubTasks(test);">
+                            {{test[0].TriggerGroupName}}
+                        </div>
+
+                        <!-- <div type="'toggle'" check-box-directive field-title="" field="test" select-value="test.IsActive"
+                            ng-mouseup="EditIsActive(test[0],test.IsActive)" ng-click="$event.stopPropagation()">
+                        </div> -->
+
+                    </div>
+                    <div style="text-align: center; cursor: pointer;" ng-click="getSubTasks(test);">
+                        <!-- {{test[0]}} -->
+                        <div ng-if="!test[0].StopReasonID">
+                            <b> {{translateRuleText(test[0].TriggerRuleText)}}</b>
+                            <span ng-if="test[0].IntervalType == 'weekly'"><b>{{"AT" | translate}}</b>
+                                <span ng-if="test.length <= 2">
+                                    <span ng-repeat="day in test"> <b>{{shortDays(day.DayInWeek)}},</b>
+                                    </span>
+                                </span>
+                                <span ng-if="test.length > 2">
+                                    <spn class="rulestooltip">
+                                        <b>{{shortDays(test[0].DayInWeek)}},
+                                            {{shortDays(test[1].DayInWeek)}}...
+                                            <span class="rulestooltiptext" style="font-size: smaller;">
+                                                <span
+                                                    ng-repeat="day in test | orderBy: day">{{rulesCtrl.switchDayToText(day.DayInWeek)}}
+                                                </span></span>
+                                        </b>
+                                    </spn>
+                                </span> </span>
+                            <span ng-if="test[0].IntervalType == 'monthly'"><b>{{"AT" | translate}}</b>
+                                <span ng-if="test.length <= 2">
+                                    <span ng-repeat="day in test"> <b>{{day.DayInMonth}},</b>
+                                    </span>
+                                </span>
+                                <span ng-if="test.length > 2">
+                                    <spn class="rulestooltip">
+                                        <b>{{test[0].DayInMonth}},
+                                            {{test[1].DayInMonth}}...
+                                            <span class="rulestooltiptext" style="font-size: smaller;">
+                                                <span ng-repeat="day in test">{{day.DayInMonth}}, </span></span>
+                                        </b>
+                                    </spn>
+                                </span>
+                            </span>
+                            <b>{{"AT" | translate}}
+                                {{twoDigitsTime(test[0].IntervalHour)}}:{{twoDigitsTime(test[0].IntervalMinute)}}, </b>
+                            <span>{{"CREATE_SMALL" | translate}} </span>
+                            <b>{{switchItem(test[0].NotificationType)}}</b>
+                        </div>
+                        <div ng-if="test[0].StopReasonID && test[0].NotificationType === 2">
+                            <b>{{"WHEN" | translate}} {{test[0].EventName}} {{"OCCURS_SMALL" |translate}},
+                                {{"CREATE_SMALL" | translate}} {{"SERVICE_CALL" | translate}}</b>
+                        </div>
+                        <div ng-if="test[0].StopReasonID && test[0].NotificationType === 7 ">
+                            <b>{{"WHEN" | translate}} {{test[0].EventName}} {{"OCCURS_SMALL" |translate}},
+                                {{"CREATE_SMALL" | translate}} {{"NOTIFICATION" | translate}}</b>
+                        </div>
+                        <div ng-if="test[0].StopReasonID && test[0].TaskModuleTriggerID">
+                            <b>{{"WHEN" | translate}} {{test[0].EventName}} {{"OCCURS_SMALL" |translate}},
+                                {{"CREATE_SMALL" | translate}} {{"TASK" | translate}}</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

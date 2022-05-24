@@ -1,0 +1,30 @@
+<div class="modal-header" ng-class="{rtl : splitEventRetroCtrl.rtl}">
+        <button type="button" ng-click="close();" class="close pull-right" data-dismiss="modal"><span
+                aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title pull-left">{{"SPLIT_EVENT_RETROACTIVELY" | translate}}</h3>
+    </div>
+    <div class="modal-body" ng-class="{rtl : splitEventRetroCtrl.rtl}">
+        <div class="panel-body" style="background-color: #f6f6f6;max-height: 390px;width: 360px;">
+            <div class="labels-container">
+                <div>
+                    <label>{{"START_TIME" | translate}}: {{splitEventRetroCtrl.startTime}}</label>
+                    <label>{{"END_TIME"| translate}}: {{splitEventRetroCtrl.endTime}}</label>
+                    <div>
+                        <label>{{"SPLIT_TIME" | translate}}</label>
+                        <input 
+                            ng-model="splitEventRetroCtrl.splitTime"
+                            ng-blur="splitEventRetroCtrl.updateSplitTime($event)"
+                            min-date="eventData.startTime"
+                            max-date="eventData.endTime"
+                            type="datetime"
+                            class="form-control"
+                            date-time format="DD/MM/YYYY HH:mm:ss" 
+                            view="date" auto-close="true"/>
+                    </div>
+                </div>   
+            </div>
+            <div class="saveButton" ng-click="splitEventRetroCtrl.splitEventTime()">
+                    <span class="content"> {{"SAVE" | translate}}</span>
+            </div>
+        </div>
+    </div>

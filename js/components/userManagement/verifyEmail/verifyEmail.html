@@ -1,0 +1,47 @@
+<div class="verifyEmail">
+    <div class="loading" ng-show="verifyEmailCtrl.verified === undefined ">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-wave">
+                <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;margin-bottom: 2px;">
+            </div>
+        </div>
+    </div>
+    <div class="verifyContainer expired" ng-show="verifyEmailCtrl.verified !== undefined && verifyEmailCtrl.verified === false">
+        <div class="checkIcon">
+            <img src="images/expired.svg">
+        </div>
+        <div class="bigTitle">
+            {{"THE_LINK_YOU_FOLLOWED_HAS_EXPIRED" | translate}}
+        </div>
+        <div class="smallTitle">
+            {{"DONT_WORRY_THOUGH_ITS_EASY_TO_GET_NEW_ONE" | translate}}
+        </div>
+        <div class="openMatics">
+            <div ng-click="verifyEmailCtrl.close()" class="button">
+                <a class="text">{{"SIGN_UP_AGAIN" | translate}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="verifyContainer" ng-show="verifyEmailCtrl.verified">
+        <div class="checkIcon">
+            <img src="images/check.svg">
+        </div>
+        <div class="bigTitle">
+            {{"YOU_ARE_ALL_SET" | translate}}
+        </div>
+        <div class="smallTitle">
+            {{"THANKS_FOR_CONFIRMING_YOUR_EMAIL" | translate}}
+        </div>
+        <div class="openMatics">
+            <div ng-click="verifyEmailCtrl.close()" class="button">
+                <a class="text" href="matics://login">{{"OPEN_MATICS" | translate}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="underLoginButton">
+        <div style="margin-bottom: 20px;">
+            <img class="alignnone size-full wp-image-6026" ng-src="{{verifyEmailCtrl.logoUrl}}" style="display: block; margin-left: auto; margin-right: auto;" width="270" height="42">
+        </div>
+        <div style="display: flex;justify-content: center;">{{"MATICS_BY_EMERALD" | translate}} &copy; {{copyRight}}</div>
+    </div>
+</div>

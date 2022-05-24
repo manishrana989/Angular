@@ -1,0 +1,21 @@
+<div class="col-lg-3" tooltip="{{split.ToolTip}}">
+    <h9 ng-class="{'requiredFiled' : split.AllowNull == false}">{{localLanguage ? split.PropertyHName : split.PropertyEName}}</h9>
+    <i class="fa fa-calculator mainColor2"
+       ng-show="split.FValueCalcFunction.length"
+       style="margin-left: 5px;"
+       tooltip="{{'CALCULATED_ITEM' | translate}}"
+       tooltip-placement="right">
+    </i></div>
+<div class="col-lg-3">
+    <select id="{{split.PropertyName}}_{{channelSplit.SplitNumber}}_{{channel.ChannelNumber}}" ng-if="!split.AllowNull" class="form-control ng-pristine ng-valid" ng-model="split.FValue" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':localLanguage) for option in split.ComboValues"
+            ng-change="recipeChange(split.FValue.ComboValueField,split.LValue,split.HValue,split.ProductRecipeID)" required ng-disabled="showViewOnly === true || split.IsEditable == false || split.IsEnabled == false"
+            ng-init="split.MandatoryField && recipeChange(split.FValue.ComboValueField,split.LValue,split.HValue,split.ProductRecipeID)">
+            <option value="">{{"SELECT_OPTION" | translate}}</option>
+    </select>
+    <select id="{{split.PropertyName}}_{{channelSplit.SplitNumber}}_{{channel.ChannelNumber}}" ng-if="split.AllowNull" class="form-control ng-pristine ng-valid" ng-model="split.FValue" ng-options="option as (option | customTranslate: 'ComboQueryEField':'ComboQueryHField':localLanguage) for option in split.ComboValues"
+    ng-change="recipeChange(split.FValue.ComboValueField,split.LValue,split.HValue,split.ProductRecipeID)" ng-disabled="showViewOnly === true || split.IsEditable == false || split.IsEnabled == false"
+    ng-init="split.MandatoryField && recipeChange(split.FValue.ComboValueField,split.LValue,split.HValue,split.ProductRecipeID)">
+</select>
+</div>
+<div class="col-lg-3"></div>
+<div class="col-lg-3"></div>

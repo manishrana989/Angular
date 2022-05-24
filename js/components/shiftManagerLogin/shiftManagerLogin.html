@@ -1,0 +1,16 @@
+<div class="modal-header" ng-class="{rtl : shiftManagerLoginCtrl.rtl}">
+    <button type="button" ng-click="close();" class="close pull-right" data-dismiss="modal"><span
+            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title pull-left">{{"SHIFT_MANAGER_LOGIN" | translate}}</h3>
+</div>
+<div class="modal-body" ng-class="{rtl : shiftManagerLoginCtrl.rtl}">
+    <div class="panel-body" style="background-color: #f6f6f6;max-height: 390px;width: 360px;">
+        <div class="labels-container">
+            <label>{{"WORKER_ID" | translate}}</label>
+            <input class="form-control" type="text" style="width: 100%" ng-model="shiftManagerLoginCtrl.workerId">
+        </div>
+        <div class="saveButton" ng-click="shiftManagerLoginCtrl.updateShiftManager()">
+                <span class="content"> {{"SAVE" | translate}}</span>
+        </div>
+    </div>
+</div>

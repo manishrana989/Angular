@@ -1,0 +1,35 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="row">
+        <div class="col-lg-12" style="display: table">
+            <div class="" >
+                <div style="border: 2px dashed rgba(0, 0, 0, 0.3);font-size: 16px;" ng-disabled="!content.allowFileUpload"
+                     ngf-drop="" ngf-select="" ng-model="file" ngf-drag-over-class="dragOverClassObj"
+                     ngf-change="fileChanged(file)" ng-required="true"
+                     class="dropzone dz-clickable ng-pristine ng-valid">
+
+                    <div class="dz-default dz-message">
+                        <span>
+                            <strong>{{"DROP_SELECT_FILE" | translate}}</strong>
+                             <strong ng-if="!content.allowFileUpload">({{ 'DISABLED' | translate}})</strong>
+                            <br>
+                            <small ng-if="file">{{"FILE_NAME" | translate}}: {{file.name}}</small>
+                        </span>
+                    </div>
+                    
+                </div>
+            </div>
+            <button style="margin-top: 15px" class="btn btn-primary pull-right" ng-click="upload()" ng-if="file">{{"UPLOAD_FILE" | translate}}</button>
+        </div>
+        <div ng-if="file">
+            <h3>{{"PREVIEW" | translate}}</h3>
+            <img ng-if="file.type.indexOf('image') >= 0" style="height:100%;width: 100%" ngf-src="file">
+            <div ng-if="file.type.indexOf('pdf') >= 0">
+                <div class="text-center">
+                    <div class="wrapper">
+                        <ng-pdf template-url="views/common/pdf_viewer.html" canvasid="pdf" scale="page-fit"></ng-pdf>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="distribution-bar-container" >
+    <div class="distribution-bar-title" ng-class="{'distribution-bar-title-rotate': !compare && scale && group}" ng-attr-title="{{titleText}}">{{titleText}}</div>
+    <div class="distribution-bar-graph">
+        <svg ng-if="data.cur.value" class="svg-bar-stop-events" ng-style="{height: height}" ng-class="{'scale-group-width': scale && group,'compare': compare}" ng-if="!rotate">
+            <g  height="100%" class="distribution-current-bar"  ng-style="{transform: (scale && group) ? (compare ? 'translate('+(-65)+'px, 0px)' : 'translate('+(-95)+'px, 0px)') : ''}">
+                <g height="100%" ng-repeat="event in data.cur.value" class="stop-event-chunk" >
+                    <rect  ng-if="division" width="30" ng-style="{'min-height': '20px'}" fill="{{event.color}}"
+                         ng-attr-height="{{event.height + '%'}}"
+                         ng-attr-y="{{(100-(event.y+1)) + '%'}}"
+                         ng-attr-x="{{compare ? 80 : 105}}"
+                         ng-mouseover="mouseoverHandler(event)" ng-mousemove="mousemoveHandler($event, event)" ng-mouseleave="mouseleaveHandler()"></rect>
+                    <rect ng-if="!division && $last" width="30" ng-style="{'min-height': '20px'}" fill="{{event.color}}"
+                          ng-attr-height="{{((event.y)) + '%'}}"
+                          ng-attr-y="{{(100-(event.y+1)) + '%'}}"
+                          ng-attr-x="{{compare ? 80 : 105}}"></rect>
+                    <text ng-if="event.height > 5 && !scale && division" ng-click="openMachine(event.MachineID)" class="bar-text" ng-attr-x="{{(compare ? 0 : 15)}}" ng-attr-y="{{(100-(event.y+1))+4 + '%'}}">
+                        <tspan fill="{{event.color}}" style="font-weight: 600;font-size: 14px;">{{timeV ? (event.value | minutesToHM) : event.value}}</tspan>
+                        {{event.key | svgTextWrap:6}}
+                        <title>{{event.key}}</title>
+                    </text>
+                    <line ng-if="event.height > 5 && !scale && division" ng-attr-x1="{{(compare ? 0 : 15)}}" ng-attr-x2="{{compare ? 80 : 105}}" ng-attr-y1="{{(100-(event.y+1))+5 + '%'}}" ng-attr-y2="{{(100-(event.y+1))+5 + '%'}}" style="stroke:#cecece;stroke-width:1" />
+                    <rect ng-if="division" width="30" height="1%" ng-attr-x="{{compare ? 80 : 105}}" ng-attr-y="{{(100-(event.y + 1.1))+'%'}}" fill="white"></rect>
+                    <text ng-if="$last" ng-attr-x="{{compare ? 95 : 120}}" class="total-bar" ng-attr-y="{{(100-((event.y || 0) +1))-1 + '%'}}" >{{timeV ? (data.cur.total | minutesToHM) : data.cur.total}}</text><!--short-->
+                    <text ng-if="$first" ng-attr-x="{{compare ? 95 : 120}}" y="100%" class="total-bar noComm" ng-attr-y="100%" >{{timeV ? ((data.cur.noCommD || -1) | minutesToHM) : (data.cur.noCommC || "")}}</text>
+                </g>
+            </g>
+            <g height="100%" class="distribution-current-bar" ng-if="compare" ng-style="{transform: (scale && group) ? 'translate('+(-65)+'px, 0px)' : ''}">
+                <g height="100%" ng-repeat="event in data.ref.value" class="stop-event-chunk">
+                    <rect ng-if="division" width="30"
+                    ng-attr-height="{{event.height + '%'}}"
+                    ng-attr-y="{{ (100-((event.y || 0) +1)) + '%'}}"
+                    fill="{{darkerColor(event.color)}}" x="135" ng-mouseover="mouseoverHandler(event)" ng-mousemove="mousemoveHandler($event, event)" ng-mouseleave="mouseleaveHandler()"></rect>
+                    <rect ng-if="!division && $last" width="30" ng-style="{'min-height': '20px'}" fill="{{event.color}}"
+                          ng-attr-height="{{(event.y || 0)  + '%'}}"
+                          ng-attr-y="{{(100-((event.y || 0) +1)) + '%'}}"
+                          x="135"></rect>
+                    <text ng-if="event.height > 5 && !scale && division" ng-click="openMachine(event.MachineID)" class="bar-text" x="170" ng-attr-y="{{(100-((event.y || 0)+1))+4 + '%'}}">
+                        <tspan fill="{{darkerColor(event.color)}}"  style="font-weight: 600;font-size: 14px;" ng-attr-title="{{event.key}}">{{timeV ? (event.value | minutesToHM) : event.value}}</tspan> {{event.key | svgTextWrap:6}}</text>
+                    <line ng-if="event.height > 5 && !scale && division" x1="165" x2="245" ng-attr-y1="{{(100-((event.y || 0)+1))+5 + '%'}}" ng-attr-y2="{{(100-((event.y || 0)+1))+5 + '%'}}" style="stroke:#cecece;stroke-width:1" />
+                    <rect width="30" ng-if="division" height="1%" x="135" ng-attr-y="{{(100-((event.y || 0) + 1.1))+'%'}}" fill="white"></rect>
+                    <text ng-if="$last" x="150"  ng-attr-y="{{(100-((event.y || 0) +1))-1 + '%'}}" class="total-bar">{{timeV ? (data.ref.total | minutesToHM) : data.ref.total}}</text><!--long-->
+                    <text ng-if="$first" x="150" y="100%" class="total-bar noComm" ng-attr-y="100%" >{{timeV ? ((data.ref.noCommD || -1) | minutesToHM) : (data.ref.noCommC || "")}}</text>
+                </g>
+            </g>
+        </svg>
+    </div>
+</div>

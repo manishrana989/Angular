@@ -1,0 +1,89 @@
+<div>
+    <div class="big-title">
+        {{"SELECT_MACHINE_TYPE" | translate}}
+    </div>
+    
+    <div ng-if="screenView == 'machineType'">
+        <select class="form-control ng-pristine ng-valid ng-touched" ng-options="option as option.Name for option in selectMachineTypeCtrl.data.machineTypes" ng-model="selectMachineTypeCtrl.data.selectedMachineType">
+            <option value="">{{"MACHINE_TYPE" | translate}}</option>
+        </select>
+    </div>
+    <div ng-if="screenView == 'machineType'">
+        <select class="form-control ng-pristine ng-valid ng-touched" 
+            ng-options="option as option.MachineName for option in selectMachineTypeCtrl.data.selectedMachineType.Machines" 
+            ng-model="selectMachineTypeCtrl.data.selectedMachine"
+            ng-change="selectMachineTypeCtrl.getMachineParams()">
+            <option value="">{{"MACHINE" | translate}}</option>
+        </select>
+    </div>
+    <div ng-if="screenView == 'department'">
+        <select class="form-control ng-pristine ng-valid ng-touched" ng-options="option as  (option.Key | customTranslate: 'EName':'LName':selectMachineTypeCtrl.localLanguage) for option in selectMachineTypeCtrl.data.departments" ng-model="selectMachineTypeCtrl.data.selectedDepartment">
+            <option value="">{{"DEPARTMENT" | translate}}</option>
+        </select>
+    </div>
+    <div ng-if="screenView == 'department'">
+        <select class="form-control ng-pristine ng-valid ng-touched" 
+            ng-options="option as option.MachineName for option in selectMachineTypeCtrl.data.selectedDepartment.Value" 
+            ng-model="selectMachineTypeCtrl.data.selectedMachine"
+            ng-change="selectMachineTypeCtrl.getMachineParams()">
+            <option value="">{{"MACHINE" | translate}}</option>
+        </select>
+    </div>
+    <hr class="separtor" style="border-color:#aaa" ng-if="(selectMachineTypeCtrl.data.selectedDepartment || selectMachineTypeCtrl.data.selectedMachineType )  
+    && selectMachineTypeCtrl.data.selectedMachine">
+    <div ng-if="(selectMachineTypeCtrl.data.selectedDepartment || selectMachineTypeCtrl.data.selectedMachineType )  && selectMachineTypeCtrl.data.selectedMachine && !hideApplyAll">
+        
+        <div class="big-title">
+            {{"APPLY_TO" | translate}}:
+        </div>
+
+        <div class="labels-container">
+            <label class="container-radio">{{"SELECT_ALL_MACHINES_OF_THE_SAME_TYPE" | translate}}
+                <input type="radio" ng-model="selectMachineTypeCtrl.data.applyTo" value="allMachines">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container-radio" ng-if="screenView == 'department'">{{"SELECTED_MACHINES" | translate}}
+                <input type="radio" ng-model="selectMachineTypeCtrl.data.applyTo" value="selectMachines">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container-radio" ng-if="screenView !== 'department'">{{"SELECTED_MACHINES" | translate}}
+                <input type="radio" ng-model="selectMachineTypeCtrl.data.applyTo" value="selectMachines">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+
+        <div class="machines scroll" ng-if="screenView !== 'department' && selectMachineTypeCtrl.data.applyTo == 'selectMachines'">
+            <div ng-repeat="machine in (selectMachineTypeCtrl.data.selectedMachineType.Machines || selectMachineTypeCtrl.data.selectedDepartment.Value)" 
+                check-box-directive field-title="machine.MachineName" field="machine" select-value="'selected'"></div>  
+        </div>
+
+        <div class="machines newScroll slim" ng-if="screenView == 'department' && selectMachineTypeCtrl.data.applyTo == 'selectMachines'">
+            <div ng-repeat="department in selectMachineTypeCtrl.data.departments">
+                <div class="checkBox" style="width: calc(100% - 20px);display: inline-block;"
+                    check-box-directive
+                    field-title="department.Key | customTranslate: 'EName':'LName':selectMachineTypeCtrl.localLanguage"
+                    field="department" select-value="'selected'" ng-custom-change="selectMachineTypeCtrl.toggleDepartment">
+                </div>
+                <div style="display: inline-block;padding-right: 8px;" class="pull-right" ng-click="department.expanded=!department.expanded">
+                    <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                    <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                </div>
+                <div style="margin: 0px 20px;" class="childFilter" ng-repeat="machine in department.Value" ng-if="department.expanded">
+                    <div class="checkBox" check-box-directive
+                        field-title="machine.MachineName"
+                        field="machine" select-value="'selected'">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="saveButton" ng-click="selectMachineTypeCtrl.save()">
+                <span class="content"> {{"SAVE" | translate}}</span>
+        </div>
+
+        <strong ng-show="type == 'mobile'">
+            {{"MOBILE_CUSTOMIZATION_EXPLAIN_*" | translate}}
+        </strong>
+    </div>
+</div>
+

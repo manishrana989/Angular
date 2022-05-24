@@ -1,0 +1,618 @@
+<div ng-show="machineBox.InjectionsPCForNextMaintenanceWarning == true" class="process_percent_title">
+  <i class="fa fa-lg fa-exclamation-triangle process-triangle"></i>
+  <div class="process-title">{{"PROCCESS_PERCRNT_MESSAGE"| translate:{percent : machineBox.InjectionsPCForNextMaintenance} }}</div>
+</div>
+
+<div style="height: 700px; margin: 20px 10px">
+  <div ng-if="machinesExpandedData" id="MExpandedBox_{{machineBox.MachineID}}" ng-init="machineExpandedCtrl.showPencils=false" class="machine-expanded-container show-as-inline" style="position: relative; height: 573px" ng-style="{'height': (machinesExpandedData.params.length <= 3 ? '573px' : '663px')}">
+    <div
+      class="start-connector"
+      ng-style="!rtl?
+            { left: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 2 + ')',
+            top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 1 + ')'}:
+            { right: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 2 + ')',
+            top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 1 + ')'}"
+    ></div>
+    <div
+      class="end-connector"
+      ng-style="!rtl?{
+            right: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 2 + ')',
+            top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 1 + ')',
+            }:{
+            left: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 2 + ')',
+            top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + 1 + ')',
+            }"
+    ></div>
+    <!-- <span style="display: none"> {{machineExpandedCtrl.jobConfigToShow = (jobConfiguration.data | getFieldByName:'JobID':machineExpandedCtrl.chosenConfig)}} </span> -->
+
+    <!--header-->
+
+    <div style="top: -33px;
+    position: absolute;
+    display: flex;
+    height: 32px;">
+      <div ng-click="machineExpandedCtrl.showApplyModel = !machineExpandedCtrl.showApplyModel;"  ng-show="machineExpandedCtrl.showPencils && !machineExpandedCtrl.showCalendar&& selectTemplateGroupID.expandedStructure != -1" class="apply-all-button">{{"APPLY_TO" | translate}}</div>
+
+    <apply-to-model-directive ng-if="machineExpandedCtrl.showApplyModel" off-click-activator="machineExpandedCtrl.showApplyModel" off-click="machineExpandedCtrl.showApplyModel = false"  style="position:absolute;z-index: 1001;" machine-structure-data="machinesExpandedData" users-data="usersData" machine="machineBox" all-machines="allMachines" structure-type="structureType" update-structures="updateStructures" type="type"></apply-to-model-directive>
+    </div>
+    <div class="machine-title status-{{machineBox.MachineStatusID}}" ng-class="{'pencilActive' : machineExpandedCtrl.showPencils}">
+      <div ng-click="machineExpandedCtrl.openMachine(machineBox.MachineID)" style="display: flex;max-width: 80%;overflow: hidden">
+        <div class="img-container show-as-inline pull-left" ng-style='rtl ? {"margin-right" : "10px"} : {"margin-left":"10px"}'>
+          <div class="colorBullet colorBulletOnline" style="left: 37px" ng-show="machineBox.JobColoredShadow" ng-style="true && {'background-color': machineBox.JobColor}" title="{{machineBox.jobToolTip}}"></div>
+          <img ng-if="machineBox.icon != 'stopped.png'" ng-src="images/onlineIcons/{{machineBox.icon == 'setup_stopped.png' ? 'setup_working.png' : (machineBox.icon == 'no_job.png' ? 'no-job@2x.png' : machineBox.icon)}}" style="height: 15px" alt="" />
+        </div>
+
+        <div>
+          <div class="machine-name ellipsisText-expanded">
+            <a title="{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}"> {{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}} </a>
+          </div>
+  
+          <div class="worker-name" ng-style="{'margin': (machineBox.StatusTimeMin > 60 ? '0' : '0')}">{{machineBox.StatusTimeMin | minutesToHHMM}}</div>
+        </div>
+      </div>
+
+      <div class="pull-left workername" ng-show="machineBox.WorkerName && machineBox.WorkerName != ''">
+        <div class="show-as-inline pull-left" style="color: white">
+          <div class="wokerOverflow" title="{{'WORKER_NAME' | translate}}">{{"WORKER_NAME" | translate}}</div>
+          <div class="wokerOverflow" title="{{machineBox.WorkerName}}">{{machineBox.WorkerName}}</div>
+        </div>
+      </div>
+      <div ng-init="showJobsList=false" class="showJobsListClass" style="margin-top: 6px">
+        <div class="show-as-inline more-options pull-right" style="width: unset; align-items: center">
+          <img style="margin: 0 5px" src="images/treeGraph/jobs-icon.svg" ng-click="machineExpandedCtrl.showJobsList = !machineExpandedCtrl.showJobsList" ng-if="machineBox.PConfigID !== 0" />
+
+          <img class="calendar_icon_big_cube" ng-click="machineExpandedCtrl.displayCalendar()" style="margin: 0 5px" ng-src="{{machineExpandedCtrl.showCalendar ? 'images/calendar-blue-new.svg' : 'images/calendar-grey-new.svg'}}" />
+          <img
+            class="pencil_icon_big_cube"
+            ng-show="showPencils && machineBox.ProductionModeID == 1 && !machineExpandedCtrl.showCalendar && selectTemplateGroupID.expandedStructure != -1"
+            style="cursor: pointer; margin: 0 5px"
+            ng-style="(machineBox.ProductionModeID != 1) && {'cursor':'not-allowed'}"
+            ng-click="canClick(machineBox);$event.stopPropagation();"
+            ng-src="{{!machineExpandedCtrl.showPencils && 'images/edit-gray-new-background.svg' || 'images/edit-blue-new-background.svg'}}"
+            title="{{'EDIT' | translate}}"
+          />
+          <div ng-click="showMore = !showMore;(showMore && gaE('Department_Online','actions_menu'))" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="images/more_white.png" width="4" height="16" style="margin: 0 5px" />
+            <div class="dropdown-menu settings dropdown-menu-settings expanded-showmore" ng-if=" machineExpandedCtrl.actionsData">
+              <app-object-config-directive content="machineExpandedCtrl.actionsData" type="'expanded'" template="'views/custom/productionFloor/onlineTab/expandedMachinesActions.html'"> </app-object-config-directive>
+            </div>
+          </div>
+   
+          <div class="job-Configuration" ng-if="machineExpandedCtrl.showJobsList" off-click-activator="machineExpandedCtrl.showJobsList" off-click="machineExpandedCtrl.showJobsList = false;">
+            <div class="product" ng-repeat="productConfig in jobConfiguration.data">{{localLanguage ? productConfig.ProductName : productConfig.ProductEName}} {{productConfig.CatalogID}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- header end -->
+    <!--body section-->
+    <div ng-if="machineExpandedCtrl.view == 'callOfService'" style="border-bottom: 1px solid #cecece; height: calc(100% - 137px)">
+      <call-of-service-cube style="display: inline-block; width: 100%; height: 100%" update-technician-status="updateTechnicianStatus" update-data="updateCubeData" params="machinesExpandedData.params" machine="machineBox" close="machineExpandedCtrl.closeCallOfService"> </call-of-service-cube>
+    </div>
+    <div ng-if="machineExpandedCtrl.view == 'calendar'" class="calendar-full-screen-expanded-machine" style="height: calc(100% - 46px)">
+      <div>
+        <div class="pull-left expandButton clickable" ng-click="machineExpandedCtrl.expandCalendar()" style="min-height: 1.927vw"></div>
+        <div class="pull-right closeButton clickable" ng-click="machineExpandedCtrl.displayCalendar()" style="min-height: 1.927vw"></div>
+      </div>
+      <calendar-directive view="'departmentMachine'" calendar-id="machineBox.MachineCalendarID" department-id="machineBox.DepartmentID" machine-id="machineBox.MachineID" height="machineExpandedCtrl.getMachineHeight"></calendar-directive>
+    </div>
+
+    <div ng-show="machineExpandedCtrl.view == 'regular'">
+      <div class="expanded-machines-reach" ng-if="machineBox.ProductionModeID == 1 && (machineBox.UnitsProducedOK >= machineBox.UnitsTarget)">{{"YOU_HAVE_REACHED_THE_RRODUCTION_TARGET" | translate}}</div>
+
+      <!--first section-->
+      <div class="machine-title-2">
+        <div class="col-lg-7 col-md-7 col-sm-7 pull-left" style="width: 85%; padding-right: 0">
+          <div class="machine-description ellipsisText-expanded" ng-if="machineBox.ProductionModeID == 1 && machineBox.MachineClassification !== 3 && machineBox.MachineClassification !== 4">
+            <strong style="display: inline-block; font-size: 15px">{{machinesExpandedData.staticField4.translate | translate}}</strong>
+            <!-- pen edit-->
+            <div class="edit-icon-expand-values" title="{{'EDIT' | translate}}">
+              <img ng-click="machineExpandedCtrl.openEditMode4 = true" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" />
+            </div>
+            :
+            <!-- end pen-->
+            <!-- model pen-->
+            <div class="btn-group" style="width: 100%; right: 0; position: absolute; display: block; z-index: 5000; top: 0" ng-if="machineExpandedCtrl.openEditMode4" style="position: absolute; margin-top: 50px">
+              <ul ng-init="machineExpandedCtrl.applyAll = false" class="newScroll slim dropdown-menu" style="width: fit-content; top: 10px; display: block; max-height: 149px; overflow-y: auto" off-click-activator="machineExpandedCtrl.openEditMode4" off-click="machineExpandedCtrl.openEditMode4 = false">
+                <li ng-repeat="param in machineExpandedCtrl.productMenuList" >
+                  <a ng-click="editModeCallback(param, machineExpandedCtrl.applyAll, 'staticField4')">{{param.translate | translate }} </a>
+                </li>
+              </ul>
+            </div>
+            <!-- end model pen-->
+            <a ng-if="machinesExpandedData.staticField4.type == 2" title="{{machineBox[machinesExpandedData.staticField4.FieldName]}}" ui-sref="appObjectFullView({appObjectName: 'Product',ID: machineBox.ProductID})" target="Product">
+              <span> {{machineBox[machinesExpandedData.staticField4.FieldName]}} </span>
+            </a>
+            <a ng-if="!machineExpandedCtrl.jobConfigToShow && machinesExpandedData.staticField4.type == 1" style="text-overflow: ellipsis;overflow: hidden; white-space: nowrap;" title="{{localLanguage ? machineBox.ProductLName: machineBox.ProductEName}}" ui-sref="appObjectFullView({appObjectName: 'Product',ID: machineBox.ProductID})" target="Product">
+                <span>{{localLanguage ? machineBox[machinesExpandedData.staticField4.FieldLName]: machineBox[machinesExpandedData.staticField4.FieldEName]}} </span>
+              <span ng-if="machineExpandedCtrl.jobConfigToShow"> {{localLanguage ? machineExpandedCtrl.jobConfigToShow.ProductName : machineExpandedCtrl.jobConfigToShow.ProductEName}} </span>
+            </a>
+            <a ng-if="machineExpandedCtrl.jobConfigToShow" title="{{localLanguage ? machineExpandedCtrl.jobConfigToShow.ProductName : machineExpandedCtrl.jobConfigToShow.ProductEName}}" ui-sref="appObjectFullView({appObjectName: 'Product',ID: machineExpandedCtrl.jobConfigToShow.ProductID})" target="Product">
+              <span> {{localLanguage ? machineExpandedCtrl.jobConfigToShow.ProductName : machineExpandedCtrl.jobConfigToShow.ProductEName}} </span>
+            </a>
+          </div>
+
+          <div class="machine-description ellipsisText-expanded" ng-if="machineBox.ProductionModeID == 1 && machineBox.MachineClassification !== 3 && machineBox.MachineClassification !== 4">
+            <strong style="min-width: 60px; display: inline-block; font-size: 15px">{{"JOB" | translate}}</strong>:
+            <a ng-if="!machineExpandedCtrl.jobConfigToShow" title="{{machineBox.JobID}} ( {{machineBox.ErpJobID || '-'}} )" ui-sref="appObjectFullView({ID: machineBox.JobID,appObjectName : 'Job'})" target="Job">{{machineBox.JobID}} ( {{machineBox.ErpJobID || '-'}} ) </a>
+            <a ng-if="machineExpandedCtrl.jobConfigToShow" title="{{machineExpandedCtrl.jobConfigToShow.JobID}} ( {{machineExpandedCtrl.jobConfigToShow.ERPJobID || '-'}} )" ui-sref="appObjectFullView({ID: machineExpandedCtrl.jobConfigToShow.JobID,appObjectName : 'Job'})" target="Job"
+              >{{machineExpandedCtrl.jobConfigToShow.JobID}} ( {{machineExpandedCtrl.jobConfigToShow.ERPJobID || '-'}} )
+            </a>
+          </div>
+
+          
+          <div class="machine-description ellipsisText-expanded"
+            ng-if="!machineExpandedCtrl.jobConfigToShow && (machineBox.OpenEventLName || machineBox.OpenEventEName) && machineBox.ProductionModeID == 1">
+            <strong
+              style="min-width: 60px; display: inline-block; font-size: 15px">{{"EVENT_TYPE" | translate}}</strong>:
+              <span style="cursor: pointer;" ng-click="openStopEventReport(machineBox.MachineID)">{{localLanguage === true ? machineBox.OpenEventLName : machineBox.OpenEventEName}}</span>
+              <img src="images/openList.png" style="width:20px; cursor: pointer;" ng-click="openStopEventReport(machineBox.MachineID)">
+          </div>
+
+
+          <div class="machine-description ellipsisText-expanded" ng-if="machineExpandedCtrl.jobConfigToShow && (machineExpandedCtrl.jobConfigToShow.OpenEventLName || machineExpandedCtrl.jobConfigToShow.OpenEventEName) && machineBox.ProductionModeID == 1">
+            <strong style="min-width: 60px; display: inline-block; font-size: 15px">{{"EVENT_TYPE" | translate}}</strong>: {{localLanguage === true ? machineExpandedCtrl.jobConfigToShow.OpenEventLName : machineExpandedCtrl.jobConfigToShow.OpenEventEName}}
+          </div>
+          <div class="machine-description ellipsisText-expanded" ng-if="(machineBox.ProductionModeLName || machineBox.ProductionModeEName) && machineBox.ProductionModeID !== 1">
+            <strong title="{{localLanguage === true ? machineBox.ProductionModeLName : machineBox.ProductionModeEName}}" style=" display: inline-block; font-size: 15px"> {{"PRODUCTION_STATUS" | translate}}</strong>: {{localLanguage === true ? machineBox.ProductionModeLName : machineBox.ProductionModeEName}}
+          </div>
+        </div>
+        <div style="position: absolute;z-index: 2;width: 30px;height: 30px;"
+            ng-style="{
+              right: rtl ? 'unset' : '20px',
+              left: rtl ? '20px' : 'unset',
+              top: '52px',
+            }">
+            <img title="{{'PRODUCTION_LINES' | translate}}" style="width: 30px;height: 30px;cursor: auto;" 
+              ng-if="machineBox.MachineClassification === 2" src="images/Line.svg" />
+            <img title="{{'PERIPHERAL_SYSTEMS' | translate}}" style="width: 30px;height: 30px;cursor: auto;" 
+              ng-if="machineBox.MachineClassification === 3" src="images/Peripheral systems.svg" />
+            <img title="{{'SENSOR' | translate}}" style="width: 30px;height: 30px;cursor: auto;" 
+              ng-if="machineBox.MachineClassification === 4" src="images/Sensor.svg" />
+            <img title="{{'MANUAL_WORK_STATIONS' | translate}}" style="width: 30px;height: 30px;cursor: auto;" 
+              ng-if="machineBox.MachineClassification === 5" src="images/Manual work stations.svg" />
+          </div>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" 
+        style="padding: 0; text-align: center; display: flex; flex-direction: row; width: 15%; justify-content: flex-end;
+          position: absolute;"
+           ng-style="{
+            right: rtl ? 'unset' : '8px',
+            left: rtl ? '8px' : 'unset',
+            top: '90px',
+          }">
+          <!-- <div style="width:calc(100% - 40px);displaY:flex;flex-direction: column">
+                    </div> -->
+
+          <div style="width: 55px; font-family: ProximaNova; font-size: 10px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; text-align: center; color: var(--color2)">
+            <div ng-click="machineExpandedCtrl.view = 'callOfService';gaE('Department_Online','Machine_cube_technician_shistory')">
+              <img class="techIcon clickable" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false" style="height: 28px; margin: 0 1px" ng-src="{{technicianStatus.technicianIcon}}" />
+              <div ng-show="technicianStatus.totalOpenCalls" class="numberCircle clickable pull-right" ng-class="{'hover': hovering}" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false">{{technicianStatus.totalOpenCalls}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end first section-->
+      <!--start second section-->
+      <div class="expanded-machines-events" style="margin-left:0; margin-right:0; padding-right:0;  width: 100%;height: 10px;display: flex;z-index:1000">
+        <div ng-repeat="event in machineBox.events" 
+            ng-style="{ opacity : 1,
+                background: event.Color,
+                width: (event.Duration / machineBox.shiftTotalDuration) * 100 + '%', 
+                cursor: 'pointer'} "
+            ng-click="openEvent(event.ID,event.Color,event.EventDistributionID)"
+            ng-mouseover="tooltipIn($event,event)"
+            ng-mousemove="tooltipMove($event)"
+            ng-mouseleave="tooltipLeave()"
+            ></div>
+            
+        </div>
+        <div  style="margin-left:0; margin-right:0; padding-right:0; position: absolute;" class="tooltip-container" ng-init="initTooltip()">
+                    <div class="machine-expanded-tooltip" ng-show="tooltipDisplay">
+                        <div class="tooltip-start-date"></div>
+                        <div class="tooltip-event-duration"></div>
+                        <div class="tooltip-event-type"></div>
+                    </div>
+        </div>
+      
+
+        
+      <div class="bar-graph" style="height: 268px;" ng-if="machineBox.ProductionModeID == 1 || machineBox.ProductionModeWarning !== 'True'" ng-style="(machineBox.ProductionModeID != 1 && {'opacity':'0.2'})">    
+        <div class="row-static-param" ng-style="getStaticField1Style()">
+          <span style="display: none">{{machineExpandedCtrl.chosenParam1 = (machineExpandedCtrl.paramsWithLimits | getFieldByName:'FieldName':machinesExpandedData.staticField1.FieldName)}}</span>
+          <div class="show-as-inline barsTitle">
+            <div style="font-size: 14px; font-weight: 600">
+              <div title="{{localLanguage ?  machineExpandedCtrl.chosenParam1.FieldLName : machineExpandedCtrl.chosenParam1.FieldEName}} " style="position: relative; display: flex; justify-content: flex-start" ng-style="!machineExpandedCtrl.chosenParam1.StandardValue && {'top':'15px'}">
+                <div class="text-field-expand-values" ng-style="!machineExpandedCtrl.chosenParam1.StandardValue && {'white-space':'unset',overflow:'unset'}">{{localLanguage ? machineExpandedCtrl.chosenParam1.FieldLName : machineExpandedCtrl.chosenParam1.FieldEName}}</div>
+                <div class="edit-icon-expand-values" title="{{'EDIT' | translate}}">
+                  <img ng-click="machineExpandedCtrl.openEditMode1 = true" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" />
+                </div>
+                <div ng-if="machineExpandedCtrl.chosenParam1.StandardValue" style="position: absolute; top: 15px; height: 20px; font-size: 11px; margin-top: 6px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+                  <img style="width: 8px; cursor: none; position: relative; bottom: 1px" src="images/close.png" /><span style="margin: 0 5px">{{"STANDARD" | translate}}: {{machineExpandedCtrl.chosenParam1.StandardValue}}</span>
+                </div>
+                <div
+                  ng-if="machineExpandedCtrl.chosenParam1 && machineExpandedCtrl.chosenParam1.CurrentValue !== undefined
+                            && machineExpandedCtrl.chosenParam1.LowLimit !== undefined 
+                            && machineExpandedCtrl.chosenParam1.HighLimit !== undefined && machineExpandedCtrl.showAverage(1)"
+                  style="position: absolute; top: 8px; height: 20px; font-size: 11px"
+                >
+                  <div class="rectangle-value-avg-title standard">
+                    <span style="margin: 0 5px">
+                      <span class="text"> {{"AVG" | translate}}: <span>{{machineBox.CycleTimeAvg.toFixed(1) + " "}}</span></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="cycleGraph" class="buttons cycle-graph" ng-show="machineExpandedCtrl.chosenParam1.HasGraph && machineExpandedCtrl.showPencils">
+            <div class="graphIcon" ng-class="{selected : machinesExpandedData.staticField1.graph}" ng-click="machinesExpandedData.staticField1.graph = true;saveStructure(false);">
+              <img ng-src="{{machinesExpandedData.staticField1.graph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}" />
+            </div>
+            <div class="graphIcon" ng-class="{selected : !machinesExpandedData.staticField1.graph}" ng-click="machinesExpandedData.staticField1.graph = false;saveStructure(false);">
+              <img ng-src="{{!machinesExpandedData.staticField1.graph ? 'images/op-app/bar-selected.png' : 'images/op-app/bar.png' }}" />
+            </div>
+          </div>
+          <div
+            class="d-flex"
+            ng-if="machineExpandedCtrl.chosenParam1 && machineExpandedCtrl.chosenParam1.CurrentValue !== undefined
+                        && machineExpandedCtrl.chosenParam1.LowLimit !== undefined 
+                        && machineExpandedCtrl.chosenParam1.HighLimit !== undefined"
+            style="width: 60%"
+          >
+            <injection-values-directive
+              ng-show="!machineExpandedCtrl.chosenParam1.HasGraph || !machinesExpandedData.staticField1.graph"
+              class="expanded-injection-values"
+              standard="machineExpandedCtrl.chosenParam1.StandardValue"
+              avg="machineBox.CycleTimeAvg"
+              show-average="machineExpandedCtrl.showAverage(1)"
+              min="machineExpandedCtrl.chosenParam1.LowLimit"
+              max="machineExpandedCtrl.chosenParam1.HighLimit"
+              value="machineExpandedCtrl.chosenParam1.CurrentValue"
+            ></injection-values-directive>
+
+            <div class="show-as-inline" style="width: 100%" ng-if="machineExpandedCtrl.chosenParam1.HasGraph && machinesExpandedData.staticField1.graph">
+              <cycle-time-graph-directive
+                edit-mode="machineExpandedCtrl.showPencils"
+                graph="machinesExpandedData.staticField1.graph"
+                department-id="machineBox.DepartmentID"
+                machine-id="machineBox.MachineID"
+                get-graph-data="getGraphData"
+                graph-data="graphData[machineExpandedCtrl.chosenParam1.FieldName]"
+                parameter="machineExpandedCtrl.chosenParam1.FieldName"
+                style="width: 100%"
+              >
+              </cycle-time-graph-directive>
+            </div>
+          </div>
+
+          <!-- if users chosen to view job progress -->
+          <div class="show-as-inline" style="width: 100%; z-index: 1" ng-if="machinesExpandedData.staticField1.FieldName == 'Job Progress'">
+            <injection-target-directive class="expanded-target-directive" max="machineBox.UnitsTarget" min="0" target="machineBox.UnitsProducedTheoretically" current="machineBox.UnitsProducedOK" width="248"> </injection-target-directive>
+          </div>
+
+          <!-- if users chosen to view josh progress -->
+          <div class="show-as-inline" style="width: 100%; z-index: 1" ng-if="machinesExpandedData.staticField1.FieldName == 'Josh Progress'">
+            <injection-target-directive ng-if="!machineExpandedCtrl.jobConfigToShow" class="expanded-target-directive" max="machineBox.UnitsTargetJosh" min="0" target="machineBox.UnitsProducedTheoreticallyJosh" current="machineBox.UnitsProducedOKJosh" width="248"> </injection-target-directive>
+          </div>
+        </div>
+        <div class="btn-group" style="width: 100%; right: 0; position: absolute; display: block; z-index: 5000; top: 0" ng-if="machineExpandedCtrl.openEditMode1" style="position: absolute; margin-top: 50px">
+          <ul ng-init="machineExpandedCtrl.applyAll = false" class="newScroll slim dropdown-menu" style="width: fit-content; top: 165px; display: block; max-height: 149px; overflow-y: auto" off-click-activator="machineExpandedCtrl.openEditMode1" off-click="machineExpandedCtrl.openEditMode1 = false">
+            <li ng-repeat="param in machineExpandedCtrl.paramsWithLimits" >
+              <a ng-click="editModeCallback(param, machineExpandedCtrl.applyAll, 'staticField1')">{{localLanguage ? param.FieldLName : param.FieldEName}} </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- second row param option -->
+        <div class="row-static-param" ng-style="getStaticField2Style()">
+          <span style="display: none">{{machineExpandedCtrl.chosenParam2 = (machineExpandedCtrl.paramsWithLimits | getFieldByName:'FieldName':machinesExpandedData.staticField2.FieldName)}}</span>
+
+          <div class="show-as-inline barsTitle" ng-hide="!machinesExpandedData.staticField2.visibility && !machineExpandedCtrl.showPencils">
+            <div style="font-size: 14px; font-weight: 600">
+              <div title="{{localLanguage ?  machineExpandedCtrl.chosenParam2.FieldLName : machineExpandedCtrl.chosenParam2.FieldEName}} " 
+                style="position: relative; display: flex; justify-content: flex-start" ng-style="!machineExpandedCtrl.chosenParam2.StandardValue && {'top':'15px'}">
+                <div class="text-field-expand-values" ng-style="!machineExpandedCtrl.chosenParam2.StandardValue && {'white-space':'unset',overflow:'unset'}"  >{{localLanguage ? machineExpandedCtrl.chosenParam2.FieldLName : machineExpandedCtrl.chosenParam2.FieldEName}}</div>
+                <div class="edit-icon-expand-values" title="{{'EDIT' | translate}}">
+                  <img ng-click="machineExpandedCtrl.openEditMode2 = true" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" />
+                </div>
+                <div ng-if="machineExpandedCtrl.chosenParam2.StandardValue" style="position: absolute; top: 15px; height: 20px; font-size: 11px; margin-top: 6px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+                  <img style="width: 8px; cursor: none; position: relative; bottom: 1px" src="images/close.png" /><span style="margin: 0 5px">{{"STANDARD" | translate}}: {{machineExpandedCtrl.chosenParam2.StandardValue}}</span>
+                </div>
+                <div
+                    ng-if="machineExpandedCtrl.chosenParam2 && machineExpandedCtrl.chosenParam2.CurrentValue !== undefined
+                              && machineExpandedCtrl.chosenParam2.LowLimit !== undefined 
+                              && machineExpandedCtrl.chosenParam2.HighLimit !== undefined && machineExpandedCtrl.showAverage(2)"
+                    style="position: absolute; top: 8px; height: 20px; font-size: 11px"
+                >
+                  <div class="rectangle-value-avg-title standard">
+                    <span style="margin: 0 5px">
+                      <span class="text"> {{"AVG" | translate}}: <span>{{machineBox.CycleTimeAvg.toFixed(1) + " "}}</span></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="cycleGraph" class="buttons cycle-graph" ng-show="machineExpandedCtrl.chosenParam2.HasGraph && machineExpandedCtrl.showPencils">
+            <div class="graphIcon" ng-class="{selected : machinesExpandedData.staticField2.graph}" ng-click="machinesExpandedData.staticField2.graph = true;saveStructure(false);">
+              <img ng-src="{{machinesExpandedData.staticField2.graph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}" />
+            </div>
+            <div class="graphIcon" ng-class="{selected : !machinesExpandedData.staticField2.graph}" ng-click="machinesExpandedData.staticField2.graph = false;saveStructure(false);">
+              <img ng-src="{{!machinesExpandedData.staticField2.graph ? 'images/op-app/bar-selected.png' : 'images/op-app/bar.png' }}" />
+            </div>
+          </div>
+
+          <!-- add/remove static2 -->
+          <span ng-if="machineExpandedCtrl.showPencils" class="add-remove-staticField">
+            <i class="fa fa-minus" ng-show="machinesExpandedData.staticField2.visibility" ng-click="addRemoveStaticField(false, 'staticField2')"></i>
+            <i class="fa fa-plus" ng-show="!machinesExpandedData.staticField2.visibility" ng-click="addRemoveStaticField(true, 'staticField2')"></i>
+          </span>
+
+          <!-- if static2 is one of the Parameters-->
+          <div
+            class="d-flex"
+            ng-if="machinesExpandedData.staticField2.visibility && machineExpandedCtrl.chosenParam2 && machineExpandedCtrl.chosenParam2.CurrentValue !== undefined
+                            && machineExpandedCtrl.chosenParam2.LowLimit !== undefined 
+                            && machineExpandedCtrl.chosenParam2.HighLimit !== undefined"
+            style="width: 60%"
+          >
+            <injection-values-directive
+              ng-show="!machineExpandedCtrl.chosenParam2.HasGraph || !machinesExpandedData.staticField2.graph"
+              class="expanded-injection-values"
+              standard="machineExpandedCtrl.chosenParam2.StandardValue"
+              avg="machineBox.CycleTimeAvg"
+              show-average="machineExpandedCtrl.showAverage(2)"
+              min="machineExpandedCtrl.chosenParam2.LowLimit"
+              max="machineExpandedCtrl.chosenParam2.HighLimit"
+              value="machineExpandedCtrl.chosenParam2.CurrentValue"
+            ></injection-values-directive>
+
+            <div class="show-as-inline" style="width: 100%" ng-if="machineExpandedCtrl.chosenParam2.HasGraph && machinesExpandedData.staticField2.graph">
+              <cycle-time-graph-directive
+                edit-mode="machineExpandedCtrl.showPencils"
+                graph="machinesExpandedData.staticField2.graph"
+                department-id="machineBox.DepartmentID"
+                machine-id="machineBox.MachineID"
+                get-graph-data="getGraphData"
+                graph-data="graphData[machineExpandedCtrl.chosenParam2.FieldName]"
+                parameter="machineExpandedCtrl.chosenParam2.FieldName"
+                class="show-as-inline"
+              >
+              </cycle-time-graph-directive>
+            </div>
+          </div>
+
+          <!-- if static2 is Job progress -->
+          <div class="show-as-inline" style="width: 60%; z-index: 1" ng-if="machinesExpandedData.staticField2.visibility && machinesExpandedData.staticField2.FieldName == 'Job Progress'">
+            <injection-target-directive class="expanded-target-directive" max="machineBox.UnitsTarget" min="0" target="machineBox.UnitsProducedTheoretically" current="machineBox.UnitsProducedOK" width="248"> </injection-target-directive>
+          </div>
+
+          <!-- if static2 is Josh progress -->
+          <div class="show-as-inline" style="width: 100%; z-index: 1" ng-if="machinesExpandedData.staticField2.visibility && machinesExpandedData.staticField2.FieldName == 'Josh Progress'">
+            <injection-target-directive ng-if="!machineExpandedCtrl.jobConfigToShow" class="expanded-target-directive" max="machineBox.UnitsTargetJosh" min="0" target="machineBox.UnitsProducedTheoreticallyJosh" current="machineBox.UnitsProducedOKJosh" width="248"> </injection-target-directive>
+            </div>
+          </div>
+
+          <div class="btn-group" style="width: 100%; right: 0; position: absolute; display: block; z-index: 5000; top: 0" ng-if="machineExpandedCtrl.openEditMode2" style="position: absolute; margin-top: 50px">
+            <ul ng-init="machineExpandedCtrl.applyAll = false" class="newScroll slim dropdown-menu" style="width: fit-content; top: 255px; display: block; max-height: 149px; overflow-y: auto" off-click-activator="machineExpandedCtrl.openEditMode2" off-click="machineExpandedCtrl.openEditMode2 = false">
+              <li ng-repeat="param in machineExpandedCtrl.paramsWithLimits" >
+                <a ng-click="editModeCallback(param, machineExpandedCtrl.applyAll, 'staticField2')">{{localLanguage ? param.FieldLName : param.FieldEName}} </a>
+              </li>
+            </ul>
+        </div>
+
+        <!-- third row param option -->
+        <div class="row-static-param" ng-style="getStaticField3Style()">
+          <span style="display: none">{{machineExpandedCtrl.chosenParam3 = (machineExpandedCtrl.paramsWithLimits | getFieldByName:'FieldName':machinesExpandedData.staticField3.FieldName)}}</span>
+
+          <div class="show-as-inline barsTitle" style="width: 10px" ng-hide="!machinesExpandedData.staticField3.visibility && !machineExpandedCtrl.showPencils">
+            <div style="font-size: 14px; font-weight: 600">
+              <div title="{{localLanguage ?  machineExpandedCtrl.chosenParam3.FieldLName : machineExpandedCtrl.chosenParam3.FieldEName}} " style="position: relative; display: flex; justify-content: flex-start" ng-style="!machineExpandedCtrl.chosenParam3.StandardValue && {'top':'15px'}">
+                <div class="text-field-expand-values" ng-style="!machineExpandedCtrl.chosenParam3.StandardValue && {'white-space':'unset',overflow:'unset'}" style="height: 17px">{{localLanguage ? machineExpandedCtrl.chosenParam3.FieldLName : machineExpandedCtrl.chosenParam3.FieldEName}}</div>
+                <div class="edit-icon-expand-values" title="{{'EDIT' | translate}}">
+                  <img ng-click="machineExpandedCtrl.openEditMode3 = true" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" />
+                </div>
+                <div ng-if="machineExpandedCtrl.chosenParam3.StandardValue" style="position: absolute ; top: 15px; height: 20px; font-size: 12px; margin-top: 6px">
+                  <img style="width: 10px; cursor: none; position: relative; bottom: 1px" src="images/close.png" /><span style="margin: 0 5px">{{"STANDARD" | translate}}: {{machineExpandedCtrl.chosenParam3.StandardValue}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="cycleGraph" class="buttons cycle-graph" ng-show="machineExpandedCtrl.chosenParam3.HasGraph && machineExpandedCtrl.showPencils">
+            <div class="graphIcon" ng-class="{selected : machinesExpandedData.staticField3.graph}" ng-click="machinesExpandedData.staticField3.graph = true;saveStructure(false);">
+              <img ng-src="{{machinesExpandedData.staticField3.graph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}" />
+            </div>
+            <div class="graphIcon" ng-class="{selected : !machinesExpandedData.staticField3.graph}" ng-click="machinesExpandedData.staticField3.graph = false;saveStructure(false);">
+              <img ng-src="{{!machinesExpandedData.staticField3.graph ? 'images/op-app/bar-selected.png' : 'images/op-app/bar.png' }}" />
+            </div>
+          </div>
+          <!-- add/remove static3 -->
+          <span ng-if="machineExpandedCtrl.showPencils" class="add-remove-staticField">
+            <i class="fa fa-minus" ng-show="machinesExpandedData.staticField3.visibility" ng-click="addRemoveStaticField(false, 'staticField3')"></i>
+            <i class="fa fa-plus" ng-show="!machinesExpandedData.staticField3.visibility" ng-click="addRemoveStaticField(true, 'staticField3')"></i>
+          </span>
+
+          <!-- if static3 is one of the Parameters-->
+          <div
+            class="d-flex"
+            ng-if="machinesExpandedData.staticField3.visibility && machineExpandedCtrl.chosenParam3 && machineExpandedCtrl.chosenParam3.CurrentValue !== undefined
+                                && machineExpandedCtrl.chosenParam3.LowLimit !== undefined 
+                                && machineExpandedCtrl.chosenParam3.HighLimit !== undefined"
+                                style="width: 60%"
+          >
+            <injection-values-directive
+              ng-show="!machineExpandedCtrl.chosenParam3.HasGraph || !machinesExpandedData.staticField3.graph"
+              class="expanded-injection-values"
+              standard="machineExpandedCtrl.chosenParam3.StandardValue"
+              avg="machineBox.CycleTimeAvg"
+              show-average="machineExpandedCtrl.showAverage(3)"
+              min="machineExpandedCtrl.chosenParam3.LowLimit"
+              max="machineExpandedCtrl.chosenParam3.HighLimit"
+              value="machineExpandedCtrl.chosenParam3.CurrentValue"
+            ></injection-values-directive>
+            <div class="show-as-inline" style="width: 100%" ng-if="machineExpandedCtrl.chosenParam3.HasGraph && machinesExpandedData.staticField3.graph">
+              <cycle-time-graph-directive
+                edit-mode="machineExpandedCtrl.showPencils"
+                graph="machinesExpandedData.staticField3.graph"
+                department-id="machineBox.DepartmentID"
+                machine-id="machineBox.MachineID"
+                get-graph-data="getGraphData"
+                graph-data="graphData[machineExpandedCtrl.chosenParam3.FieldName]"
+                parameter="machineExpandedCtrl.chosenParam3.FieldName"
+                class="show-as-inline"
+              >
+              </cycle-time-graph-directive>
+            </div>
+          </div>
+
+          <!-- if static3 is Job progress -->
+          <div class="show-as-inline" style="width: 100%; z-index: 1" ng-if="machinesExpandedData.staticField3.visibility && machinesExpandedData.staticField3.FieldName == 'Job Progress'">
+            <injection-target-directive class="expanded-target-directive" max="machineBox.UnitsTarget" min="0" target="machineBox.UnitsProducedTheoretically" current="machineBox.UnitsProducedOK" width="248"> </injection-target-directive>
+          </div>
+
+          <!-- if static3 is Josh progress -->
+          <div class="show-as-inline" style="width: 60%; z-index: 1" ng-if="machinesExpandedData.staticField3.visibility && machinesExpandedData.staticField3.FieldName == 'Josh Progress'">
+            <injection-target-directive ng-if="!machineExpandedCtrl.jobConfigToShow" class="expanded-target-directive" max="machineBox.UnitsTargetJosh" min="0" target="machineBox.UnitsProducedTheoreticallyJosh" current="machineBox.UnitsProducedOKJosh" width="248"> </injection-target-directive>
+          </div>
+        </div>
+        <div class="btn-group" style="width: 100%; right: 0; position: absolute; display: block; z-index: 5000; top: 0" ng-if="machineExpandedCtrl.openEditMode3" style="position: absolute; margin-top: 50px">
+          <ul ng-init="machineExpandedCtrl.applyAll = false" class="newScroll slim dropdown-menu" style="top: 325px; display: block; max-height: 149px; overflow-y: auto; width: fit-content" off-click-activator="machineExpandedCtrl.openEditMode3" off-click="machineExpandedCtrl.openEditMode3 = false">
+            <li ng-repeat="param in machineExpandedCtrl.paramsWithLimits" >
+              <a ng-click="editModeCallback(param, machineExpandedCtrl.applyAll, 'staticField3')">{{localLanguage ? param.FieldLName : param.FieldEName}} </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bar-graph" style="height: 268px; margin-right: unset; padding-right: unset; margin-left: unset" } ng-if="machineBox.ProductionModeWarning === 'True' && machineBox.ProductionModeID !== 1">
+        <!-- <div class="expanded-machines-events attentionMessage" style="margin-left:0; margin-right:0; padding-right:0; position: absolute; width: 100%;height: 10px;display: flex;z-index:1000">
+                <div ng-repeat="event in machineBox.events" 
+                    ng-style="{
+                        background: event.Color,
+                        width: (event.Duration / machineBox.shiftTotalDuration) * 100 + '%', 
+                        cursor: 'pointer'} "
+                    ng-click="openEvent(event.ID,event.Color)"
+                    ng-mouseover="tooltipIn($event,event)"
+                    ng-mousemove="tooltipMove($event)"
+                    ng-mouseleave="tooltipLeave()"
+                ></div>
+        </div>
+        <div style="margin-left:0; margin-right:0; padding-right:0; position: absolute;" class="tooltip-container" ng-init="initTooltip()">
+                    <div class="machine-expanded-tooltip" ng-show="tooltipDisplay">
+                        <div class="tooltip-start-date"></div>
+                        <div class="tooltip-event-duration"></div>
+                        <div class="tooltip-event-type"></div>
+                    </div>
+        </div> -->
+        <div class="attentionMessage" style="height: 100%; padding-top: 95px; color: red; line-height: inherit; margin-left: unset">
+          {{"ATTENTION" | translate}}
+
+          <div>{{"CYCLES_DETECTED_NON_PRODUCTION" | translate}}</div>
+        </div>
+      </div>
+      <!--end second section-->
+      <!--start third section-->
+      <div class="machine-values" style="padding: 0" ng-init="machineExpandedCtrl.cubeParams = {}">
+        <div class="cubeParams">
+          <div ng-repeat="param in machinesExpandedData.params track by $index" class="show-as-inline" style="border-bottom: 1px solid #cecece; background-color: white; vertical-align: bottom; height: 90px" ng-class="{'borderedValueItem': ($index+2)%3 == 0}">
+            <span ng-hide="true">{{machineExpandedCtrl.cubeParams[$index] = (machineBox.MachineParams | getFieldByName:'FieldName':param.FieldName)}}</span>
+            <div class="values-item" ng-style="machineBox.ProductionModeID !== 1 && {'opacity':'0.2'}" ng-if="param.FieldName != 'customUIImage'">
+              <span
+                style="height: 23px"
+                ng-style="param.FieldName == 'StartTime' && {'font-size':'0.7vw'}"
+                title="{{machineExpandedCtrl.cubeParams[$index].CurrentValue |
+                                thousandsSeperator}}"
+                ng-show="machineExpandedCtrl.cubeParams[$index].FieldName != 'removeParam'"
+              >
+                <span ng-if="machineExpandedCtrl.cubeParams[$index].type == 'num'"> {{machineExpandedCtrl.cubeParams[$index].CurrentValue | thousandsSeperator}} </span>
+                <span ng-if="!machineExpandedCtrl.cubeParams[$index].type && machineExpandedCtrl.cubeParams[$index].FieldName != 'StartTime'"> {{machineExpandedCtrl.cubeParams[$index].CurrentValue}} </span>
+                <span ng-if="machineExpandedCtrl.cubeParams[$index].type == 'date'"> {{machineExpandedCtrl.cubeParams[$index].FieldName == 'TimeLeftHour' ? (machineBox.TimeLeftHR*60 | minutesToHHMM) : (machineExpandedCtrl.cubeParams[$index].CurrentValue * 60 | minutesToHHMM)}} </span>
+
+                <span style="position: relative" ng-if="machineExpandedCtrl.cubeParams[$index].StandardValue"> ({{machineExpandedCtrl.cubeParams[$index].StandardValue}}) </span>
+              </span>
+              <div
+              style="width: 100%;    display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;"
+                ng-style="param.FieldName == 'StartTime' && {'font-size':'0.7vw'}"
+                title="{{machineExpandedCtrl.cubeParams[$index].CurrentValue |
+                                thousandsSeperator}}"
+                ng-show="machineExpandedCtrl.cubeParams[$index].FieldName != 'removeParam'  && machineExpandedCtrl.cubeParams[$index].FieldName == 'StartTime'"
+              >
+                <div style="width: 100%;height: unset;font-size: 16px;" ng-if="!machineExpandedCtrl.cubeParams[$index].type && machineExpandedCtrl.cubeParams[$index].FieldName == 'StartTime'" ng-bind-html="machineExpandedCtrl.cubeParams[$index].CurrentValue | addNewline">  </div>
+                <span ng-if="!machineExpandedCtrl.cubeParams[$index].type && machineExpandedCtrl.cubeParams[$index].FieldName == 'StartTime'" class="small" ng-show="machineExpandedCtrl.cubeParams[$index].FieldName != 'removeParam'" title="{{(machineExpandedCtrl.cubeParams[$index] | customTranslate: 'FieldEName':'FieldLName':localLanguage)}}"> {{(machineExpandedCtrl.cubeParams[$index] | customTranslate: 'FieldEName':'FieldLName':localLanguage)}} </span>
+
+              </div>
+
+               <span ng-if="machineExpandedCtrl.cubeParams[$index].FieldName != 'StartTime'" class="small" ng-show="machineExpandedCtrl.cubeParams[$index].FieldName != 'removeParam'" title="{{(machineExpandedCtrl.cubeParams[$index] | customTranslate: 'FieldEName':'FieldLName':localLanguage)}}"> {{(machineExpandedCtrl.cubeParams[$index] | customTranslate: 'FieldEName':'FieldLName':localLanguage)}} </span>
+
+
+              <!-- <span class="small" ng-show="machineExpandedCtrl.cubeParams[$index].FieldName != 'removeParam'" title="{{(machineExpandedCtrl.cubeParams[$index] | customTranslate: 'FieldEName':'FieldLName':localLanguage)}}"> {{(machineExpandedCtrl.cubeParams[$index] | customTranslate: 'FieldEName':'FieldLName':localLanguage)}} </span> -->
+
+              <!-- edit pencil for params machine values -->
+              <img class="editIcon" ng-click="machineExpandedCtrl.paramsEditMode[$index] = true" style="width: 13px; height: 13px; position: relative; left: calc(100% - 22px)" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" title="{{'EDIT' | translate}}" />
+
+              <span style="line-height: 0" ng-if="$index==machinesExpandedData.params.length-1 && machinesExpandedData.params.length <= 3">
+                <i class="fa fa-plus addNewParamsRow" ng-show="machineExpandedCtrl.showPencils" ng-click="addNewParamsRow()"></i>
+              </span>
+              <span style="line-height: 0" ng-if="$index==machinesExpandedData.params.length-1 && machinesExpandedData.params.length > 3">
+                <i class="fa fa-minus addNewParamsRow" ng-show="machineExpandedCtrl.showPencils" ng-click="removeParamsRow()"></i>
+              </span>
+            </div>
+            <div style="position: relative" ng-if="param.FieldName == 'customUIImage' && machineExpandedCtrl.showPencils" class="values-item" ng-style="machineBox.ProductionModeID !== 1 && {'opacity':'0.2'}">
+              <div style="display: inline-block; width: 100%">
+                <img ng-if="!machineExpandedCtrl.showPencils" ng-click="openImageInModal(machineBox.ProductImagePath)" style="max-width: 100%; max-height: 100%" ng-hide="!machineBox.ProductImagePath.length" ng-src="{{machineBox.ProductImagePath}}" />
+
+                <img ng-if="machineExpandedCtrl.showPencils" ng-click="openImageInModal(machineBox.ProductImagePath)" ng-hide="!machineBox.ProductImagePath.length" ng-src="{{machineBox.ProductImagePath}}" width="50" height="40" />
+
+                <img ng-click="machineExpandedCtrl.paramsEditMode[$index] = true" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" style="position: absolute; right: 10px; bottom: 24px" title="{{'EDIT' | translate}}" />
+              </div>
+
+              <span style="line-height: 0" ng-if="$index==machinesExpandedData.params.length-1 && machinesExpandedData.params.length <= 3">
+                <i class="fa fa-plus addNewParamsRow" ng-show="machineExpandedCtrl.showPencils" ng-click="addNewParamsRow()"></i>
+              </span>
+              <span style="line-height: 0" ng-if="$index==machinesExpandedData.params.length-1 && machinesExpandedData.params.length > 3">
+                <i class="fa fa-minus addNewParamsRow" ng-show="machineExpandedCtrl.showPencils" ng-click="removeParamsRow()"></i>
+              </span>
+            </div>
+            <div ng-if="param.FieldName == 'customUIImage' && !machineExpandedCtrl.showPencils" style="margin: 0" class="values-item" ng-style="machineBox.ProductionModeID !== 1 && {'opacity':'0.2'}">
+              <div style="display: inline-block; width: 100%">
+                <img ng-if="!machineExpandedCtrl.showPencils" ng-click="openImageInModal(machineBox.ProductImagePath)" style="max-width: 100%; max-height: 100%" ng-hide="!machineBox.ProductImagePath.length" ng-src="{{machineBox.ProductImagePath}}" />
+
+                <img ng-if="machineExpandedCtrl.showPencils" ng-click="openImageInModal(machineBox.ProductImagePath)" style="vertical-align: super" ng-hide="!machineBox.ProductImagePath.length" ng-src="{{machineBox.ProductImagePath}}" width="50" height="40" />
+
+                <img ng-click="machineExpandedCtrl.paramsEditMode[$index] = true" ng-show="machineExpandedCtrl.showPencils" src="images/edit-grey-new.svg" style="position: absolute; right: 10px; bottom: 2px" title="{{'EDIT' | translate}}" />
+              </div>
+            </div>
+            <div class="btn-group expandedEditParamsDropdown param_{{$index % 3}}" style="width: 100%; right: 0" off-click="machineExpandedCtrl.paramsEditMode[$index] = false" off-click-activator="machineExpandedCtrl.paramsEditMode[$index]" ng-if="machineExpandedCtrl.paramsEditMode[$index]">
+              <ul ng-init="machineExpandedCtrl.applyAll = false" class="newScroll slim dropdown-menu" style="width: fit-content; display: block; max-height: 320px; overflow-y: auto; left: 35px; bottom: 50px; top: initial; z-index: 10000;">
+                <!-- <li class="applyToAllV" style="line-height:40px;height: 30px;position: initial;margin-left: 20px;">
+                                            <input type="checkbox" ng-model="machineExpandedCtrl.applyAll">
+                                            <strong>{{"APPLY_TO_ALL" | translate}}</strong>
+                                        </li> -->
+                <li ng-repeat="param in machineExpandedCtrl.allParams" >
+                  <a ng-click="paramEditModeCallback(param, machineExpandedCtrl.applyAll, $parent.$parent.$index)" ng-class="{'color-red' : param.FieldName == 'removeParam'}"> {{localLanguage ? param.FieldLName : param.FieldEName}} </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end third section-->
+    <div class="inbox-section" style="height: 92px" ng-show="machineExpandedCtrl.view != 'calendar'">
+      <machine-message-directive last-message="technicianStatus.lastMessage" update="updateTechnicianStatus" machine-data="machineBox" parent="Department_Online"></machine-message-directive>
+    </div>
+    
+    <!-- <div style="position: relative" class="tooltip-container">
+        <div class="machine-plan-tooltip" ng-show="tooltipDisplay">
+            <div class="tooltip-start-date"></div>
+            <div class="tooltip-event-duration"></div>
+            <div class="tooltip-event-type"></div>
+        </div>
+    </div> -->
+  </div>
+</div>
+

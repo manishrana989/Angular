@@ -1,0 +1,109 @@
+<div  click-outside="closeAbsoluteWindow()" >
+    <div class="insights-absolute-window newScroll slim"  ng-init="showInsights = false">
+        <div ng-if="!insightsAbsoluteCtrl.topics" ng-include="'views/common/emptyPage.html'"></div>
+        <div ng-show="!showInsights && insightsAbsoluteCtrl.topics">
+            <div class="window-container window-container-insight-tab">
+                <div class="title">
+                        <input type="text" class="textBoxInput" ng-change="search()" placeholder="{{'SEARCH' | translate}}"
+                            ng-model="insightsAbsoluteCtrl.searchText">
+                       
+                    <img ng-click="closeAbsoluteWindow()" 
+                            style="top:20px" src="images/close.png" width="24" height="24" class="pull-right"/>                                         
+                </div>
+                <div ng-show="insightsAbsoluteCtrl.searchText.length > 0">
+                    <div class="collapsed-area">
+                        <div class="topic-container">
+                            <div class="topic-items" ng-click="$event.stopPropagation()"
+                                ng-repeat="insight in insightsAbsoluteCtrl.matchingInsights track by $index"
+                                ng-if="insight.IsInFactoryLevel == isFactory">
+                                <div>
+                                    <div ng-bind-html="highlight(insight.TitleAndID, insightsAbsoluteCtrl.searchText)">
+                                    </div>
+                                </div>
+                                <span style="cursor:pointer;font-size: 14px;font-weight: 600;color: var(--color2);"
+                                    ng-click="showAnswers(insight);gaE('Department_Insights','Insights_Show_Answers');">{{"SHOW_ANSWERS"
+                                                | translate}}</span>
+                                <span ng-show="addedToDashInsightsPage.indexOf(insight.ID) < 0" class="pull-right"
+                                    style="cursor: pointer;font-size: 14px;font-weight: 600;color: var(--color2);margin: 0px 10px"
+                                    ng-click="addGraph($event,insight);$event.stopPropagation();gaE('Department_Inisghts','Insights_Window_ADD_TO_TEMPLATE');">{{"ADD_TO_TEMPLATE"
+                                                | translate}}</span>
+                                <span ng-show="addedToDashInsightsPage.indexOf(insight.ID) > -1" class="pull-right"
+                                    style="cursor: auto;padding: 0;"><img
+                                        src="images/v-gray.svg" /><span>{{"ADDED_TO_TEMPLATE" | translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="insightsAbsoluteCtrl.searchText.length > 0">
+                    <div class="topics-items-container">
+                        <div class="secondry-title" ng-repeat="topic in insightsAbsoluteCtrl.topics track by $index" ng-if="topic.insights.length"
+                            ng-click="topicClicked(topic)">
+                            <span ng-class="{'chosen' : topic.view}" ng-if="!rtl"> {{topic.EName}} </span>
+                            <span ng-class="{'chosen' : topic.view}" ng-if="rtl"> {{topic.LName}} </span>
+                            <span class="fa fa-angle-right pull-right" ng-show="!topic.view"></span>
+                            <span class="fa fa-angle-down pull-right" ng-show="topic.view"></span>
+                            <div class="collapsed-area" ng-show="topic.view">
+                                <div class="topic-container">
+                                    <div class="topic-items" ng-click="$event.stopPropagation()"
+                                        ng-repeat="insight in topic.insights track by $index"
+                                        ng-if="insight.IsInFactoryLevel == isFactory">
+                                        <div>
+                                            <div>
+                                                {{insight.TitleAndID}}
+                                            </div>
+                                        </div>
+                                        <span style="font-size: 14px;font-weight: 600;color: var(--color2);cursor:pointer"
+                                            ng-click="showAnswers(insight);gaE('Department_Insights','Insights_Show_Answers');">{{"SHOW_ANSWERS"
+                                            | translate}}</span>
+                                        <span ng-show="addedToDashInsightsPage.indexOf(insight.ID) < 0" class="pull-right"
+                                            style="cursor: pointer;font-size: 14px;font-weight: 600;color: var(--color2);margin: 0px 10px"
+                                            ng-click="addGraph($event,insight)">{{"ADD_TO_TEMPLATE"
+                                            | translate}}</span>
+                                        <span ng-show="addedToDashInsightsPage.indexOf(insight.ID) > -1" class="pull-right"
+                                            style="cursor: auto;padding: 0;"><img
+                                                src="images/v-gray.svg" /><span>{{"ADDED_TO_TEMPLATE" | translate}}</span>
+                                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="insights-absolute-window page-2"
+        ng-style="shiftData.showInsightsAbsolute && {'right': 'unset','top':'unset'}" style="overflow: hidden"
+        ng-show="showInsights">
+        <div ng-if="dataLoading">
+            <div ng-include="'views/common/emptyPage.html'" class="shift-loading"> </div>
+        </div>
+        <div ng-show="!dataLoading" class="window-container" style="padding:0;height: 100%;overflow-x:auto;">
+            <div class="title">
+                <div class="title-container-options">
+                    <div class="title-container-options-back" style="" ng-click="showQuestions(insight)">
+                        <img src="images/back.png" class="shift-header-btns-img" alt="Back" />
+                        <span style="color:#101010">{{"BACK" | translate}}</span>
+                    </div>
+
+                    <img ng-click="closeAbsoluteWindow()"
+                        src="images/close.png" width="24" height="24" class="pull-right" /></span>
+              
+                </div>
+                <div class="title-headline">
+                    {{insightsAbsoluteCtrl.insightCurrentTitle}}
+                </div>
+            </div>
+            <div class="insight-answer-container" ng-if="showInsights && !isFactory" style="height: calc(100% - 56px);">
+                <insights-dashboard-directive is-factory="false" added-to-dash="addedToDashInsightsPage" isShift="false"
+                    insight="insight" for-graph="false" graph="graph">
+                </insights-dashboard-directive>
+            </div>
+            <div class="insight-answer-container" ng-if="showInsights && isFactory" style="height: calc(100% - 56px);">
+                <insights-dashboard-directive is-factory="true" added-to-dash="addedToDashInsightsPage" isShift="false"
+                    insight="insight" for-graph="false" graph="graph">
+                </insights-dashboard-directive>
+            </div>
+        </div>
+    </div>
+</div>

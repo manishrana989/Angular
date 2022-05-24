@@ -1,0 +1,100 @@
+<div id="toastr"></div>
+
+<div>
+  <div class="header-container">
+    <div class="header-container--select">
+        <span style="margin-top: 15px">{{"SELECT_USER_GROUP" | translate}}</span>
+        <select class="form-control" style="margin-top: 10px; width: 200px;" ng-model="mainScreenVisibilityCtrl.selectedGroup" ng-options="group.ID as group.Name for group in mainScreenVisibilityCtrl.groups" ng-required="true" ng-change="mainScreenVisibilityCtrl.updateGroup()">
+            <option value="">{{"SELECT_GROUP" | translate}}</option>
+        </select>
+    </div>
+    <button  class="btn btn-lg btn-primary flex-margin-auto"  ng-if="mainScreenVisibilityCtrl.selectedGroup" ng-click="saveData()">{{"SAVE" | translate}}</button>
+  
+  </div>
+  <div ng-if="mainScreenVisibilityCtrl.loading">
+    <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0" class="shift-loading"></div>
+  </div>
+  
+  <div class="machine-screen-visibility-container" ng-if="mainScreenVisibilityCtrl.selectedGroup && !mainScreenVisibilityCtrl.loading">
+    <div class="row" style="    height: 100%;
+    display: flex;
+    margin-top: 100px;">
+      <div class="col-lg-6 left-side pull-left">
+        <div style="
+        font-size: 22px;
+        line-height: normal;
+        color: var(--color2);      
+        text-align: center;">{{"DEPARTMENT" | translate}}</div>
+        <div class="newScroll slim" style="height: 26vw;
+           margin: 30px 10vw;">
+            <div ng-repeat="department in allDepartmentsTemp">
+                <div class="checkBox" style="display: inline-block" check-box-directive field-title="localLanguage ? department.Key.LName: department.Key.EName" field="department" ng-custom-change="selectAllDepartment" select-value="'selected'"></div>
+                <div style="display: inline-block; padding-right: 8px" class="pull-right" ng-init="department.expanded=false" ng-click="department.expanded=!department.expanded">
+                  <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                  <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                </div>
+                <div class="grid-list-machines" style="display: grid;
+                grid-template-columns: 1fr 1fr;
+                padding: 10px 29px;" ng-if="department.expanded">
+                  <div class="checkBox" style="display: inline-block" ng-repeat="machine in department.Value" check-box-directive field-title="localLanguage ? machine.MachineLName : machine.MachineName" field="machine" ng-custom-change="selectGlobalMachine" select-value="'selected'"></div>
+                </div>
+              </div>
+        </div>
+      </div>
+      <div class="col-lg-6 right-side pull-left" style="height: 14vw;">
+        <div style=" font-size: 22px;
+        line-height: normal;
+        color: var(--color2);      
+        text-align: center;">{{"ACTION" | translate}}</div>
+        <div class="list-container">
+          <div class="list-item" ng-click="mobileInsightsNotificationsCtrl.chosenTopic = topic" ng-repeat="action in mainScreenVisiblityObj.list">
+            <span ng-style="!action.active && {'color':'#cecece'}" class="item-title">{{action.name | translate}}</span>
+            <span check-box-directive field-title="''" field="action" select-value="'active'" type="'toggle'"> </span>
+          </div>
+        </div>
+
+        <div style=" font-size: 22px;
+        line-height: normal;
+        color: var(--color2);      
+        text-align: center;
+        margin-top: 30PX;">{{"DISPLAY_TYPE" | translate}}</div>
+        <div class="list-container">
+                <div class="list-item" ng-repeat="type in displayTypes.list">
+                    <input  id="{{type.ID}}" type="radio" ng-model="displayTypes.selected" ng-value="type.displayType">
+                    <label style="top:16px;" for="{{type.ID}}"  class="item-title">{{type.name | translate}} </label>
+                    <span ng-show="type.ID == 'OnlineView' && displayTypes.selected === 2 " class="online-form-control" >
+                      <select  ng-if="displayTypes.selected === 2" name="singleSelect" style="width:200px" ng-model="mainScreenVisibilityCtrl.onlineSelectParameters.selectedParameter" ng-options="list.ID as list.name | translate for list in mainScreenVisibilityCtrl.onlineSelectParameters.list"></select>
+                    </span>
+                </div>
+
+                <!-- <div class="list-item" style="background-color: aliceblue;">
+                    <input type="radio" ng-model="displayTypes.selected" ng-value="displayTypes.list[0].displayType">
+                    <span class="item-title">{{displayTypes.list[0].name | translate}} </span>
+                </div>
+                <div class="list-item" style="background-color: aliceblue;">
+                    <input type="radio" ng-model="displayTypes.selected" ng-value="displayTypes.list[1].displayType">
+                    <span class="item-title" style="width: 120px;">{{displayTypes.list[1].name | translate}}</span>
+                    <select  style="width: 200px;margin-top: 15px;" ng-if="displayTypes.selected === 2" name="singleSelect"  ng-model="onlineSelectParameters.selectedParameter">
+                        <option ng-repeat="parameter in onlineSelectParameters.list" value="{{parameter.ID}}">{{parameter.name | translate}}</option>
+                    </select>
+                </div> -->
+                
+                <!-- <div class="list-item" style="width: 50%; background-color: cadetblue;" ng-repeat="type in displayTypes.list">
+                    <input type="radio" ng-model="displayTypes.selected" ng-value="type.displayType">
+                    <span class="item-title">{{type.name | translate}} </span>
+                </div> -->
+
+                <!-- <select class="form-control" style="width: 200px;margin-top: 15px;" ng-if="displayTypes.selected === 2" name="singleSelect"  ng-model="onlineSelectParameters.selectedParameter">
+                        <option ng-repeat="parameter in onlineSelectParameters.list" value="{{parameter.ID}}">{{parameter.name | translate}}</option>
+                </select> -->
+
+                <!-- <select ng-if="displayTypes.selected === 2" class="form-control" style="margin-top: 10px" ng-model="onlineSelectParameters.selectedParameter" ng-options="parameter.ID as parameter.name for parameter in onlineSelectParameters.list" >
+                    <option value="">{{"SELECT_PARAMETER" | translate}}</option>
+                </select> -->
+          </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

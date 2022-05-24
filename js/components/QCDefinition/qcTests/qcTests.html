@@ -1,0 +1,205 @@
+<div class="qc-tests"></div>
+<div class="ibox-title">
+  <h5 class="pull-left">{{"QC_MODULE" | translate}}</h5>
+</div>
+
+<div class="ibox-content">
+  <div ng-if="fetching">
+    <div ng-include="'views/common/emptyPage.html'" style="margin-top: 0" class="shift-loading"></div>
+  </div>
+  <div ng-if="!fetching">
+    <div style="margin: 47px 38px 50px 38px">
+      <span style="font-size: 22px"> {{"QC_TEST" | translate}} </span>
+
+      <div class="pull-right" style="display: flex; font-size: 16px; align-items: center">
+        <span style="min-width: 70px; max-height: 35px; display: flex; justify-content: space-around; flex-direction: column"> {{"GANTT_FILTER" | translate}} </span>
+        <select style="min-width: 108px; margin: 0 10px" class="form-control" ng-model="filterBy" ng-change="QCFilter(filterBy)">
+          <option value="all">{{"All" | translate}}</option>
+          <option value="active">{{"IS_ACTIVE" | translate}}</option>
+          <option value="inactive">{{"IN_ACTIVE" | translate}}</option>
+       
+        </select>
+
+        <span style="min-width: 70px; max-height: 35px; display: flex; justify-content: space-around; flex-direction: column"> {{"SORT_BY" | translate}} </span>
+
+        <select style="min-width: 108px; margin: 0 10px" class="form-control" ng-model="sortBy" ng-change="updateSortBy(sortBy)">
+          <option value="id">{{"DEFAULT" | translate}}</option>
+          <option value="subtypename">{{"NAME" | translate}}</option>
+          <option value="isactive">{{"IS_ACTIVE" | translate}}</option>
+          <option value="qualitytestgroupname">{{"QUALITY_TEST_GROUP_NAME" | translate}}</option>
+        </select>
+
+        <div style="border-radius: 1.7px; border: solid 0.8px #d0cfd0; display: flex">
+          <div ng-click="updateQCView('list')" style="cursor: pointer; width: 48px; height: 37px; display: flex; justify-content: space-around" ng-style="view=='list' && {'background': 'var(--color2)'}">
+            <img ng-if="view=='grid'" style="width: fit-content" src="images/list.svg" />
+            <img ng-if="view=='list'" style="width: fit-content" src="images/list-white.svg" />
+          </div>
+          <div ng-click="updateQCView('grid')" style="cursor: pointer; width: 48px; height: 37px; display: flex; justify-content: space-around" ng-style="view=='grid' && {'background': 'var(--color2)'}">
+            <img ng-if="view=='list'" style="width: fit-content" src="images/grid-black.svg" />
+            <img ng-if="view=='grid'" style="width: fit-content" src="images/grid-white.svg" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="view=='grid'" style="margin: 0 38px" class="machines-container newScroll">
+      <div class="add-machine pull-left">
+        <div style="flex-direction: column" ng-click="assignCurrentStep('add-qc-tests', 0)">
+          <img style="width: 56px; margin: 0 auto" src="images/add-circle-outline.svg" />
+          <div style="font-size: 16px; color: var(--color2); font-weight: bold">{{"ADD_TEST" | translate}}</div>
+        </div>
+      </div>
+
+      <div ng-repeat="test in tests | orderBy:sortBy:(['id','isactive'].indexOf(sortBy) >= 0  ? true : false)" ng-click="assignCurrentStep('add-qc-tests', test)" class="add-machine test-item pull-left" style="font-size: 16px; display: flex; flex-direction: column">
+        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #cecece; padding-bottom: 9px">
+          <div style="font-weight: bold; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap" data-toggle="tooltip" data-placement="right" title="{{test.subtypename}}">{{test.subtypename}}</div>
+          <div type="'toggle'" check-box-directive field-title="" field="test" select-value="'isactive'" ng-mouseup="saveTest(test.id ,test.isactive)" ng-click="$event.stopPropagation()"></div>
+        </div>
+        <div class="text-align draft_box_txt">
+          <div>{{test.testtypename}}</div>
+          <div>{{test.machinetypename}}</div>
+        </div>
+        <div class="draft_copy_box">
+          <div>
+            <div ng-if="test.isdraftmode=='Draft Mode'">
+              <button type="button" class="draft_btn" >
+                <img src="images/Draft.svg" />
+                {{"DRAFT_TEXT" | translate}}
+              </button>           
+            </div>
+          </div>
+          <div class="copy-qc-dots" ng-click="actionCopyTag(test.id); $event.stopPropagation()">
+            <div class="new-circle-column"></div>
+            <div class="new-circle-column"></div>
+            <div class="new-circle-column"></div>
+            <div ng-if="activeCopyTag === test.id" class="configure-quality-container-options" off-click-activator="test.id == activeCopyTag" off-click="actionCopyTag(test.id)">
+              <div class="container-template-option-button" >
+                <!-- <div class="container-template-option-button-direction">
+                              <img src="images/copy.svg" />
+                            </div> -->
+                <div ng-click="copyTest(test)">{{"COPY" | translate}}</div>
+                <div ng-if="test.isdraftmode=='Draft Mode'" ng-click="releaseTest(test)" >{{"RELEASE_TEST" | translate}} </div>
+              </div>            
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div>
+        <!-- <img src="images/onlineIcons/duplicate.png" /> -->
+        <div class="machine-name">{{machine.MachineName}}</div>
+      </div>
+    </div>
+
+    <div ng-if="view=='list'">
+      <div>
+        <div class="add-test-list" ng-click="assignCurrentStep('add-qc-tests', 0)">
+          <img src="images/add-circle.svg" />
+          {{"ADD_TEST" | translate}}
+        </div>
+      </div>
+
+      <div>
+        <!--                <button id="expandAll" type="button" class="btn btn-success" ng-click="expandAll()">Expand All</button>-->
+        <!--                <button id="toggleFirstRow" type="button" class="btn btn-success" ng-click="toggleRow(0)">Toggle First-->
+        <!--                    Row-->
+        <!--                </button>-->
+        <!--                <button id="toggleSecondRow" type="button" class="btn btn-success" ng-click="toggleRow(1)">Toggle Second-->
+        <!--                    Row-->
+        <!--                </button>-->
+
+        <div style="height:500px;width:100%"><react-search-results-qc-quality></react-search-results-qc-quality></div>
+        
+        <!-- <div id="qcTestsGrid" ng-if="!fetching " ui-grid="gridOptions" dir="{{direction}}"  ui-grid-resize-columns  ui-grid-selection ui-grid-exporter ui-grid-move-columns ui-grid-save-state class="grid"></div> -->
+      </div>
+      <!--            <div style="padding: 22px 10px;" ng-if="tests.length" class="list-item header">-->
+      <!--                &lt;!&ndash; row id &ndash;&gt;-->
+      <!--                <div>-->
+      <!--                    {{ "INDEX" | translate }}-->
+      <!--                </div>-->
+
+      <!--                &lt;!&ndash; Test Type &ndash;&gt;-->
+      <!--                <div>-->
+      <!--                    {{ "TEST_TYPE" | translate }}-->
+      <!--                </div>-->
+
+      <!--                &lt;!&ndash; Test Group &ndash;&gt;-->
+      <!--                <div>-->
+      <!--                    {{ "TEST_GROUP" | translate }}-->
+      <!--                </div>-->
+
+      <!--                &lt;!&ndash; Machine type &ndash;&gt;-->
+      <!--                <div>-->
+      <!--                    {{ "MACHINE_TYPE" | translate}}-->
+      <!--                </div>-->
+
+      <!--                &lt;!&ndash; PRODUCT  &ndash;&gt;-->
+      <!--                <div>-->
+      <!--                    {{ "PRODUCT" | translate}}-->
+      <!--                </div>-->
+
+      <!--                &lt;!&ndash; ACTIVE TEST &ndash;&gt;-->
+      <!--                <div>-->
+      <!--                    {{ "ACTIVE_TEST" | translate}}-->
+      <!--                </div>-->
+      <!--            </div>-->
+
+      <!--            <div style="text-align: center;margin:50px" ng-if="!tests.length">-->
+      <!--                <div>-->
+      <!--                    {{ "NO_ROWS_START_BY_ADDING" | translate}}-->
+      <!--                </div>-->
+      <!--                <div style="cursor:pointer;" ng-click="assignCurrentStep('add-qc-tests', 0)">-->
+      <!--                    <div>-->
+      <!--                        <img src="images/add-circle.svg"/>-->
+      <!--                        {{"ADD_TEST" | translate}}-->
+      <!--                    </div>-->
+      <!--                </div>-->
+      <!--            </div>-->
+
+      <!--            <div id="sortable" class="list-group newScroll slim" ng-if="tests.length">-->
+      <!--                <div-->
+      <!--                        style="cursor: pointer;"-->
+      <!--                        ng-repeat="test in tests | orderBy:(sortBy=='isactive' ? '-' : '' )+sortBy"-->
+      <!--                        class="list-item list-group-item" ng-class="{'new-field': test.id==0}"-->
+      <!--                        ng-click="assignCurrentStep('add-qc-tests', test)">-->
+
+      <!--                    &lt;!&ndash; row id &ndash;&gt;-->
+      <!--                    <div>-->
+      <!--                        <div ng-if="test.id!=0">{{test.id}}</div>-->
+      <!--                        <div ng-if="test.id==0" style="font-size: 12px;font-weight: 600;color: var(--color2);">-->
+      <!--                            {{"NEW_TEST" | translate}}-->
+      <!--                        </div>-->
+      <!--                    </div>-->
+
+      <!--                    &lt;!&ndash; Name &ndash;&gt;-->
+      <!--                    <div>-->
+      <!--                        {{test.subtypename}}-->
+      <!--                    </div>-->
+
+      <!--                    &lt;!&ndash; TEST TYPE &ndash;&gt;-->
+      <!--                    <div>-->
+      <!--                        {{test.testtypename}}-->
+      <!--                    </div>-->
+
+      <!--                    &lt;!&ndash; TEST GROUP &ndash;&gt;-->
+      <!--                    <div>-->
+      <!--                        {{test.productgroupname}}-->
+      <!--                    </div>-->
+
+      <!--                    &lt;!&ndash; MACHINE TYPE &ndash;&gt;-->
+      <!--                    <div>-->
+      <!--                        {{test.machinetypename}}-->
+      <!--                    </div>-->
+
+      <!--                    &lt;!&ndash; ACTIVE TEST &ndash;&gt;-->
+      <!--                    <div class="pull-left" check-box-directive field-title=""-->
+      <!--                         field="test" select-value="'isactive'"-->
+      <!--                         ng-mouseup="saveTest(test.id ,test.isactive)"-->
+      <!--                         ng-click="$event.stopPropagation()"></div>-->
+      <!--                </div>-->
+
+      <!--            </div>-->
+    </div>
+  </div>
+</div>

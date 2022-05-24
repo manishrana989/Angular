@@ -1,0 +1,48 @@
+<div class="Current-Shift-Performance" ng-style="type=='machine' && {'padding':'1% 4%'}">
+    <div class="title" ng-if="type!='machine'" style="margin: 0.417vw 0">{{"CURRENT_SHIFT_PERFORMANCE" | translate}}
+    </div>
+    <div style="display: flex;justify-items: center;font-size: calc(100%*{{(settings.selectedScale.scale || 1)}})">
+        <div style="width: 100%;margin: auto;">
+            <div ng-style="{'height':'calc(2.875vw*'+(settings.selectedScale.scale || 1)+')'}" style="display: flex;flex-direction: column">
+                <p></p>
+                <p></p>
+                <div style="position:relative;height: 33%;display: flex;flex-direction: row;">
+
+                    <span class="percentage-text"
+                          style="display:flex;flex-direction: column;align-items:center;position: absolute;"
+                          ng-style="!rtl && {'left': 'calc('+(unitsProduced.percent)+'% - '+(unitValue)+'vw)'}
+                                     || rtl && {'right': 'calc('+(unitsProduced.percent)+'% - 0.0vw)'}">
+                        <span ng-if="type!='machine' && false" style="position: absolute"
+                              ng-style="!rtl && {'right':'3.33vw'} || !rtl && {'left':'3.33vw'}">{{unitsProduced.name| translate}}</span>
+                        <span ng-style="type!='machine'" 
+                        style="font-size: 0.8vw;position: absolute;top:-30px;margin: 8px 0 8px 0;
+                        max-width: fit-content;
+                        display: inline-block;">
+                            {{unitsProduced.value  | toK  }} </span>
+                    </span>
+
+                </div>
+                <div style="position:relative;height: 33%;display: block;flex-direction: row;background: #dcdcdc;">
+                    <div ng-repeat="bar in barData"
+                         ng-style="{'width':(bar.step)+'%','background-color': (machineColor && bar.id==='produced')?machineColor:bar.color}"
+                         style="display: inline-block;height: 100%;float: left !important">
+                        </div>
+                </div>
+                <div style="position:relative;height: 33%;display: flex;flex-direction: row;">
+
+                    <span class="percentage-text"
+                          style="display:flex;flex-direction: column;align-items:center;position: absolute;"
+                          ng-style="!rtl && {'left': 'calc('+(unitsTarget.percent)+'% - 0.0vw)'}
+                                     || rtl && {'right': 'calc('+(unitsTarget.percent)+'% - 0.0vw)'}">
+                        <span ng-if="type !='machine' && false" style="position: absolute"
+                              ng-style="!rtl && {'right':'3.167vw'} || !rtl && {'left':'3.167vw'}">{{unitsTarget.name| translate}}</span>
+                        <span ng-style="type !='machine' && {'top': '0.260vw'}" style="font-size: 0.8vw;position: absolute; margin: auto 60px 2px auto">
+                            {{unitsTarget.value  | toK  }}</span>
+                    </span>
+
+                </div>
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>

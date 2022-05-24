@@ -1,0 +1,145 @@
+<div class="modal-content pull-left col-lg-5 col-md-5 col-sm-5 col-xs-5 machine-expanded-directive" ng-class="{'rtlModal' : rtl == true, 'noRtlModal' : rtl == false}">
+    <div class="modal-body">  
+    <call-of-service-cube 
+        style="display: inline-block;width: 100%;" 
+        update-technician-status-cube="updateTechnicianStatusCube" update-technician-status="updateTechnicianStatus"
+        update-data="updateDataCube" params="paramsCube"
+        machine="machineCube" close="close"></call-of-service-cube>
+    </div>            
+</div> 
+
+
+
+<!-- <div class="modal-content pull-left col-lg-4 col-md-4 col-sm-4 col-xs-4">       
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="tabs col-lg-4" ng-click="openNotifications('openCalls')" ng-class="{'selectedTab' : selectedTab == 'openCalls'}">
+                            {{"OPEN_CALLS" | translate}}</div>
+                        <div class="tabs col-lg-4" ng-click="openNotifications('last24')" ng-class="{'selectedTab' : selectedTab == 'last24'}">
+                            {{"LAST_24" | translate}}</div>
+                        <div class="tabs col-lg-4" ng-click="openNotifications('callTechnician')" ng-class="{'selectedTab' : selectedTab == 'callTechnician'}">
+                                <img src="images/technician.png" /> <span>{{"CALL_TECHNICIAN"
+                                        | translate}}</span>                                        
+                                <img class="close-icon" src="images/close.png" ng-click="close();" />
+                        </div>                
+                    </div>  
+                    </div>      
+    <div class="modal-body"> -->
+        
+                <!-- 
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-show="callTechnicianEnabled">
+                        <div class="call-technician" ng-init="callOfServiceCubeCtrl.showTechnicianList = false">
+                            <div ng-click="callOfServiceCubeCtrl.showTechnicianList = !callOfServiceCubeCtrl.showTechnicianList">
+                                <img src="images/technician.png" /> <span>{{"CALL_TECHNICIAN"
+                                    | translate}}</span> </div>
+                            <div ng-if="callOfServiceCubeCtrl.showTechnicianList" 
+                                class="newScroll slim techniciansList">
+                                <div ng-show="!callingTech">
+                                    <div ng-repeat="tech in allTechs track by $index" ng-click="callTechnician(tech)" style="padding:5px 10px">{{rtl
+                                        ? tech.DisplayHName : tech.DisplayName}}</div>
+                                </div>
+                                <div ng-show="callingTech">
+                                    <div ng-include="'views/common/emptyPage.html'" style="margin-top:0" class="shift-loading"> </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <img class="close-icon" src="images/close.png" ng-click="close();" />
+                    </div> -->
+              
+<!--                 
+                <div class="notifications-list newScroll col-lg-12" style="padding:0;height: calc(100% - 54px)">
+                        <div ng-show="selectedTab === 'callTechnician'" style="height: 100%; width: 100%;overflow-x: hidden;
+                        overflow-y: hidden;">
+                                <div style="height: 100%; width: 100%;margin-left:10%;margin-top: 5%;">
+                                        <label style="display:block;font-size: 18px;">New Service Call</label>
+                                        <div  style="margin-bottom:5%;width:80%">
+                                        <label style="display:block">Technician Name</label>
+                                         <input name="username" type="text" class="ng-pristine ng-untouched ng-valid" ng-model="" style="display:block;width:100%;height: 35px">
+                                         </div>
+                                         <div style="margin-bottom:5%;width:80%">
+                                         <label style="display:block">Call reason</label>
+                                         <select class="form-control" style="display:block;width:100%;height: 35px">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option> 
+                                        </select>
+                                        </div>
+                                        <div style="margin-bottom:5%;width:80%;height:20%">
+                                            <label style="display:block">Message</label>
+                                            <textarea style="display:block;resize: none;width:100%;height:100%"></textarea>
+                                            </div>
+                                        <button type="button" class="btn btn-primary" style="margin-top: 5%;
+                                        margin-left: 23%;
+                                        width: 35%;
+                                        height: 6%;
+                                        padding: 0;">Send Call</button>
+                                    </div>
+                
+                        </div>
+                        
+                    <div ng-repeat="notification in qqq.OpenCalls track by $index" ng-show="selectedTab === 'openCalls' && !callOfServiceCubeCtrl.dataLoad">
+                        <div class="container-fluid ellipsisRuleOnAllChilds">
+                            <div class="col-xs-2 no-padding pull-left">
+                                <img ng-src="{{notification.ResponseTypeID | getTechnicianIcon}}" />
+                                <div style="font-size: 10px;white-space: initial">            
+                                    {{rtl ? notification.ResponseTypeLName : notification.ResponseTypeEName}}
+                                </div>
+                            </div>
+                            <div class=" col-xs-5 no-padding pull-left call-to " style="font-weight: 600;" title="Call To: {{notification.TargetUserName}}">{{"CALL_TO" |
+                                translate}}:
+                                {{notification.TargetUserName}}
+                                <div title="Call From: {{notification.SourceUserName}}" style="font-size: 12px;">
+                                    {{"CALL_FROM" | translate}}: {{notification.SourceUserName}}
+                                </div>
+                            </div>
+                            <div class="col-xs-4 pull-left call-id">
+                                <div class="col-xs-12 no-padding">
+                                    <span class="notification-date col-xs-7 pull-left no-padding-left">{{notification.ResponseDate | date:"dd/MM/yy"}}</span>
+                                    <span class="notification-time pull-right">{{notification.ResponseDate | date:"HH:mm"}}</span>
+                                </div>
+                                <div class="callID col-xs-12 no-padding pull-left" style="font-size: 12px">
+                                    <span class="pull-left col-xs-5 no-padding-left">{{"CALL_ID" | translate}}</span>
+                                    <span class="pull-right" >{{notification.ID}}</span></div>
+                            </div>
+                            <div class="delete-notification col-xs-1 deleteCallButton pull-left no-padding" ng-click="removeNotification(notification)"
+                                ng-hide="selectedTab == 'last24'">
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div ng-repeat="notification in qqq.last24Notifications track by $index" ng-show="selectedTab === 'last24' && !callOfServiceCubeCtrl.dataLoad">
+                        <div class="last24Notfications">
+                            <div class="tech-icon">
+                                <img ng-src="{{notification.ResponseTypeID | getTechnicianIcon}}" />
+                                <div style="font-size: 10px">
+                                    {{rtl ? notification.ResponseTypeLName : notification.ResponseTypeEName}}
+                                </div>
+                            </div>
+                            <div class="tech-name" style="margin: 0 10px" title="Call To: {{notification.TargetUserName}}">{{"CALL_TO" | translate}}:
+                                {{notification.TargetUserName}}
+                                <div title="Call From: {{notification.SourceUserName}}" style="font-size: 12px;">{{"CALL_FROM" | translate}}: {{notification.SourceUserName}}</div>
+                            </div>
+                            <div class="pull-right" style="margin: 2%;">
+                                <div>
+                                    <span class="notification-date">{{notification.ResponseDate | date:"dd/MM/yy"}}</span>
+                                    <span class="notification-time pull-right">{{notification.ResponseDate
+                                        | date:"HH:mm"}}</span>
+                                    <img class="delete-notification" ng-click="removeNotification(notification)"
+                                        ng-hide="selectedTab == 'last24'" src="images/delete.png" />
+                                </div>
+                
+                                <div class="callID" style="font-size: 12px">
+                                    <span class="pull-left">{{"CALL_ID" | translate}}</span>
+                                    <span class="pull-right">{{notification.ID}}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div ng-show="callOfServiceCubeCtrl.dataLoad" style="border-bottom:0">
+                        <div ng-include="'views/common/emptyPage.html'" style="margin-top:70px" class="shift-loading"> </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->

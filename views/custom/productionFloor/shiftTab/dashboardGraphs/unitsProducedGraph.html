@@ -1,0 +1,26 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+    <span class="head_txt">
+        {{"UNITS_PRODUCED" | translate}}
+    </span>
+    </header-title>
+    <graph>
+        <units-produced-directive options="containerOptions" graph="graph" export-csv="exportCSV"></units-produced-directive>
+    </graph>
+
+
+    <setting>
+        <div style="width: 100%;display: flex;flex-direction:column;padding: 0px 0.521vw;">
+            <span ng-init="containerOptions.settings.calculateBy = 'false';">{{"CALCULATE_BY" | translate}}</span>
+            <div check-box-directive field-title="'CURRENT_JOB'"
+                 field="containerOptions.settings" select-value="'calculateBy'" type="'radio'"
+                 value="true"></div>
+            <div check-box-directive field-title="'SHIFT_UNIT_TARGET'"
+                 field="containerOptions.settings" select-value="'calculateBy'" type="'radio'"
+                 value="false"></div>
+        </div>
+
+    </setting>
+
+
+</shift-container>

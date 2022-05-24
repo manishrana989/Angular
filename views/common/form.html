@@ -1,0 +1,104 @@
+<div class="panel-body" style="background: #fff;">
+    <react-form-generic 
+        leader-id="leaderId"
+        form-id="formId"
+        skip-save-operation="SkipSaveOperation"
+        request="request"
+        actionname="actionName"     
+        api="api"
+        actions-data="actionsData"
+        general-tab="generalTab"
+        full-size="fullSize"
+        add="add"       
+        form-callback="formCallBack"
+        custom-button="customButton"
+        always-show-footer="alwaysShowFooter"
+        show-other-button="showotherButton"
+        other-action-name="otheractionName"
+        cancel-button="cancelButton"
+        modal-close="modalClose"
+        update-changes="updateChanges"
+    >
+    </react-form-generic>
+    
+    <!-- <div class="" ng-if="true">
+
+        <form role="form" name="leaderForm" ng-submit="saveForm()">
+            <div class="col-sm-12" ng-repeat="group in groups" ng-init="group.shownFieds == 0" ng-if="group.recordValue.length > 0" ng-show="group.shownFieds > 0" style="border-style: solid solid solid;border-width: 1px;border-color: #e7eaec; margin-bottom: 15px;box-shadow: 5px 5px 2px #888888;">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title" style="border-width: 0 0 0 !important;padding: 0;min-height: 20px;">
+                        <h4 class="pull-left" style="font-weight: bold;">{{localLanguage === true ? group.Value.GroupLName : group.Value.GroupEName}}</h4>
+
+                        <div ibox-tools group-data="group">
+                        </div>
+                    </div>
+                    <div class="ibox-content groupContainer" ng-if="!add" style="padding-bottom: 20px;">
+                        <div  ng-init="group.shownFieds = group.shownFieds + 1" ng-repeat="field in group.recordValue" style="height: 100%;"class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                            <input-directive ng-if="!field.loading" formobject="leaderForm" content="field"></input-directive>
+
+                      
+
+
+                        </div>
+
+
+                    
+
+          
+
+
+                    </div>
+                    <div class="ibox-content groupContainer" ng-if="add">
+                        <div ng-init="group.shownFieds = group.shownFieds + 1" ng-if="field.ShowOnNew == true" style="height: 100%;" ng-repeat="field in group.recordValue" class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                            <input-directive ng-if="!field.loading" formobject="leaderForm" content="field" add="true"></input-directive>
+                           
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12" ng-if="!add">
+                <div ng-repeat="common in recordValue">
+                    <div style="height: 100%;" class="form-group  {{(common.DisplayType == 13 || common.ChildName !== null || common.DisplayType == 16 )  ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                        <input-directive ng-if="!field.loading" content="common" formObject="leaderForm"></input-directive>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <div class="col-sm-12" ng-if="add">
+                <div ng-repeat="common in recordValue" ng-if="common.ShowOnNew == true">
+                    <div style="height: 100%;" class="form-group {{(common.DisplayType == 13 || common.ChildName !== null || common.DisplayType == 16)  ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                        <input-directive ng-if="!field.loading" content="common" formObject="leaderForm" add="true"></input-directive>
+                     
+                   
+                   
+                    </div>
+
+
+ 
+                
+                
+
+                    
+
+
+                </div>
+
+            </div>
+            <div class="pull-right floatOnBottom" ng-style="{'bottom':'40px'}" ng-if="!treeGraph">
+                <button style="margin:0" type="submit" ng-disabled="leaderForm.$error.pwmatch || buttonDisabled" class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ actionName | translate}}</button>
+            </div>
+            <div class="col-lg-1 pull-right" ng-if="!treeGraph">
+                <button style="margin:0" type="button" ng-if="actionModalInstanceCtrl && actionModalInstanceCtrl.currentForm > 1" ng-click="actionModalInstanceCtrl.DisplayFormResultsStepsPrev()"  class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ "PREVIOUS" | translate}}</button>
+            </div>
+            <div class="pull-right" ng-if="treeGraph">
+                <button style="margin:0" type="submit"  class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ "SAVE_CHANGES" | translate}}</button>
+            </div>
+        </form>
+    </div> -->
+</div>

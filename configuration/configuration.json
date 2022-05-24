@@ -1,0 +1,83 @@
+{
+    "login" : {
+        "logoUrl" : "images/logo2.gif",
+        "bigImageUrl" : "https://s3-eu-west-1.amazonaws.com/release.leadermes.com/login-image2.7.jpg"
+    },
+    "main" :{
+        "sideMenuImage" : "images/logo.png"
+    },
+    "zoom" : {
+        "data" : [
+            {
+                "resolution" : 2200,
+                "zoom" : 1
+            },
+            {
+                "resolution" : 1920,
+                "zoom" : 1
+            },
+            {
+                "resolution" : 1366,
+                "zoom" : 1
+            }
+        ],
+        "else" : 1
+    },
+    "machineAvailability" : {
+        "1": 0.4,
+        "2": 0.7,
+        "3": 0.9
+    },
+    "defaultHomePage" : 540,
+    "calendar" : {
+        "shift" : {
+            "workingColors" : ["#F0F8FF","#B0C4DE"],
+            "notWorkingColor" : "#000000"
+        },
+        "jobQueueColor" : "blue",
+        "colorsPalette" : [
+            "#f52e84",
+            "#741de4",
+            "#4ad446",
+            "#7c0d03",
+            "#64c41c",
+            "#5a1940",
+            "#f6e847",
+            "#f64e50",
+            "#338a34",
+            "#41f57c",
+            "#2fa9f4",
+            "#4906d3",
+            "#9df208",
+            "#759a42",
+            "#9c8cd3",
+            "#a7a93b",
+            "#fa8dfc",
+            "#346453",
+            "#985f52",
+            "#15aed7",
+            "#bbc6ff",
+            "#abd394",
+            "#767850",
+            "#f866f0",
+            "#681111",
+            "#1075c4",
+            "#c274b4",
+            "#0542de",
+            "#1c2dba",
+            "#f59a9f",
+            "#daf78b",
+            "#12b5fc",
+            "#37571d",
+            "#d191d4",
+            "#0bbdca",
+            "#66e8ef",
+            "#386f58",
+            "#57b275",
+            "#bbb2aa"
+        ]
+    },
+    "shiftDashboard" : {
+        "stories" : ["default","stopEventsAnalysis","production","machineAvailabilityOverTime"]
+    }
+}

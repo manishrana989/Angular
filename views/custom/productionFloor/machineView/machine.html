@@ -1,0 +1,39 @@
+<div class="{{rtl}} gray-bg">
+    <div class="row">
+        <div class="col-lg-10 pull-left">
+            <!-- <h3 style="margin-left: 50px;margin-top: 12px;margin-right: 50px"  class="pull-left">{{localLanguage == true ? machine.MachineLname : machine.MachineEName}} 
+            </h3> -->
+            <div class="machine-name" ng-show="machine" style="position: relative;width: fit-content;" ng-click="showDepartmentMachines = true" off-click-activator="structure.showDepartmentMachines" off-click="showDepartmentMachines = false">
+                    <button  type="button" class="btn dropdown-toggle shift-drop-down" ng-click="showDepartmentMachines = !showDepartmentMachines"
+                        style="font-family: BreeSerif;background-color: transparent;padding: 0px 15px;" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="machine-name ng-binding" style="cursor: pointer;font-size: 24px;" title="{{localLanguage == true ? machine.MachineLname : machine.MachineEName}} ">
+                                {{localLanguage == true ? machine.MachineLname : machine.MachineEName}} 
+                        </span>
+                        <span style="text-decoration:underline; margin: 0 0.260vw;font-size: 0.729vw; font-family: ProximaNova;" class="ng-binding">
+                            {{"CHANGE" | translate}}
+                        </span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu select-dep-dropdown department newScroll slim ng-hide" ng-show="showDepartmentMachines" style="max-height: 22.396vw">
+                        <li ng-repeat="machine in departmentMachines" class="ng-scope">
+                            <a style="width: calc(100% - 0.417vw);"
+                            href="#/appObjectMachineFullView/MachineScreenEditor/{{machine.Id}}?firstTime=true"
+                            class="pull-left">{{machine.MachineName}}</a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+        <div class="col-lg-2 pull-right">
+            <h3 style="margin-left: 50px;margin-top: 12px;">
+                <a ng-click="getPendingJobs()">{{"PENDING_JOBS" | translate}}</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+                <div id="toastr" ng-if="!(subPage.pageDisplay === 1 && searchPage === true)"></div>
+            <app-object-tabs-directive ng-if="loading == false" content="appObjectTabsStruct"></app-object-tabs-directive>
+        </div>
+    </div>
+</div>

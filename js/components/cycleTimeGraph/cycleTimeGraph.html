@@ -1,0 +1,9 @@
+<div >
+    <div ng-click="expandedView=false;cycleDrawGraph()" ng-show="expandedView" class="close-biggergraph">
+        <img src="images/close.png"/>
+    </div>
+    <div off-click-activator="expandedView"  off-click="expandedView && closeExpanded()" class="cycleTimeGraph" ng-click="expandedView = true;cycleDrawGraph(700,300);$event.stopPropagation()" 
+        ng-class="{'bigger-graph' : expandedView}">
+    </div>
+</div>
+

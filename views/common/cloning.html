@@ -1,0 +1,83 @@
+
+<div class="row wrapper border-bottom white-bg page-heading " style="z-index: 10001">
+<div ng-repeat=" x in cloneModalCtrl.currentAttributeArray track by $index" class="row printerMargin">
+
+    <!--<div -->
+    <!--class=" col-lg-9 row pull-left" >-->
+    <!--<div >-->
+    <!--<div cloass="row">-->
+    <div class="col-lg-4 pull-left"  > <label ng-if="$index==0">{{"SELECT_ATTRIBUTE_DATA" | translate}}: </label>
+        <input  class="form-control" type="text" ng-model="cloneModalCtrl.currentAttributeArray[$index].AttributeEName" disabled>
+        <!--<select class="form-control"-->
+        <!--ng-model="currentAttributeArray[$index].attribute" ng-change="currentAttributeClicked(currentAttributeArray[$index])"-->
+        <!--ng-options="option as option.AttributeEName | translate for option in currentTemplateOption.AttributeData">-->
+        <!--<option value="">{{"SELECT_ATTRIBUTE" | translate}}</option>-->
+        <!--</select>-->
+
+    </div>
+    <div class="col-lg-4  pull-left" >
+        <div ng-if="cloneModalCtrl.currentAttributeArray[$index] &&  cloneModalCtrl.currentAttributeArray[$index].SearchLinkReportID " class="form-group  pull-left" >
+            <label ng-if="$index==0">{{"SELECT_REPORT" | translate}}:</label>
+            <div class="input-group">
+                <input type="number"  readonly
+                       class="form-control ng-pristine ng-untouched ng-valid" ng-model="cloneModalCtrl.currentAttributeArray[$index].field ? cloneModalCtrl.currentAttributeArray[$index].field.ID:''"     >
+                <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="AddNewObject(cloneModalCtrl.currentAttributeArray[$index].SearchLinkReportID,$index)"><i
+                                    class="fa fa-search"></i>
+                            </button>
+                    <!--<span class="input-group-btn" ng-if="currentAttributeArray[$index].attribute &&  (currentAttributeArray[$index].attribute.ComboValues || currentAttributeArray[$index].attribute.SearchLinkReportID)">-->
+                    <!--<button ng-disabled="!$last" type="button" class="btn btn-default btn-number" ng-click="addMoreAttribute()"-->
+                    <!--&gt;-->
+                    <!--<span class="glyphicon glyphicon-plus"></span>-->
+
+                    <!--</button>-->
+                    <!--<button ng-disabled="$first" type="button" class="btn btn-default btn-number" ng-click="removeMoreAttribute($index)"-->
+                    <!--&gt;-->
+                    <!--<span class="glyphicon glyphicon-minus"></span>-->
+
+                    <!--</button>-->
+                    <!--</span>-->
+                                    </span>
+            </div>
+        </div>
+
+        <!--<
+                    </button>
+                            </span></div></div>-->
+
+        <div ng-if="cloneModalCtrl.currentAttributeArray[$index] &&  cloneModalCtrl.currentAttributeArray[$index].ComboValues && cloneModalCtrl.currentAttributeArray[$index].SearchLinkReportID==null" class="form-group pull-left " style="width: 100%" >
+            <label ng-if="$index==0">{{"SELECT_ATTRIBUTE_FIELD" | translate}}:</label>
+            <select class="form-control"
+                    ng-model="cloneModalCtrl.currentAttributeArray[$index].cloningfield"
+                    ng-options="option as option.DisplayEName | translate for option in cloneModalCtrl.currentAttributeArray[$index].ComboValues">
+                <option value="">{{"SELECT_ATTRIBUTE_FIELD" | translate}}</option>
+            </select>
+            <!--<span class="input-group-btn" ng-if="currentAttributeArray[$index].attribute &&  (currentAttributeArray[$index].attribute.ComboValues || currentAttributeArray[$index].attribute.SearchLinkReportID)">-->
+            <!--<button ng-disabled="!$last" type="button" class="btn btn-default btn-number" ng-click="addMoreAttribute()"-->
+            <!--&gt;-->
+            <!--<span class="glyphicon glyphicon-plus"></span>-->
+
+            <!--</button>-->
+            <!--<button ng-disabled="$first" type="button" class="btn btn-default btn-number" ng-click="removeMoreAttribute($index)"-->
+            <!--&gt;-->
+            <!--<span class="glyphicon glyphicon-minus"></span>-->
+
+            <!--</button>-->
+            <!--</span>-->
+        </div>
+
+    </div>
+</div>
+    <div class="row" ng-if="noTemplateToClone" style="color: red;"><div class="col-lg-12">{{"NO_TEMPLATE_TO_CLONE"| translate}}</div></div>
+            <div class="row">
+
+        <div class="printerMargin">
+            <div class="col-lg-12 pull-left">
+                <button class="btn btn-primary" type="submit" ng-click="cloneModalCtrl.clone()">{{"CLONE"| translate}}
+                </button>
+                <button class="btn btn-white" ng-click="cloneModalCtrl.exit()">{{"CANCEL" | translate}}</button>
+            </div>
+        </div>
+
+</div></div>

@@ -1,0 +1,50 @@
+<!-- <div class="row"> -->
+    <!-- <div class="row col-lg-12 padding-right-50">
+        <div ng-repeat="action in actions" class="pull-right recipeHeaderButtons">
+            <button type="submit" ng-click="actionButton(action)"
+                    class="btn btn-xs btn-w-m btn-primary">{{localLanguage ? action.SubMenuLName :
+                action.SubMenuEName}}
+            </button>
+        </div>
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 pull-left">
+        <div class="panel-body recipeMaxButtonContainer">
+            <h3 style="text-align: center;">{{"RECIPE_REF_DATA" | translate}}</h3>
+            <div ng-repeat="recipeRef in recipeRefType" class="recipeRefButtons col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                 style="display: inline-block;position: relative;top: 10px;">
+                <label class="pull-left"><input icheck type="radio" name="radioRecipe"
+                                                ng-value="recipeRef.RecipeRefType"
+                                                ng-disabled="(recipeRef.RecipeRefType == 2 && (recipeRef.MEJid == 0 || recipeRef.MEJid == null)) || (recipeRef.RecipeRefType == 6 && recipeRef.StandardRecipe.length == 0)"
+                                                ng-model="checkedType.index" ng-change="getNewRecipeType(recipeRef)">
+                    {{localLanguage ? recipeRef.LName : recipeRef.EName}}
+                </label>
+
+                <div class="col-lg-12">
+                    <select class="form-control" ng-model="subCheckType"
+                            ng-options="option as (option | customTranslate: 'EName':'LName':localLanguage) for option in recipeRef.StandardRecipe"
+                            ng-change="updateRecipeTypeCombo(subCheckType)"
+                            ng-if="checkedType.index == recipeRef.RecipeRefType && recipeRef.StandardRecipe.length > 0">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="panel-body recipeMaxButtonContainer">
+            <h3 style="text-align: center;">{{"RECIPE_CURRENT_DATA" | translate}}</h3>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6  pull-left">
+        <recipe-directive ng-if="RecipeDataByType && RecipeDataByType !== null"
+                          content="RecipeDataByType"></recipe-directive>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 pull-left">
+        <recipe-directive ng-if="RecipeData" content="RecipeData"></recipe-directive>
+    </div> -->
+<!-- </div> -->
+
+<react-job-recipe id="reactJobRecipeWrapper" content="content"></react-job-recipe>

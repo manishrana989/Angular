@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <path id="umq5qjg4ga" d="M0 12h18v-2H0v2zm0-5h18V5H0v2zm0-7v2h18V0H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g>
+                        <g transform="translate(-1309 -191) translate(1225 170) translate(25 14) translate(59 7) translate(3 6)">
+                            <mask id="k5gq502d2b" fill="#fff">
+                                <use xlink:href="#umq5qjg4ga"/>
+                            </mask>
+                            <use fill="#000" fill-rule="nonzero" xlink:href="#umq5qjg4ga"/>
+                            <g fill="#4A4A4A" mask="url(#k5gq502d2b)">
+                                <path d="M0 0H288V288H0z" transform="translate(-136 -142)"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

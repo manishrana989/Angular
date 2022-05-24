@@ -1,0 +1,14 @@
+<div class="theme-config" style="position: fixed;top: 130px;z-index: 10001"  ng-init="initActionConfig()">
+    <div class="theme-config-box" click-outside="closeThis()">
+        <div class="spin-icon" >
+            <i class="fa fa-bolt fa-lg" ></i>
+        </div>
+        <div class="skin-setttings">
+            <div class="title">{{"ACTIONS_MENU" | translate }}</div>
+            <div on-action-finish-render="ngRepeatFinished" ng-repeat="actionItem in appObjectConfigDirectiveCtrl.sideMenuActions" class="setings-item" style="text-align: center">
+                <button ng-disabled="actionItem.enabled === false || actionItem.disabled == true" type="button" class="btn btn-xs btn-w-m btn-primary"
+                        ng-click="appObjectConfigDirectiveCtrl.openAction($index)">{{getName(actionItem)}}</button>
+            </div>
+        </div>
+    </div>
+</div>

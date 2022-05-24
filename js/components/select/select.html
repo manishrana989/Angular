@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="js/components/select/select.css">
+<div class="select-option box" ng-click="toggleOptions = !toggleOptions" off-click-activator="toggleOptions" off-click="toggleOptions = false">
+    {{((field[selectValue] | getValByKey:options:value:text ) || "SELECT_OPTION") | translate}}
+    <span class="caret"></span>
+    <ul class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="toggleOptions" >
+        <li ng-click="field[selectValue] = null;">
+            <div class="pull-left">{{"SELECT_OPTION" | translate}}</div>
+        </li>
+        <li ng-repeat="option in options"
+                ng-class="{'selected' : option[value] === field[selectValue]}"
+                ng-click="field[selectValue] = option[value]">
+            <div class="pull-left">{{option[text] | translate}}</div>
+        </li>
+    </ul>
+</div>

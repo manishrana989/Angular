@@ -1,0 +1,48 @@
+<span class="global-checkbox" ng-if="type == 'checkbox'  || !type" title="{{fieldTitle | translate}}">
+  <input id="{{fieldName}}" type="checkbox" ng-disabled="disabled" class="graph-option-li" ng-model="field[selectValue]" />
+  <img
+    ng-if="field[selectValue]"
+    src="images/global_icons/checkbox.png"
+    ng-click="field[selectValue] = !field[selectValue];ngCustomChange(field, firstParamForCustomChange);"
+  />
+  <img
+    ng-if="!field[selectValue]"
+    width="18"
+    src="images/global_icons/check-box-empty.png"
+    ng-click="field[selectValue] = !field[selectValue];ngCustomChange(field, firstParamForCustomChange);"
+  />
+  <label
+    ng-click="field[selectValue] = !field[selectValue];ngCustomChange(field,firstParamForCustomChange);"
+    for="{{fieldName}}"
+    ng-style="{'color' : field.color}"
+    ng-attr-title="{{fieldTitle | translate}}"
+  >
+    {{fieldTitle | translate}}
+  </label>
+</span>
+
+<span class="global-radio" ng-if="type == 'radio'">
+  <label class="container-radio" ng-class="{'comboBoxLabel':newClass == true}"
+    >{{fieldTitle | translate}}
+    <input id="{{fieldName}}" ng-change="ngCustomChange(field, firstParamForCustomChange);" ng-disabled="disabled" type="radio" ng-model="field[selectValue]" value="{{value}}" />
+    <span class="checkmark" ng-style="checkMarkStyle && {top:checkMarkTop + 'vw'}"></span>
+  </label>
+</span>
+
+<div class="hide-material-switch onoffswitch pull-right" style="direction: ltr; text-align: left;" ng-if="type == 'toggle'">
+  <input
+    type="checkbox"
+    ng-model="field[selectValue]"
+    ng-disabled="disabled"
+    ng-change="ngCustomChange(field, firstParamForCustomChange)"
+    class="onoffswitch-checkbox"
+    id="toggleID_{{unique}}"
+  />
+  <label class="onoffswitch-label" ng-style="!field[selectValue] && {'border-color':'#4a4a4a'}" for="toggleID_{{unique}}">
+    <span class="onoffswitch-inner"></span>
+    <span class="onoffswitch-switch" ng-class="{'unchecked': !field[selectValue]}">
+      <span ng-if="field[selectValue]" class="material-switch-v"> </span>
+      <span ng-if="!field[selectValue]" class="material-switch-x"></span>
+    </span>
+  </label>
+</div>

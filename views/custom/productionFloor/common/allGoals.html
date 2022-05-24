@@ -1,0 +1,302 @@
+<div
+  class="ibox goalsScreenAllDep"
+  ng-style="allMachinesFullScreen.value && type!='ShiftProgress' &&  {'margin-top':'2.6vw'} || 
+  machineOnlineSettings.maximize && type=='ShiftProgress' && {'margin-top':'2.6vw'} ||
+  !machineOnlineSettings.maximize && type=='ShiftProgress'&& {'margin-top':'calc(40px + 5.521vw)'} ||
+  (!allMachinesFullScreen || !allMachinesFullScreen.value) && {'margin-top':'calc(40px + 5.521vw)'} "
+>
+  <div id="toastr"></div>
+
+  <div class="goalsSumm ibox-title" style="height: 3.333vw; line-height: 2.083vw;">
+    <div style="display: inline-block;">
+      <span>{{factoryName | translate}}</span><span style="margin: 0 20px;">|</span>
+      <span>{{"DEPARTMENTS" | translate}}:</span>
+      <span style="margin: 0 5px;">{{allDepartments.length}}</span>
+      <span style="margin: 0 20px;">|</span>
+      <span>{{"MACHINES" | translate}}:</span>
+      <span style="margin: 0 5px;" ng-if="showMachinePE">{{machinesNumber}}</span>
+      <span style="margin: 0 20px;" ng-if="allGoalsCtrl.goalsToggle && machineData.showGoals.value || type == 'target'">|</span>
+      <span ng-if="allGoalsCtrl.goalsToggle && machineData.showGoals.value || type == 'target'"
+        >{{"ALL_THE_KPIS_ARE_CALCULATED" | translate}}</span
+      >
+      <span ng-if="!machineData.isPie">{{"PE" | translate}}:</span>
+      <span ng-if="!machineData.isPie && showMachinePE" style="margin: 0 5px;" ng-style="{'color' : departmentsPE > 2 || departmentsPE < 0 ? 'red' : 'none'}">
+        {{departmentsPE > 2 || departmentsPE < 0 ? ("PE_ERROR" | translate) : departmentsPE}}
+      </span>
+    </div>
+
+      <div class="pull-right">
+        <!-- Edit Pencil -->
+        <div
+          ng-show="allGoalsCtrl.goalsToggle || !machineData.isPie || type == 'target'"
+          style="display: inline-block;"
+          title="{{'EDIT' | translate}}"
+          ng-init="machineOnlineSettings.showPencils = false;"
+          ng-if="allGoalsCtrl.selectTemplateGroupID != -1"
+        >
+        
+          <button
+            ng-hide="type === 'target'"
+            class="icon-dep"
+            style="position:relative;background-image: url(images/{{machineOnlineSettings.showPencils ? 'edit-blue-new.svg' : 'edit-grey-new.svg'}});
+                                background-repeat: no-repeat; background-position: center !important;background-color: white;"
+            ng-click="machineOnlineSettings.showPencils = (!machineOnlineSettings.showPencils && machineOnlineSettings.HasPermission);gaE('All_machine','edit_cube_mode')"
+          ></button>
+        </div>
+
+        <!--    Settings    -->
+        <span off-click-activator="allGoalsCtrl.showSettings" off-click="allGoalsCtrl.showSettings = false;" style="position: relative;" ng-if="allGoalsCtrl.selectTemplateGroupID != -1">
+          <div
+            style="display: inline-block; vertical-align: sub; bottom: 0.22vw; position: relative;"
+            ng-init="allGoalsCtrl.showSettings = false"
+            ng-if="!machineData.isPie"
+          >
+            <button
+              class="settings-dep"
+              style="position:relative;background-image: url(images/dashboard/{{allGoalsCtrl.showSettings ? 'settingsBlue.png' : 'settings-grey.png'}});background-repeat: no-repeat; background-position: center !important;background-color: white;"
+              ng-click="(allGoalsCtrl.showSettings = !allGoalsCtrl.showSettings); resetPie();"
+            ></button>
+          </div>
+          <online-settings-directive
+            ng-if="allGoalsCtrl.showSettings"
+            machine-online-settings="machineOnlineSettings"
+            type="type"
+            departmentId=""
+          ></online-settings-directive>
+        </span>
+        <div
+          title="{{'TV' | translate}}"
+          ng-show="!allMachinesFullScreen.value &&  type!='ShiftProgress'"
+          style="
+            display: inline-block;
+            height: 1.615vw;
+            border: #d0cfd0 1px solid;
+            margin: -0.1vw -0.052vw;
+            border-width: thin;
+            vertical-align: unset;
+            border-radius: 1.7px;
+            position: relative;
+            cursor: pointer;
+            width: 1.927vw !important;
+            background-image: url(images/dashboard/monitor.png);
+            background-repeat: no-repeat;
+            background-position: 0.4vw;
+            background-size: 0.99vw;
+          "
+          ng-click="toggleScreen()"
+        ></div>
+        <div
+          class="collapseButton"
+          style="
+            display: inline-block;
+            height: 1.615vw;
+            border: #d0cfd0 1px solid;
+            margin: -0.1vw -0.052vw;
+            border-width: thin;
+            vertical-align: unset;
+            border-radius: 1.7px;
+            position: relative;
+            cursor: pointer;
+          "
+          title="{{'MINIMIZE' | translate}}"
+          ng-show="allMachinesFullScreen.value &&  type!='ShiftProgress'"
+          ng-click="toggleScreen()"
+        ></div>
+      </div>
+
+      <div class="pull-right filter" ng-if="machineData.subMenu.SubMenuAppPartID == -1" style="display: flex;">
+        <select  class="form-control"   ng-if="type!='ShiftProgress'" style="display: inline-block; width: unset;height: 1.615vw;margin:0 5px;" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"  ng-model="allGoalsCtrl.selectTemplateGroupID" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in templateGroups "  ng-change="changeTemplateStructures()" ></select>
+        <div
+        ng-if="!allGoalsCtrl.sortByValue"
+          style="display: inline-block;margin:0 5px;"
+          title="{{'SORT_BY' | translate}}"
+          ng-init="allGoalsCtrl.sortByValue = false;"
+        >
+          <button
+            class="icon-dep"
+            style="position:relative;background-image: url(images/sort.svg);
+                                background-repeat: no-repeat; background-position: center !important;background-color: white;"
+            ng-click="allGoalsCtrl.sortByValue=true;"
+          ></button>
+        </div>
+
+        <div class="sort" ng-if="allGoalsCtrl.sortByValue" style="position: relative;margin:0 5px;">
+          <span class="pull-left" style="margin: 5px 10px;">{{"SORT_BY" | translate}}</span>
+
+          <select style="bottom: auto;"
+            class="form-control pull-left"
+            ng-change="sortCallBack(machineData.sort.selectedSortField);gaE('All_machine','sort')"
+            ng-model="machineData.sort.selectedSortField"
+            ng-options="option.field as option.name for option in sortByData"
+          >
+            <option value>{{"DEFAULT" | translate}}</option>
+          </select>
+          <a
+            class="sortDirection"
+            style="color: black;"
+            ng-click="machineData.sort.sortAsc = !machineData.sort.sortAsc;gaE('All_machine','sort')"
+          >
+            <img ng-if="!machineData.sort.sortAsc" src="images/sort-grey-new.svg" style="height: 1.2vw;" title="{{'SORT' | translate}}" />
+            <img ng-if="machineData.sort.sortAsc" src="images/sort-blue-new.svg" style="height: 1.2vw;" title="{{'SORT' | translate}}" />
+          </a>
+          <div class="closeSortBar" style="    display: inline-block;">
+            <img src="images/cancelC.svg" ng-click="allGoalsCtrl.sortByValue =false">
+        </div>
+        </div>
+
+        <!--  Filter  -->
+        <div
+          title="{{'FILTER_GRAPH' | translate}}"
+          ng-init="showFilters=false"
+          off-click-activator="showFilters" off-click="showFilters = false"
+          ng-click="showFilters = !showFilters;gaE('All_machine','filter')"
+          style="display: inline-block; position: relative;"
+        
+        >
+          <button
+            class="icon-dep"
+            style="position:relative;background-image: url(images/{{showFilters || hasFiltering ? 'filter-blue-new.svg' : 'filter-grey-new.svg'}});
+                                background-repeat: no-repeat; background-position: center !important;background-color: white;margin: 0 0.2vw 0 0;"
+          ></button>
+          <ul ng-show="showFilters" class="dashboard-settings-tooltip show-filters" ng-click="$event.stopPropagation()"   style="margin-top: 0vw;">
+            <li>
+              <machines-filters-directive
+                ng-if="machinesLinesMap"
+                has-filter="hasFiltering"
+                update-status="updateStatus"
+                type="type"
+                machines-lines-map="machinesLinesMap"
+                reset-data="resetData"
+                all-data="allDepartments"
+              ></machines-filters-directive>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+  </div>
+
+  <!--  Title End  -->
+
+  <div class="ibox-content col-lg-12" id="collapsedfactory" ng-if="type!='ShiftProgress'" style="padding: 0; padding-bottom: 1px;">
+    <div class="progressContainer" ng-if="machineData.subMenu.SubMenuAppPartID >= -1 && type != 'target' && type != 'shift'">
+      <progress class="progressNumbers progress-bar-item">
+        <bar
+          ng-repeat="bar in machinesStatuses track by $index"
+          ng-click="showOnlyMachineStatus(bar.MachineStatusID)"
+          value="bar.percentage"
+          type="{{bar.color}}"
+          style="background-color: white; color: white;"
+        >
+          <span
+            class="progress-bar-{{bar.color}}"
+            style="padding: 7px; font-weight: 600; position: relative; border-top-right-radius: 10px; border-top-left-radius: 10px;"
+            ng-style="{'cursor': cursorType()}"
+          >
+            {{bar.count}}
+          </span>
+
+          <img
+            alt="Emerald Information Systems"
+            class="progressIcons"
+            height="20"
+            ng-src="images/icons_20x20/{{bar.icon}}"
+            ng-style="machineData.subMenu.SubMenuAppPartID == 0 && {'cursor':'context-menu'}"
+            width="20"
+          />
+        </bar>
+      </progress>
+
+      <progress ng-style="{'cursor':cursorType()}" class="progressBarLine progress-bar-item allMachinesLineBar">
+        <bar
+          ng-repeat="bar in machinesStatuses track by $index"
+          ng-click="showOnlyMachineStatus(bar.MachineStatusID)"
+          value="bar.percentage"
+          type="{{bar.color}}"
+        >
+        </bar>
+      </progress>
+    </div>
+
+    <div
+      class="shift-progress"
+      ng-if="type == 'shift'"
+      style="
+        padding: 0px 20px;
+        display: flex;
+        padding-bottom: 0px;
+        height: 30px;
+        font-family: ProximaNova;
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #272727;
+        background-color: white;
+        margin-top: 10px;
+        width: 100%;
+      "
+    >
+      <div
+        class="event-bar"
+        ng-repeat="event in machinesStatuses"
+        title="{{event.count | getDurationInHoursMinutes }}"
+        ng-style="{width: (event.count/total*100) + '%','border-bottom': 'solid 8px '+event.color}"
+      >
+        <span ng-if="event.count > (total*0.05)">{{event.count | getDurationInHoursMinutes }}</span>
+      </div>
+    </div>
+
+    <div
+      class="shift-progress total"
+      ng-if="type == 'shift'"
+      style="
+        font-size: 12px;
+        padding: 0px 20px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #272727;
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: right;
+      "
+    >
+      {{"TOTAL" | translate}}: {{total | getDurationInHoursMinutes }}
+    </div>
+
+    <div class="goalBarsContainer row" ng-if="allGoalsCtrl.goalsToggle && machineData.showGoals.value || type == 'target'">
+      <div
+        style="float: left;"
+        ng-class="{'odd' : $index % 2 == 1, 'even' : $index % 2 == 0}"
+        ng-repeat="target in allGoalsCtrl.targets | hideTargets:machineOnlineSettings.showPencils"
+      >
+        <div
+          box-mode="true"
+          show-percentage="false"
+          hide-target="true"
+          class="goalBarsContainer-parent"
+          current="target.ActualTargetValue"
+          edges="10"
+          id="target.Name"
+          name="{{target.ui_name}}"
+          show-pencils="machineOnlineSettings.showPencils"
+          target="target.TargetValue"
+          target-data="target"
+          target-goals-directive
+        ></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div class="ibox-content col-lg-12" ng-if="type!='ShiftProgress'" style="padding: 0; padding-bottom: 1px;margin-top:10px">
+  <div class="all-machines-sentence" ng-show="machineOnlineSettings.showPencils"  title="{{'CHANGES_FOR_THE_CURRENT_MACHINE_ARE_SAVED_AUTOMATICALLY' | translate}}">
+    {{"CHANGES_FOR_THE_CURRENT_MACHINE_ARE_SAVED_AUTOMATICALLY" | translate}}
+  </div>
+</div>

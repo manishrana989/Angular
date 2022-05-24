@@ -1,0 +1,38 @@
+<div style="    display: flex;
+flex-direction: column;
+align-items: center;margin:1vw 3vw;">
+    <div class="fields-container" style="display:flex;width:100%;flex-direction: column;">
+        <div class=" row">
+          <div class="col-lg-3" ng-repeat="detail in data track by $index" ng-if="detail.DisplayTypeName !== 'Hidden'" style=" display: flex;margin-top:15px;
+          flex-direction: column;">
+            <div class="field-title" ng-style="!detail.AllowNull && {'color':'blue'}">{{localLanguage ? detail.DisplayNameTrans : detail.DisplayName}}</div>
+            <div ng-if="detail.Name !== 'TestStatus' && detail.DisplayType !== 2">
+              <input ng-if="detail.DisplayTypeName != 'Date' && detail.DisplayTypeName != 'Number' && detail.DisplayTypeName != 'Boolean'" ng-change="jobCustomChanged()" ng-required="!detail.AllowNull" ng-model="detail.ParamValue" class="form-control" />            
+    
+              <div ng-if="detail.DisplayTypeName == 'Boolean'">
+                <div class="passed-failed jobCustomPassedFailed">
+                  <div style="padding: 5px 10px" class="pass" ng-class="{'active': detail.ParamValue === 'True'}" ng-click="detail.ParamValue = 'True';jobCustomChanged()">{{"TRUE_2" | translate}}</div>
+                  <div style="padding: 5px 10px" class="fail" ng-class="{'active': detail.ParamValue === 'False'}" ng-click="detail.ParamValue = 'False';jobCustomChanged()">{{"FALSE_2" | translate}}</div>
+                </div>
+              </div>
+    
+              <input ng-if="detail.DisplayTypeName == 'Number'" ng-required="!detail.AllowNull" ng-model="detail.ParamValue" ng-change="jobCustomChanged()" class="form-control"  only-digits />
+    
+              <div ng-if="detail.DisplayTypeName == 'Date'" class="d-flex align-items-center">
+                <input ng-required="!detail.AllowNull" name="" class="form-control" ng-model="detail.ParamValue" ng-click="jobCustomChanged()" date-time  format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" />
+              </div>
+            </div>
+    
+            <div ng-if="detail.DisplayType == 2" style="display: flex;" ng-init="initSelectValue(detail)">
+              <select ng-required="!detail.AllowNull" class="form-control"  ng-options="option.ID as option.Value for option in detail.JobListParams" ng-model="detail.ParamID" ng-change="getSelectValue(detail);jobCustomChanged()">
+                {{localLanguage ? detail.DisplayNameTrans : detail.DisplayName}}
+            </select>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:1vw;display: flex;">
+            <div ng-class="{'buttonChanged':changed == false}" style="margin-left:auto" ng-click="saveJobParams()"  title="{{'SAVE' | translate}}" class="shift-settings-reset-btn"  >{{"SAVE" | translate}}</div>
+        </div>
+      </div>
+    
+</div>

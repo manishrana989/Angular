@@ -1,0 +1,2019 @@
+{
+  "AllDepartments": [
+    {
+      "DepartmentID": 1,
+      "DepartmentMachineBoxes": [
+        {
+          "MachineID": 1,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "DepartmentID": 2,
+      "DepartmentMachineBoxes": [
+        {
+          "MachineID": 2,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 15,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "big1",
+              "class": "sbig1 ss-active-child big1",
+              "dataColSpan": 4,
+              "boxId": 5,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }, {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }, {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }, {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 3,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 15,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "big2",
+              "class": "sbig2 ss-active-child big2",
+              "dataColSpan": 4,
+              "boxId": 6,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }, {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }, {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }, {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 4,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 16,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 5,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "DepartmentID": 13,
+      "DepartmentMachineBoxes": [
+        {
+          "MachineID": 6,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 23,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 24,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 25,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 26,
+          "BoxSize": 14,
+          "Children": [
+            {
+              "type": "Huge",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "CycleTime",
+                  "gauge": true
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "UnitsProducedOK",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "timeLeftHR",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NoProgressCount",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "moldEndTime",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "RejectPC",
+                  "gauge": false
+                }
+              ]
+            },
+            {
+              "type": "Big2",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "Cnl2MaterialPC",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "MoldCavities",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "CavitiesStandard",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NumOfWorkers",
+                  "gauge": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 27,
+          "BoxSize": 14,
+          "Children": [
+            {
+              "type": "Huge",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "CycleTime",
+                  "gauge": true
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "UnitsProducedOK",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "timeLeftHR",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NoProgressCount",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "moldEndTime",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "RejectPC",
+                  "gauge": false
+                }
+              ]
+            },
+            {
+              "type": "Big2",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "Cnl2MaterialPC",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "MoldCavities",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "CavitiesStandard",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NumOfWorkers",
+                  "gauge": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 28,
+          "BoxSize": 14,
+          "Children": [
+            {
+              "type": "Huge",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "CycleTime",
+                  "gauge": true
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "UnitsProducedOK",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "timeLeftHR",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NoProgressCount",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "moldEndTime",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "RejectPC",
+                  "gauge": false
+                }
+              ]
+            },
+            {
+              "type": "Big2",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "Cnl2MaterialPC",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "MoldCavities",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "CavitiesStandard",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NumOfWorkers",
+                  "gauge": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 29,
+          "BoxSize": 14,
+          "Children": [
+            {
+              "type": "Huge",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "CycleTime",
+                  "gauge": true
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "UnitsProducedOK",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "timeLeftHR",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NoProgressCount",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "moldEndTime",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "RejectPC",
+                  "gauge": false
+                }
+              ]
+            },
+            {
+              "type": "Big2",
+              "areas": [
+                {
+                  "type": "dynamic",
+                  "FieldName": "Cnl2MaterialPC",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "MoldCavities",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "CavitiesStandard",
+                  "gauge": false
+                },
+                {
+                  "type": "dynamic",
+                  "FieldName": "NumOfWorkers",
+                  "gauge": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 30,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 31,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 32,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 33,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 34,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 35,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "MachineID": 36,
+          "maxSize": 18,
+          "columns": 12,
+          "currentSize": 11,
+          "width": 660,
+          "Title":{
+            "dynamicValue": "TotalCycles"
+
+          },
+          "Children": [
+            {
+              "class": "shuge ss-active-child huge",
+              "dataColSpan": 8,
+              "boxId": 9,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "TotalCycles",
+                      "gauge": true,
+                      "standardValue":true,
+                      "OtherParam":true,
+                      "OtherParamDynamicValue":"ID"
+                    },
+                    {
+                      "type": "dynamic",
+                      "FieldName": "UnitsProducedOK",
+                      "gauge": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "CycleTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "timeLeftHR",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "NoProgressCount",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "moldEndTime",
+                      "gauge": false
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "RejectPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "miniSmall1",
+              "class": "sminiSmall1 ss-active-child miniSmall2",
+              "dataColSpan": 2,
+              "boxId": 2,
+              "height": 80,
+              "areas": [
+                {
+                  "fields": [
+                    {
+                      "type": "dynamic",
+                      "FieldName": "Cnl2MaterialPC",
+                      "gauge": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

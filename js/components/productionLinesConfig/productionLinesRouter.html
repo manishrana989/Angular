@@ -1,0 +1,36 @@
+<div class="op-app production-lines-router row">
+    <div class="wrapper border-bottom white-bg page-heading col-lg-12"
+         ng-if="(modal === undefined || modal === null) && productionLinesRouterCtrl.showBreadCrumb"
+         style="padding: 0 10px 7px 10px;position: fixed; top: 40px; width: 100%;z-index :9999">
+        <div class="col-lg-10 floatRight">
+            <h2 style="margin-top: 7px;margin-bottom: 7px;">{{topPageTitle}}</h2>
+            <bread-crumbs></bread-crumbs>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeIn row" style="margin: 2vw 0 0">
+
+        <div style="top:6.771vw;" id="toastr"></div>
+        <div class="ibox col-lg-12">
+            <div ng-if="currentStep.value == 'production-lines-def'">
+                <production-lines-def is-new-production-line=isNewProductionLine departments="departments"
+                                      current-step="currentStep" current-production-line="currentProductionLine"
+                                      refresh-table="refreshTable"
+                ></production-lines-def>
+            </div>
+
+            <div ng-if="currentStep.value == 'new-production-line'">
+                <new-production-line is-new-production-line=isNewProductionLine departments="departments"
+                                     current-step="currentStep" current-production-line="currentProductionLine"
+                                     refresh-table="refreshTable"
+                ></new-production-line>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>

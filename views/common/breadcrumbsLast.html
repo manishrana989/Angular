@@ -1,0 +1,5 @@
+<span ng-if="BreadCrumbsLast.length>0 && BreadCrumbsLast.length<=4">{{BreadCrumbsLast[1].label}}</span>
+<span ng-if="BreadCrumbsLast.length==6" ng-init="getTitle()">{{spicTitle}}</span>
+<span ng-if="BreadCrumbsLast.length==5" ng-init="getTitle()">{{spicTitle}}</span>
+
+<!--<div ng-if="BreadCrumbsLast">ddd{{BreadCrumbsLast[0].label}}</div>-->

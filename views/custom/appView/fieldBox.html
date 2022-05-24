@@ -1,0 +1,47 @@
+<div class="fieldBox">
+    <div class="title">
+        <span style="display: none">{{tmpParam = (opAppCtrl.tabletData.params |
+            getFieldByName:'FieldName':fieldParam.FieldName)}}</span>
+        <div class="field"  ng-click="fieldParam.showDropDown = !fieldParam.showDropDown">
+            <div class="text">{{opAppCtrl.localLanguage ? tmpParam.LName : tmpParam.EName }}</div>
+
+            <span class="caret-open-drop-down">
+                <i class="fa fa-caret-down"></i>
+            </span>
+        </div>
+        <div class="buttons" ng-if="tmpParam.HasGraph">                         
+            <div class="graphIcon" ng-class="{'selected' :fieldParam.OpAppBatchGraph}" ng-click="fieldParam.OpAppBatchGraph = true;">
+                <img src="{{fieldParam.OpAppBatchGraph ? 'images/op-app/graph-selected.png' : 'images/op-app/graph.png'}}"> 
+            </div>
+            <div class="graphIcon" ng-class="{'selected' :!fieldParam.OpAppBatchGraph}" ng-click="fieldParam.OpAppBatchGraph = false;"> 
+                <img src="{{fieldParam.OpAppBatchGraph ? 'images/op-app/bar.png' : 'images/op-app/bar-selected.png'}}">
+            </div>
+        </div>
+    </div>
+
+        <div class="removeIcon" ng-show="$index % 3 == 2">
+            <a ng-click="opAppCtrl.removeRow($index)">
+                <img width="10" src="images/templates/delete@2x.png">
+            </a>
+        </div>
+    <div ng-if="fieldParam.showDropDown" off-click-activator="fieldParam.showDropDown" off-click="fieldParam.showDropDown = false;">
+        <div class="btn-group expandedEditParamsDropdown">
+            <ul class="dropdown-menu scroll">
+                <li>
+                    <input style="width: 100%;" type="text" ng-model="search" placeholder="Search..." />
+                </li>
+                <li>
+                    <a class="color-red" ng-click="fieldParam.FieldName = null;fieldParam.IsActive = false;fieldParam.TypeID = null;fieldParam.showDropDown = false">
+                        {{"REMOVE_PARAM" | translate}}
+                    </a>
+                </li>
+                <li ng-repeat="param in opAppCtrl.tabletData.params | filter:search" ng-hide="param.hide">
+                    <a ng-click="fieldParam.FieldName = param.FieldName;fieldParam.IsActive = true;fieldParam.TypeID = param.TypeID;fieldParam.showDropDown = false;fieldParam.custom = param.custom;fieldParam.customID = param.Id;opAppCtrl.removeParamFromDropDown(param.FieldName)" 
+                    ng-class="{'color-red' : param.FieldName == 'removeParam'}">
+                        {{opAppCtrl.localLanguage ? param.LName : param.EName}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

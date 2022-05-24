@@ -1,0 +1,44 @@
+<div ng-if="doneLoading === true && reportSearchFields" class="panel-body" style="background: #fff;">
+    <div class="ibox float-e-margins">
+        <div class="row">
+            <div class="col-lg-10 pull-left">
+                <h4>{{ 'SEARCH' | translate }}</h4>
+            </div>
+            <div class="col-lg-2 pull-right">
+                <button ng-if="!(modal === undefined || modal === null)" type="button" ng-click="ok();" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            </div>
+        </div>
+        <div class="ibox-content ">
+            <form role="form" ng-submit="search()">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-lg-1 pull-left">
+
+                        </div>
+                        <div class="col-lg-11" style="text-align: center;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <h5>==</h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h5> >= </h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h5> <= </h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h5> <> </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row " ng-repeat="common in reportSearchFields">
+                        <input-directive content="common" search="true"></input-directive>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ 'SEARCH' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-if="doneLoading === false" ng-include="'views/common/emptyPage.html'"></div>

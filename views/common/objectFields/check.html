@@ -1,0 +1,37 @@
+<div style="padding-bottom: 12px;" tooltip="{{inputValue.content.ToolTip}}" class="row" ng-if="!inputValue.search && !inputValue.multiform">
+    <div class="col-lg-12">
+        <label style="margin-bottom: 0px;"   class="label-direction-fix" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    </div>
+    <div class="col-lg-12">
+        <input placeholder="{{inputValue.content.Hint}}"  style="width: 100%" icheck ng-init="inputValue.initField(inputValue.value,'checkbox')" type="checkbox" ng-model="inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.value,'Eq','True/False')" ng-disabled="inputValue.disabled" />
+    </div>
+    <!--<label ng-class="{'requiredFiled' : required}"> <input icheck ng-init="initField(value,'checkbox')" type="checkbox" ng-model="value" ng-change="$parent.$parent.updateValue(content.Name,value,'Eq','True/False')" ng-disabled="disabled" /> {{contentDisplayName}} </label>-->
+</div>
+<div style="padding-bottom: 12px;" tooltip="{{inputValue.content.ToolTip}}" class="row" ng-if="inputValue.multiform == true">
+    <div class="col-lg-12">
+        <label style="margin-bottom: 0px;" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    </div>
+    <div class="col-lg-12">
+        <select class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosen" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosen,'Eq','True/False')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+            <option value="">{{"NONE" | translate}}</option>
+            <option value="false">{{"FALSE" | translate}}</option>
+            <option value="true">{{"TRUE" | translate}}</option>
+        </select>
+    </div>
+</div>
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="inputValue.search == true">
+    <div class="col-lg-1 pull-left">
+        <label style="margin-bottom: 0px;" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    </div>
+    <div class="col-lg-11">
+        <div class="col-lg-3">
+            <select  class="form-control ng-pristine ng-valid" ng-model="inputValue.valueChosen" ng-options="option as ( option | translate )  for option in inputValue.value" ng-change="inputValue.updateValue(inputValue.content.Name,inputValue.valueChosen,'Eq','True/False')" ng-required="inputValue.required" ng-disabled="inputValue.disabled">
+                <option value="">{{"NONE" | translate}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-3">
+        </div>
+    </div>
+</div>

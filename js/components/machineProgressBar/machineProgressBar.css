@@ -1,0 +1,17 @@
+.machine-progress-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.machine-progress-container .units-percentage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+
+.tooltip-inner{
+    max-width: unset;
+}

@@ -1,0 +1,82 @@
+<div style="position: relative" ng-if="shiftData.Machines && !shiftData.hideClicked" ng-init="init()">   
+
+    <div class="machine-dashboard-timeline">         
+        <div class="slider-ticks">              
+            <div class="shift-ticks" ng-repeat="shift in slider.options.ticks" ng-style="{width: (shift.endShift -  shift.startShift)/(slider.options.ceil - slider.options.floor)*100 + '%',left: (shift.startShift -  slider.options.floor)/(slider.options.ceil - slider.options.floor)*100 + '%'}">
+                <div class="tick" ng-repeat="i in shift.shiftTicks" ng-class="{'tick-blue': $index==0}" 
+                    ng-style="{
+                        left: ((i - shift.startShift)/(shift.endShift - shift.startShift) * 100) +'%',
+                        right: ((shift.endShift - i)/(shift.endShift - shift.startShift) * 100) + '%'}">
+                    <div class="tick-container">
+                        <div class="tick-hours" ng-hide="$last && (slider.options.tickTotal) == 1">
+                            {{(i)*1000*60 | date:"HH:mm"}}
+                        </div>
+                        <div class="tick-hours ShiftName" ng-if="$index==0" style="width: 50px;">
+                            {{shiftsNames[$parent.$parent.$index]}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="machine-timeline-plan">
+
+        <div style="height: 25px">
+            <div style="display: inline-block;width: 65px;">{{"ACTUAL" | translate}}</div>
+            <div style="display: inline-block;padding-left: 65px;height: 15px;width: 100%;position: relative;top: -15px;">
+                <div style="width: 100%;position: inherit">
+                    <div ng-repeat="event in shiftData.Machines[0].CurrShift.Events" 
+                         ng-style="{
+                            display: 'inline-block',
+                            background: event.Color,
+                            width: widthPer(event.StartTime, event.EndTime), 
+                            height: 15,
+                            position: 'absolute',
+                            'left': percentage(event.StartTime)+'%','z-index': 200,
+                            cursor: 'pointer'} "
+                         ng-click="openEvent(event.ID,event.Color)"
+                         ng-mouseover="tooltipIn($event,event)"
+                         ng-mousemove="tooltipMove($event)"
+                         ng-mouseleave="tooltipLeave()"
+                         ></div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 30px;display: flex">
+            <div style="display: inline-block;min-width: 65px;max-width: 65px"></div>
+            <div style="width: 100%;position: relative">
+                <div class="timeline-job" ng-repeat="job in shiftData.jobData" ng-style="{'left': percentage2(job.StartTime)+'%'}">
+<!--                    <div style="display: inline-block;max-width: 60px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"><a ui-sref="appObjectFullView({ID: job.ProductID,appObjectName : 'Product'})" target="Product">{{rtl  ? job.LName : job.EName}}</a></div>-->
+                    <div class="startJobIndication">
+
+                    </div>
+             
+                    <div style="display: inline-block;max-width: 60px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+                        title="{{(rtl  ? job.LName : job.EName )+ '\n'+job.ProductCatalogID + '\n'+job.ERPJobID }}">
+                        <a ui-sref="appObjectFullView({ID: job.JobID,appObjectName : 'Job'})" target="Job">{{ job.ERPJobID ? job.ERPJobID : job.JobID}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 25px" >
+            <div style="display: inline-block;width: 65px;">{{"PLAN" | translate}}</div>
+            <div style="display: inline-block;padding-left: 65px;height: 8px;width: 100%;position: relative;top: -15px;">
+                <div style="width: 100%;position: inherit">
+                    <div ng-repeat="event in shiftData.Machines[0].CurrShift.Plan" ng-style="{display: 'inline-block',background: event.Color,width: widthPer(event.StartTime, event.EndTime), height: 8,position: 'absolute','left': percentage(event.StartTime)+'%'}"></div>
+                </div>
+            </div>
+        </div>
+        <div style="padding-left: 65px;">
+            <shift-slider-directive ng-if="!shiftData.customRangeEnabled" without-ticks="true"></shift-slider-directive>
+        </div>
+    </div>
+</div>
+<div style="position: relative" class="tooltip-container">
+    <div class="machine-plan-tooltip" ng-show="tooltipDisplay">
+        <div class="tooltip-start-date"></div>
+        <div class="tooltip-event-duration"></div>
+        <div class="tooltip-event-type"></div>
+    </div>
+</div>
+
+

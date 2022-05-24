@@ -1,0 +1,62 @@
+<div ng-controller="reLoginCtrl as loginCtrl" class="reLoginRoot">
+    <div style="display: flex;justify-content: flex-end" ng-click="$dismiss()">
+        <img style="margin:10px;cursor: pointer" src="images/close.png">
+    </div>
+    <div class="reLoginWarningSign">
+        <div class="sa">
+            <div class="sa-warning">
+                <div class="sa-warning-body"></div>
+                <div class="sa-warning-dot"></div>
+            </div>
+        </div>
+    </div>
+    <h1 ng-bind="modalTitle"></h1>
+    <h4 ng-bind="modalText">Please login again into the system</h4>
+
+    <form name="loginForm" class="m-t" role="form" ng-submit="login()" style="width: 395px;"
+          ng-class="{'rtl' : rtl}">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label style="margin-bottom: 2px;" class="pull-left">{{"USERNAME" | translate }}</label>
+                    <input name="username" type="text" ng-change="errorMessage = null"
+                           class="form-control inputLogin" ng-model="loginCtrl.credData.username">
+                </div>
+                <div class="form-group">
+                    <label style="margin-bottom: 2px;" class="pull-left">{{"PASSWORD" | translate }}</label>
+<!--                    <label style="margin-bottom: 2px;font-size: 14px;color: var(&#45;&#45;color2);cursor: pointer;"-->
+<!--                           class="pull-right" ng-click="loginCtrl.view = 'resetPassword'"-->
+<!--                           loginCtrl.view>{{"FORGOT_PASSWORD" | translate }}</label>-->
+                    <input name="password" type="password" ng-change="errorMessage = null"
+                           class="form-control inputLogin" ng-model="loginCtrl.credData.password">
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <label style="margin-bottom: 2px;" class="pull-left">{{"LANGUAGE" | translate }}</label>-->
+<!--                    <select class="form-control inputLogin" ng-change="loginCtrl.languageChange()"-->
+<!--                            ng-model="language" ng-options="option as option.SystemLng for option in langList">-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div class="form-group" ng-if="errorMessage">
+                    <h3 style="color : red"><b>{{errorMessage | translate}}</b></h3>
+                </div>
+                <div style="display: none">
+                    <div class="pull-left" check-box-directive field-title="'SET_DEFAULT_LANGUAGE'"
+                         field="loginCtrl" select-value="'setDefaultLang'"></div>
+                    <!-- <label class="pull-left checkboxLogin">  <input icheck type="checkbox" ng-model="setDefaultLang"> &nbsp;&nbsp;&nbsp;{{ 'SET_DEFAULT_LANGUAGE' | translate }} </label> -->
+                    <!-- <span class="pull-right forgotPassword" ng-click="loginCtrl.showResetPassword = true">{{ "FORGOT_PASSWORD" | translate }} </span> -->
+                </div>
+                <div ng-if="loginCtrl.enableRecaptcha && loginCtrl.retries >= 5 && !loginInProgress"
+                      ng-model="loginCtrl.myRecaptchaResponse"
+                     key="loginCtrl.key"></div>
+                <button type="submit"
+                        ng-disabled="(loginCtrl.enableRecaptcha && loginCtrl.retries >= 5 && !loginCtrl.myRecaptchaResponse) || loginInProgress"
+                        class="btn btn-primary block full-width m-b buttonLogin">{{ 'LOGIN' | translate }}</button>
+<!--                <p class="signUp">{{ 'DONT_HAVE_ACCOUNT' | translate }}-->
+<!--                    <span ng-click="loginCtrl.view = 'signUp'"-->
+<!--                          style="color: var(&#45;&#45;color2);cursor: pointer;">{{"SIGN_UP" | translate}}</span></p>-->
+                <!-- <button type="button" ng-click="loginCtrl.openSignOnModal()" class="btn btn-primary block full-width m-b" ></button> -->
+            </div>
+        </div>
+
+    </form>
+</div>

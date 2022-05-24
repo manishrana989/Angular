@@ -1,0 +1,36 @@
+<form class="onlineSetTargetGoalModal" ng-submit="updateShiftDefTarget()" xmlns="http://www.w3.org/1999/html">
+  <div id="toastr"></div>
+  <div class="ibox newGoalsModal">
+    <div class="ibox-title newGoalsTitle">
+      <span>{{"SET_TARGETS" | translate}}</span>
+      <div class="pull-right x">
+        <img ng-click="close()" src="images/close.png" width="15" height="15" />
+      </div>
+    </div>
+    <div class="ibox-content" style="height: auto">
+      <div class="form-group">
+        <label for="depSelect">{{"DEP" | translate}}</label>
+        <select id="depSelect" ng-change="getShiftDefinitionTargetSettings(selectedDepartment.DepartmentID)" class="form-control" ng-options="option as (option | customTranslate: 'DepartmentEname':'DepartmentLname':rtl) for option in departments" ng-model="selectedDepartment"></select>
+      </div>
+    </div>
+    <div class="tableContainer newScroll" ng-if="selectedDepartment">
+      <div class="gridWrapper" ng-style="{'grid-template-columns': 'repeat('+(shiftDefinitionToDisplay.length+1)+', 5vw)'}">
+        <div class="header cell" style="border: unset">{{'MACHINE_NAME' | translate}}</div>
+        <div class="shiftsName cell" style="border: unset" ng-repeat="shift in shiftDefinitionToDisplay track by $index">
+          <span ng-show="shift !== 'addColumn'">{{shift.ShiftName}}</span>
+          <span ng-show="shift === 'addColumn'" ng-click="addNewColumn()" style="cursor: pointer;">{{"NEW_COLUMN" | translate}} <img src="images/add.png" /> </span>
+        </div>
+
+        <div class="columnMachineNames" ng-style="{'grid-template-rows': 'repeat('+machinesList.length+', 1fr)','grid-row-end': (machinesList.length+2)}">
+          <div class="cell" ng-repeat="machine in machinesList" style="border: unset">{{machine.MachineName}}</div>
+        </div>
+        <div class="gridWrapper rowData" ng-style="{'grid-template-rows': 'repeat('+machinesList.length+', 1fr)','grid-row-end': (machinesList.length+2)}">
+          <div class="gridWrapper" ng-style="{'grid-template-columns': 'repeat('+(shiftDefinitionToDisplay.length)+', 5vw)'}" ng-repeat="targetsMachine in tableDate">
+            <input class="cell" ng-repeat="target in targetsMachine track by $index" ng-show="$index < shiftDefinitionToDisplay.length" ng-model="target.TargetValue" ng-value="target.TargetValue" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <button ng-disabled="disabled" type="submit" class="btn btn-primary new-dep-header-buttons saveButton" ng-if="pageSelected !== 'machine'">{{"SAVE" | translate}}</button>
+  </div>
+</form>

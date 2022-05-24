@@ -1,0 +1,34 @@
+<div class="op-app qc-tests row" ng-class="{'editMode' : editMode}">
+  <!-- <div class="wrapper border-bottom white-bg page-heading col-lg-12" ng-if="(modal === undefined || modal === null) && qcDefinitionCtrl.showBreadCrumb" style="padding: 0 10px 7px 10px; position: fixed; top: 40px; width: 100%; z-index: 9999">
+    <div class="col-lg-10 floatRight">
+      <h2 style="margin-top: 7px; margin-bottom: 7px">{{topPageTitle}}</h2>
+      <bread-crumbs></bread-crumbs>
+    </div>
+    <div class="col-lg-2"></div>
+  </div> -->
+  <div class="wrapper animated fadeIn row">
+    <div style="top: 130px" id="toastr"></div>
+    <div class="ibox col-lg-12 qcIbox">
+      <div ng-if="currentStep == 'qc-tests'">
+        <qc-tests current-test="currentTest"></qc-tests>
+      </div>
+      <div class="mobile-notification-group" ng-if="qcDefinitionCtrl.enableSelect">
+        <span>{{"SELECT_TEST_TYPE" | translate}}</span>
+        <select class="form-control" ng-model="qcDefinitionCtrl.selectedGroup" ng-options="group.Name for group in qcDefinitionCtrl.groups" ng-required="true">
+          <option value="">{{"SELECT_GROUP" | translate}}</option>
+        </select>
+      </div>
+      <div ng-if="currentStep == 'add-qc-tests'">
+        <add-qc-tests select-group="qcDefinitionCtrl.selectedGroup" current-test="currentTest"></add-qc-tests>
+      </div>
+
+      <div ng-if="currentStep == 'test-fields'">
+        <qc-test-edit current-test="currentTest"></qc-test-edit>
+      </div>
+
+      <div ng-if="currentStep == 'test-sample-fields'">
+        <qc-test-sample current-test="currentTest"></qc-test-sample>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>        
+        <span class="shift-hours" class="Shift-Name">{{'AGGREGATEDMACHINESPERFORMANCE' | translate}}</span>
+    </header-title>
+    <graph class="col-md-12" id="machinesPerformanceContainer{{graph.ID}}">
+        <machines-performance-directive options="containerOptions" graph="graph" export-csv="exportCSV"></machines-performance-directive >
+    </graph>
+</shift-container>

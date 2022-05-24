@@ -1,0 +1,37 @@
+
+<div>
+    <div class="production-lines-def">
+
+        <div class="header">
+            <div class="title">{{"PRODUCTION_LINES" | translate }}</div>
+            <div ng-if="false" class="sort" ng-class="rtl?'pull-left':'pull-right'">
+                <span class="sort-by">{{"SORT_BY" | translate}}</span>
+                <select class="form-control" ng-class="rtl?'pull-left':'pull-right'" ng-model="selectedSortField" style="margin: auto;"
+                        ng-change="sortMachineBy(selectedSortField);"
+                        ng-options="option.field as option.name for option in sortByData">
+                    <option value>{{"DEFAULT" | translate}}</option>
+                </select>
+            </div>
+        </div>
+
+        <hr style="margin: 0.208vw 1.667vw"/>
+        <div>
+            <div style="margin:0.667vw 1.667vw 0.667vw;cursor: pointer;" class="add-production-line add-production-line pull-right" ng-click="assignCurrentStep('new-production-line', {},true)">
+                <img src="images/add-circle.svg">
+                {{"ADD_PRODUCTION_LINE" | translate}}
+            </div>
+        </div>
+
+        <div style="height: 65vh;margin:0 1.667vw 1.667vw">
+            <react-search-results-production-lines></react-search-results-production-lines>
+            <!-- <div id="productionLinesGrid" class="grid" ui-grid="gridOptions" dir="{{direction}}"
+                 ui-grid-resize-columns
+                 ui-grid-auto-resize
+                 ui-grid-selection
+                 ui-grid-exporter
+                 ui-grid-move-columns
+                 ui-grid-save-state>
+            </div> -->
+        </div>
+    </div>
+</div>

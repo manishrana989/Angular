@@ -1,0 +1,24 @@
+<script>
+   //change color of wrapper:
+   (function () {
+     if (document.getElementById("page-wrapper")) {
+       document.getElementById("page-wrapper").style.backgroundColor = "white";
+     }
+     else if (document.getElementById("wrapper")) {
+       document.getElementById("wrapper").style.backgroundColor = "white";
+     }
+   })();
+ </script>
+
+<div class="row wrapper border-bottom white-bg page-heading col-lg-12"
+style="padding: 0 10px 7px 10px;position: fixed; top: 40px; width: 100%;z-index :9999" ng-if="modal === undefined || modal === null">
+<div class="col-lg-10 floatRight">
+   <h2 style="margin-top: 7px;margin-bottom: 7px;">{{topPageTitle}}</h2>
+   <bread-crumbs></bread-crumbs>
+</div>
+<div class="col-lg-2">
+
+</div>
+</div>
+<!-- <div style="background-color: white;height: 0vh;width: 100%;"></div> -->
+<div style="margin-top:100px;width:100%;height: 100%;"><div><react-multi-form data="content"></react-multi-form></div></div>

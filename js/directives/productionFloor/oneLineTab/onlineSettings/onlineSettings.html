@@ -1,0 +1,217 @@
+<div class="onlineSettingsDirective settings dropdown-menu-settings" ng-click="$event.stopPropagation()" ng-style="type == 'department'  && {'top':'3.6vw'} || type == 'online' &&{'top':'1.5vw'}" style="margin-top: unset;width: 14.844vw">
+  <!-- todo change to directive -->
+  <div class="dropdown-settings-body newScroll slim" style="overflow: auto; height: 26.042vw;">
+    <div class="settings-title">
+      {{"SETTINGS" | translate}}
+    </div>
+    <div style="height: 1px; width: 100%; background-color: grey; margin: 8px 0;"></div>
+
+    <div class="setting-pies-size-selector" ng-init="scaleSave=containerOptions.settings.scale">
+      <div ng-if="displaySettingsByType[type].departmentView" style="width: 100%; display: block; padding: 0px 0.521vw;">
+        <span>{{"DEPARTMENT_VIEW" | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="machineOnlineSettingsTemp"
+          field-title="departmentView"
+          select-value="'departmentView'"
+          ng-click="saveDepartment()"
+          type="'toggle'"
+        ></div>
+      </div>
+      <div ng-if="displaySettingsByType[type].showTextKeys" style="width: 100%; display: block; padding: 0px 0.521vw;">
+        <span>{{"NO_TEXT_KEYS" | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="machineOnlineSettings"
+          field-title="showTextKeys"
+          select-value="'showTextKeys'"
+          ng-click="saveParamToSessionsInitWrapper('showTextKeys')"
+          type="'toggle'"
+        ></div>
+      </div>
+      <div ng-if="displaySettingsByType[type].fullColorMode" style="width: 100%; display: block; padding: 0px 0.521vw;">
+        <span>{{"FULL_COLOR_MODE" | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="machineOnlineSettings"
+          field-title="fullColorMode"
+          ng-click="saveParamToSessionsInitWrapper('fullColorMode')"
+          select-value="'fullColorMode'"
+          type="'toggle'"
+        ></div>
+      </div>
+      <div ng-if="displaySettingsByType[type].vertical" style="width: 100%; display: block; padding: 0px 0.521vw;">
+        <span>{{"VERTICAL_VIEW" | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="machineOnlineSettings"
+          field-title="verticalView"
+          ng-click="saveParamToSessionsInitWrapper('verticalView')"
+          select-value="'verticalView'"
+          type="'toggle'"
+        ></div>
+      </div>
+      <div ng-if="displaySettingsByType[type].aggregateProgressBar" style="width: 100%; display: block; padding: 0px 0.521vw;">
+        <span>{{"AGGREGATED_PROGRESS_BAR" | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="machineOnlineSettings"
+          field-title="aggregateProgressBar"
+          select-value="'aggregateProgressBar'"
+          ng-click="saveParamToSessionsInitWrapper('aggregateProgressBar')"
+          type="'toggle'"
+        ></div>
+      </div>
+      <div ng-if="displaySettingsByType[type].maximize" style="width: 100%; display: block; padding: 0px 0.521vw;">        
+        <span>{{"MAXIMIZE" | translate}}</span>
+        <div
+          class="checkBox pull-right"
+          check-box-directive
+          field="machineOnlineSettings"
+          field-title="maximize"
+          select-value="'maximize'"
+          ng-click="toggleScreenProductionProgress();saveParamToSessionsInitWrapper('maximize');"
+          type="'toggle'"
+        ></div>
+      </div>
+
+      <div
+        ng-if="displaySettingsByType[type].calculateBy"
+        style="width: 100%; display: flex; flex-direction: column; padding: 0px 0.521vw; line-height: 1.5;"
+      >
+        <div style="height: 1px; width: 100%; background-color: grey; margin: 8px 0;"></div>
+        <span>{{"CALCULATE_BY" | translate}}</span>
+        <div
+          check-box-directive
+          field-title="'CURRENT_JOB'"
+          field="machineOnlineSettings"
+          select-value="'calculateBy'"
+          type="'radio'"
+          value="'currentJob'"
+        ></div>
+        <div
+          check-box-directive
+          field-title="'SHIFT_UNIT_TARGET'"
+          field="machineOnlineSettings"
+          select-value="'calculateBy'"
+          type="'radio'"
+          value="'shiftUnitTarget'"
+        ></div>
+      </div>
+
+ 
+      <div ng-if="displaySettingsByType[type].textCustomization" style="width:100%">
+        <div style="height: 1px; width: 100%; background-color: grey; margin: 8px 0;"></div>
+        <div style="width: 100%; padding: 0px 0.521vw;" class="pull-left">{{ "TEXT_CUSTOMIZATION" | translate}}</div>
+          <div class="text-customization-container" >    
+            <div>
+                  <div style="display:flex">
+                  <div check-box-directive field-title="'DEFAULT'" ng-click="saveParamToSessionsInitWrapper('fontCustomization')" field="machineOnlineSettings.fontCustomization" select-value="'currentChoice'" type="'radio'" value="'defaultFontSize'" check-mark-style="true" check-mark-top="checkMarkTop"></div>
+                </div>
+              <div class="flex-container">
+                <div check-box-directive field-title="'CHOOSE_FONT_SIZE'"  ng-click="saveParamToSessionsInitWrapper('fontCustomization')" field="machineOnlineSettings.fontCustomization" select-value="'currentChoice'" type="'radio'" value="'newFontSize'" check-mark-style="true" check-mark-top="checkMarkTop"></div>
+                <input type="text" style="width:2vw;height:1vw"  type="text"  ng-change="saveParamToSessionsInitWrapper('fontCustomization')" ng-model="machineOnlineSettings.fontCustomization.value" ng-value="machineOnlineSettings.fontCustomization.value" ng-disabled="machineOnlineSettings.fontCustomization.currentChoice === 'defaultFontSize'" only-digits >
+              </div>
+            </div>
+             
+          <div class="flex-container">
+            <span>{{"STANDARD_2_LINES" | translate}}</span>
+            <div
+              class="checkBox pull-right"
+              check-box-directive
+              field="machineOnlineSettings"
+              field-title="standard"
+              select-value="'standard'"
+              ng-click="saveParamToSessionsInitWrapper('standard');"
+              type="'toggle'"
+            ></div>
+          </div>    
+            
+          </div>
+      </div>
+
+
+      <div ng-if="displaySettingsByType[type].colorMode">
+        <div style="height: 1px; width: 100%; background-color: grey; margin: 8px 0;"></div>
+        <div style="width: 100%; padding: 0px 0.521vw;" class="pull-left">{{ "COLOR_MODE" | translate}}</div>
+        <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr;">
+          <div ng-repeat="colorMode in colorModeArray" class="pies-selection-arr">
+            <div
+              style="vertical-align: bottom;margin: 0 auto;border: 1px solid grey;width:{{colorMode.size}};height:{{colorMode.size}};background-color:{{colorMode.colorCode}}"
+              ng-style="colorMode.clicked ? {'border':'2px solid blue'}:{'border':'1px solid gray'}"
+              ng-click="saveColorModeSelection(colorMode);"
+              id="{{colorMode.name}}"
+            ></div>
+            <div style="vertical-align: bottom; text-transform: capitalize;">{{colorMode.name}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 1px; width: 100%; background-color: grey;"></div>
+      <div style="width: 100%; padding: 0px 0.521vw;" class="pull-left">{{ "MACHINE_DISPLAY" | translate}}</div>
+      <div ng-if="displaySettingsByType[type].shapeType" style="width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr;">
+        <div style="margin: 5px;" ng-repeat="square in squareArray[type]" class="pies-selection-arr">
+          <img
+            ng-style=" {'color':'red','width':square.size, 'height':square.size,'vertical-align': 'bottom'}"
+            id="{{square.name}}"
+            ng-click="saveDisplaySelection(square);"
+            data-ng-src="{{square.src}}"
+          />
+          <div style="display: inline-block; vertical-align: bottom;">{{square.name}}</div>
+        </div>
+      </div>
+      <div ng-if="displaySettingsByType[type].percentageColors" style="width: 100%; display: grid; grid-template-columns: 1fr;">
+        <div style="height: 1px; width: 100%; background-color: grey;"></div>
+        <div style="width: 100%; padding: 0px 0.521vw;" class="pull-left">{{ "MACHINE_DISPLAY" | translate}}</div>
+        <div
+          style="margin: 5px; display: flex; flex-direction: row; font-size: 0.729vw;"
+          ng-repeat="percentageColor in percentageColors track by $index"
+        >
+          <span style="vertical-align: bottom; width: 60%;">{{percentageColor.text|translate}}</span>
+          <span
+            style="width: 40%; display: flex; flex-direction: row;"
+            ng-style="!percentageColor.showEditable  && {'flex-direction': 'row-reverse'}"
+          >
+            <input
+              ng-model="percentageColor.value"
+              ng-show="percentageColor.showEditable"
+              ng-disabled="true"
+              min="{{$index == 0?percentageColors.value[1].value:0}}"
+              max="{{$index == 1?percentageColors.value[0].value:1000}}"
+              style="width: 58%; height: 80%; margin: 2%;"
+              type="text"
+              only-digits
+              ng-value="percentageColor.value"
+            />
+            <input type="color" ng-model="percentageColor.color"  ng-disabled="true" style="display: inline-block; height: 80%; width: 38%; margin: 2%;" />
+          </span>
+        </div>
+      </div>
+      <div style="height: 1px; width: 100%; background-color: grey; margin: 8px 0;"></div>
+      <div style="width: 100%; padding: 0px 0.521vw;" class="pull-left">{{ "SCALE" | translate}}</div>
+      <div ng-if="displaySettingsByType[type].selectedScale" style="width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr;">
+        <div ng-repeat="scaleObj in scaleArray" class="pies-selection-arr">
+          <div style="width: 3.125vw; height: 3.125vw; margin: auto;">
+            <img
+              ng-style="{'width':scaleObj.size, 'height':scaleObj.size,'vertical-align': 'bottom'}"
+              id="{{scaleObj.name}}"
+              ng-click="saveScaleSelection(scaleObj)"
+              data-ng-src="{{scaleObj.src}}"
+            />
+          </div>
+          <div style="vertical-align: bottom;">{{scaleObj.name}}</div>
+        </div>
+      </div>
+      <!-- <div  ng-if="allowSettingSaving" ng-if="type != 'ShiftProgress'" style="height: 1px; width: 100%; background-color: grey; margin: 8px 0;"></div>
+      <div ng-if="allowSettingSaving" style="display: flex;align-items: center;    flex-direction: column;    width: 100%;" ng-if="type !=  'ShiftProgress'">
+        <select ng-show="groupsData && groupsData.length > 0" class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen ng-model="onlineSettingsCtrl.userGroupValue" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in groupsData"></select>      
+        <div ng-click="saveSettingsStructure(onlineSettingsCtrl.userGroupValue)" style="margin-top:10px" class="save-settings">{{"SAVE_SETTINGS" | translate}}</div>      
+      </div> -->
+    </div>
+  </div>
+</div>

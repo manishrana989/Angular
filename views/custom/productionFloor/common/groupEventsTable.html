@@ -1,0 +1,395 @@
+<div
+  class="gridTableBodyRow"
+  ng-style="{'background-color': groupData.ID > -1 ? 'white' : 'rgba(177, 214, 250, 1)'}"
+  style=" top: 0; z-index: 100;"
+>
+  <div class="drag-icon grid-drag-row gridTableUnit">
+    <div></div>
+    <div></div>
+  </div>
+  <div class="gridTableUnit"  style="cursor: pointer;">
+  </div>
+  <div class="gridTableUnit">
+    <div ng-show="groupData.ID>0">
+      {{groupData.ID}}
+    </div>
+  </div>
+  <div class="gridTableUnit" style="overflow: hidden;">
+    <div
+      ng-if="!groupData.edit || groupData.IsSystem"
+      style="width: 6vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;"
+      title="{{groupData.EName}}"
+    >
+      {{groupData.EName}}
+    </div>
+    <input type="text" style="width: 100%; text-align: center;" ng-model="groupData.EName" ng-if="groupData.edit && !groupData.IsSystem" />
+  </div>
+  <div class="gridTableUnit"></div>
+  <div class="gridTableUnit">
+    <input
+      type="color"
+      ng-disabled="!groupData.edit"
+      ng-model="groupData.ColorID"
+      style="width: 36px; height: 36px; border: solid 1px #cecece; background-color: var(--white);"      
+    />
+  </div>
+  <div class="gridTableUnit">
+    <div>
+      <img alt="" width="23" ng-if="!groupData.edit" src="images/stopEvents/black/{{groupData.IconID}}" />
+      <div
+        class="reason-icon-selection"
+        ng-if="groupData.edit"
+        off-click-activator="groupData.reOrderIconPicker" off-click="groupData.reOrderIconPicker=false"
+        ng-click="groupData.reOrderIconPicker = !groupData.reOrderIconPicker;"
+        style="display: flex;"
+      >
+        <div style="width: 30px; height: 30px; position: relative; cursor: pointer;">
+          <img alt="" width="23" ng-src="images/stopEvents/black/{{groupData.IconID}}" />
+          <div ng-if="groupData.reOrderIconPicker" class="re-order-icon-picker slim">
+            <div ng-repeat="icon in icons track by $index" ng-click="groupData.IconID = icon;groupData.reOrderIconPicker = false">
+              <img ng-show="icon.length > 0" src="images/stopEvents/black/{{icon}}" />
+              <img ng-show="icon.length == 0" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="caret"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gridTableUnit">
+    <a
+      href
+      ng-init="groupData.showMachines = false"
+      ng-click="groupData.showMachines = groupData.edit && !groupData.showMachines;"
+      ng-show="!groupData.IsSystem"
+      ng-style="!groupData.edit && {'color':'black'}"
+      >{{"MACHINE_LIST" | translate}}({{groupData.selectedGlobalMachineCount}})</a
+    >
+    <div
+      style="position: relative;"
+      off-click-activator="groupData.showMachines" off-click="groupData.showMachines = false;"
+      ng-click="$event.stopPropagation()"
+      ng-if="groupData.showMachines"
+    >
+      <ul class="departments-machines-container">
+        <div>
+          <div
+            class="checkBox"
+            style="display: inline-block;"
+            check-box-directive
+            field-title=""
+            field="groupData"
+            ng-custom-change="selectAllDepartmentsGlobal"
+            select-value="'allDepartmentsSelected'"
+          ></div>
+          <label>{{"DEPARTMENTS" | translate}}</label>
+        </div>
+        <div class="departmentsList">
+          <div ng-repeat="department in groupData.allDepartmentsForGroup">
+            <div
+              class="checkBox"
+              style="display: inline-block;"
+              check-box-directive
+              field-title="localLanguage ? department.Key.LName: department.Key.EName"
+              field="department"
+              ng-custom-change="selectAllDepartmentMachinesGlobal"
+              select-value="'selected'"
+            ></div>
+            <div
+              style="display: inline-block; padding-right: 8px;"
+              class="pull-right"
+              ng-init="department.expanded=false"
+              ng-click="department.expanded=!department.expanded"
+            >
+              <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+              <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+            </div>
+            <div class="grid-list-machines" ng-if="department.expanded">
+              <div
+                class="checkBox"
+                style="display: inline-block;"
+                ng-repeat="machine in department.Value"
+                check-box-directive
+                field-title="localLanguage ? machine.MachineLName : machine.MachineName"
+                field="machine"
+                ng-custom-change="selectGlobalMachine"
+                select-value="'selected'"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div> 
+
+  <div class="gridTableUnit">
+    <a
+      ng-if="!groupData.IsSystem"
+      ui-sref="appObjectFullView({ID:groupData.DictionaryID ,appObjectName: 'LanguageDictionary'})"
+      target="LanguageDictionary"
+      >{{groupData.DictionaryID}}</a
+    >
+  </div>
+  <div class="gridTableUnit"></div>
+  <div class="gridTableUnit">
+    <input
+      id="group_IsActive{{$index}}"
+      type="checkbox"
+      ng-model="groupData.IsActive"
+      ng-change="changeGroupCheckBox('IsActive')"
+      ng-disabled="!groupData.edit || groupData.IsSystem"
+    />
+  </div>
+  <div class="gridTableUnit">
+    <input
+      id="group_DisplayInOpApp{{$index}}"
+      type="checkbox"
+      ng-model="groupData.DisplayInOpApp"
+      ng-change="changeGroupCheckBox('DisplayInOpApp')"
+      ng-disabled="!groupData.edit || groupData.IsSystem"
+    />
+  </div>
+  <div class="gridTableUnit">
+    <input id="groupData_IsSystem{{$index}}" type="checkbox" ng-model="groupData.IsSystem" ng-disabled="true" />
+  </div>
+  <div class="gridTableUnit" style="display: flex;
+  justify-content: center;">
+    <span ng-if="!groupData.edit">{{groupData.TargetPC}}</span>
+    <input type="text" style="width: 60%; text-align: center;" ng-model="groupData.TargetPC" ng-if="groupData.edit" only-digits />
+  </div>
+  <div class="gridTableUnit" style="width: 100%;" ng-init="doneSaving = true">
+    <div
+      class="saveGroupGridButton"
+      ng-click="doneSaving && saveAndCloseEditMode(groupData)"
+      style="width: 100%;"
+      ng-if="groupData.edit"
+      ng-style="!doneSaving && {'cursor':'not-allowed'}"
+      title="{{'SAVE' | translate}}"
+    >
+      <span class="">{{"SAVE" | translate}}</span>
+    </div>
+  </div>
+  <div
+    class="gridTableUnit"
+    ng-click="addReasonToGroup(groupData);groupData.edit = true;"
+    style="cursor: pointer; display: flex; align-items: center; justify-content: center;"
+    title="{{'ADD_NEW_REASON' | translate}}"
+  >
+    <img ng-if="groupData.reasonShow" ng-src="images/add-circle.svg" />
+  </div>
+  <div
+    class="gridTableUnit"
+    style="cursor: pointer;"
+    ng-click="groupData.edit = !groupData.edit;groupData.edit ? groupData.reasonShow =true : ''"
+    title="{{'EDIT' | translate}}"
+  >
+    <img ng-if="!groupData.edit" ng-src="images/edit.svg" />
+    <img ng-if="groupData.edit" ng-src="images/edit-selected.svg" />
+  </div>
+  <div class="gridTableUnit" ng-click="groupData.reasonShow = !groupData.reasonShow;" style="cursor: pointer;">
+    <img ng-if="groupData.reasonShow" ng-src="images/expand-down.svg" />
+    <img ng-if="!groupData.reasonShow" ng-src="images/expand-down-blue.svg" />
+  </div>
+</div>
+<div class="reasons" ui-sortable="sortableOptionsEvent" ng-model="groupData.Reasons">
+  <div
+    class="gridTableBodyRow"
+    ng-repeat="reason in groupData.Reasons"
+    ng-if="groupData.reasonShow"
+    ng-style="{'background-color': reason.ID > -1 ? 'rgba(0, 128, 255, 0.08)' : 'rgba(177, 214, 250, 1)'}"
+  >
+    <div class="gridTableUnit" style="background-color: #ffffff; height: 100%; width: 100%;"></div>
+    <div class="drag-icon-event grid-drag-row gridTableUnit">
+      <div></div>
+      <div></div>
+    </div>
+    <div class="gridTableUnit">
+      <div ng-show="reason.ID>0">
+        {{reason.ID}}
+      </div>
+    </div>
+    <div class="gridTableUnit">
+      <div
+        ng-if="!groupData.edit || reason.IsSystem"
+        style="width: 6vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;"
+        title="{{reason.EName}}"
+      >
+        {{reason.EName}}
+      </div>
+      <input type="text" style="width: 100%; text-align: center;" ng-model="reason.EName" ng-if="groupData.edit && !reason.IsSystem" />
+    </div>
+    <div class="gridTableUnit" style="display: flex; justify-content: center; align-items: center;">
+      <!--Regular Mode Circle icon-->
+      <div style="display: flex; align-items: center;">
+        <div class="circle-icon" ng-if="reason.EventDefinitionID == 0" style="background: #90ee90;"></div>
+        <div class="circle-icon" ng-if="reason.EventDefinitionID == 1" style="background: #c01b29;"></div>
+        <div class="circle-icon" ng-if="reason.EventDefinitionID == 2" style="background: #cecece;"></div>
+      </div>
+
+      <!--Edit Mode Circle icon-->
+      <div
+        class="circle-icon-container"
+        ng-click="reason.menuOpened=!reason.menuOpened"
+        ng-if="groupData.edit && !reason.IsSystem"
+        style="margin: 10px;"
+      >
+        <div class="circle-icon" ng-if="reason.EventDefinitionID == 2" style="background: #cecece;"></div>
+        <div class="circle-icon" ng-if="reason.EventDefinitionID == 1" style="background: #c01b29;"></div>
+        <div class="circle-icon" ng-if="reason.EventDefinitionID == 0" style="background: #90ee90;"></div>
+        <span class="caret"></span>
+        <div class="circle-icon-dropdown" off-click-activator="reason.menuOpened" off-click="reason.menuOpened = false" ng-if="reason.menuOpened">
+          <div class="dropdown-groupData" ng-click="handleMenuCB(reason, 2);reason.menuOpened=false">
+            <div class="circle-icon" style="background: #a6a8ab; margin-right: 3px;"></div>
+            <div class="description">{{"IDEAL_TIME" | translate}}</div>
+          </div>
+          <div class="dropdown-groupData" ng-click="handleMenuCB(reason, 1)">
+            <div class="circle-icon" style="background: #bf1620; margin-right: 3px;"></div>
+            <div class="description">{{"DOWN_TIME" | translate}}</div>
+          </div>
+          <div class="dropdown-groupData" ng-click="handleMenuCB(reason, 0)">
+            <div class="circle-icon" style="background: #90ee90; margin-right: 3px;"></div>
+            <div class="description">{{"STOP_EVENTS_NONE" | translate}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="gridTableUnit">
+      <input
+      type="color"
+      ng-disabled="!groupData.edit"
+      ng-model="reason.ColorID"
+      style="width: 36px; height: 36px; border: solid 1px #cecece; background-color: var(--white);"      
+    />
+    </div>
+    <div class="gridTableUnit">
+      <img alt="" width="23" ng-if="!groupData.edit" src="images/stopEvents/black/{{reason.IconID}}" />
+      <div
+        class="reason-icon-selection"
+        ng-if="groupData.edit"
+        off-click-activator="reason.reOrderIconPicker" off-click="reason.reOrderIconPicker=false"
+        ng-click="reason.reOrderIconPicker = !reason.reOrderIconPicker;"
+        style="display: flex;"
+      >
+        <div style="width: 30px; height: 30px; position: relative; cursor: pointer;">
+          <img alt="" width="23" ng-src="images/stopEvents/black/{{reason.IconID}}" />
+          <div ng-if="reason.reOrderIconPicker" class="re-order-icon-picker slim">
+            <div ng-repeat="icon in icons track by $index" ng-click="reason.IconID = icon;reason.reOrderIconPicker = false">
+              <img ng-show="icon.length > 0" src="images/stopEvents/black/{{icon}}" />
+              <img ng-show="icon.length == 0" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="caret"></span>
+        </div>
+      </div>
+    </div>
+    <div class="gridTableUnit">
+      <a
+        href
+        ng-init="reason.showMachinesReason = false"
+        ng-click="reason.showMachinesReason = groupData.edit && !reason.showMachinesReason;"
+        ng-show="!reason.IsSystem"
+        ng-style="!groupData.edit && {'color':'black'}"
+        >{{"MACHINE_LIST" | translate}}({{reason.selectedLocalMachineCount}})</a
+      >
+      <div
+        style="position: relative;"
+        off-click-activator="reason.showMachinesReason" off-click="reason.showMachinesReason = false;"
+        ng-click="$event.stopPropagation()"
+        ng-if="reason.showMachinesReason"
+      >
+        <ul class="departments-machines-container">
+          <div>
+            <div
+              class="checkBox"
+              style="display: inline-block;"
+              check-box-directive
+              field-title=""
+              field="reason"
+              ng-custom-change="selectAllDepartmentsLocal"
+              select-value="'allDepartmentsSelected'"
+            ></div>
+            <label>{{"DEPARTMENTS" | translate}}</label>
+          </div>
+          <div class="departmentsList">
+            <div ng-repeat="department in reason.allDepartmentsForReason">
+              <div
+                class="checkBox"
+                style="display: inline-block;"
+                check-box-directive
+                field-title="localLanguage ? department.Key.LName: department.Key.EName"
+                field="department"
+                ng-custom-change="selectAllDepartmentMachinesLocal"
+                first-param-for-custom-change="reason"
+                select-value="'selected'"
+              ></div>
+              <div
+                style="display: inline-block; padding-right: 8px;"
+                class="pull-right"
+                ng-init="department.expanded=false"
+                ng-click="department.expanded=!department.expanded"
+              >
+                <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+              </div>
+              <div class="grid-list-machines" ng-if="department.expanded">
+                <div
+                  class="checkBox"
+                  style="display: inline-block;"
+                  ng-repeat="machine in department.Value"
+                  check-box-directive
+                  field-title="localLanguage ? machine.MachineLName : machine.MachineName"
+                  field="machine"
+                  ng-custom-change="selectLocalMachine"
+                  first-param-for-custom-change="reason"
+                  select-value="'selected'"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gridTableUnit">
+      <a
+        ng-if="!reason.IsSystem"
+        ui-sref="appObjectFullView({ID:reason.DictionaryID ,appObjectName: 'LanguageDictionary'})"
+        target="LanguageDictionary"
+        >{{reason.DictionaryID}}</a
+      >
+    </div>
+    <div class="gridTableUnit" style="display: flex;
+    justify-content: center;">
+      <span ng-if="!groupData.edit">{{reason.ERPID}}</span>
+      <input type="text" style="width: 60%; text-align: center;" ng-model="reason.ERPID" ng-if="groupData.edit" />
+    </div>
+    <div class="gridTableUnit">
+      <input
+        id="reason_IsActive_{{$index}}"
+        type="checkbox"
+        ng-model="reason.IsActive"
+        ng-click="reason.IsActive ? groupData.IsActive = true : ''"
+        ng-disabled="!groupData.edit || reason.IsSystem"
+      />
+    </div>
+    <div class="gridTableUnit">
+      <input id="reason_DisplayInOpApp{{$index}}" type="checkbox" ng-model="reason.DisplayInOpApp" ng-disabled="!groupData.edit || reason.IsSystem" />
+    </div>
+    <div class="gridTableUnit">
+      <input id="reason_IsSystem{{$index}}" type="checkbox" ng-model="reason.IsSystem" ng-disabled="true" />
+    </div>
+    <div class="gridTableUnit" style="display: flex;
+    justify-content: center;">
+      <span ng-if="!groupData.edit">{{reason.TargetPC}}</span>
+      <input type="text" style="width: 60%; text-align: center;" ng-model="reason.TargetPC" ng-if="groupData.edit" only-digits />
+    </div>
+    <div class="gridTableUnit"></div>
+    <div class="gridTableUnit"></div>
+    <div class="gridTableUnit"></div>
+  </div>
+</div>

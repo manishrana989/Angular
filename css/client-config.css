@@ -1,0 +1,143 @@
+:root {
+    --color1: #340656;
+    --color2: #0080ff;
+    --color3: #1A012B;
+
+    --machine-status-1 : #1aa917; /* work */
+    --machine-status-2 : #fba30c; /* alarm */
+    --machine-status-3 : #bf1620; /* stop */
+    --machine-status-4 : #21809e; /* no communication */
+    --machine-status-5 : #127510; /* work setup */
+    --machine-status-6 : #850f16; /* stop setup */
+    --machine-status-7 : #bf1620; /* no communication setup */
+    --machine-status-8 : #a7a9ab; /* stop idle */
+    --machine-status-9 : #BF1620; /* stop idle */
+    --machine-status-0 : #a7a9ab; /* no job */
+
+    --gantt-no-production : #a6a9ab ; /* no production Job */
+    --gantt-active-job : #b3f4b3 ; /* active Job */
+    --gantt-pending-jobs : #bae8f6 ; /* pending Job */
+    --gantt-setup : #853FCC ; /* setup Job */
+
+    --priority-high:#e01521;
+    --priority-medium:#f5a623;
+    --priority-low:#3fb73d;
+    
+    --selected-scale : 1;
+
+    /* --gantt-calendar-width: 2500px; */
+}
+
+@font-face {
+    font-family: 'leaderMesFont'; /*a name to be used later*/
+    src: url('fonts/DroidSans.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: ProximaNova;
+    src: url(../fonts/proximanova/proximanova-regular.a7942249.woff) format("woff")
+}
+
+@font-face {
+    font-family: ProximaNova;
+    src: url(../fonts/proximanova/proximanova-semibold.46e3f047.woff) format("woff");
+    font-weight: 700
+}
+
+@font-face {
+    font-family: ProximaNova;
+    src: url(../fonts/proximanova/proximanova-regular-italic.053a1112.woff) format("woff");
+    font-style: italic
+}
+
+@font-face {
+    font-family: ProximaNova;
+    src: url(../fonts/proximanova/proximanova-semibold-italic.660bf63e.woff) format("woff");
+    font-weight: 700;
+    font-style: italic
+}
+
+
+
+@font-face {
+    font-family: OpenSansHebrew;
+    src: url(../fonts/opensansheb/OpenSansHebrew-Regular.ttf) format("opentype");
+}
+
+@font-face {
+    font-family: OpenSansHebrew;
+    src: url(../fonts/opensansheb/OpenSansHebrew-Bold.ttf) format("opentype");
+    font-weight: 700
+}
+
+@font-face {
+    font-family: OpenSansHebrew;
+    src: url(../fonts/opensansheb/OpenSansHebrew-Italic.ttf) format("opentype");
+    font-style: italic
+}
+
+@font-face {
+    font-family: LucidaGrande;
+    src: url(../fonts/LucidaGrande/LucidaGrande.ttf) format("opentype");
+}
+
+@font-face {
+    font-family: LucidaGrande;
+    src: url(../fonts/LucidaGrande/LucidaGrandeBold.ttf) format("opentype");
+    font-weight: 700
+}
+
+/* @font-face {
+    font-family: LucidaGrande;
+    src: url(../fonts/opensansheb/OpenSansHebrew-Italic.ttf) format("opentype");
+    font-style: italic
+} */
+
+
+@font-face {
+    font-family: "Bree Serif";
+    src: url(../fonts/BreeSerif-Regular.ttf) format("opentype");
+    font-weight: 200;
+}
+
+body:lang(eng) {
+    font-family: ProximaNova !important;
+}
+
+body:lang(spn) {
+    font-family: ProximaNova !important;
+}
+
+body:lang(heb) {
+    font-family: OpenSansHebrew !important;
+}
+
+body:lang(eng) svg.highcharts-root {
+    font-family: ProximaNova !important;
+}
+
+body:lang(spn) svg.highcharts-root {
+    font-family: ProximaNova !important;
+}
+
+body:lang(heb) svg.highcharts-root {
+    font-family: OpenSansHebrew !important;
+}
+
+/* @media (min-width: 1366px) {
+    :root {
+        --screen-zoom : 0.5;
+    }
+}
+
+@media (min-width: 1920px) {
+    :root {
+        --screen-zoom : 0.9;
+    }
+}
+
+@media (min-width: 2200px) {
+    :root {
+        --screen-zoom : 1;
+    }
+} */

@@ -1,0 +1,55 @@
+<div
+  class="insights-filter-section row"
+  ng-if="insightsToolbarCtrl.machineValue || insightsToolbarCtrl.insightFiltersData.jobIds.length || insightsToolbarCtrl.insightFiltersData.unitsProducedIds.length || insightsToolbarCtrl.insightFiltersData.activeTimeIds.length || insightsToolbarCtrl.insightFiltersData.activeTimeIds.length || insightsToolbarCtrl.insightFiltersData.userIds.length|| 
+  insightsToolbarCtrl.insightFiltersData.clientIds.length|| insightsToolbarCtrl.insightFiltersData.moldIds.length || insightsToolbarCtrl.shiftsValue || insightsToolbarCtrl.jobDefinitionValue || 
+    insightsToolbarCtrl.insightFiltersData.productIds.length || insightsToolbarCtrl.insightFiltersData.productGroupIds.length || insightsToolbarCtrl.endLineValue || insightsToolbarCtrl.isWorkingValue"
+>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.machineValue" 
+  title="{{insightsToolbarCtrl.machineTooltip.toString()}}">
+    {{insightsToolbarCtrl.machineValue}} <img ng-click="insightsToolbarCtrl.resetByKey('machines')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.shiftsValue"
+  title="{{insightsToolbarCtrl.shiftsTooltip.toString()}}">
+    {{insightsToolbarCtrl.shiftsValue}} <img ng-click="insightsToolbarCtrl.resetByKey('shifts')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.jobDefinitionValue"
+  title="{{insightsToolbarCtrl.jobsTooltip.toString()}}">
+    {{insightsToolbarCtrl.jobDefinitionValue}}
+    <img ng-click="insightsToolbarCtrl.resetByKey('jobDefinition')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.endLineValue">
+    {{"END_LINE" | translate}}<img ng-click="insightsToolbarCtrl.resetByKey('endLine')" src="images/close-gray.png" />
+  </div>
+
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.isWorkingValue">
+    {{"IS_WORKING" | translate}}<img ng-click="insightsToolbarCtrl.resetByKey('isWorking')" src="images/close-gray.png" />
+  </div>
+
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.productIds.length">
+    {{"PRODUCT" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('productIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.productGroupIds.length">
+    {{"PRODUCT_GROUP" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('productGroupIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.moldIds.length">
+    {{"MOLD" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('moldIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.moldGroupIds.length">
+    {{"MOLD_GROUP" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('moldGroupIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.userIds.length">
+    {{"WORKER" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('userIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.clientIds.length">
+    {{"CUSTOMER" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('clientIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.jobIds.length">
+    {{"ERP_JOB" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('jobIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.activeTimeIds.length">
+    {{"ACTIVE_TIME" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('activeTimeIds')" src="images/close-gray.png" />
+  </div>
+  <div class="insights-filter-item" ng-if="insightsToolbarCtrl.insightFiltersData.unitsProducedIds.length">
+    {{"UNITS_PRODUCED" | translate}} <img ng-click="insightsToolbarCtrl.resetByKey('unitsProducedIds')" src="images/close-gray.png" />
+  </div>
+</div>

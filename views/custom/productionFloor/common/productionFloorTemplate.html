@@ -1,0 +1,612 @@
+<script>
+  (function () {
+    document.getElementById("page-wrapper").style.backgroundColor = "";
+  })();
+</script>
+<div style="background-color: #f3f3f4" ng-class="{'newTab' : content.newTab}" class="productionfloor" ng-init="machineData.selectedTemplteIndex = -1">
+  <div ng-show="!ProductionFloorData.allMachinesFullScreen.value" ng-init="ProductionFloorData.allMachinesFullScreen.value = false" class="row wrapper border-bottom white-bg page-heading productionContainer" id="productionFloorTabsDash">
+    <div class="floatRight header-title" style="min-height: 3.125vw">
+      <div class="pull-left">
+        <h2 style="padding-left: 0.208vw" class="production-floor-header pull-left">
+          <div class="navigation-btn-group">
+            <div class="navigation-div" ng-repeat="subMenu in subMenuNavButtons track by $index">
+              <button type="button" class="navigation-btn navigation-btn-font" ng-style="subMenu.SubMenuAppPartID === topPageTitleId  && {color :'var(--color2)'}" ui-sref="{{subMenu.state}}({menuContent: {topMenu : productionFloorMenu, subMenu: subMenu},id : subMenu.fullView})">
+                {{localLanguage ? subMenu.SubMenuLName : subMenu.SubMenuEName}}
+              </button>
+            </div>
+            <div ng-style="{
+              opacity: ProductionFloorTab.selectedTab == 'shift' && shiftData.dataLoading ? 0.5 : 1
+              }" class="navigation-btn-dropdown navigation-div" off-click-activator="navModelOpen.value" off-click="navModelOpen.value = false" ng-click="changeNavModelOpen()">
+              <div class="navigation-btn navigation-btn-font" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span ng-style="topPageTitleFlag && {color :'var(--color2)'}" class="navigation-btn-dropdown-title">
+                  {{"DEPARTMENT_VIEW" | translate}}
+                  <span ng-show="topPageTitleFlag"> :{{localLanguage ? content.subMenu.SubMenuLName : content.subMenu.SubMenuEName}} </span>
+                </span>
+                <span class="navigation-caret"></span>
+              </div>
+
+              <ul ng-show="ProductionFloorTab.selectedTab !== 'shift' || !shiftData.dataLoading" class="dropdown-menu select-dep-dropdown department newScroll slim" style="max-height: 22.396vw">
+                <li ng-repeat="subMenu in subMenuNavmenu track by $index">
+                  <a style="width: calc(100% - 0.417vw); border: none" class="pull-left" ui-sref="{{subMenu.state}}({menuContent: {topMenu : productionFloorMenu, subMenu: subMenu},id : subMenu.fullView})"> {{localLanguage ? subMenu.SubMenuLName : subMenu.SubMenuEName}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </h2>
+      </div>
+      <div>
+        <ul class="nav navbar-top-links navbar-right" style="padding-top: 0.156vw">
+          <li class="production-description">
+            <button class="btn btn-primary" style="width: 1.927vw" ng-hide="!content.subMenu.SubMenuObjectInformation || !content.subMenu.SubMenuObjectInformationLink" ng-click="openObjectDescription()">
+              <i class="fa fa-info"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div ng-init="shiftData.showInsights = false;shiftData.showTemplates=false;shiftData.showTemplatesModes=false" class="pull-right header-btns">
+
+        <!--       ---place here shift pick -->
+        <div ng-init="periodDropDown = false" ng-if="ProductionFloorTab.selectedTab == 'shift'" off-click-activator="periodDropDown" off-click="periodDropDown = false;shiftData.selectedTab=lastSelectedTab;isCustomPeriod=false">
+          <div class="Rectangle-2 period-dashboard-dropdown-selection" ng-click="(!shiftData.dataLoading) && (periodDropDown = !periodDropDown)" ng-class="{'disable-btns': shiftData.dataLoading,'selected': shiftData.selectedTab != 4}" style="color: #101010; width: unset; border-color: #d0cfd0; font-weight: bold">
+            <img ng-show="shiftData.selectedTab== 2" src="images/callendar.svg" style="margin-right: 5%" />
+            <span ng-show="shiftData.selectedTab == 2" class="pull-left" style="white-space: nowrap; font-weight: bold"> {{shiftData.CustomShiftName}} </span>
+            <!--            {{shiftData.selectedTab == 2 ? (shiftData.customDay | date:"dd/MM/yyyy") : (periodsOptions[shiftData.selectedTab] | translate)-->
+            <!--            }}-->
+            <span ng-show="shiftData.selectedTab == 4" ng-bind="shiftData.thisDayShiftFullName"></span>
+            <span ng-show="shiftData.selectedTab == 6" ng-bind="shiftData.LastShiftFullName"></span>
+            <span ng-show="shiftData.selectedTab == 3" ng-bind="shiftData.Last24HoursFullName"></span>
+            <span ng-show="shiftData.selectedTab == 9" ng-bind="shiftData.firstShiftTodayLabel"></span>
+            <span ng-show="shiftData.selectedTab == 10" ng-bind="shiftData.yesterdayLabel"></span>
+            <span class="caret" style="margin: 0 0.5vw"></span>
+          </div>
+          <div class="shiftSelectorMenu" ng-show="periodDropDown" ng-class="isCustomPeriod?'customShiftWrapper':'shiftPeriodWrapper'">
+            <div style="width: 6.5vw; display: flex; align-items: stretch">
+              <ul class="period-dashboard-dropdown newPeriodDashboardDropDown" style="font-weight: bold; margin: 0">
+                <hr />
+                <li
+                  ng-click="shiftData.selectedTab != 4 && updateData(4);periodDropDown=!periodDropDown;isCustomPeriod=false;lastSelectedTab=4;
+                        shiftData.trendsSettings.compareWith=7;shiftData.trendsSettings.compareWithDemo=7;shiftData.trendsSettings.compareWithC=7"
+                  ng-class="{'selected': shiftData.selectedTab == 4}"
+                >
+                  {{"CURRENT_SHIFT" | translate}}
+                </li>
+                <hr />
+                <li
+                  ng-click="shiftData.selectedTab != 6 && updateData(6);periodDropDown=!periodDropDown;isCustomPeriod=false;lastSelectedTab=6;
+                            shiftData.trendsSettings.compareWith=7;shiftData.trendsSettings.compareWithDemo=7;shiftData.trendsSettings.compareWithC=7"
+                  ng-class="{'selected': shiftData.selectedTab == 6}"
+                >
+                  {{"LAST_SHIFT" | translate}}
+                </li>  
+                <hr />
+                <li
+                ng-click="shiftData.selectedTab != 10 && updateData(10);periodDropDown=!periodDropDown;isCustomPeriod=false;lastSelectedTab=10;
+                shiftData.trendsSettings.compareWith=1;shiftData.trendsSettings.compareWithDemo=1;shiftData.trendsSettings.compareWithC=1"
+                ng-class="{'selected': shiftData.selectedTab == 10}"
+              >
+                {{"YESTERDAY" | translate}}
+              </li> 
+                <hr />
+                <li
+                  ng-click="shiftData.selectedTab != 9 && updateData(9);periodDropDown=!periodDropDown;isCustomPeriod=false;lastSelectedTab=9;
+                            shiftData.trendsSettings.compareWith=7;shiftData.trendsSettings.compareWithDemo=7;shiftData.trendsSettings.compareWithC=7"
+                  ng-class="{'selected': shiftData.selectedTab == 9}"
+                >
+                  {{"ALL_TODAY'S_SHIFTS" | translate}}
+                </li>
+                <hr />
+                <!-- <li
+                  ng-click="shiftData.selectedTab != 3 && updateData(3);periodDropDown=!periodDropDown;isCustomPeriod=false;lastSelectedTab=3;
+                  shiftData.trendsSettings.compareWith=1;shiftData.trendsSettings.compareWithDemo=1;shiftData.trendsSettings.compareWithC=1"
+                  ng-class="{'selected': shiftData.selectedTab == 3}"
+                >
+                  {{"LAST_24_HOURS" | translate}}
+                </li> -->
+                <hr />
+                <li
+                  ng-click="$event.stopPropagation();lastSelectedTab=shiftData.selectedTab;shiftData.selectedTab=2;isCustomPeriod=!isCustomPeriod;
+                       shiftData.trendsSettings.compareWith=1;shiftData.trendsSettings.compareWithDemo=1;shiftData.trendsSettings.compareWithC=1"
+                  ng-class="{'selected': shiftData.selectedTab == 2}"
+                >
+                  <img src="images/dashboard/calendar.svg" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+                  <span style="vertical-align: middle"> {{"CUSTOM" | translate}} </span>
+                </li>
+              </ul>
+            </div>
+            <div style="width: 24.02vw; background-color: white" ng-show="isCustomPeriod==true" class="period-dashboard-dropdown newPeriodDashboardDropDownCustom">
+              <div style="font-size: 0.9vw; font-weight: bold; height: 45%">
+                <div style="margin-bottom: 0.5vw">{{"SELECT_DAY"|translate}}:</div>
+                <div style="display: grid; grid-template-columns: repeat(7, auto); grid-gap: 0.4vw">
+                  <div ng-repeat="(dayIndex,day) in shiftData.customShiftsInsights" class="shiftDayElement" ng-click="selectedCustomShiftsArr.index=dayIndex;" ng-class="{'shiftDayElementSelected':selectedCustomShiftsArr.index==dayIndex}">
+                    <div style="margin-bottom: 10%">{{day.day}}</div>
+                    <div style="font-size: 0.67vw">{{(day.monthName | translate).substring(0,3)}}</div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size: 0.9vw; font-weight: bold">
+                <div style="margin-bottom: 0.5vw; margin-top: 1vw">{{"SELECT_SHIFT"|translate}}:</div>
+                <div style="display: flex; flex-wrap: wrap">
+                  <div style="width: 50%">
+                    <label class="container-radio" ng-class="{'comboBoxLabel':newClass == true}" style="font-size: 0.75vw">
+                      <input ng-disabled="disabled" type="radio" ng-model="selectedCustomShiftsValue.selected" value="allShifts" />
+                      <span class="checkmark"></span>
+                      {{"ALL_SHIFTS_LAST_24"|translate}}
+                    </label>
+                  </div>
+                  <div ng-repeat="shift in shiftData.customShiftsInsights[selectedCustomShiftsArr.index].shifts" ng-model="selectedCustomShiftsArr.index" style="width: 50%">
+                    <label class="container-radio" ng-class="{'comboBoxLabel':newClass == true}" style="font-size: 0.75vw">
+                      <input id="{{shift.name}}" ng-disabled="disabled" type="radio" ng-model="selectedCustomShiftsValue.selected" value="{{shift.name}}" />
+                      <span class="checkmark"></span>
+                      {{shift.name}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center; margin-top: 5%">
+                <div class="shiftSelectDayBtn" ng-click="periodDropDown=false;shiftData.selectedTab=2;lastSelectedTab=2;selectCustomShifts();">{{"SELECT"|translate}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span ng-if="ProductionFloorTab.selectedTab == 'insights' || ProductionFloorTab.selectedTab == 'factoryInsights'" class="Rectangle-2 flex-center" style="display: flex; align-items: center; justify-content: space-between">
+          <img ng-src="images/gantt/callendar.svg" />
+          <div class="mainRange">
+            <input ng-if="rangeOptions" id="reportrange1" type="submit" date-range-picker on-change="insightsUpdateDate" start-date="pickerDate.startDate" end-date="pickerDate.endDate" data-ng-required="true" date-range-picker-options="rangeOptions" clear-on-cancel="true" class="dateRangeClassProductionFloor" />
+          </div>
+        </span>
+        <!-- <div class="dateRangeClassWrapper mainRange" ng-if="ProductionFloorTab.selectedTab == 'factoryInsights'">
+            <input ng-if="rangeOptions" id="reportrange1" type="submit" date-range-picker on-change="insightsUpdateDate" start-date="pickerDate.startDate" end-date="pickerDate.endDate" data-ng-required="true" date-range-picker-options="rangeOptions" clear-on-cancel="true" class="dateRangeClassProductionFloor" />
+        </div> -->
+
+        <!--       place here refresh shift -->
+        <div ng-click="!shiftData.dataLoading && refresh(shiftData.selectedTab)" ng-if="ProductionFloorTab.selectedTab == 'shift'" ng-class="{'disable-btns': shiftData.dataLoading}" class="Rectangle-2 flex-center" style="min-width: 1.979vw; flex-direction: row-reverse">
+          <div title="{{'LAST_UPDATE' | translate}}" class="Rectangle-2 lastRefresh flex-center" style="margin: 0; flex-direction: row-reverse; font-size: 0.729vw; font-weight: bold">{{ shiftData.lastRefresh }}</div>
+          <img src="images/refresh-grey-new.svg" ng-class="{'rotating' : shiftData.loadingAPI}" title="{{'REFRESH' | translate}}" />
+        </div>
+
+        <span ng-if="ProductionFloorTab.selectedTab == 'shift' || ProductionFloorTab.selectedTab == 'insights'" class="Rectangle-2" ng-init="ProductionFloorTab.showDashMenu = false" ng-click="ProductionFloorTab.showDashMenu = !ProductionFloorTab.showDashMenu" style="display: flex; align-items: center; justify-content: space-between">
+          <img ng-src="{{ProductionFloorTab.showDashMenu && 'images/settings.svg' || 'images/settings-grey-new.svg'}}" alt="settings" ng-style="{width: '1.042vw', height: '1.042vw'}" title="{{'SETTINGS' | translate}}" />
+          <span class="shift-header-btns-text">{{"DASHBOARD_SETTINGS" | translate}}</span>
+        </span>
+        <span ng-if="ProductionFloorTab.selectedTab == 'factoryInsights'" class="Rectangle-2 flex-center" ng-init="ProductionFloorTab.showDashMenu = false" ng-click="ProductionFloorTab.showDashMenu = !ProductionFloorTab.showDashMenu;$event.stopPropagation()">
+            <img ng-src="{{ProductionFloorTab.showDashMenu && 'images/settings.svg' || 'images/settings-grey.svg'}}" alt="settings" ng-style="{width: '1.042vw', height: '1.042vw'}" title="{{'SETTINGS' | translate}}" />
+            <span class="shift-header-btns-text" title="{{'DASHBOARD_SETTINGS' | translate}}">{{"DASHBOARD_SETTINGS" | translate}}</span>
+          </span>
+        <shift-legends-directive ng-show="ProductionFloorTab.selectedTab == 'shift'"></shift-legends-directive>
+        <span ng-if="ProductionFloorTab.selectedTab == 'online' && showLoginShift" class="Rectangle-2 flex-center" ng-click="ProductionFloorTab.openShiftManagerLogin();" style="min-width: 3.25vw;">
+          <img ng-src="{{'images/onlineIcons/technician-grey-new.svg'}}" alt="Department Calendar" ng-style="{width: '1.042vw', height: '1.042vw'}" title="{{'SHIFT_MANAGER_LOGIN' | translate}}" />
+          <span class="shift-header-btns-text">{{shiftManagerName | translate}}</span>
+        </span>
+        <span ng-if="ProductionFloorTab.selectedTab == 'online'" class="Rectangle-2 flex-center" ng-click="ProductionFloorTab.openDepartmentCalendar();">
+          <img ng-src="{{'images/callendar.svg'}}" alt="Department Calendar" ng-style="{width: '1.042vw', height: '1.042vw'}" title="{{'DEPARTMENT_CALENDAR' | translate}}" />
+          <span class="shift-header-btns-text">{{"DEPARTMENT_CALENDAR" | translate}}</span>
+        </span>
+        <span off-click="ProductionFloorTab.showDashMenu = false" off-click-activator="ProductionFloorTab.showDashMenu" ng-if="ProductionFloorTab.selectedTab == 'online'" class="Rectangle-2 flex-center" ng-init="ProductionFloorTab.showDashMenu = false" ng-click="ProductionFloorTab.showDashMenu = !ProductionFloorTab.showDashMenu">
+          <img ng-src="{{ProductionFloorTab.showDashMenu && 'images/settings.svg' || 'images/settings-grey-new.svg'}}" alt="settings" ng-style="{width: '1.042vw', height: '1.042vw'}" title="{{'SETTINGS' | translate}}" />
+          <span class="shift-header-btns-text">{{"DASHBOARD_SETTINGS" | translate}}</span>
+        </span>
+        <ul class="dashboard-settings-tooltip dropdownmenu old-cube-dropdown" ng-show="ProductionFloorTab.selectedTab == 'online' && ProductionFloorTab.showDashMenu" ng-click="$event.stopPropagation();">
+          <div style="padding: 0.521vw 0.26vw">
+            <div class="graph-display-container ng-scope">
+              <div class="options-drop-down graph-display-checkbox active row ng-scope">
+                <div class="hide-material-switch onoffswitch" style="direction: ltr; text-align: left">
+                  <input type="checkbox" ng-model="ProductionFloorTab.oldView" class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid" id="graphIndex1" />
+                  <label class="onoffswitch-label" for="graphIndex1">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch" ng-style="!rtl && {'right' : '0.938vw'}">
+                      <span ng-if="ProductionFloorTab.oldView" class="material-switch-v ng-scope"> </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div class="graph-name-checkbox ng vb-binding">
+                <span>{{"OLD_CUBE_VIEW" | translate}}</span>
+              </div>
+            </div>
+          </div>
+        
+          <!-- <div style="display:grid;grid-template-rows:0.3fr 1fr;font-weight: 700;
+          font-size: 0.729vw;
+          color: #072345;">
+            <div>{{"APPLY_THIS_STRUCTURE_TO" | translate}}:</div>
+            <div style="display:flex;flex-direction: column;" >
+                <div check-box-directive field-title="'MY_TEMPLATE'" field="onlineDepartmentStructure"  select-value="'value'" type="'radio'" value="false"></div>
+                <div>
+                  <div check-box-directive field-title="'DEFAULT_TEMPLATE'" field="onlineDepartmentStructure"  select-value="'value'" type="'radio'" value="true"></div>
+                  <div ng-if="allowSetDefaultMachineStructure" style="margin-bottom: 20px;position: absolute;">
+                    <select ng-show="groupsData && groupsData.length > 0"  style="width: 184px;"class="form-control" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}" multiple chosen ng-model="applyStructureTo.userGroupValue" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in groupsData "></select>
+                  </div>
+                </div>
+         
+            </div>
+          </div> -->
+        </ul>
+<!-- 
+        <span ng-if="ProductionFloorTab.selectedTab == 'newOnline'" class="Rectangle-2 flex-center" ng-init="ProductionFloorTab.showDashMenu = false" ng-click="ProductionFloorTab.showDashMenu = !ProductionFloorTab.showDashMenu">
+          <img ng-src="{{ProductionFloorTab.showDashMenu && 'images/settings.svg' || 'images/settings-grey-new.svg'}}" alt="settings" ng-style="{width: '1.042vw', height: '1.042vw'}" title="{{'SETTINGS' | translate}}" />
+          <span class="shift-header-btns-text">{{"DASHBOARD_SETTINGS" | translate}}</span>
+        </span> -->
+        <!-- <ul class="dashboard-settings-tooltip dropdownmenu old-cube-dropdown" ng-show="ProductionFloorTab.selectedTab == 'newOnline' && ProductionFloorTab.showDashMenu" ng-click="$event.stopPropagation();">
+          <div style="display:grid;grid-template-rows:0.3fr 1fr;font-weight: 700;
+          font-size: 0.729vw;
+          color: #072345;padding: 0.521vw 0.26vw;">
+            <div>{{"APPLY_THIS_STRUCTURE_TO" | translate}}:</div>
+            <div style="display:flex;flex-direction: column;"  >
+                <div check-box-directive field-title="'MY_TEMPLATE'" field="newOnlineStructure"  select-value="'value'" type="'radio'" value="false"></div>
+                <div check-box-directive field-title="'DEFAULT_TEMPLATE'" field="newOnlineStructure"  select-value="'value'" type="'radio'" value="true"  ></div>
+            </div>
+          </div>
+        </ul> -->
+
+        <ul ng-if="ProductionFloorTab.selectedTab == 'shift' && ProductionFloorTab.showDashMenu" class="dashboard-settings-tooltip dropdownmenu" off-click-activator="ProductionFloorTab.showDashMenu" off-click="ProductionFloorTab.showDashMenu = false">
+          <div>
+            <img class="dashboard-settings-close-btn" ng-click="ProductionFloorTab.showDashMenu = false" title="{{'CLOSE' | translate}}" src="images/dashboard/close.svg" alt="close" />
+          </div>
+          <div class="shift-dashboard-settings newScroll slim" style="height: 5vw">
+            <div style="margin-top: 10px">
+              <div class="graph-display-container">
+                <div class="pull-right options-drop-down graph-display-checkbox active row">
+                  <div class="hide-material-switch onoffswitch">
+                    <input type="checkbox" ng-model="shiftData.timeBarIsVisible" class="onoffswitch-checkbox" id="timeBarToggle" />
+                    <label class="onoffswitch-label" ng-style="!shiftData.timeBarIsVisible && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" for="timeBarToggle">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch" ng-style="!shiftData.timeBarIsVisible && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" ng-class="{'unchecked': !shiftData.timeBarIsVisible}">
+                        <span ng-if="shiftData.timeBarIsVisible" class="material-switch-v"> </span>
+                        <span ng-if="!shiftData.timeBarIsVisible" class="material-switch-x"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox" custom-title>
+                  <span> {{"SHOW_TIME_BAR"|translate}} </span>
+                </div>
+              </div>
+              <div class="graph-display-container">
+                <div class="pull-right options-drop-down graph-display-checkbox active row">
+                  <div class="hide-material-switch onoffswitch">
+                    <input type="checkbox" ng-model="shiftData.pinTitles" ng-change="pinClicked()" class="onoffswitch-checkbox" id="pinTitlesToggle" />
+                    <label class="onoffswitch-label" ng-style="!shiftData.pinTitles && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" for="pinTitlesToggle">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch" ng-style="!shiftData.pinTitles && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" ng-class="{'unchecked': !shiftData.pinTitles}">
+                        <span ng-if="shiftData.pinTitles" class="material-switch-v"> </span>
+                        <span ng-if="!shiftData.pinTitles" class="material-switch-x"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox" custom-title>
+                  <span> {{"PIN_TITLES"|translate}} </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ul>
+
+        <ul ng-if="ProductionFloorTab.selectedTab == 'factoryInsights' && ProductionFloorTab.showDashMenu" class="dashboard-settings-tooltip dropdownmenuFactoryInsights injection-shift" ng-click="$event.stopPropagation()" off-click-activator="ProductionFloorTab.showDashMenu" off-click="ProductionFloorTab.showDashMenu = false">
+          <div>
+            <img class="dashboard-settings-close-btn" ng-click="ProductionFloorTab.showDashMenu = false" title="{{'CLOSE' | translate}}" src="images/dashboard/close.svg" alt="close" />
+          </div>
+          <div class="shift-dashboard-settings newScroll slim">
+            <div class="drag-show-hide-explain">{{"DRAG_SHOW_HIDE_EXPLAIN" | translate}}</div>
+            <div ui-sortable="sortableOptions" ng-model="insightData[pageID].container" ui-sortable-update="updateSortable" style="margin-top: 10px">
+              <div class="graph-display-container" ng-repeat="graph in insightData[pageID].container" ng-hide="graph.options.disableClose">
+                <div class="drag-icon">
+                  <i class="fa fa-bars"></i>
+                </div>
+                <div ng-if="!graph.options.disableClose" class="pull-right options-drop-down graph-display-checkbox active row">
+                  <div class="hide-material-switch onoffswitch">
+                    <input type="checkbox" ng-model="graph.options.display" class="onoffswitch-checkbox" ng-change="updateSortable();" id="graphMIndex{{$index}}" />
+                    <label class="onoffswitch-label" ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" for="graphMIndex{{$index}}">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch" ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" ng-class="{'unchecked': !graph.options.display}">
+                        <span ng-if="graph.options.display" class="material-switch-v" style="top: unset; right: unset"> </span>
+                        <span ng-if="!graph.options.display" class="material-switch-x" style="top: unset; right: unset"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox" custom-title>
+                  <span
+                    >{{graph.nameID }}
+                    <span
+                      ng-if="graph.options.settings.parametersDisplay[graph.options.settings.parameter] ||
+                                                 graph.options.settings.parameters[graph.options.settings.parameter].value ||
+                                                 graph.options.settings.parameter"
+                    >
+                      ({{ graph.options.settings.parametersDisplay[graph.options.settings.parameter] || (graph.options.settings.parameters[graph.options.settings.parameter].value | translate) || (graph.options.settings.parameter | convertToTranslate) }})
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-xs-10 col-sm-9 pull-left">
+        <ul class="nav-online-shfit">
+          <li ng-if="!allDepartments" class="nav-online-shfit-li" ng-style="" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'online'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('online');">{{"ONLINE" | translate}}</a>
+          </li>
+          <li ng-if="!allDepartments" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'shift'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('shift');">{{"SHIFT" | translate}}</a>
+          </li>
+          <li ng-if="!allDepartments" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'insights'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('insights');">{{"INSIGHTS" | translate}}</a>
+          </li>
+          <li ng-if="!allDepartments" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'onlineTargets'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('onlineTargets');">{{"TARGETS" | translate}}</a>
+          </li>
+          <li ng-if="allDepartments" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'newOnline'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('newOnline');">{{"ONLINE" | translate}}</a>
+          </li>
+          <li ng-if="!content.subMenu.allMachines && allDepartments && !content.subMenu.targets" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'newShift'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('newShift');ProductionFloorTab.selectedTab = 'newShift'">{{"SHIFT" | translate}}</a>
+          </li>
+          <li ng-if="allDepartments && content.subMenu.allMachines" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'ShiftProgress'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('ShiftProgress');">{{"SHIFT_PROGRESS" |translate}}</a>
+          </li>
+          <li ng-if="allDepartments && content.subMenu.allMachines" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'allMachinesProcessControl'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('allMachinesProcessControl');">{{"PROCESS_CONTROL_DASHBOARD" |translate}}</a>
+          </li>
+          <li ng-if="allDepartments && content.subMenu.allMachines" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'allMachinesCustomKpis'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('allMachinesCustomKpis');">{{"CUSTOM_KPIS" |translate}}</a>
+          </li>
+          <li ng-if="!content.subMenu.allMachines && allDepartments && !content.subMenu.targets" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'factoryInsights'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('factoryInsights');ProductionFloorTab.selectedTab = 'factoryInsights'">{{"INSIGHTS" | translate}}</a>
+          </li>
+          <li ng-if="!content.subMenu.allMachines && allDepartments && !content.subMenu.targets" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'newTarget'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('newTarget');ProductionFloorTab.selectedTab = 'newTarget'">{{"TARGETS" | translate}}</a>
+          </li>
+          <li ng-if="!content.subMenu.allMachines && allDepartments" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'factoryViewProcessControl'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('factoryViewProcessControl');">{{"PROCESS_CONTROL_DASHBOARD" |translate}}</a>
+          </li>
+          <li ng-if="!content.subMenu.allMachines && allDepartments" class="nav-online-shfit-li" ng-class="{'selected' : ProductionFloorTab.selectedTab == 'factoryViewCustomKpis'}">
+            <a class="nav-online-shfit-a" ng-click="openSelectedTab('factoryViewCustomKpis');">{{"CUSTOM_KPIS" |translate}}</a>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="col-md-6 shift-duration-keys pull-left"
+        ng-if=" ProductionFloorTab.selectedTab=='shift' || ProductionFloorTab.selectedTab=='insights' ||
+                ProductionFloorTab.selectedTab=='factoryInsights'"
+      >
+
+        <!-- service calls toggle-->
+        <div class="Rectangle-2" style="width: 1.927vw; min-width: 1.927vw" ng-if="ProductionFloorTab.selectedTab !== 'insights' &&  ProductionFloorTab.selectedTab !== 'factoryInsights'">
+          <img style="margin-left: -0.156vw; margin-top: -0.156vw" ng-click="changeShowServiceCalls()" src="images/timeLine.svg" ng-if="!showServiceCalls" alt="Pin" ng-style="{width: '1.302vw', height: '1.302vw'}" />
+          <img style="margin-left: -0.156vw; margin-top: -0.156vw" ng-click="changeShowServiceCalls()" src="images/timeLineBlue.svg" ng-if="showServiceCalls" alt="" ng-style="{width: '1.302vw', height: '1.302vw'}" />
+        </div>
+
+        <!--        machine filter-->
+
+        <div
+          class="Rectangle-2 filter flex-center"
+          ng-if="ProductionFloorTab.selectedTab == 'shift'"
+          style="color: #101010; border: 0.052vw solid #d0cfd0; width: 1.927vw; min-width: 1.927vw; position: relative"
+          ng-click="changeShowFilterShift();"
+          ng-init="ProductionFloorTab.showFilters = false"
+          off-click-activator="ProductionFloorTab.showFilters" off-click="ProductionFloorTab.showFilters = false"
+          title="{{'FILTER_GRAPH' | translate}}"
+        >
+          <img ng-show="showFilterShift || hasFiltering" src="images/filter-blue-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+          <img ng-show="!showFilterShift && !hasFiltering" src="images/filter-grey-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+          <img ng-show="shiftData.hasShiftFilter" src="images/check-blue.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="position: absolute; left: 0.8vw; top: 0.3vw; height: 0.5vw; width: 0.8vw" />
+       
+        </div>
+
+        <!--        filter stickers-->
+        <div class="shift-sticker" ng-if=" ProductionFloorTab.selectedTab=='shift' && shiftData.hasShiftFilter && shiftData.stickerText">
+          <span class="shift-sticker-text" ng-show="shiftData.stickerText==='Multiple values'"> {{"MACHINES_(MULTIPLE_VALUES)" | translate}} </span>
+          <span class="shift-sticker-text" ng-show="shiftData.stickerText!=='Multiple values'"> {{"MACHINE" | translate}}:{{shiftData.stickerText}} </span>
+          <img ng-click="resetShiftFilter()" src="images/close-gray.png" />
+        </div>
+        <!-- <div class="Rectangle-2 filter flex-center" ng-if="ProductionFloorTab.selectedTab == 'factoryInsights'" style="color: #101010; border: 0.052vw solid #d0cfd0; width: 1.927vw; min-width: 1.927vw; position: relative" ng-click="changeShowFilterInsights(showFilterInsights)">
+          <img ng-show="showFilterInsights || isGlobalFilter" src="images/filter-blue-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+          <img ng-show="!showFilterInsights && !isGlobalFilter" src="images/filter-grey-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+          <img ng-show="isGlobalFilter" src="images/check-blue.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="position: absolute; left: 0.8vw; top: 0.3vw; height: 0.5vw; width: 0.8vw" />
+        </div> -->
+        <ul ng-if="ProductionFloorTab.selectedTab == 'insights' && ProductionFloorTab.showDashMenu" class="dashboard-settings-tooltip dropdownmenu injection-shift insight-dashboard-settings-tooltip" style="margin-top: -0.3vw" ng-click="$event.stopPropagation()" off-click-activator="ProductionFloorTab.showDashMenu" off-click="ProductionFloorTab.showDashMenu = false">
+          <div>
+            <img class="dashboard-settings-close-btn" ng-click="ProductionFloorTab.showDashMenu = false" title="{{'CLOSE' | translate}}" src="images/dashboard/close.svg" alt="close" />
+          </div>
+          <div class="shift-dashboard-settings newScroll slim">
+            <div class="drag-show-hide-explain">{{"DRAG_SHOW_HIDE_EXPLAIN" | translate}}</div>
+            <div ui-sortable="sortableOptions" ng-model="insightData[pageID].container" ui-sortable-update="updateSortable">
+              <div class="graph-display-container" ng-repeat="graph in insightData[pageID].container" ng-hide="graph.options.disableClose">
+                <div class="drag-icon">
+                  <i class="fa fa-bars"></i>
+                </div>
+                <div ng-if="!graph.options.disableClose" class="pull-right options-drop-down graph-display-checkbox active row">
+                  <div class="hide-material-switch onoffswitch">
+                    <input type="checkbox" ng-model="graph.options.display" class="onoffswitch-checkbox" ng-change="updateSortable()" id="graphMIndex{{$index}}" />
+                    <label class="onoffswitch-label" ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" for="graphMIndex{{$index}}">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch" ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}" ng-class="{'unchecked': !graph.options.display}">
+                        <span ng-if="graph.options.display" class="material-switch-v" style="top: unset; right: unset"> </span>
+                        <span ng-if="!graph.options.display" class="material-switch-x" style="top: unset; right: unset"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox" custom-title>
+                  <span
+                    >{{graph.nameID}}
+                    <span
+                      ng-if="graph.options.settings.parametersDisplay[graph.options.settings.parameter] ||
+                                                 graph.options.settings.parameters[graph.options.settings.parameter].value ||
+                                                 graph.options.settings.parameter"
+                    >
+                      ({{ graph.options.settings.parametersDisplay[graph.options.settings.parameter] || (graph.options.settings.parameters[graph.options.settings.parameter].value | translate) || (graph.options.settings.parameter | convertToTranslate) }})
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <hr />
+
+            <div>
+              <div>{{"LABELS_DESIGN_SETTINGS" | translate}}:</div>
+              <div class="dashboard-chooseColor-Container">
+                <div>
+                  <div check-box-directive field-title="'DEFAULT_COLOR'" field="insightsColorText" select-value="'currentChoice'" type="'radio'" value="'defaultColor'"></div>
+                </div>
+                <div>
+                  <div check-box-directive field-title="'CHOOSE_COLOR'" field="insightsColorText" select-value="'currentChoice'" type="'radio'" value="'choosenColor'"></div>
+                </div>
+                <div>
+                  <div class="chooseColor-Container">
+                    {{"BACKGROUND_COLOR" | translate}}:
+                    <input type="color" ng-model="insightsColorText.backgroundColor"/>
+                  </div>
+                  <div class="chooseColor-Container">
+                    {{"FONT_COLOR" | translate}}:
+                    <input type="color" ng-model="insightsColorText.fontColor"/>
+                  </div>
+                  <div  class="chooseColor-Container">
+                    {{"FONT_SIZE" | translate}}:
+                    <input type="text" class="chooseColor-Container-text" ng-model="insightsColorText.fontSize" only-digits />
+                  </div>
+                </div>
+
+                <div class="chooseColor-Container-apply">
+                  <div class="shift-settings-reset-btn pull-right" ng-click="updateInsightColorText();$event.stopPropagation()">{{"APPLY" | translate}}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <hr />
+            <div style="height: 1.563vw; margin-bottom: 0.521vw">
+              <div class="shift-settings-reset-btn pull-right" ng-click="resetDefaultInsight();$event.stopPropagation()">{{"RESET" | translate}}</div>
+            </div> -->
+          </div>
+        </ul>
+
+        <div class="insight-filter-container" style="" ng-if="ProductionFloorTab.selectedTab == 'insights' || ProductionFloorTab.selectedTab == 'factoryInsights'">
+          <div class="Rectangle-2 filter flex-center insight-filter-container-icon" ng-if="ProductionFloorTab.selectedTab == 'insights' || ProductionFloorTab.selectedTab == 'factoryInsights'" ng-click="changeShowFilterInsights(showFilterInsights)">
+            <img ng-show="showFilterInsights || isGlobalFilter" src="images/filter-blue-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+            <img ng-show="!showFilterInsights && !isGlobalFilter" src="images/filter-grey-new.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+            <img ng-show="isGlobalFilter" src="images/check-blue.svg" ng-attr-title="{{'FILTER_GRAPH' |translate}}" style="position: absolute; left: 0.8vw; top: 0.3vw; height: 0.5vw; width: 0.8vw" />
+          </div>
+          <a ng-if="ProductionFloorTab.selectedTab == 'insights' || ProductionFloorTab.selectedTab == 'factoryInsights'" class="insight-filter-container-reset" ng-click="resetFilterInsights()">{{"RESET" | translate}}</a>
+          <div insights-toolbar class="insight-filter-container-toolbar" ng-if="ProductionFloorTab.selectedTab == 'insights' || ProductionFloorTab.selectedTab == 'factoryInsights'"></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xs-2 col-sm-3 shift-duration-keys allDepOnline" ng-if="['online','ShiftProgress','allMachinesProcessControl','factoryViewProcessControl','allMachinesCustomKpis','factoryViewCustomKpis', 'newOnline','newTarget','newShift','onlineTargets'].indexOf(ProductionFloorTab.selectedTab) >= 0">
+        <!-- <div ng-show="ProductionFloorTab.selectedTab !== 'newTarget' && !content.subMenu.targets" style="width: 1.927vw; min-width: 1.927vw; display: flex; justify-content: center" ng-click="openInfo()" class="Rectangle-2 flex-center">
+          <img src="images/info-grey-new.svg" alt="info" title="{{'INFO' | translate}}" />
+        </div> -->
+
+        <legends-directive ng-if="ProductionFloorTab.selectedTab == 'online'" off-click-activator="showLegendMenu" off-click="showLegendMenu = false"></legends-directive>
+
+        <!-- <div ng-show="ProductionFloorTab.selectedTab == 'newTarget' || content.subMenu.targets" style="width: 1.927vw; min-width: 1.927vw" ng-click="openTargetInfo()" class="Rectangle-2">
+          <i class="fa fa-info"></i>
+        </div> -->
+        <span ng-show="content.subMenu.targets || ['ShiftProgress'].indexOf(ProductionFloorTab.selectedTab) >= 0" class="Rectangle-2-Copy-19" ng-click="machineData.openNewGoalsModal(ProductionFloorTab.selectedTab);gaE('factory_view_online','Goals_View')">
+          <img src="images/goal.png" class="shift-header-btns-img" style="transform: inherit" alt="goal" ng-style="{width: '1.042vw', height: '1.042vw'}" />
+          <span>{{"SET_TARGETS" | translate}}</span>
+        </span>
+        <div class="pull-right Rectangle-2 flex-center" style="color: #101010; border: 0.052vw solid #d0cfd0; flex-direction: row-reverse" ng-click="refreshDataCallback.updateData();updateClicked()">
+          <span title="{{'LAST_UPDATE' | translate}}" class="Rectangle-2 lastRefresh" style="min-width: 1.979vw; margin-left: unset">{{ refreshDataCallback.lastUpdate | getUserDateFormat:userDateFormat }}</span>
+          <img src="images/refresh-grey-new.svg" title="{{'REFRESH' | translate}}" />
+        </div>
+        <div style="display: grid">
+          <span class="addNewTaskMain" ng-click="ProductionFloorTab.openNewTaskModal = true">
+            <task-form-modal on-update="newTaskWindowUpdate" open="ProductionFloorTab.openNewTaskModal"></task-form-modal>
+            <img src="images/add.png" />
+            <span class="addNewTaskBtnText">{{"ADD_NEW_TASK" | translate}}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'onlineTargets'">
+    <online-targets-directive content="ProductionFloorData" update-callback="refreshDataCallback" machine-data="machineData"></online-targets-directive>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'online'">
+    <machine-box-directive ng-if="showMachines == true" update-callback="refreshDataCallback" old-view="ProductionFloorTab.oldView" is-default-structure="onlineDepartmentStructure" content="ProductionFloorData"></machine-box-directive>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'shift'">
+    <shift-directive content="ProductionFloorData" hide-time-bar="hideClicked" insight-page="false" style="width: 100%; display: inline-block" ng-style="(showFilterShift || showServiceCalls) && {'width': 'calc(100% - 330px)'} || {'width':'100%'}"> </shift-directive>
+    <div style="background-color: white">
+      <shift-filter style="z-index: 200; display: inline-block; bottom: 38px; height: calc(100% - 9.5vw); top: calc(40px + 5.5vw); width: 330px; position: fixed" ng-show="showFilterShift" machinegroupsobj="machineGroupsOBJ" machinelinesobj="machineLinesOBJ" ng-style="rtl && {'left': '0'} || {'right':'0'}"></shift-filter>
+      <service-calls style="display: inline-block; bottom: 38px; height: calc(100% - 9.25vw); top: calc(40px + 5.5vw); width: 330px; position: fixed" ng-if="showServiceCalls" ng-style="rtl && {'left': '0'} || {'right':'0'}"></service-calls>
+    </div>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'KPI'">
+    <div style="margin-top: 5.521vw" ng-include="'views/dashboard/dashboard.html'"></div>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'insights' && !allDepartments">
+    <div class="insight-page row">
+      <div style="width: 100%; display: inline-block" ng-style="showFilterInsights && {'width': 'calc(100% - 330px)'} || {'width':'100%'}">
+        <div style="display: flex">
+          <div ng-if="ProductionFloorTab.selectedTab == 'insights'" style="display: inline-flex; flex-direction: column; margin-top: 15px">
+            <div class="Rectangle-2 flex-center insights-buttons-templates-events" ng-click="clearClick()" title='{{"CREATE_NEW_TEMPLATE" | translate}}'>
+              <span class="insights-buttons-templates-events-text">{{"CREATE_NEW_TEMPLATE" | translate}}</span>
+            </div>
+            <div class="Rectangle-2 flex-center insights-buttons-templates-events" title='{{"SAVE_THIS_TEMPLATE_AS" | translate}}' ng-click=" editTemplate('save');">
+              <span class="insights-buttons-templates-events-text">{{"SAVE_THIS_TEMPLATE_AS" | translate}}</span>
+            </div>
+          </div>
+          <insights-templates-directive class="insightsTemplatesDirective" dashboard-type="dashboardType" structures="structures" is-factory="false" templates="templates" machine-data="machineData" allow-edit="allowEdit" is-default-structure = "isDefaultStructure"></insights-templates-directive>
+        </div>
+
+        <insight-directive></insight-directive>
+    </div>
+      <div style="display: inline-block; bottom: 38px; position: relative">
+        <!-- filter -->
+        <div class="col-lg-3">
+          <insights-filter ng-show="showFilterInsights" data="insightFiltersData" close="changeShowFilterInsights"></insights-filter>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'newOnline'" ng-init="machineData.expandAll = true">
+    <all-machines-online-directive update-callback="refreshDataCallback" is-default-structure="newOnlineStructure" content="ProductionFloorData" machine-data="machineData" type="'online'"></all-machines-online-directive>
+  </div>
+
+  <div ng-if="ProductionFloorTab.selectedTab === 'ShiftProgress'" ng-init="machineData.expandAll = true">
+    <all-machines-online-directive update-callback="refreshDataCallback" content="ProductionFloorData" machine-data="machineData" type="'ShiftProgress'"></all-machines-online-directive>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'allMachinesProcessControl' || ProductionFloorTab.selectedTab === 'factoryViewProcessControl'">
+    <div id="production-pcd" style="margin-top: 145px; max-height: calc(100vh - 170px)" ng-include="'js/components/processControlDashboard/processControlDashboardTemplate.html'"></div>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'allMachinesCustomKpis' || ProductionFloorTab.selectedTab === 'factoryViewCustomKpis'">
+    <div style="margin-top: 145px" ng-include="'js/components/customKPIs/customKpiTemplate.html'"></div>
+  </div>
+  <div ng-if="ProductionFloorTab.selectedTab === 'newShift'">
+    <all-machines-online-directive update-callback="refreshDataCallback" content="ProductionFloorData" machine-data="machineData" type="'shift'"></all-machines-online-directive>
+  </div>
+
+  <div ng-if="ProductionFloorTab.selectedTab === 'factoryInsights'">
+    <div class="insight-page row">
+      <div style="width: 100%; display: inline-block" ng-style="showFilterInsights && {'width': 'calc(100% - 330px)'} || {'width':'100%'}">
+        <div style="display: flex">
+          <div ng-if="ProductionFloorTab.selectedTab == 'factoryInsights'" style="display: inline-flex; flex-direction: column; margin-top: 15px">
+            <div class="Rectangle-2 flex-center insights-buttons-templates-events" ng-click="clearClick()" title='{{"CREATE_NEW_TEMPLATE" | translate}}'>
+              <span class="insights-buttons-templates-events-text">{{"CREATE_NEW_TEMPLATE" | translate}}</span>
+            </div>
+
+            <div class="Rectangle-2 flex-center insights-buttons-templates-events" title='{{"SAVE_THIS_TEMPLATE_AS" | translate}}' ng-click=" editTemplate('save');">
+              <span class="insights-buttons-templates-events-text">{{"SAVE_THIS_TEMPLATE_AS" | translate}}</span>
+            </div>
+          </div>
+          <insights-templates-directive class="insightsTemplatesDirective" dashboard-type="dashboardType" structures="structuresFactory" is-factory="true" templates="templates" machine-data="machineData"></insights-templates-directive>
+        </div>
+        <insight-directive></insight-directive>
+      </div>
+      <div style="display: inline-block; bottom: 38px; position: relative">
+        <div class="col-lg-3">
+          <insights-filter ng-show="showFilterInsights" data="insightFiltersData" close="changeShowFilterInsights"></insights-filter>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="ProductionFloorTab.selectedTab === 'newTarget'">
+    <all-machines-online-directive update-callback="refreshDataCallback" content="ProductionFloorData" machine-data="machineData" type="'target'"></all-machines-online-directive>
+  </div>
+</div>

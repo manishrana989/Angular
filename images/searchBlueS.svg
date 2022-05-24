@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+	<defs>
+		<image width="24" height="24" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAAXNSR0IB2cksfwAAAEJQTFRFAAAAAHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/AHr/uMGbzAAAABZ0Uk5TADKZzP9IbpQkAUM+lca/iyucm9Qqjk8bW58AAABwSURBVHicrZBRDkAwEESrHm1Rirr/VQWVlGZ/xHxN5mWzO6vU36p0Ta2rIm+41LzyFox11kD7yDvoT9NDl4MBk5xhyIHHJmfxOQCXnANpYpR2TNJVQegxvxrezRfW+CTHr/wW1FqQpPgzEYCKQv5ZO6fbBGxzkmHUAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+		tspan { white-space:pre }
+	</style>
+	<g id="Layer">
+		<use id="Clip-Path" href="#img1" x="0" y="0" />
+	</g>
+</svg>

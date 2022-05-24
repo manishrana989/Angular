@@ -1,0 +1,64 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="row">
+        <div class="col-lg-6">
+            <div ng-if="imageStructure.FilePath != null || imageFile">
+                <h3>{{"IMAGE_PREVIEW" | translate}}: [{{"ID" | translate}}: {{imageStructure.ID}}, {{"FILE_NAME" | translate}}: {{imageStructure.fileName}}]</h3>
+                <img ng-if="imageStructure.FilePath != null && (imageFile == null || imageFile.type.indexOf('image') < 0)" style="height:100%;width: 100%" ngf-src="imageStructure.FilePath">
+                <img ng-if="imageFile" style="height:100%;width: 100%" ngf-src="imageFile">
+                <a style="margin-top: 15px"  class="btn btn-primary pull-right" href="{{imageStructure.FilePath}}" ng-if="imageStructure.FilePath" type="button" target="_self" download="{{imageStructure.fileName}}" > {{"DOWNLOAD" | translate}}</a>
+
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div ng-if="(pdfFile && pdfFile.type.indexOf('pdf') >= 0)|| pdfUrl">
+                <h3>{{"PDF_PREVIEW" | translate}}: [{{"ID" | translate}}: {{pdfStructure.ID}}, {{"FILE_NAME" | translate}}: {{pdfStructure.fileName}}]</h3>
+                <div class="text-center">
+                    <div class="wrapper">
+                        <ng-pdf template-url="views/common/pdf_viewer.html" scale="page-fit"></ng-pdf>
+                        <canvas style="height: 100%;width : 100%" class="m-t-md" id="pdf-canvas"></canvas>
+                    </div>
+                </div>
+                <a style="margin-top: 15px"  class="btn btn-primary pull-right" href="{{pdfStructure.FilePath}}" ng-if="pdfStructure.FilePath" type="button" target="_self" download="{{pdfStructure.fileName}}" > {{"DOWNLOAD" | translate}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="">
+                <div style="border: 2px dashed rgba(0, 0, 0, 0.3);font-size: 16px;"
+                     ngf-drop="" ngf-select="" ng-model="imageFile" ngf-drag-over-class="dragOverClassObj"
+                     ngf-change="imageFileChanged(imageFile)" ngf-accept="'image/*'" ng-disabled="imageStructure.ValidID != null"
+                     class="dropzone dz-clickable ng-pristine ng-valid">
+                    <div class="dz-default dz-message">
+                        <span>
+                            <strong>{{"DROP_SELECT_IMAGE" | translate}}</strong>
+                            <strong ng-if="imageStructure.ValidID != null">({{ 'DISABLED' | translate}})</strong>
+                            <br>
+                            <small ng-if="file">{{"FILE_NAME" | translate}}: {{imageFile.name}}</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="" >
+                <div style="border: 2px dashed rgba(0, 0, 0, 0.3);font-size: 16px;"
+                     ngf-drop="" ngf-select="" ng-model="pdfFile" ngf-drag-over-class="dragOverClassObj"
+                     ngf-change="pdfFileChanged(pdfFile)" ngf-accept="'application/pdf'" ng-disabled="pdfStructure.ValidID != null"
+                     class="dropzone dz-clickable ng-pristine ng-valid">
+                    <div class="dz-default dz-message">
+                        <span>
+                            <strong>{{"DROP_SELECT_PDF" | translate}}</strong>
+                            <strong ng-if="pdfStructure.ValidID != null">({{ 'DISABLED' | translate}})</strong>
+                            <br>
+                            <small ng-if="file">{{"FILE_NAME" | translate}}: {{pdfFile.name}}</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <button style="margin-top: 15px" class="btn btn-primary pull-right" ng-click="uploadFiles()" ng-if="pdfFile || imageFile">{{"UPLOAD_FILE" | translate}}</button>
+        </div>
+    </div>
+</div>

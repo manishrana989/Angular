@@ -1,0 +1,289 @@
+<div class="d-flex">
+    <div off-click-activator="ganttSchedulerCtrl.machineListOpen"  off-click="ganttSchedulerCtrl.machineListOpen = false;">
+        <!-- <label class="filter-container-fields-label">{{"MACHINE_LIST" | translate}}</label> -->
+        <div style="position: relative" >
+            <div style="width: auto; color: #101010; font-size: 14px; padding: 0px 5px;" class="filters box" ng-click="ganttSchedulerCtrl.machineListOpen = !ganttSchedulerCtrl.machineListOpen">
+                <img src="images/settings.svg" />
+                {{"GANTT_LOAD_SETTINGS" | translate}}
+            </div>
+        </div>
+
+        <div class="departmentsList" >
+            <form ng-submit="ganttSchedulerCtrl.loadGanttFilter()">
+                <ul class="departments-machines-container" ng-if="ganttSchedulerCtrl.machineListOpen" ng-click="$event.stopPropagation()">
+                    <label class="filter-container-fields-label">{{"DEPARTMENT" | translate}}</label>
+                    <div class="newScroll slim" style="height: 150px;">
+                        <div ng-repeat="department in ganttSchedulerCtrl.allDepartments">
+                        <div
+                            class="checkBox"
+                            style="display: inline-block"
+                            check-box-directive
+                            field-title="localLanguage ? department.Key.LName: department.Key.EName"
+                            field="department"
+                            ng-custom-change="ganttSchedulerCtrl.selectAllDepartmentsGlobal"
+                            select-value="'selected'"
+                        ></div>
+                        <div
+                            style="display: inline-block; padding-right: 8px"
+                            class="pull-right"
+                            ng-init="department.expanded=false"
+                            ng-click="department.expanded=!department.expanded"
+                        >
+                            <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                            <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                        </div>
+                        <div class="grid-list-machines" ng-if="department.expanded">
+                            <div
+                                class="checkBox"
+                                style="display: inline-block"
+                                ng-repeat="machine in department.Value"
+                                check-box-directive
+                                field-title="localLanguage ? machine.MachineLName : machine.MachineName"
+                                field="machine"
+                                ng-custom-change="ganttSchedulerCtrl.selectMachine"
+                                select-value="'selected'"
+                            ></div>
+                        </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div style="display: flex;align-items: center;justify-content: space-between">
+                        <div style="padding-top: 3px;display: inline-block;">{{"PE_FILTER_GANTT" | translate}}</div>
+                        <div class="pe-filter box"  ng-click="togglePEFilterOptions = !togglePEFilterOptions" off-click-activator="togglePEFilterOptions"  off-click="togglePEFilterOptions = false">
+                            {{((ganttSchedulerCtrl.firstLoadingData.selectedPeFilter | getValByKey:ganttSchedulerCtrl.firstLoadingData.peFilterOptions:'value':'name' ) || "NONE") | translate}}
+                            <span class="caret"></span>
+                            <ul class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="togglePEFilterOptions" >
+                                <li ng-repeat="peFilter in ganttSchedulerCtrl.firstLoadingData.peFilterOptions"
+                                    ng-class="{'selected' : peFilter.value === ganttSchedulerCtrl.firstLoadingData.selectedPeFilter}"
+                                    ng-click="ganttSchedulerCtrl.firstLoadingData.selectedPeFilter = peFilter.value;">
+                                    <div class="pull-left">{{peFilter.name | translate}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="display: flex;align-items: center;justify-content: space-between;margin-top: 15px;" ng-if="ganttSchedulerCtrl.firstLoadingData.selectedPeFilter === 5">
+                        <div style="padding-top: 3px;display: inline-block;">{{"PE_CUSTOM_FILTER" | translate}}</div>
+                        <div class="custom-pe-filter-container">
+                            <input type="number" class="custom-pe-filter box"
+                                min="0" max="2"
+                                step="0.000000001"
+                                required
+                                name="custom-pe-filter"
+                                ng-model="ganttSchedulerCtrl.firstLoadingData.customPeFilter"/>
+                        </div>
+                    </div>
+                    <hr />
+                    <div  class="checkBox" check-box-directive
+                            field-title="'JOBS_NOT_READY_FOR_RELEASE' | translate"
+                            field="ganttSchedulerCtrl.firstLoadingData" select-value="'jobsNotForRelease'"></div>
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">{{"LOAD" | translate}}</button>
+                </ul>
+            </form>
+        </div>
+    </div>
+    <div class="unscheduled-jobs box" ng-click="ganttSchedulerCtrl.unscheduledJobs()">
+            {{"UNSCHEDULED_JOBS" | translate}}
+    </div>
+    <div class="resources box" ng-click="toggleResources = !toggleResources" off-click-activator="toggleResources"  off-click="toggleResources = false">
+            {{((ganttSchedulerCtrl.resourceChosen | getValByKey:ganttSchedulerCtrl.ganttResourcesOptions:'param':'text' )) | translate}}
+            <span class="caret"></span>
+            <ul class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="toggleResources" >
+                <li ng-repeat="resourceOption in ganttSchedulerCtrl.ganttResourcesOptions"
+                        ng-class="{'selected' : resourceOption.param === ganttSchedulerCtrl.resourceChosen}"
+                        ng-click="ganttSchedulerCtrl.changeResource(resourceOption)">
+                    <div class="pull-left">{{resourceOption.text | translate}}</div>
+                </li>
+            </ul>
+        </div>
+    <div style="margin-left: auto;margin-right: 2px;" ng-show="ganttSchedulerCtrl.action">
+        {{ganttSchedulerCtrl.action.text | translate}}
+            <button style="height: 37px;" 
+                    ng-click="ganttSchedulerCtrl.action = null" 
+                    class="btn btn-sm btn-primary">
+                {{"CANCEL" | translate}}
+            </button>
+            <button style="height: 37px;"  
+                    class="btn btn-sm btn-primary"
+                    ng-click="ganttSchedulerCtrl.saveGanttAction()">
+                {{"SAVE" | translate}}
+            </button>
+    </div>
+    <div style="margin-left: auto;margin-right: 2px;" 
+        ng-show="ganttSchedulerCtrl.enableReleaseJobDatesAction && !ganttSchedulerCtrl.action">
+        <button style="height: 37px;"  
+            class="btn btn-sm btn-primary"
+            ng-click="ganttSchedulerCtrl.releaseJobsDates()">{{"RELEASE" | translate}}</button>
+    </div>
+</div>
+<div class="gantt-header">
+    <div class="left-side">
+        <div class="date-time-box box" 
+            ng-click="ganttSchedulerCtrl.gantt.component.header.props.isTodayEnabled && ganttSchedulerCtrl.gantt.today()">
+            <span style="margin-right: 2px;" ng-show="!ganttSchedulerCtrl.gantt.component.header.props.isTodayEnabled">{{"TODAY" | translate}}, </span>
+            {{ganttSchedulerCtrl.gantt.view.title}}
+        </div>
+        <div 
+            
+            class="refresh box"
+            ng-click="ganttSchedulerCtrl.refreshData();">
+            <img ng-class="{ rotating : ganttSchedulerCtrl.jobRequestInProgress}"
+                src="images/gantt/refresh-copy-2.svg" style="height: 25px;">
+            <span style="margin-left: 5px;">{{ganttSchedulerCtrl.lastUpdateTime | date:"dd/MM/yyyy HH:mm:ss"}}</span>
+        </div>
+        <div    
+            ng-style="{
+                opacity: ganttSchedulerCtrl.jobRequestInProgress ? '0.5' : 1
+            }" 
+            class="previous-time-period box"
+            ng-click="ganttSchedulerCtrl.gantt.component.header.props.isPrevEnabled && 
+                    ganttSchedulerCtrl.gantt.prev() && ganttSchedulerCtrl.colorJobs()">
+            <img src="images/gantt/arrow.svg">
+        </div>
+        <div 
+            ng-style="{
+                opacity: ganttSchedulerCtrl.jobRequestInProgress ? '0.5' : 1
+            }" 
+            class="next-time-period box"
+            ng-click="ganttSchedulerCtrl.gantt.component.header.props.isNextEnabled && !ganttSchedulerCtrl.requestInProgress &&
+            ganttSchedulerCtrl.getNextJobEvents(false,true)">
+            <img src="images/gantt/arrow.svg">
+        </div>
+        <div class="separator"></div>
+        <div ng-show="ganttSchedulerCtrl.viewResourceToggle === 'gantt'" class="time-period-select box" ng-click="togglePeriodOptions = !togglePeriodOptions" off-click-activator="togglePeriodOptions"  off-click="togglePeriodOptions = false">
+            {{(ganttSchedulerCtrl.gantt.component.props.viewType | getPeriodNameByValue:ganttSchedulerCtrl.periodOptions ) | translate}}
+            <span class="caret"></span>
+            <ul class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="togglePeriodOptions" >
+                <li ng-repeat="period in ganttSchedulerCtrl.periodOptions"
+                    ng-class="{'selected' : ganttSchedulerCtrl.ganttHeaderParams.timeField === period.viewType}"
+                    ng-click="ganttSchedulerCtrl.gantt.changeView(period.viewType);
+                    ganttSchedulerCtrl.ganttHeaderParams.timeField = period.viewType">
+                    <div class="pull-left">{{period.label | translate}}</div>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="!ganttSchedulerCtrl.singleMachine && ganttSchedulerCtrl.gantt && !ganttSchedulerCtrl.rerenderLoading" 
+            ng-class="{
+                'monthView' : ganttSchedulerCtrl.ganttHeaderParams.timeField === 'resourceTimelineMonthCustom'
+            }"
+            class="settings box" ng-click="toggleSettings = !toggleSettings"
+            off-click-activator="toggleSettings" off-click="toggleSettings = false;">
+            <img src="images/gantt/settings.svg">
+            <ul ng-show="toggleSettings" class="dashboard-settings-tooltip show-filters settings-tooltip-overflow-scroll" style="color: #101010" ng-click="$event.stopPropagation()">
+                <li style="line-height: unset;" ng-if="ganttSchedulerCtrl.allJobEvents && !ganttSchedulerCtrl.jobRequestInProgress"> 
+                    <gantt-scheduler-filter 
+                            ng-if="ganttSchedulerCtrl.viewResourceToggle === 'gantt' && !ganttSchedulerCtrl.resourcesLoading"
+                            app-scope-ctrl="ganttSchedulerCtrl"
+                            gantt-header-params="ganttSchedulerCtrl.ganttHeaderParams"
+                            departments-data="ganttSchedulerCtrl.departmentsData"
+                            resource-columns="ganttSchedulerCtrl.ganntOptions.resourceColumns"
+                            gantt="ganttSchedulerCtrl.gantt"
+                            job-events="ganttSchedulerCtrl.allJobEvents"
+                            mode="'factoryView'"
+                            views="['columns','colors','shifts','events', 'setupColors']"></gantt-scheduler-filter>
+                    <gantt-scheduler-filter 
+                            ng-if="ganttSchedulerCtrl.viewResourceToggle !== 'gantt'"
+                            app-scope-ctrl="ganttSchedulerCtrl"
+                            gantt-header-params="ganttSchedulerCtrl.ganttHeaderParams"
+                            departments-data="ganttSchedulerCtrl.departmentsData"
+                            resource-columns="ganttSchedulerCtrl.ganntOptions.resourceColumns"
+                            gantt="ganttSchedulerCtrl.gantt"
+                            job-events="ganttSchedulerCtrl.allJobEvents"
+                            mode="'factoryView'"
+                            views="['colors', 'events', 'setupColors']"></gantt-scheduler-filter>
+                </li>
+            </ul>
+        </div>
+        <div class="gantt-view box" ng-click="toggleGanttViewOptions = !toggleGanttViewOptions" off-click-activator="toggleGanttViewOptions" off-click="toggleGanttViewOptions = false">
+            <img ng-src="{{(ganttSchedulerCtrl.viewResourceToggle | getValByKey:ganttSchedulerCtrl.viewOptions:'value':'icon' )}}">
+            <span class="caret"></span>
+            <ul class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="toggleGanttViewOptions" >
+                <li ng-repeat="viewOption in ganttSchedulerCtrl.viewOptions"
+                    ng-class="{'selected' : ganttSchedulerCtrl.viewResourceToggle === viewOption.value}"
+                    ng-click="ganttSchedulerCtrl.viewResourceToggle = viewOption.value;
+                        ganttSchedulerCtrl.changeGanttView(viewOption.value);">
+                    <div class="pull-left" style="display: flex;justify-content: space-between;align-items: center">
+                        <img ng-src="{{viewOption.icon}}">
+                        <span style="margin-left: 20px;">
+                            {{viewOption.label | translate}}
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="right-side">
+        <div class="color-options box" ng-click="toggleColorOptions = !toggleColorOptions" off-click-activator="toggleColorOptions" off-click="toggleColorOptions = false">
+            {{((ganttSchedulerCtrl.ganttHeaderParams.coloringField | getValByKey:ganttSchedulerCtrl.coloringFields:'param':'TEXT' ) || "SELECT_OPTION") | translate}}
+            <span class="caret"></span>
+            <div class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="toggleColorOptions">
+                <div class="dropdown-title" ng-click="$event.stopPropagation();">{{"SEARCH_BY" | translate}} 
+                    <span ng-click="ganttSchedulerCtrl.ganttHeaderParams.coloringField = null;toggleColorOptions = false"> <i class="fa fa-times"></i></span>
+                </div>
+                <div class="dropdown-items">
+                    <!-- <li ng-click="ganttSchedulerCtrl.ganttHeaderParams.coloringField = null;">
+                        <div class="pull-left">{{"SELECT_OPTION" | translate}}</div>
+                    </li> -->
+                    <div class="dropdown-item" ng-if="!colorOption.dateField" ng-repeat="colorOption in ganttSchedulerCtrl.coloringFields"
+                        ng-class="{'selected' : colorOption.param === ganttSchedulerCtrl.ganttHeaderParams.coloringField}"
+                        ng-click="ganttSchedulerCtrl.ganttHeaderParams.coloringField = colorOption.param;  ganttSchedulerCtrl.colorJobs()">
+                        {{colorOption.TEXT | translate}}
+                    </div>
+                </div>
+                <div class="line-separator" ng-click="$event.stopPropagation();"></div>
+                <div class="dropdown-title" ng-click="$event.stopPropagation();">
+                    {{"JOBS_THAT_WILL_NOT_COMPLETE_BEFORE_THEIR" | translate}}
+                </div>
+                <div class="dropdown-items">
+                    <div ng-if="colorOption.dateField" ng-repeat="colorOption in ganttSchedulerCtrl.coloringFields"
+                        class="dropdown-item"
+                        ng-class="{'selected' : colorOption.param === ganttSchedulerCtrl.ganttHeaderParams.coloringField}"
+                        ng-click="ganttSchedulerCtrl.ganttHeaderParams.coloringField = colorOption.param;  ganttSchedulerCtrl.colorJobs()">
+                        {{colorOption.TEXT | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>=</div>
+        <div class="color-value-container">
+            <input type="text" class="color-value box"
+                ng-change="ganttSchedulerCtrl.colorJobs()"
+                ng-disabled="!ganttSchedulerCtrl.ganttHeaderParams.coloringField || ['PlanningApprovedDate', 'ClosingDate', 'EndTimeRequest'].indexOf(ganttSchedulerCtrl.ganttHeaderParams.coloringField) >= 0"
+                ng-model="ganttSchedulerCtrl.ganttHeaderParams.coloringValue"/>
+            <span class="clear" ng-click="ganttSchedulerCtrl.ganttHeaderParams.coloringValue = null"><i class="fa fa-times" aria-hidden="true"></i></span>
+        </div>
+        <div ng-show="ganttSchedulerCtrl.viewResourceToggle === 'gantt'" class="filters box" ng-click="toggleFilters = !toggleFilters"
+            off-click-activator="toggleFilters" off-click="toggleFilters = false;">
+            <img ng-if="!ganttSchedulerCtrl.filteredView" src="images/filter-grey-new.svg">
+            <img ng-if="ganttSchedulerCtrl.filteredView"src="images/filter-blue-new.svg">
+            <ul ng-show="toggleFilters" class="dashboard-settings-tooltip show-filters" style="color: #101010" ng-click="$event.stopPropagation()">
+                <li style="line-height: unset;" ng-if="ganttSchedulerCtrl.allJobEvents && !ganttSchedulerCtrl.jobRequestInProgress"> 
+                    <gantt-scheduler-filter 
+                        views="['departments','header']"
+                        departments-data="ganttSchedulerCtrl.departmentsData"
+                        job-events="ganttSchedulerCtrl.allJobEvents" 
+                        mode="'factoryView'"
+                        gantt="ganttSchedulerCtrl.gantt"
+                        filtered-view-change="ganttSchedulerCtrl.filteredViewChange"
+                        ></gantt-scheduler-filter>
+                </li>
+            </ul>
+        </div>
+        <div class="separator"></div>
+        <div ng-init="ganttSchedulerCtrl.action = null; ganttSchedulerCtrl.chosenJobsForActions = []" class="actions box" ng-click="toggleActions = !toggleActions" off-click-activator="toggleActions" off-click="toggleActions = false">
+            <img src="images/gantt/actions.svg">
+            <ul class="dropdown-menu select-dep-dropdown newScroll slim" ng-show="toggleActions">
+                <li ng-repeat="action in ganttSchedulerCtrl.ganttGeneralActions"
+                    ng-click="ganttSchedulerCtrl.chooseGanttAction(action)">
+                    <div class="pull-left">{{action.text | translate}}</div>
+                </li>
+            </ul>
+        </div>
+        <div class="export box"
+            ng-click="ganttSchedulerCtrl.export('.gantt-main-export')">
+            <img src="images/dashboard/share.svg">
+        </div>
+    </div>
+</div>
+<!-- <div class="gantt-last-update-section">
+    <span>{{"LAST_UPDATE" | translate}} : {{ganttSchedulerCtrl.lastUpdateTime | date:"dd/MM/yyyy HH:mm:ss"}}</span>
+</div> -->

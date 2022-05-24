@@ -1,0 +1,28 @@
+<div>
+    <div class="zoom-reset-btns-container">
+        <div class="btn filtering-button" style="display:none;color:#101010;border:1px solid #d0cfd0 ;background: white;"
+            ng-click="options.settings.filterPoints = !options.settings.filterPoints">
+            <img ng-show="options.settings.filterPoints" src='images/filter-blue-new.svg'
+                ng-attr-title="{{'FILTER_GRAPH' |translate}}">
+            <img ng-show="!options.settings.filterPoints" src='images/filter-grey-new.svg'
+                ng-attr-title="{{'FILTER_GRAPH' |translate}}">
+        </div>
+        <img ng-src="images/dashboard/reset-zoom{{resetZoomBtn ? '-selected' : ''}}.svg" class="zoom-reset-btn"
+            alt="zoom" ng-click="resetZoom($event)" ng-attr-title="{{'RESET_ZOOM' | translate}}">
+        <img ng-src="images/dashboard/zoom{{enableZoomBtn ? '-selected' : ''}}.svg" class="zoom-reset-btn"
+            src="images/dashboard/zoom.svg" alt="zoom" ng-click="enableZoom($event)"
+            ng-attr-title="{{'SELECT_AREA_TO_ZOOM' | translate}}">
+    </div>
+    <div class="chart" style="overflow: hidden" ng-style="{cursor: enableZoomBtn ? 'zoom-in' : 'default'}">
+
+    </div>
+</div>
+<div class="spiner-example shift-graph"
+    ng-show="shiftData.graphDataLoading && shiftData.graphLoadingDatePart == options.DatePart">
+    <div class="sk-spinner sk-spinner-wave">
+        <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif"
+            style="width: 45px;margin-bottom: 2px;">
+    </div>
+</div>
+<div class="PE-Sentence" ng-if="showExtremePoints">
+    {{"EXTREME_POINTS" | translate}}</div>

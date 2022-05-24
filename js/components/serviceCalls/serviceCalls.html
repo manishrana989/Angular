@@ -1,0 +1,594 @@
+<div style="background-color: white;height: 100%;overflow-y: hidden;box-shadow: 0px 1px 4px #7d7d7d;" class="newScroll slim">
+    <div ng-show="views.mainMenu" style="height: 100%">
+        <!--  toggle bar(2 options) config and X -->
+        <div style="display: flex;flex-direction: column;height:100%">
+<!--            <div class="serviceCallsMenuBar">-->
+<!--                <div class="serviceCallsBlockEndSide">-->
+<!--                    <img-->
+<!--                            title="{{'SETTINGS' | translate}}"-->
+<!--                            ng-click="views.settingsMenu=true;views.mainMenu=false"-->
+<!--                            ng-src="{{views.mainConfig && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}"-->
+<!--                            style="height: 1.198vw; width: 1.198vw;cursor: pointer;margin: 1vw 0;"-->
+<!--                            ng-style="rtl?{'margin-left':'1vw'}:{'margin-right':'1vw'}"-->
+<!--                            alt="settings"-->
+<!--                    />-->
+<!--                    <img-->
+<!--                            class="dashboard-settings-close-btn"-->
+<!--                            title="{{'CLOSE' | translate}}"-->
+<!--                            src="images/dashboard/close.svg"-->
+<!--                            alt="close"-->
+<!--                            style="margin:1vw 0"-->
+<!--                            ng-click="shiftData.showServiceCalls=false"-->
+<!--                    />-->
+<!--                </div>-->
+<!--            </div>-->
+            <div style="display: flex;flex-direction:column;flex: 1 1;height: calc(100% - 2.3vw);justify-content: space-between" ng-style="!views.serviceCalls && {'justify-content':'unset'}">
+    <!--    service calls -->
+                 <div class="serviceCallsMainBlock" ng-if="true" style="max-height: calc(100% - 2.3vw)" ng-style="views.serviceCalls && views.notifications && {'height':'calc(56% - 2.3vw)'}" >
+        <div class="serviceCallsMenuBar serviceCallsBrown" style="cursor: pointer" ng-click="views.serviceCalls=!views.serviceCalls" >
+            <div>
+                {{"SERVICE_CALLS"|translate}}
+            </div>
+            <div tooltip-placement="bottom" tooltip="{{rtl && 'סה``כ' || 'Total'}}" class="numberOfXNotifications" ng-show="data.numberOfOpenServiceCalls>0" ng-bind="data.numberOfOpenServiceCalls">
+
+            </div>
+            <div tooltip-placement="bottom" tooltip="{{rtl && 'חריגות' || 'Delayed'}}" class="numberOfXNotifications" ng-show="data.numberOfDelayedServiceCalls>0" ng-model="data.numberOfDelayedServiceCalls" style="background-color: #ff0505 !important;margin:0;">
+                {{data.numberOfDelayedServiceCalls}}!
+            </div>
+<!--            tooltip-placement="{{placement.selected}}" uib-tooltip="On the {{placement.selected}}"-->
+            <div class="serviceCallsBlockEndSide">
+                <img
+                        title="{{'SETTINGS' | translate}}"
+                        ng-click="$event.stopPropagation();views.notificationsSettings=false;views.generalSettings=true;views.settingsMenu=true;views.mainMenu=false"
+                        ng-src="{{views.mainConfig && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}"
+                        style="height: 1.198vw; width: 1.198vw;cursor: pointer;margin: 1vw 0;"
+                        ng-style="rtl?{'margin-left':'1vw'}:{'margin-right':'1vw'}"
+                        alt="settings"
+                />
+                <img
+                        src="images/arrowD.svg" style="max-width: 90%"
+                        ng-style="views.serviceCalls && {'transform':'scaleY(-1)'}">
+            </div>
+        </div>
+        <div ng-show="views.serviceCalls" style="height: calc(100% - 2.3vw);overflow-y: hidden">
+
+                <div ng-show="views.serviceOpenCallsMainMenu || views.serviceOpenCallsSubMenu" style="height: 100%" >
+                    <div class="serviceCallsHeaderBlock" style="font-size: 0.825vw;font-weight: bold;align-items: flex-end;">
+                        <div class="serviceCallsHeaderFirst"
+                             ng-style="(views.serviceOpenCallsMainMenu || views.serviceOpenCallsSubMenu) && {'border-bottom':'3px solid #0080ff'}"\
+                             ng-click="views.serviceOpenCallsMainMenu=true;views.serviceOpenCallsSubMenu=false;views.addServiceCall=false;">{{"OPEN_CALLS"|translate}}</div>
+                        <!--                    <div style="cursor: pointer;">{{"ALL_CALLS"|translate}}</div>-->
+                        <div class="serviceCallsBlockEndSide" style="align-self: center;font-size: 0.75vw" ng-style="rtl && {'font-size':'0.7vw'}">
+                            <!--                        <div style="border:1px solid #dcdcdc;border-radius: 2px;cursor: pointer"-->
+                            <!--                             ng-click="views.serviceOpenCallsMainMenu=views.addServiceCall;views.serviceOpenCallsSubMenu=false;-->
+                            <!--                    views.addServiceCall=!views.addServiceCall">-->
+                            <!--                            <img src="images/addServiceCall.svg" style="max-width: 1.6vw;">-->
+                            <!--                        </div>-->
+                            <div  style="text-align: center;font-weight: bold;color:white;background-color: #0080ff;cursor: pointer;border-radius:2px;padding:0.1vw 0.2vw"
+
+                                  ng-click="views.serviceOpenCallsMainMenu=views.addServiceCall;views.serviceOpenCallsSubMenu=false;
+                    views.addServiceCall=!views.addServiceCall" >
+                                {{"NEW_SERVICE_CALL"|translate}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="serviceCallsOpenBlock newScroll slim" ng-show="views.serviceOpenCallsMainMenu" style="max-height: unset;overflow-y: auto;height:calc(100% - 2vw)" >
+                        <div class="spiner-example" ng-show="!settings.serviceCallsLoaded">
+                            <div class="sk-spinner sk-spinner-wave">
+                                <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;margin-bottom: 2px;">
+                            </div>
+                        </div>
+                        <div class="serviceCallBlockInvariant" ng-show="settings.serviceCallsLoaded">
+                            <div ng-repeat="serviceCall in serviceCalls" class="serviceCallCard" ng-class="{'serviceCallCardRed':serviceCall['isExcepted']}"
+                                 ng-click="data.selectedServiceCallNotifcationID=serviceCall['GeneralInfo']['NotificationID'];showServiceCallHistory(serviceCall['History']);data.selectedServiceCallName=serviceCall['NewestCall']['MachineName'];
+                             data.selectedServiceCallFrom=serviceCall['GeneralInfo']['SenderUserDisplayName'];data.selectedServiceCallTo=serviceCall['NewestCall']['TargetUserDisplayName'];
+                             views.serviceOpenCallsSubMenu=true;views.serviceOpenCallsMainMenu=false">
+                                <div style="display: flex;flex-direction: column;align-items: center">
+                                    <div style="font-weight: bold;">{{serviceCall["GeneralInfo"]["NotificationID"]}}</div>
+                                    <!--                                <img  ng-show="serviceCall['isExcepted'] && serviceCall['NewestCall']['ResponseTypeID']==0 " src="images/waitingForReplyG.png" style="display: flex;justify-content: center;max-width: 25px;margin-top:20%">-->
+                                    <img ng-show="serviceCall['NewestCall']['ResponseTypeID']==0 " src="images/waitingForReplyG.svg" style="display: flex;justify-content: center;max-width: 25px;margin-top:20%">
+                                    <!--                                <img ng-show="serviceCall['isExcepted'] && serviceCall['NewestCall']['ResponseTypeID']==1 " src="images/callApproved.png" style="display: flex;justify-content: center;max-width: 25px;margin-top:20%">-->
+                                    <img ng-show="serviceCall['NewestCall']['ResponseTypeID']==1 " src="images/callApprovedG.svg" style="display: flex;justify-content: center;max-width: 25px;margin-top:20%">
+                                    <!--                                <img ng-show="serviceCall['isExcepted'] && serviceCall['NewestCall']['ResponseTypeID']==4 " src="images/startServiceG.png" style="display: flex;justify-content: center;max-width: 25px;margin-top:20%">-->
+                                    <img ng-show="serviceCall['NewestCall']['ResponseTypeID']==4 " src="images/startServiceGGS.png" style="display: flex;justify-content: center;max-width: 25px;margin-top:20%">
+                                    <div style="font-size: 0.5vw;font-weight: bold;margin: 4.25% 0;text-align: center">{{(!rtl && serviceCall["NewestCall"]["ResponseTypeEName"]) ||serviceCall["NewestCall"]["ResponseTypeLName"] }}</div>
+
+                                </div>
+
+                                <div>
+                                    <div style="font-size: 0.75vw;font-weight: bold;margin-bottom: 3%">{{(!rtl && (serviceCall["NewestCall"]["MachineName"])) || (serviceCall["NewestCall"]["MachineLName"])}}</div>
+                                    <div ng-show="!rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%">{{('To: ' + serviceCall["NewestCall"]["TargetUserDisplayName"])}}</div>
+                                    <div ng-show="rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%">
+                                        <span>אל: </span>
+                                        <span>{{serviceCall["NewestCall"]["TargetUserDisplayHName"]}}</span>
+                                    </div>
+                                    <div ng-show="!rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%">{{('From: ' + serviceCall["NewestCall"]["SenderUserDisplayName"])}}</div>
+                                    <div ng-show="rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%">
+                                        <span>מאת: </span>
+                                        <span>{{serviceCall["NewestCall"]["SenderUserDisplayHName"]}}</span>
+                                    </div>
+
+                                    <!-- <div ng-show="!rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%" ng-if="serviceCall['NewestCall']['AdditionalText'] !== null">
+                                        {{"DESCRIPTION" | translate}}: {{serviceCall["NewestCall"]["AdditionalText"]}}</div>
+                                    <div ng-show="rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%" ng-if="serviceCall['NewestCall']['AdditionalText'] !== null">
+                                        <span>{{"DESCRIPTION" | translate}}: </span>
+                                        <span>{{serviceCall["NewestCall"]["AdditionalText"]}}</span>
+                                    </div> -->
+
+                                    <!-- <div ng-show="!rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%" ng-if="serviceCall['NewestCall']['EventName'] !== null">
+                                        {{"EVENT_REASON" | translate}}: {{serviceCall["NewestCall"]["EventName"]}}</div>
+                                    <div ng-show="rtl" style="font-size: 0.6vw;font-weight: bold;margin-bottom: 4.25%" ng-if="serviceCall['NewestCall']['EventName'] !== null">
+                                        <span>{{"EVENT_REASON" | translate}}: </span>
+                                        <span>{{serviceCall["NewestCall"]["EventName"]}}</span>
+                                    </div> -->
+
+
+                                    <div class="changeCallStatus" ng-show="serviceCall['NewestCall']['ResponseTypeID']==0" style="display: flex;flex-direction: row;gap:5%">
+                                        <div  style="width:35%;text-align: center;font-size: 0.75vw;font-weight: bold;color:white;background-color: #0080ff;cursor: pointer;border-radius:2px;padding:0.1vw"
+
+                                              ng-click="$event.stopPropagation();updateServiceCallStatus(serviceCall,1)" >
+                                            {{"ACCEPT"|translate}}
+                                        </div>
+                                        <div  style="width:35%;text-align: center;font-size: 0.75vw;font-weight: bold;color:white;background-color: #0080ff;cursor: pointer;border-radius:2px;padding:0.1vw"
+                                              ng-click="$event.stopPropagation();updateServiceCallStatus(serviceCall,2)">{{"DENY"|translate}}
+                                        </div>
+                                        <img src="images/deleteL.svg"  ng-click="cancelServiceCall(serviceCall);$event.stopPropagation()" style="cursor: pointer">
+                                    </div>
+                                    <div class="changeCallStatus" ng-show="serviceCall['NewestCall']['ResponseTypeID']==1" style="display: flex;flex-direction: row;gap:5%">
+                                        <div
+                                                ng-click="$event.stopPropagation();updateServiceCallStatus(serviceCall,4)"
+                                                style="width:80%;text-align: center;font-size: 0.8vw;font-weight: bold;color:white;background-color: #0080ff;border-radius:2px;padding:0.1vw">
+                                            {{"START_SERVICE"|translate}}
+                                        </div>
+                                        <img src="images/deleteL.svg"  ng-click="cancelServiceCall(serviceCall);$event.stopPropagation()" style="cursor: pointer">
+                                    </div>
+                                    <div class="changeCallStatus" ng-show="serviceCall['NewestCall']['ResponseTypeID']==4" style="display: flex;flex-direction: row;gap:5%">
+                                        <div ng-click="$event.stopPropagation();updateServiceCallStatus(serviceCall,5); openServiceReport(serviceCall,notification)"
+                                             style="width:80%;text-align: center;font-size: 0.8vw;font-weight: bold;color:white;background-color: #0080ff;border-radius:2px;padding:0.1vw">
+                                            {{"FINISH_SERVICE"|translate}}
+                                        </div>
+                                        <img src="images/deleteL.svg"  ng-click="cancelServiceCall(serviceCall);$event.stopPropagation()" style="cursor: pointer">
+                                    </div>
+
+
+                                </div>
+                                <div style="display: flex;flex-direction:column;align-items: flex-end">
+                                    <div style="position: absolute;font-size: 0.6vw;font-weight: bold">{{serviceCall["NewestCall"]["ResponseDate"] | date:'HH:mm dd/MM'}}</div>
+                                    <!--                                <div style="font-size: 0.7vw;font-weight: bold">{{serviceCall["GeneralInfo"]["SentTime"] | date:'dd/MM/yy'}}</div>-->
+                                    <img  src="images/dashboard/arrowToR.svg" style="max-width: 8px;margin-top: auto;margin-bottom: 15%"
+                                          ng-style="rtl && {'transform':'scaleX(-1)'}">
+                                    <!--                                <img ng-show="serviceCall['isExcepted']" src="images/arrowDW.png" style="max-width: 8px;margin-top: auto;margin-bottom: 15%;transform: rotate(-90deg)"-->
+                                    <!--                                     ng-style="rtl && {'transform': 'rotate(90deg)'}">-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="serviceCallsOpenBlock newScroll slim" ng-show="views.serviceOpenCallsSubMenu" style="height:calc(100% - 2vw);overflow-y: hidden">
+                        <div style="display: flex;flex-direction: row;cursor: pointer;padding: 2.5% 6.67% 0"
+                             ng-click="$event.stopPropagation();">
+                            <img src="images/arrow.svg" ng-style="rtl && {'transform':'rotate(180deg)'}"  ng-click="views.serviceOpenCallsMainMenu=true;">
+                            <div style="display: flex;flex-direction: column;width: 100%">
+                                <div style="margin-left:1vw;font-size: 0.85vw;font-weight:bold;"
+                                     ng-style="rtl && {'margin-left':'unset','margin-right':'1vw'}">
+                                    {{data.selectedServiceCallName}}
+                                </div>
+                                <div style="margin-left:1vw;font-size: 0.7vw;font-weight:bold;display: flex;flex-direction: row"
+                                     ng-style="rtl && {'margin-left':'unset','margin-right':'1vw'}">
+                                    {{data.selectedServiceCallFrom}}
+                                    <img src="images/stopEvents/black/back.svg" style="max-width: 0.45vw;margin:0 2%;" ng-style="!rtl && {'transform':'rotate(180deg)'}">
+                                    <!-- <span style="color: blue;">{{data.selectedServiceCallTo}}</span> -->
+                                    <span ng-init="openList = false" ng-click="openList = !openList;$event.stopPropagation()" off-click-activator="openList" off-click="openList = false">
+                                        <span style="color:blue;">
+                                            {{data.selectedServiceCallTo}}                                            
+                                        </span>
+                                        <img class=" fa-angle-down-expand pull-right" style = "width: 13px;height: 13px;margin-left: 5px;margin-top: 3px; align-items: center;" ng-show="!openList"  src="images\expand_list.jpg"/>
+                                        <img class=" fa-angle-up-expand pull-right" style = "transform: rotate(180deg);width: 13px;height: 13px;margin-left: 5px;margin-top: 3px;align-items: center;" ng-show="openList" src="images\expand_list.jpg"/>
+                                        <span ng-if="openList">
+                                            <!-- {{data.technicians}} -->
+                                            <!-- <select  name="singleSelect" style="width:200px" ng-model="data.selectedServiceCallTo" ng-options="tech.ID as tech.DisplayName for tech in data.technicians"></select> -->
+                                            <ul  class="newTechniciansSuggestions newScroll slim" 
+                                            style="z-index: 10000; padding-left: 0px; width: min-content;height: 115px;" >
+                                                <li ng-repeat="tech in data.technicians track by $index" style="padding:5px 10px; overflow:unset">
+                                                    <div class="" style="overflow:unset"
+                                                        ng-click="changeTech(tech,data); openList = false">
+                                                        {{rtl? tech.DisplayHName : tech.DisplayName}}</div>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </span>
+                                    <!-- <div style="margin-bottom:5%;width:fit-content; display: inline-grid;"
+                                        ng-init="openList = false" ng-click="openList = !openList">
+                                        <div style="display: flex;width: 100%;">
+                                            <span
+                                                style="color:blue;margin-right: 5px; display: block; width: 88px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                                {{data.selectedServiceCallTo}}</span>
+
+                                            <img class=" fa-angle-down-expand pull-right" style = "width: 13px;height: 13px;margin-right: 5px;align-items: center;" ng-show="!openList" ng-click="openList = !openList;$event.stopPropagation()" src="images\expand_list.jpg"/>
+                                            <img class=" fa-angle-up-expand pull-right" style = "transform: rotate(180deg);width: 13px;height: 13px;margin-right: 5px;align-items: center;" ng-show="openList" ng-click="openList = !openList;$event.stopPropagation()" src="images\expand_list.jpg"/>
+                                        
+                                        </div>
+                                        <div ng-if="openList" style="overflow:unset">
+                                            <ul class="newTechniciansSuggestions newScroll slim" ng-show="!callingTech"
+                                                style="z-index: 10000; padding-left: 0px; width: min-content;height: 115px;">
+                                                <li ng-repeat="tech in getTechnicians track by $index" style="padding:5px 10px; overflow:unset">
+                                                    <div class="pull-left" style="overflow:unset"
+                                                        ng-click="changeTech(tech,data.notification); openList = false">
+                                                        {{rtl? tech.DisplayHName : tech.DisplayName}}</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                
+                                <div ng-show="!rtl" style="font-size: 0.6vw;font-weight: bold;margin-left: 1vw;" ng-if="data.currentServiceCallHistory[0]['AdditionalText']">
+                                    {{"DESCRIPTION" | translate}}: {{data.currentServiceCallHistory[0]['AdditionalText']}}</div>
+                                <div ng-show="rtl" style="font-size: 0.6vw;font-weight: bold;margin-left: 1vw;" ng-if="data.currentServiceCallHistory[0]['AdditionalText']">
+                                    <span>{{"DESCRIPTION" | translate}}: </span>
+                                    <span>{{data.currentServiceCallHistory[0]['AdditionalText']}}</span>
+                                </div>
+
+                                <div ng-show="!rtl" style="font-size: 0.6vw;font-weight: bold;margin-left: 1vw;" ng-if="data.currentServiceCallHistory[0]['EventName']">
+                                    {{"EVENT_REASON" | translate}}: {{data.currentServiceCallHistory[0]["EventName"]}}</div>
+                                <div ng-show="rtl" style="font-size: 0.6vw;font-weight: bold;margin-left: 1vw;" ng-if="data.currentServiceCallHistory[0]['EventName']">
+                                    <span>{{"EVENT_REASON" | translate}}: </span>
+                                    <span>{{data.currentServiceCallHistory[0]["EventName"]}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="newScroll slim" style="max-height: unset;overflow-y: auto;height:calc(100% - 3vw)">
+                            <div ng-repeat="history in data.currentServiceCallHistory | orderBy: '-ResponseDate'" class="serviceCallBlockInvariant" ng-model="data.currentServiceCallHistory" >
+                                <div class="serviceCallCard" style="grid-template-columns: 0.5fr 2fr 1fr;cursor: pointer;">
+                                    <img ng-show="history['ResponseTypeID']==0 " src="images/waitingForReplyG.svg" style="display: flex;justify-content: center;">
+                                    <img ng-show="history['ResponseTypeID']==1 " src="images/callApprovedG.svg" style="display: flex;justify-content: center;">
+                                    <img ng-show="history['ResponseTypeID']==4 " src="images/startServiceGGS.png" style="display: flex;justify-content: center;">
+                                    <div>
+                                        <div style="font-size: 0.7vw;font-weight: bold;margin-bottom: 4.25%">{{(!rtl && history["ResponseTypeEName"]) || history["ResponseTypeLName"]}}</div>
+                                    </div>
+                                    <div style="display: flex;flex-direction:column;align-items: flex-end;justify-content: flex-start">
+                                        <div style="font-size: 0.6vw;font-weight: bold">{{history["ResponseDate"] | date:'HH:mm dd/MM'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="serviceCallsHeaderBlock" style="border-top: unset;height: 30vw"></div>
+
+                    </div>
+                </div>
+                <div class="serviceCallsOpenBlock newScroll slim" ng-show="views.addServiceCall">
+
+                    <div class="serviceCallBlockInvariant" style="display: flex;flex-direction: row">
+                        <div style="font-size: 0.95vw;font-weight:bold;margin-top:0.6vw">
+                            {{"NEW_SERVICE_CALL"|translate}}
+                        </div>
+                        <div class="serviceCallsBlockEndSide">
+                            <img
+                                    class="dashboard-settings-close-btn"
+                                    title="{{'CLOSE' | translate}}"
+                                    src="images/dashboard/close.svg"
+                                    alt="close"
+                                    style="margin:1vw 0"
+                                    ng-click="views.serviceOpenCallsMainMenu=true;views.serviceOpenCallsSubMenu=false;views.addServiceCall=false"
+                            />
+                        </div>
+                    </div>
+                    <div class="serviceCallBlockInvariant" style="margin-bottom: 0.3vw;">
+                        <div>{{"MACHINE_NAME"|translate}}</div>
+                        <select style="width:100%;height: 2vw"
+                                ng-options="machine.machineName for machine in shiftData.Machines track by machine.machineID"
+                                ng-model="data.selectedMachine"
+                        >
+
+                        </select>
+                    </div>
+                    <div class="serviceCallBlockInvariant" style="margin-bottom: 0.3vw;">
+                        <div>{{"TECHNICIAN_NAME"|translate}}</div>
+                        <select ng-show="!rtl" style="width:100%;height: 2vw"
+                                ng-options="technician.DisplayName for technician in data.technicians track by technician.ID"
+                                ng-model="data.selectedTechnician"
+                                ng-change="printThat()">
+                        </select>
+                        <select ng-show="rtl" style="width:100%;height: 2vw"
+                                ng-options="technician.DisplayHName for technician in data.technicians track by technician.ID"
+                                ng-model="data.selectedTechnician">
+                        </select>
+                    </div>
+
+                    <div style="padding: 0 6.67% 2.5%;">
+                        <span style="display:block;"> {{"DESCRIPTION" | translate}}</span>
+                        <div>
+                            <textarea ng-model="data.description" style="height: 58px; width: 100%"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="serviceCallBlockInvariant">
+                        <div ng-show="!settings.isCallingTehchnician" style="display: flex;justify-content: center;align-items:center;width:5vw;height:1.8vw;background-color: #0080ff;color:white;
+                        font-size: 0.75vw;font-weight: bold;cursor: pointer" ng-click="callTechnician(); clearCallFeilds();">
+                            {{"CREATE_A_CALL"|translate}}
+                        </div>
+                        <div ng-show="settings.isCallingTehchnician" style="display: flex;justify-content: center;align-items:center;width:5vw;height:2.2vw;background-color: #0080ff;color:white;
+                        font-size: 0.75vw;font-weight: bold;cursor: not-allowed;opacity: 0.5" >
+                            {{"CREATE_A_CALL"|translate}}
+                        </div>
+
+                    </div>
+                    <div class="serviceCallsHeaderBlock" style="border-top: unset;height: 25vw"></div>
+
+
+
+                </div>
+
+
+        </div>
+
+    </div>
+
+    <!--   Notifications -->
+                    <div class="serviceNotificationsMainBlock" style="height:100%" ng-style="views.serviceCalls && views.notifications && {'height':'calc(62% - 2.3vw)'} || {'height':'100%'}">
+        <div class="serviceCallsMenuBar serviceCallsBrown" ng-click="views.notifications=!views.notifications">
+            <div>
+                {{"NOTIFICATIONSS"|translate}}
+            </div>
+            <div tooltip="{{rtl && 'סה``כ' || 'Total'}}" class="numberOfXNotifications" ng-show="data.numberOfNotifications>0" ng-style="data.numberOfNotifications>99 && {'width': '28px'}" >
+                {{(data.numberOfNotifications < 100 && data.numberOfNotifications) || (data.numberOfNotifications>99 && '99+')}}
+            </div>
+            <div class="serviceCallsBlockEndSide">
+                <img
+                        title="{{'SETTINGS' | translate}}"
+                        ng-click="$event.stopPropagation();views.notificationsSettings=true;views.generalSettings=false;views.settingsMenu=true;views.mainMenu=false"
+                        ng-src="{{views.mainConfig && 'images/dashboard/settings-blue-new.svg' || 'images/dashboard/settings-grey-new.svg'}}"
+                        style="height: 1.198vw; width: 1.198vw;cursor: pointer;margin: 1vw 0;"
+                        ng-style="rtl?{'margin-left':'1vw'}:{'margin-right':'1vw'}"
+                        alt="settings"
+                />
+                <img
+                        src="images/arrowD.svg" style="max-width: 90%"
+                        ng-style="views.notifications && {'transform':'scaleY(-1)'}" >
+            </div>
+        </div>
+        <div ng-show="views.notifications" style="height: calc(100% - 4.5vw);">
+            <div class="serviceCallsMenuBar" >
+                <div style="font-size: 0.8vw;font-weight: bold;">
+                    {{"GROUP_BY"|translate}}
+                </div>
+                <select ng-model="settings.notificationsGroupBy" style="height: 100%;width:40%; margin:0 5%;font-size: 0.75vw;font-weight: bold">
+                    <!-- <option value="topic">{{"TOPIC"|translate}}</option> -->
+                    <option value="machines">{{"MACHINES"|translate}}</option>
+                    <option value="ungrouped">{{"UNGROUPED"|translate}}</option>
+                   
+                </select>
+            </div>
+            <div class="serviceCallsOpenBlock newScroll slim" ng-show="views.notificationsMainMenu" style="height:calc(100% - 2.3vw)">
+                <div class="spiner-example" ng-show="!settings.notificationsLoaded">
+                    <div class="sk-spinner sk-spinner-wave">
+                        <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;margin-bottom: 2px;">
+                    </div>
+                </div>
+                <div ng-show="settings.notificationsLoaded" style="height: 100%">
+                    <div ng-show="settings.notificationsGroupBy=='topic'">
+                        <div class="serviceCallBlockInvariant" ng-show="views.notificationsMainMenuTopics"  >
+                            <div ng-repeat="topic in data.notificationTopics" class="notificationCard" ng-if="topic.hasCheckedSubTopic" ng-click="data.selectedNotificationTopicName=topic.key;showTopicNotifications(topic.data);views.notificationsSubMenuTopics=true;views.notificationsMainMenuTopics=false;">
+                                <div style="display: flex;flex-direction: row">
+                                    <img ng-src="{{topic.images.active}}" style="display: flex;justify-content: center;max-width: 17.5px;margin-top: auto">
+                                    <div style="margin:0 0.5vw;font-weight: bold">{{topic.key | translate}}</div>
+                                    <div style="margin-left:auto;font-size:0.7vw;font-weight: bold"
+                                         ng-style="rtl && {'margin-left':'unset','margin-right':'auto'}">{{topic.firstNotification['SentTime'] | date:'HH:mm dd/MM'}}</div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;width:100%">
+                                    <div style="max-width: 80%;margin-top: 5%">
+                                        {{topic.firstNotification.Text}}
+                                    </div>
+                                    <div style="margin-left:auto;display: flex;align-items: flex-end"
+                                         ng-style="rtl &&{'margin-left':'unset','margin-right':'auto'}">
+                                        <div class="numberOfXNotifications" ng-show="topic.count>0"
+                                             ng-style="topic.count>99 && {'width':'26px'}">
+                                            {{(topic.count < 100 && topic.count) || (topic.count>99 && '99+')}}
+                                        </div>
+                                        <img
+                                                src="images/dashboard/arrowToR.svg"
+                                                style="max-width: 8px;margin:5%"
+                                                ng-style="rtl && {'transform':'rotate(180deg)'}">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="serviceCallBlockInvariant" ng-show="views.notificationsSubMenuTopics" >
+                            <div class="serviceCallBlockInvariant" style="display: flex;flex-direction: row;cursor: pointer;padding-top: 2.5%" ng-click="views.notificationsMainMenuTopics=true;views.notificationsSubMenuTopics=false">
+                                <img src="images/arrow.svg" ng-style="rtl && {'transform':'rotate(180deg)'}">
+                                <div style="margin-left:1vw;font-size: 0.85vw;font-weight:bold;"
+                                     ng-style="rtl && {'margin-left':'unset','margin-right':'1vw'}">
+                                    {{data.selectedNotificationTopicName|translate}}
+                                </div>
+                            </div>
+                            <div class="serviceCallsOpenBlock newScroll slim">
+                                <div ng-repeat="machine in data.currentTopicNotifications" class="notificationCard" style="cursor: initial">
+                                    <div style="display: flex;flex-direction: row">
+                                        <div style="font-weight: bold">{{(rtl && machine["MachineLName"]) || machine["MachineName"]}}</div>
+                                        <div style="margin-left:auto;font-size:0.7vw;font-weight: bold"
+                                             ng-style="rtl && {'margin-left':'unset','margin-right':'auto'}">{{machine['SentTime'] | date:'HH:mm dd/MM'}}</div>
+                                    </div>
+                                    <div style="display: flex;flex-direction: row;width:100%">
+                                        <div style="margin-top: 5%">
+                                            {{machine.Text}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div ng-show="settings.notificationsGroupBy=='machines'">
+                        <div class="serviceCallBlockInvariant" ng-show="views.notificationsMainMenuMachines">
+                            <div ng-repeat="machine in data.machineNotificationArr" class="notificationCard" ng-click="data.selectedMachineName=machine.notifications[0]['MachineName'];showMachineNotifications(machine.notifications);views.notificationsSubMenuMachines=true;views.notificationsMainMenuMachines=false">
+                                <div style="display: flex;flex-direction: row">
+                                    <div style="font-weight: bold">{{(rtl && machine.notifications[0]["MachineLName"]) || machine.notifications[0]["MachineName"] }}</div>
+                                    <div style="margin-left:auto;font-size:0.7vw;font-weight: bold"
+                                         ng-style="rtl && {'margin-left':'unset','margin-right':'auto'}">{{machine.notifications[0]['SentTime'] | date:'HH:mm dd/MM'}}</div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;width:100%">
+                                    <div style="max-width: 80%;margin-top: 5%">
+                                        {{machine.notifications[0].Text}}
+                                    </div>
+                                    <div style="margin-left:auto;display: flex;flex-direction: row;align-items: flex-end"
+                                         ng-style="rtl && {'margin-left':'unset','margin-right':'auto'}">
+                                        <div class="numberOfXNotifications" ng-show="machine.count>0"
+                                             ng-style="machine.count>99 && {'width':'26px'}">
+                                            {{(machine.count < 100 && machine.count) || (machine.count>99 && '99+')}}
+                                        </div>
+                                        <img src="images/dashboard/arrowToR.svg" style="max-width: 8px;margin:auto 0.4vw 0"
+                                             ng-style="rtl && {'transform': 'rotate(180deg)'}">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="serviceCallBlockInvariant" ng-show="views.notificationsSubMenuMachines" >
+                            <div class="serviceCallBlockInvariant" style="display: flex;flex-direction: row;cursor: pointer;padding-top: 2.5%" ng-click="views.notificationsMainMenuMachines=true;views.notificationsSubMenuMachines=false">
+                                <img src="images/arrow.svg" ng-style="rtl && {'transform':'rotate(180deg)'}">
+                                <div style="margin-left:1vw;font-size: 0.85vw;font-weight:bold;"
+                                     ng-style="rtl && {'margin-left':'unset','margin-right':'1vw'}">
+                                    {{data.selectedMachineName|translate}}
+                                </div>
+                            </div>
+                            <div class="serviceCallsOpenBlock newScroll slim">
+                                <div ng-repeat="machine in data.currentMachineNotifications" class="notificationCard" style="cursor: initial">
+                                    <div style="display: flex;flex-direction: row">
+                                        <img ng-show="machine['TopicKey']" style="max-width: 17.5px;"
+                                             ng-src="{{data.notificationTopicsOBJ[machine['TopicKey']].images.active}}">
+                                        <div style="font-weight: bold"
+                                             ng-style="machine['TopicKey'] && {'margin':'0 0.5vw'}">{{machine["TopicKey"]?(machine["TopicKey"] | translate):("WITHOUT_SUBJECT"|translate)}}</div>
+                                        <div style="margin-left:auto;font-size:0.7vw;font-weight: bold"
+                                             ng-style="rtl && {'margin-left':'unset','margin-right':'auto'}">{{machine['SentTime'] | date:'HH:mm dd/MM'}}</div>
+                                    </div>
+                                    <div style="display: flex;flex-direction: row;width:100%">
+                                        <div style="margin-top: 5%">
+                                            {{machine.Text}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div ng-show="settings.notificationsGroupBy=='ungrouped'">
+                        <div class="serviceCallBlockInvariant">
+                            <div ng-repeat="notification in filtered= (data.notifications | filter:notificationsSubTopic)" class="notificationCard" style="cursor: initial;">
+                                <div style="display: flex;flex-direction: row">
+                                    <img ng-show="notification['TopicKey']" style="max-width: 17.5px;max-height: 17.5px;"
+                                         ng-src="{{data.notificationTopicsOBJ[notification['TopicKey']].images.active}}">
+                                    <div style="font-weight: bold;max-width: 60%" ng-style="notification['TopicKey'] && ((!rtl && {'margin-left':'0.5vw'}) || {'margin-right':'0.5vw'})">
+                                        {{notification["TopicKey"]?(notification["TopicKey"] | translate):("WITHOUT_SUBJECT"|translate)}}-{{(rtl && notification["MachineLName"]) || notification["MachineName"] }}
+                                    </div>
+                                    <div style="margin-left:auto;font-size:0.6vw;font-weight: bold"
+                                         ng-style="rtl && {'margin-left':'unset','margin-right':'auto'}">{{notification['SentTime'] | date:'HH:mm dd/MM'}}</div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;width:100%">
+                                    <div style="margin-top: 5%">
+                                        {{notification.Text}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+            </div>
+        </div>
+
+    </div>
+    <div ng-show="views.settingsMenu" style="height:100%">
+        <div class="serviceCallBlockInvariant" style="display: flex;flex-direction: row;cursor: pointer;padding: 5% 6.67%;align-items: center;height:2.3vw"
+             ng-click="reverseSettingsOnUnsaved();views.mainMenu=true;views.settingsMenu=false;
+                    settings.waitingTimeThresholdD=settings.waitingTimeThreshold;settings.treatmentTimeThresholdD=settings.treatmentTimeThreshold">
+            <img src="images/arrow.svg" ng-style="rtl && {'transform':'rotate(180deg)'}">
+            <div style="margin-left:1.5vw;font-size: 1vw;font-weight:bold;"
+            ng-style="rtl && {'margin-left':'unset','margin-right':'1.5vw'}">
+                {{"SETTINGS"|translate}}
+            </div>
+        </div>
+        <div class="serviceCallsHeaderBlock" style="font-size: 0.825vw;font-weight: bold;align-items: flex-end;padding:0 6.67%">
+            <div style="margin-right: 1vw;cursor: pointer;font-size: 0.85vw"
+                  ng-style="views.generalSettings && {'border-bottom':'3px solid #0080ff'}"
+                    ng-click="views.generalSettings=true;views.notificationsSettings=false">{{"SERVICE_CALLS"| translate}}</div>
+            <div style="margin-right: 1vw;cursor: pointer;font-size: 0.85vw"
+                 ng-style="views.notificationsSettings && {'border-bottom':'3px solid #0080ff'}"
+                 ng-click="views.notificationsSettings=true;views.generalSettings=false">{{"NOTIFICATIONSS"| translate}}</div>
+        </div>
+        <div class="serviceCallsOpenBlock newScroll slim" ng-show="views.generalSettings">
+            <div class="serviceCallBlockInvariant">
+                <div style="font-size: 0.95vw;font-weight:bold;margin-top:0.6vw">
+                    {{"DELAYED_SERVICE_CALLS"|translate}}
+                </div>
+            </div>
+            <div style="margin:1vw 0">
+                <div class="serviceCallBlockInvariant" style="display: grid;grid-template-columns: 5fr 3fr 2fr;">
+                    <div>{{"WAITING_TIME_IS_OVER"|translate}}</div>
+                    <input ng-model="data.serviceCallsSettings.WaitingTimeIsOver.DemiValue" type="text" style="justify-self:center;width:50%;text-align: center;font-weight: bold">
+                    <div style="font-weight: bold">{{"MIN"|translate}}</div>
+                </div>
+                <div class="serviceCallBlockInvariant" style="display: grid;grid-template-columns: 5fr 3fr 2fr;">
+                    <div>{{"TREATMENT_TIME_IS_OVER"|translate}}</div>
+                    <input ng-model="data.serviceCallsSettings.TreatmentTimeIsOver.DemiValue" type="text" style="justify-self:center;width:50%;text-align: center;font-weight: bold">
+                    <div style="font-weight: bold">{{"MIN"|translate}}</div>
+                </div>
+            </div>
+            <div class="serviceCallBlockInvariant" style="display: flex;flex-direction:row;align-items: center">
+                <div style="display: flex;justify-content: center;align-items:center;width:9vw;height:2.2vw;background-color: #0080ff;color:white;
+                        font-size: 0.75vw;font-weight: bold;cursor: pointer"
+
+                ng-click="saveGeneralSettings();">
+                    {{"SAVE"|translate}}
+                </div>
+
+            </div>
+        </div>
+        <div class="serviceCallsOpenBlock newScroll slim" ng-show="views.notificationsSettings" style="height:calc(100% - 4.6vw)">
+            <div class="serviceCallBlockInvariant newScroll slim" style="max-height: calc(100% - 3vw);">
+                <div style="display: flex;flex-direction: row;margin:0.6vw 0" >
+                    <input type="checkbox" ng-model="settings.notificationsAllChecked" ng-change="toggleNotificationsChecked('all')">
+                    <div style="margin:0 0.5vw;font-weight: bold">
+                        {{"SHOW_ALL"|translate}}
+                    </div>
+                </div>
+                <div  style="margin:0.5vw 0" ng-repeat="subject in (data.notificationTopics) | orderBy:'key' " ng-if="subject.active" ng-init="subMenuIsOpen=false">
+                    <div style="display: flex;flex-direction: row">
+                        <input type="checkbox" ng-model="subject.checkedDemi" ng-change="toggleNotificationsChecked(subject.key)">
+                        <div style="display: flex;flex-direction: row;width:100%" ng-click="subMenuIsOpen=!subMenuIsOpen">
+                            <img ng-src="{{subject.images.active}}" style="margin-left:0.5vw;max-width: 17.5px;" ng-style="rtl && {'margin-left':'unset','margin-right':'0.5vw'} ">
+                            <div style="margin:0 0.5vw;cursor: pointer;font-weight: bold" >
+                                {{subject.key | translate}}
+                            </div>
+                            <img  src="images/arrowD.svg" class="notificationsArrow"
+                            ng-style="subMenuIsOpen && {'transform':'scaleY(-1)'}">
+                        </div>
+                    </div>
+                    <div ng-show="subMenuIsOpen" style="padding:0 5%">
+                        <div ng-repeat="subTopic in data.notificationsSettingsOBJ[subject.key]" style="display: flex;flex-direction: row;margin:0.4vw 0">
+                            <input type="checkbox" ng-model="subTopic.isActiveDemi" >
+                            <div style="margin:0 4%">{{subTopic.name}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="serviceCallBlockInvariant" style="height: 3vw">
+                <div style="display: flex;justify-content: center;align-items:center;width:9vw;height:2.2vw;background-color: #0080ff;color:white;
+                        font-size: 0.75vw;font-weight: bold;cursor: pointer"
+                      ng-model="settings.isSavingSettings"
+                     ng-click="saveNotificationsSettings();">
+                    {{"SAVE"|translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

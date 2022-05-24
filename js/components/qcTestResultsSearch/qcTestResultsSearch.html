@@ -1,0 +1,94 @@
+<div ng-init="showSearch = true" class="new-search qc-test" style="margin-top: 80px" ng-class="{{!rtl?'':'rtl'}}">
+  <form ng-submit="search()">
+    <div class="search-title">
+      <div class="d-flex">
+        {{qcTestResultsCtrl.title}}
+        <div class="d-flex searchCriteria" ng-show="hasSearch">
+          <div ng-repeat="field in searchFields" ng-if="field.value && !qcTestResultsCtrl.showValueName">
+            <span ng-show="$index !== 0">,</span>
+            <span>{{field.itemName}}: {{field.value}} </span>
+          </div>
+          <div ng-repeat="field in searchFields" ng-if="field.valueName && qcTestResultsCtrl.showValueName">
+            <span ng-show="$index !== 0">,</span>
+            <span>{{field.itemName}}: {{field.valueName}} ({{field.value}}) </span>
+          </div>
+            <div ng-if="qcTestResultsCtrl.startDate.value && qcTestResultsCtrl.endDate.value">           
+            &nbsp-&nbsp{{qcTestResultsCtrl.startDate.value | getUserDateFormat:'DD/MM/YYYY HH:mm:ss' }} - {{qcTestResultsCtrl.endDate.value | getUserDateFormat:'DD/MM/YYYY HH:mm:ss' }}
+          </div>
+        </div>
+        <div ng-show="hasSearch" class="editSearch" ng-click="showSearch = !showSearch">
+          <a style="text-decoration: underline">{{"EDIT_SEARCH" | translate}}</a>
+          <i ng-show="showSearch" class="fa fa-angle-up"></i>
+          <i ng-show="!showSearch" class="fa fa-angle-down"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-notification-group">
+      <span>{{"SELECT_TEST_TYPE" | translate}}</span>
+      <select class="form-control" ng-model="qcTestResultsCtrl.selectedGroup" ng-options="group.Name for group in qcTestResultsCtrl.groups" ng-required="true" ng-change="updateData()">
+        <option value="">{{"SELECT_GROUP" | translate}}</option>
+      </select>
+    </div>
+    <div ng-show="showSearch && qcTestResultsCtrl.selectedGroup.ID > -1">
+      <div class="new-search-container d-flex flex-column">
+        <div class="d-flex">
+          <div ng-repeat="searchField in searchFields track by $index" ng-if="searchField.Name !== 'Machine' && searchField.Name !== 'Job'" class="form-inline d-flex align-items-center" style="margin: 0 0 15px 0; display: block !important; flex: auto">
+            <label ng-style="requiredFields.indexOf(searchField.Name) >= 0 && {'color':'blue'}" style="margin: 0 10px 0 0" for="">{{searchField.DisplayName}}</label>
+            <div class="insights-filter-forms">
+              <span style="cursor: pointer" ng-click="clearField(searchField)"> <i class="fa fa-trash-o"></i></span>
+              <input readonly name="{{searchField.Name}}" ng-if="!qcTestResultsCtrl.showValueName" ng-model="searchField.value" class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" aria-label="Search" ng-click="searchForData(searchField)" style="cursor: pointer" />
+              <input readonly name="{{searchField.Name}}"  ng-if="qcTestResultsCtrl.showValueName" ng-model="searchField.valueName" class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" aria-label="Search" ng-click="searchForData(searchField)" style="cursor: pointer" />
+              
+              <input style="opacity: 0; width: 1px !important; padding: 0; margin: 0" name="{{searchField.Name}}_hidden" ng-model="searchField.value" ng-required="requiredFields.indexOf(searchField.Name) >= 0" class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" aria-label="Search" />
+              <div class="fa fa-search form-control-search-icon" ng-click="searchForData(searchField)"></div>
+            </div>
+          </div>
+
+          <div class="form-inline d-flex align-items-center" style="margin: 0 0 15px 0; display: block !important; flex: auto">
+            <label style="margin: 0 10px 0 0" for="">{{"START_TIME" | translate}}</label>
+            <div class="insights-filter-forms">
+              <input placeholder="{{'SELECT_START_DATE' | translate}}" type="datetime" class="form-input-filter form-control form-control-sm mr-3 w-75" ng-model="qcTestResultsCtrl.startDate.value" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" />
+              <i style="position: absolute; right: 10px" class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div class="form-inline d-flex align-items-center" style="margin: 0 0 15px 0; display: block !important; flex: auto">
+            <label style="margin: 0 10px 0 0" for="">{{"END_TIME" | translate}}</label>
+            <div class="insights-filter-forms">
+              <input placeholder="{{'SELECT_END_DATE' | translate}}" type="datetime" class="form-input-filter form-control form-control-sm mr-3 w-75" ng-model="qcTestResultsCtrl.endDate.value" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" />
+              <i style="position: absolute; right: 10px" class="fa fa-calendar"></i>
+            </div>
+          </div>
+        </div>
+
+        <div style="width: 25%"  ng-if="qcTestResultsCtrl.selectedGroup.ID == 1">
+          <!-- <div ng-click="openAdvanced = !openAdvanced">
+            <a style="text-decoration: underline">{{"ADVANCED" | translate}}</a>
+            <i ng-show="openAdvanced" class="fa fa-angle-up"></i>
+            <i ng-show="!openAdvanced" class="fa fa-angle-down"></i>
+          </div> -->
+          <div ng-repeat="searchField in searchFields track by $index" ng-if="(searchField.Name == 'Job' || searchField.Name == 'Machine')" class="form-inline d-flex align-items-center" style="margin: 0 0 15px 0; display: block !important; flex: auto">
+            <label style="margin: 0 10px 0 0" for="">{{searchField.DisplayName}}</label>
+            <div class="insights-filter-forms">
+              <span style="cursor: pointer" ng-click="clearField(searchField)"> <i class="fa fa-trash-o"></i></span>
+              <input readonly name="{{searchField.Name}}" ng-if="!qcTestResultsCtrl.showValueName" ng-model="searchField.value" class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" aria-label="Search" />
+              <input readonly name="{{searchField.Name}}" ng-if="qcTestResultsCtrl.showValueName" ng-model="searchField.valueName" class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" aria-label="Search" />
+              <input style="opacity: 0; width: 1px !important; padding: 0; margin: 0" name="{{searchField.Name}}_hidden" ng-model="searchField.value" ng-required="requiredFields.indexOf(searchField.Name) >= 0" class="form-input-filter form-control form-control-sm mr-3 w-75" type="text" aria-label="Search" />
+              <div class="fa fa-search form-control-search-icon" ng-click="searchForData(searchField)"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="new-search-footer">
+        <div class="btns">
+          <div class="cancel-btn">{{"CANCEL" | translate}}</div>
+          <div class="search-btn">
+            <input class="search-submit-button" style="width: 100%; height: 100%; border: none; background: transparent" type="Submit" value="{{'SEARCH' | translate}}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

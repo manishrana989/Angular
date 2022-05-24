@@ -1,0 +1,444 @@
+.sideBarColor {
+    background-color: var(--color1);
+}
+
+.nav-header{
+    background-color: var(--color1);
+    background: 0;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.btn-primary.active:hover,
+.btn-primary.active:focus {
+    background-color: var(--color1);
+    border-color: var(--color1);
+}
+
+.spin-icon {
+    background: var(--color1);
+}
+
+.graphsDisplayActive {
+    color: var(--color1);
+}
+
+.mainColor {
+    background-color: var(--color1) !important;
+}
+
+.printDisplayActive {
+    color: var(--color1);
+}
+
+.barcodeDisplayActive {
+    color: var(--color1);
+}
+
+.sweet-alert button:hover {
+    background-color: var(--color1) !important;
+}
+
+.stop-def-end {
+    stop-color: var(--color1);
+}
+
+.floatOnBottomRec:hover {
+    background: var(--color1);
+}
+
+
+.topNavBar .KnowledgeContainer {
+    background-color: var(--color1) !important;
+}
+
+.nav-online-shfit-a {
+    color: var(--color1);
+}
+
+.nav > li.active {
+    border-left-color: var(--color2)
+}
+
+.btn-primary {
+background-color: var(--color2);
+border-color: var(--color2);
+}
+
+.btn-primary.disabled,
+.btn-primary.disabled:hover,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled],
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:active,
+.btn-primary.active[disabled],
+fieldset[disabled] .btn-primary,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary:active,
+fieldset[disabled] .btn-primary.active {
+  background-color: var(--color2);
+  border-color: var(--color2);
+}
+
+.pace .pace-progress {
+    background: var(--color2);
+}
+
+  .landing-page .btn-primary.disabled,
+.landing-page .btn-primary.disabled:hover,
+.landing-page .btn-primary.disabled:focus,
+.landing-page .btn-primary.disabled:active,
+.landing-page .btn-primary.disabled.active,
+.landing-page .btn-primary[disabled],
+.landing-page .btn-primary[disabled]:hover,
+.landing-page .btn-primary[disabled]:focus,
+.landing-page .btn-primary[disabled]:active,
+.landing-page .btn-primary.active[disabled],
+.landing-page fieldset[disabled] .btn-primary,
+.landing-page fieldset[disabled] .btn-primary:hover,
+.landing-page fieldset[disabled] .btn-primary:focus,
+.landing-page fieldset[disabled] .btn-primary:active,
+.landing-page fieldset[disabled] .btn-primary.active {
+  background-color: var(--color2);
+  border-color: var(--color2);
+}
+
+.mainColor2{
+    color : var(--color2);
+}
+
+i.fa.fa-toggle-on.active {
+    color: var(--color2)
+}
+
+
+.onoffswitch-inner:before {
+    background-color: var(--color2);
+}
+
+.onoffswitch-label, .onoffswitch-switch {
+    border-color: var(--color2);
+}
+
+
+.graphsDisplay span :hover {
+    color: var(--color2);
+}
+
+.arrow-up {
+    border-bottom-color: var(--color2);
+}
+
+
+.inputLogin {
+    color: var(--color2);
+}
+
+.inputLogin::-webkit-input-placeholder {
+    color: var(--color2);
+}
+
+.inputLogin::-moz-placeholder {
+    color: var(--color2);
+}
+
+.inputLogin:-ms-input-placeholder {
+    color: var(--color2);
+}
+
+.inputLogin:-moz-placeholder {
+    color: var(--color2);
+}
+
+.btnPrim {
+    background-color: var(--color2);
+    border-color: var(--color2);
+}
+
+.printFocus:focus {
+    background-color: var(--color2);
+    border-color: var(--color2);
+}
+
+.printDisplay span :hover {
+    color: var(--color2);
+}
+
+.barcodeDisplay span :hover {
+    color: var(--color2);
+}
+
+.ui-grid-header-cell-wrapper {
+    background-color: var(--color2);
+}
+
+.ui-grid-menu-button {
+    background-color:  #f3f3f4 !important;
+
+}
+.ui-grid-cell-contents {
+    border:0px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.ui-grid-header-cell-wrapper .ui-grid-cell-contents { 
+    /* header content in table */
+    background-color: #f3f3f4 !important;
+    text-align: center;
+    /* padding-left: 10%;
+    padding-top: 10%; */
+}
+
+.tabs-container .nav-tabs > li > a:hover {
+    color: var(--color2) !important;
+}
+
+.nav-tabs > li > a.dashboard-a:hover {
+    color: var(--color2) !important;
+}
+
+.exportMenuButton:hover {
+    color: var(--color2) !important;
+}
+
+.gearTopNav:hover {
+    color: var(--color2);
+}
+
+#graph-tools {
+    background-color: var(--color2);
+}
+
+.options-drop-down input:checked ~ .checkmark {
+    background-color: var(--color2);
+}
+
+li.nav-online-shfit-li.selected {
+    border-color: var(--color2);
+}
+
+li.nav-online-shfit-li.selected > a {
+    color: var(--color2);
+}
+
+span.rz-bar.rz-selection {
+    background-color: lightgray;
+}
+
+.tick-blue {
+    border-color:var(--color2);
+}
+
+.rtl .nav > li.active {
+    border-right-color : var(--color2);
+}
+
+.canvas-menu.mini-navbar .nav-second-level {
+    background: var(--color3);
+}
+
+.nav > li.active {
+    background: var(--color3);
+}
+
+.navbar-default .nav > li > a:hover,
+.navbar-default .nav > li > a:focus {
+  background-color: var(--color3);
+}
+
+
+.nav.nav-tabs li {
+    background: none;
+    border: none;
+}
+
+
+.progress-bar-1 {
+    background-color: var(--machine-status-1);
+}
+
+.progress-bar-2 {
+    background-color: var(--machine-status-2);
+}
+
+.progress-bar-3 {
+    background-color: var(--machine-status-3);
+}
+
+.progress-bar-4 {
+    background-color: var(--machine-status-4);
+}
+
+.progress-bar-5 {
+    background-color: var(--machine-status-5);
+}
+
+.progress-bar-6 {
+    background-color: var(--machine-status-6);
+}
+
+.progress-bar-7 {
+    background-color: var(--machine-status-7);
+}
+
+.progress-bar-8 {
+    background-color: var(--machine-status-8);
+}
+
+.progress-bar-9 {
+    background-color: var(--machine-status-9);
+}
+
+.progress-bar-0 {
+    background-color: var(--machine-status-0);
+}
+
+.allMachines.progress-bar-1 {
+    fill: var(--machine-status-1);
+}
+
+.allMachines.progress-bar-2 {
+    fill: var(--machine-status-2);
+}
+
+.allMachines.progress-bar-3 {
+    fill: var(--machine-status-3);
+}
+
+.allMachines.progress-bar-4 {
+    fill: var(--machine-status-4);
+}
+
+.allMachines.progress-bar-5 {
+    fill: var(--machine-status-5);
+}
+
+.allMachines.progress-bar-6 {
+    fill: var(--machine-status-6);
+}
+
+.allMachines.progress-bar-7 {
+    fill: var(--machine-status-7);
+}
+
+.allMachines.progress-bar-8 {
+    fill: var(--machine-status-8);
+}
+
+.allMachines.progress-bar-9 {
+    fill: var(--machine-status-9);
+}
+
+.allMachines.progress-bar-0 {
+    fill: var(--machine-status-0);
+}
+
+.allMachines.default {
+    fill: white;
+}
+
+.onlineCollapsed .machineCircleStatus.status-1{
+    border-color: var(--machine-status-1);
+}
+.onlineCollapsed .machineCircleStatus.status-1 .upperSection,.machine-expanded-container .status-1 .img-container {
+    background-color: var(--machine-status-1);
+}
+.onlineCollapsed .machineCircleStatus.status-2 {
+    border-color: var(--machine-status-2);
+}
+.onlineCollapsed .machineCircleStatus.status-2 .upperSection,.machine-expanded-container .status-2 .img-container {
+    background-color: var(--machine-status-2);
+}
+.onlineCollapsed .machineCircleStatus.status-3 {
+    border-color: var(--machine-status-3);
+}
+.onlineCollapsed .machineCircleStatus.status-3 .upperSection,.machine-expanded-container .status-3 .img-container {
+    background-color: var(--machine-status-3);
+}
+.onlineCollapsed .machineCircleStatus.status-4 {
+    border-color: var(--machine-status-4);
+}
+.onlineCollapsed .machineCircleStatus.status-4 .upperSection,.machine-expanded-container .status-4 .img-container {
+    background-color: var(--machine-status-4);
+}
+.onlineCollapsed .machineCircleStatus.status-5 {
+    border-color: var(--machine-status-5);
+}
+.onlineCollapsed .machineCircleStatus.status-5 .upperSection,.machine-expanded-container .status-5 .img-container {
+    background-color: var(--machine-status-5);
+}
+.onlineCollapsed .machineCircleStatus.status-6 {
+    border-color: var(--machine-status-6);
+}
+.onlineCollapsed .machineCircleStatus.status-6 .upperSection,.machine-expanded-container .status-6 .img-container {
+    background-color: var(--machine-status-6);
+}
+.onlineCollapsed .machineCircleStatus.status-7 {
+    border-color: var(--machine-status-7);
+}
+.onlineCollapsed .machineCircleStatus.status-7 .upperSection,.machine-expanded-container .status-7 .img-container {
+    background-color: var(--machine-status-7);
+}
+.onlineCollapsed .machineCircleStatus.status-8 {
+    border-color: var(--machine-status-8);
+}
+.onlineCollapsed .machineCircleStatus.status-8 .upperSection,.machine-expanded-container .status-8 .img-container {
+    background-color: var(--machine-status-8);
+}
+.onlineCollapsed .machineCircleStatus.status-9 {
+    border-color: var(--machine-status-9);
+}
+.onlineCollapsed .machineCircleStatus.status-9 .upperSection,.machine-expanded-container .status-9 .img-container {
+    background-color: var(--machine-status-9);
+}
+.onlineCollapsed .machineCircleStatus.status-0 {
+    border-color: var(--machine-status-0);
+}
+.onlineCollapsed .machineCircleStatus.status-0 .upperSection,.machine-expanded-container .status-0 .img-container {
+    background-color: var(--machine-status-0);
+}
+
+.topNavBar .navbar{
+    border-bottom-color: var(--color1) !important;
+    background-color: var(--color1);
+}
+
+#page-wrapper .topNavBar .KnowledgeContainer {
+    background-color: var(--color1) !important;
+}
+
+.navbar-static-side{
+    background-color: var(--color1);
+}
+
+.complete-shift-job-high{
+    background-color: var(--high-bgColor-var) !important;
+    color: var(--high-color-var) !important;
+}
+.complete-shift-job-low{
+    background-color: var(--low-bgColor-var) !important;
+    color: var(--low-color-var) !important;
+}
+.complete-shift-job-middle{
+    background-color: var(--middle-bgColor-var) !important;
+    color: var(--middle-color-var) !important;
+}
+
+.table-content{
+    word-break: initial;
+    display: flex;
+    height: 100%;
+     align-items: center;
+     justify-content: center;
+}

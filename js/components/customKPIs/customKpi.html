@@ -1,0 +1,22 @@
+<div class="manager-app">
+  <div
+    ng-if="kpiCustomizationCtrl.showBreadCrumb == true"
+    class="row wrapper border-bottom white-bg page-heading col-lg-12"
+    style="
+      padding: 0 0.521vw 0.365vw 0.521vw;
+      position: fixed;
+      top: 40px;
+      width: 100%;
+      z-index: 9999;
+    "
+    ng-if="modal === undefined || modal === null"
+  >
+    <div class="col-lg-10 floatRight">
+      <h2 style="margin-top: 0.365vw; margin-bottom: 0.365vw">
+        {{topPageTitle}}
+      </h2>
+      <bread-crumbs></bread-crumbs>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+</div>

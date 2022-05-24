@@ -1,0 +1,10 @@
+<div style="margin-bottom : {{newStyle}}" ng-if="field.FieldName != null && field.CurrentValue != null && field.CurrentValue != undefined" class="pull-left">
+    <div>
+        {{localLanguage === true ? field.FieldLName :
+        field.FieldEName}}:
+        <span style="{{field.TextColorData}}">{{field.CurrentValue}}</span>
+        <span>{{field.standardValue === true ? '(' + field.StandardValue + ')' : ''}}</span>
+        <span>{{field.otherParamFieldname != undefined ? '[' + field.otherParamFieldname + ']' : ''}}</span>
+    </div>
+</div>
+

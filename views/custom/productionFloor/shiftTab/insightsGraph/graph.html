@@ -1,0 +1,67 @@
+<div>
+    <div class="you-asked">
+        <header-title>
+            <span ng-if="!rtl">{{insightAnswer.questionEName[0]}} {{insightAnswer.selectedInterval}}
+                {{insightAnswer.questionEName[1]}}</span>
+            <span ng-if="rtl">{{insightAnswer.questionLName[0]}} {{insightAnswer.selectedInterval}}
+                {{insightAnswer.questionLName[1]}}</span>
+        </header-title>
+    </div>
+
+    <!-- <div class="question-topic" style="padding-top: 10px;margin-bottom: 10px;">
+        <p>{{"YOUR_ANSWER" | translate}}</p>
+    </div> -->
+    <div class="description">
+        <span ng-if="!rtl">{{insightAnswer.AnswerEName}}</span>
+        <span ng-if="rtl">{{insightAnswer.AnswerLName}}</span>
+    </div>
+
+    <div class="histogram" ng-show="showgraph" style="padding: 0 10px;border-bottom: 1px solid #e8e7e7;margin-bottom: 32px;padding: 0 10px">
+        <div class="histogram-graph">
+            <div class="tooltip-container" style="position: relative;">
+            </div>
+            <svg>
+                <g class="g-contain">
+                    <path class="line"></path>
+                    <g class="x axis"></g>
+                    <g class="y axis"></g>
+                    <text class="labelx"></text>
+                    <text class="labely"></text>
+
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="linegraph" ng-show="showlinegraph" style="padding: 0 10px;border-bottom: 1px solid #e8e7e7;margin-bottom: 32px;padding: 0 10px;">
+        <div class="line-graph">
+            <svg>
+                <g class="g-contain">
+                    <path class="line"></path>
+                    <g class="x axis"></g>
+                    <g class="y axis"></g>
+                    <text class="labelx"></text>
+                    <text class="labely"></text>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="pieg" ng-show="showpieg">
+        <div style="padding-bottom: 35px"><strong>Num of Responses Pie Graph</strong></div>
+        <div class="pie-container">
+            <svg></svg>
+        </div>
+    </div>
+
+    <div ng-if="insightAnswer.startTime && insightAnswer.endTime">
+        <p>{{insightAnswer.startTime}} - {{insightAnswer.endTime}}</p>
+
+    </div>
+    <div class="download-rep" ng-hide="dataLoading || showpieg || showgraph || showlinegraph" ng-click="updateDuration(insightAnswer.startTime,insightAnswer.endTime);gaE('Department_Shift','Insights_view_report')">
+        <div>
+            <img src="images/report.png" class="shift-header-btns-img" alt="Back" />
+            {{"VIEW_REPORT" | translate}}
+        </div>
+    </div>
+</div>

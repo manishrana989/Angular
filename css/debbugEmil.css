@@ -1,0 +1,22 @@
+.debbugE .tasksGrid{
+    opacity: 1;
+}
+
+.debbugE .tasksGridFade{
+    opacity: 0;
+}
+
+.debbugE .topbar-collapse{
+    display:initial;
+}
+
+.debbugE .cover{
+    display:initial;
+
+}
+
+.debbugE .newTaskWindow{
+    display:initial;
+    transform:translateX(0%);
+}
+

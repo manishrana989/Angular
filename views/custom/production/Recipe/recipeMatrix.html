@@ -1,0 +1,125 @@
+<div class="inmodal" ng-class="{rtl : rtl}">
+    <div class="modal-header">
+        <button type="button" ng-click="cancel();" class="close pull-right" data-dismiss="modal"><span
+                aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">{{"RECIPE_MATRIX" | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <!-- MatrixModeID = 2 -->
+        <div class="row" ng-repeat="topField in topRecipeMatrixView">
+            <div class="col-lg-6 pull-left">
+                <h9>{{localLanguage ? split.PropertyHName : split.PropertyEName}}</h9>
+            </div>
+            <div class="col-lg-6 pull-right" ng-include="topField.template">
+            </div>
+        </div>
+
+        <!-- MatrixModeID = 4,5,6 -->
+        <div class="row">
+            <div class="row">
+                <div class="col-lg-3 pull-left">
+                    <h3>{{ 'CHANNEL_NAME' | translate}}</h3>
+                </div>
+                <div class="col-lg-7 pull-left">
+                    <div class="{{colWidth}} pull-left" ng-repeat="channelNum in channelsRecipeMatrix">
+                        <h3 style="text-align: center;">{{ 'CHANNEL' | translate}}{{channelNum}}</h3>
+                    </div>
+                </div>
+                <div class="col-lg-2 pull-left">
+                    <h3 style="text-align: center;">{{ 'TOTAL' | translate}}</h3>
+                </div>
+            </div>
+            <div class="col-lg-12" ng-if="sumRowRecipeMatrix.length > 0">
+                <div class="ibox float-e-margins ">
+                    <div class="ibox-title">
+                        <h7 class="pull-left" style="font-weight: bold;">{{ 'SOURCE' | translate}} : 0
+                        </h7>
+                        <div ibox-tools>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content" style="display: block;">
+                        <div class="row" ng-repeat="property in sumRowRecipeMatrix">
+                            <div class="col-lg-3 pull-left">
+                                <h9>{{localLanguage ? property.PropertyHName : property.PropertyEName}}</h9>
+                            </div>
+                            <div class="col-lg-7 pull-left">
+                                <div class="{{colWidth}} pull-left" ng-repeat="channel in property.channels">
+                                    <input ng-disabled="true" step="{{channel.SplitField.RoundNum}}" type="number" class="form-control" ng-model="channel.SplitField.FValue">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 pull-left">
+                                <input ng-disabled="true" type="number" step="any" class="form-control" ng-model="property.total">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-12" ng-repeat="split in middlleRecipeMatrixView" ng-if="middlleRecipeMatrixView.length > 0">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h7 class="pull-left" style="font-weight: bold;">{{ 'SOURCE' | translate}} {{split.SplitNumber}}
+                        </h7>
+                        <div ibox-tools>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content" style="display: block;">
+                        <div class="row" ng-repeat="property in split.Properties">
+                            <div class="col-lg-3 pull-left">
+                                <h9>{{localLanguage ? property.PropertyHName : property.PropertyEName}}</h9>
+                            </div>
+                            <div class="col-lg-7 pull-left">
+                                <div class="{{colWidth}} pull-left" ng-repeat="channel in property.channels">
+                                    <input step="{{channel.SplitField.RoundNum}}" ng-disabled="showViewOnly === true" type="number" class="form-control"
+                                           ng-model="channel.SplitField.FValue">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 pull-left">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" ng-if="sumColRecipeMatrix.length > 0">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h7 class="pull-left" style="font-weight: bold;">{{ 'TOTAL' | translate}}
+                        </h7>
+                        <div ibox-tools>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content" style="display: block;">
+                        <div class="row" ng-repeat="property in sumColRecipeMatrix">
+                            <div class="col-lg-3 pull-left">
+                                <h9>{{localLanguage ? property.PropertyHName : property.PropertyEName}}</h9>
+                            </div>
+                            <div class="col-lg-7 pull-left">
+                                <div class="{{colWidth}} pull-left" ng-repeat="channel in property.channels">
+                                    <input ng-disabled="true" ng-style="{'color':(channel.total < 0 || channel.total > 100 ? 'red' : 'none')}" type="number" step="any" class="form-control" ng-model="channel.total">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 pull-left">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MatrixModeID = 3 -->
+        <div class="row" ng-repeat="topField in bottomRecipeMatrixView">
+            <div class="col-lg-6 pull-left">
+                <h9>{{localLanguage ? split.PropertyHName : split.PropertyEName}}</h9>
+            </div>
+            <div class="col-lg-6 pull-left" ng-include="topField.template">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white pull-right" ng-click="cancel()">{{"CLOSE" | translate}}</button>
+    </div>
+</div>

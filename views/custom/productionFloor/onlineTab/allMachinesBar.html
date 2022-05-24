@@ -1,0 +1,128 @@
+<div class="ibox">
+    <div class="ibox-title department-name-machines" ng-if="machineOnlineSettings.departmentView">
+        <div class="machines-sum">
+            <div class="pull-left Department-Name">
+                <a ng-if="departmentSubMenu && productionFloorMenu"
+                   ui-sref="{{departmentSubMenu.state}}({menuContent: {topMenu : productionFloorMenu, subMenu: departmentSubMenu},id : departmentSubMenu.fullView})">
+                    {{depName}} </a>
+            </div>
+            <span class="pull-left Line-8"></span>
+            <div class="pull-left Department-Name" ng-if="type == 'shift'">{{"TOTAL_DURATION" | translate}}: {{(total /
+                60) | displayHoursMinutes}}
+            </div>
+            <div class="pull-left Department-Name" ng-if="type == 'online' || type == 'ShiftProgress'">
+                {{"MACHINES" | translate}}: {{totalMachinesNumber}} <span style="padding-right: 10px;padding-left: 10px;">{{"PE" | translate}}: {{DepartmentPEE}}</span>     
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content {{pieSizeClass}}" ng-class="{'expanded' : (type == 'online' && expand)}">
+        <div class="progressContainer" ng-if="type == 'online' && !loading && expand" style="margin-top: 0px;">
+            <div style="margin-top: 25px;display: inline-flex;flex-wrap: wrap;" ng-if="(hasFiltering || sortData.selectedSortField)">
+                <div ng-repeat="machine in sortedMachines">
+                    <div class="onlineCollapsed"
+                    machine-collapsed                   
+                    update-structures="getCollapsedStructure"
+                    parameters="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]"
+                    show-pencils="showPencils"
+                    show-three-params="pieSizeClass == 'big-circle'  || pieSizeClass == 'big-circle rec'? true : false"
+                    ng-show="machine.display" content="machine"
+                    type="type"
+                    users-data="groupsData"
+                    machine-structure-data="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]",
+                    all-machines="sortedMachines" is-default-structure="isDefaultStructure"></div>
+                </div>                            
+            </div>
+            <div ng-if="!(hasFiltering || sortData.selectedSortField)">
+                <div style="display: flex;flex-wrap: wrap" 
+                    ng-style="{'flex-direction' : machineOnlineSettings.verticalView ? 'row' : 'column'}">
+                    <div style="display: flex"  
+                        ng-style="{
+                            'flex-direction' : machineOnlineSettings.verticalView ? 'column' : 'row',
+                            'flex-wrap' : machineOnlineSettings.verticalView ? '' : 'wrap',
+                            'width' : machineOnlineSettings.verticalView ? '' : '100%',
+                        }" 
+                        ng-repeat="group in machinesGroupedByLine">
+                        <div style="height: unset;" 
+                            class="onlineCollapsed"
+                            machine-collapsed                   
+                            update-structures="getCollapsedStructure"
+                            parameters="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]"
+                            show-pencils="showPencils"
+                            show-three-params="pieSizeClass == 'big-circle'  || pieSizeClass == 'big-circle rec'? true : false"
+                            ng-show="machine.display" content="machine"
+                            type="type"
+                            users-data="groupsData"
+                            machine-structure-data="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]",
+                            all-machines="sortedMachines" is-default-structure="isDefaultStructure"
+                            ng-repeat-start="machine in group">
+                        </div>
+                        <div ng-repeat-end ng-if="machine.NextLineMachineID === 0 && !hasFiltering && !sortData.selectedSortField" style="flex-basis: 100%;">
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex;flex-wrap: wrap;flex-direction: row;width: 100%;">
+                    <div style="height: unset;" 
+                        class="onlineCollapsed"
+                        machine-collapsed                   
+                        update-structures="getCollapsedStructure"
+                        parameters="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]"
+                        show-pencils="showPencils"
+                        show-three-params="pieSizeClass == 'big-circle'  || pieSizeClass == 'big-circle rec'? true : false"
+                        ng-show="machine.display" content="machine"
+                        type="type"
+                        users-data="groupsData"
+                        machine-structure-data="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]",
+                        all-machines="sortedMachines" is-default-structure="isDefaultStructure"
+                        ng-repeat="machine in machinesWithoutLines">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="progressContainer" ng-if="type == 'ShiftProgress'">
+            <div style="margin-top: 25px;display: inline-flex;flex-wrap: wrap;" ng-if="type == 'ShiftProgress'">
+                <div  ng-repeat="machine in sortedMachines">
+                    <div class="onlineCollapsed"
+                    machine-progress
+                    update-structures="getProgressStructure"
+                    parameters="allMachinesBarCtrl.collpasedMachinesStructure[machine.MachineID]"
+                    machine-color="machinesColors[machine.MachineID]"
+                    show-pencils="showPencils"
+                    show-three-params="pieSizeClass == 'big-circle'  || pieSizeClass == 'big-circle rec'? true : false"                    
+                    ng-show="machine.display" content="machine"></div>
+                    </div>
+                </div>
+
+        </div>
+
+
+        <div class="printShiftTime" ng-if="type == 'shift'">
+            <div style="
+                        display: flex;
+                        padding: 11px;
+                        height: 51px;
+                        position: relative;
+                        font-family: ProximaNova;
+                        font-size: 18px;
+                        font-weight: 600;
+                        font-style: normal;
+                        font-stretch: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        color: #11115a;
+                        background-color: white;
+                        width: calc(100% - 28px);">
+                <div class="event-bar" ng-repeat="status in machinesStatuses"
+                     title="{{status.count | getDurationInHoursMinutes }}"
+                     ng-style="{width: (status.percentage + '%'),'border-bottom': 'solid 8px ' + status.color2}">
+                    <span ng-if="status.count > (total * 0.05)">{{status.count | getDurationInHoursMinutes }}</span>
+                </div>
+            </div>
+        </div>
+    </div>  <!-- IBOX content-->
+</div> <!-- END IBOX-->
+<div class="tooltip">
+    <div class="tooltip-event-name"></div>
+    <div class="tooltip-event-duration"></div>
+</div>

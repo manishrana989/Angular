@@ -1,0 +1,77 @@
+<div class="panel panel-success" style="height:100% !important;border-radius: 0px">
+    <table style="height:100% !important" class="table table-bordered">
+        <tbody>
+        <tr style="height:60% !important">
+            <td>
+                <div ng-if="content.newBox === true ">
+
+                    <div ng-repeat="field in areas[0].cellData.fields">
+                        <a ng-click="addItem(0,$index,dynamicOptions,true)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+                <i class="fa fa-tachometer" aria-hidden="true"></i>
+            </td>
+            <td>
+                <div ng-if="content.newBox === true ">
+                    <div ng-repeat="field in areas[1].cellData.fields">
+                        <a ng-click="addItem(1,$index,dynamicOptions,true)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-show="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+
+                </div>
+                <i class="fa fa-tachometer" aria-hidden="true"></i>
+
+            </td>
+        </tr>
+        <tr style="height:20% !important">
+            <td style="width:50%">
+                <div ng-if="content.newBox === true ">
+                    <div ng-repeat="field in areas[2].cellData.fields">
+                        <a ng-click="addItem(2,$index,dynamicOptions)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+            </td>
+            <td style="width:50%">
+                <div ng-if="content.newBox === true ">
+                    <div ng-repeat="field in areas[3].cellData.fields">
+                        <a ng-click="addItem(3,$index,dynamicOptions)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr style="height:20% !important">
+            <td style="width:50%">
+                <div ng-if="content.newBox === true ">
+                    <div ng-repeat="field in areas[4].cellData.fields">
+                        <a ng-click="addItem(4,$index,dynamicOptions)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+            </td>
+            <td style="width:50%">
+                <div ng-if="content.newBox === true ">
+                    <div ng-repeat="field in areas[5].cellData.fields">
+                        <a ng-click="addItem(5,$index,dynamicOptions)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

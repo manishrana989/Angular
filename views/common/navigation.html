@@ -1,0 +1,78 @@
+<nav class="navbar-default navbar-static-side">
+    <div class="sidebar-collapse" ng-init="main.subMenuChosen = null">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element" dropdown>
+                    <a ng-click="goToHomePage()"><img class="stnd   dark-version animated bounce" alt="Emerald Information Systems" ng-src="{{main.sideBarImage}}"></a>
+                    <a>
+                            <span class="clear" style="margin-top: 5px;">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold" style="color: white;">{{"USERNAME" | translate}}: {{main.userName}}</strong>
+                             </span>
+                            </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="">{{"LOGOUT" | translate}}</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    <img class="stnd dark-version" alt="Emerald Information Systems" src="images/LogoCloudOnly.png" style="width: 45px">
+                </div>
+            </li>
+
+            <div class="navigation-menu-search-wrapper">
+                <input class="navigation-menu-search" type="text" placeholder="{{'SEARCH' | translate}}..." ng-change="filterMenu()" ng-model="menuSearchText.value" />
+            </div>
+
+            <li class="top-menu-name-{{topMenu.TopMenuEName | removeSpaces}}" ng-class="{'active' : (menuSearchText.value && !topMenu.oneLevel) || (menuSearchText.value === '' && activeTopMenu.name === topMenu.TopMenuEName && activeTopMenu.status && menuSearchText.status)}" ng-repeat="topMenu in menuAndSubMenu">
+                <a ng-if="!topMenu.oneLevel" ng-click="selectActiveTopMenu(topMenu.TopMenuEName)"><img style="width: 29px; height: 23px;" ng-if="topMenu.TopMenuIcon"  
+                        class="{{topMenu.TopMenuIcon}}-icon" ng-src="images/menuicons/{{topMenu.TopMenuIcon}}.png">
+                    <div style="display: inline-flex;"
+                        title="{{(topMenu | customTranslate: 'TopMenuEName':'TopMenuLName':showLocalLanguage)}} {{topMenu.TopMenuIsNew ? '| ' + ('NEW' | translate) : ''}}">
+                        <span class="nav-label" style="font-size: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        max-width: 130px;">{{(topMenu | customTranslate: 'TopMenuEName':'TopMenuLName':showLocalLanguage)}}</span> 
+                    </div>
+                    
+                    <span class="fa arrow"></span>
+                </a>
+                <a ng-if="topMenu.oneLevel && !topMenu.modal" 
+                    ui-sref="{{topMenu.state}}({menuContent: {topMenu : topMenu, subMenu: topMenu.subMenuNew},id : topMenu.fullView})">
+                    <img style="width: 29px; height: 23px;" ng-if="topMenu.TopMenuIcon"  class="{{topMenu.TopMenuIcon}}-icon" ng-src="images/menuicons/{{topMenu.TopMenuIcon}}.png"> 
+                    <div style="display: inline-flex;" 
+                        title="{{(topMenu | customTranslate: 'TopMenuEName':'TopMenuLName':showLocalLanguage)}} {{topMenu.TopMenuIsNew ? '| ' + ('NEW' | translate) : ''}}">
+                            <span class="nav-label" style="font-size: 15px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            max-width: 130px;">{{(topMenu | customTranslate: 'TopMenuEName':'TopMenuLName':showLocalLanguage)}}</span>
+                    </div>
+                </a>
+                <a ng-if="topMenu.oneLevel && topMenu.modal" 
+                    ng-click="openCustomModal(topMenu)">
+                    <img style="width: 29px; height: 23px;" ng-if="topMenu.TopMenuIcon"  class="{{topMenu.TopMenuIcon}}-icon" ng-src="images/menuicons/{{topMenu.TopMenuIcon}}.png"> 
+                    <span class="nav-label" style="font-size: 15px;">{{(topMenu | customTranslate: 'TopMenuEName':'TopMenuLName':showLocalLanguage)}}</span>
+                </a>
+                <div class="top-menu-new" ng-show="topMenu.TopMenuIsNew">
+                    <img style="width: 18px;" src="images/menuicons/New_Label_White.svg">
+                    <!-- {{"NEW" | translate}} -->
+                </div>
+                <ul ng-if="!topMenu.oneLevel " class="nav nav-second-level collapse" ng-class="{'in' : menuSearchText.value || (menuSearchText.value === '' && activeTopMenu.name === topMenu.TopMenuEName && activeTopMenu.status && menuSearchText.status)}" style="height: 0px;">
+                    <li id="sub-menu-name-{{subMenu.SubMenuEName| removeSpaces}}" ng-click="main.subMenuChosen = subMenu.SubMenuExtID;main.targetType = subMenu.SubMenuTargetTYpe" ng-repeat="subMenu in topMenu.subMenu" class="row">
+                        <a style="font-size: 15px;" ng-class="{'selectedSubMenu' : main.subMenuChosen == subMenu.SubMenuExtID && main.targetType == subMenu.SubMenuTargetTYpe}"
+                           class="col-sm-10 pull-left" ng-click="" ui-sref="{{subMenu.state}}({menuContent: {topMenu : topMenu, subMenu: subMenu},id : subMenu.fullView})">
+                            {{(subMenu | customTranslate: 'SubMenuEName':'SubMenuLName':showLocalLanguage)}}
+                        </a>
+                        <a  class="col-sm-2 pull-left" style="padding:10px 0" ng-click="openFullView(subMenu)">
+                            <img class="New-tab-icon" src="images/menuicons/new-tab-new.svg">
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>

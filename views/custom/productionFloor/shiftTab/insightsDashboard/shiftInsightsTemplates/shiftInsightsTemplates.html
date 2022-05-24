@@ -1,0 +1,384 @@
+<div id="toastr"></div>
+<div style="display: flex; gap: 2%; margin-bottom: 1vw; width: 100%; position: relative">
+  <div style="width: 22%">
+    <div style="display: flex; flex-direction: row; text-align: center">
+      <div style="display: flex; flex-direction: column; width: 9.25vw; height: 6.5vw">
+        <div
+          style="
+            background-color: white;
+            height: 2.927vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1vh;
+            cursor: pointer;
+          "
+          ng-click="createNewTemplate()"
+        >
+          <span style="font-size: 0.7vw; font-weight: bold">{{"CREATE_NEW_TEMPLATE" | translate}}</span>
+        </div>
+
+        <div
+          style="background-color: white; height: 2.927vw; display: flex; align-items: center; justify-content: center; cursor: pointer"
+          ng-click="editTemplate('save');gaE('Department_Shift','Save_shift_template')"
+        >
+          <span style="font-size: 0.7vw; font-weight: bold">{{"SAVE_THIS_TEMPLATE_AS" | translate}}</span>
+        </div>
+      </div>
+      <div class="shiftInsightRec" style="background-color: white" ng-click="showDashMenu=!showDashMenu;">
+        <img src="images/insights.svg" />
+        <div class="shiftInsightRecText">{{"SELECT_YOUR_COMPONENTS" | translate}}</div>
+
+        <ul
+          class="dashboard-settings-tooltip dropdownmenu shiftFilterChooseYourComponent"
+          style="z-index: 1001; top: 50%; right: unset; left: 0; margin-top: 3vw"
+          off-click-activator="showDashMenu" off-click="showDashMenu = false"
+          ng-click="$event.stopPropagation();"
+          ng-show="showDashMenu"
+        >
+          <div>
+            <img
+              class="dashboard-settings-close-btn"
+              ng-click="$event.stopPropagation();showDashMenu = false"
+              title="{{'CLOSE' | translate}}"
+              src="images/dashboard/close.svg"
+              alt="close"
+              style="margin: 1vw 0"
+            />
+          </div>
+          <div class="shift-dashboard-settings newScroll slim">
+            <div class="drag-show-hide-explain">{{"DRAG_SHOW_HIDE_EXPLAIN" | translate}}</div>
+            <div ui-sortable="sortableOptions" ng-model="containers.data" ui-sortable-update="updateSortable" style="margin-top: 10px">
+              <div class="graph-display-container" ng-repeat="graph in containers.data" ng-hide="graph.options.disableClose">
+                <div class="drag-icon">
+                  <i class="fa fa-bars"></i>
+                </div>
+                <div ng-if="!graph.options.disableClose" class="pull-right options-drop-down graph-display-checkbox active row">
+                  <div class="hide-material-switch onoffswitch">
+                    <input
+                      type="checkbox"
+                      ng-model="graph.options.display"
+                      class="onoffswitch-checkbox"
+                      ng-change="updateSortable()"
+                      id="graphMIndex{{$index}}"
+                    />
+                    <label
+                      class="onoffswitch-label"
+                      ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                      for="graphMIndex{{$index}}"
+                    >
+                      <span class="onoffswitch-inner"></span>
+                      <span
+                        class="onoffswitch-switch"
+                        ng-style="!graph.options.display && {'background-color':'#4a4a4a'} && {'border-color':'#4a4a4a'}"
+                        ng-class="{'unchecked': !graph.options.display}"
+                      >
+                        <span ng-if="graph.options.display" class="material-switch-v"> </span>
+                        <span ng-if="!graph.options.display" class="material-switch-x"> </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="graph-name-checkbox" custom-title>
+                  <span
+                    >{{graph.name | convertToTranslate}}
+                    <span
+                      ng-if="graph.options.settings.parametersDisplay[graph.options.settings.parameter] ||
+                                                         graph.options.settings.parameters[graph.options.settings.parameter].value ||
+                                                         graph.options.settings.parameter"
+                    >
+                      ({{ graph.options.settings.parametersDisplay[graph.options.settings.parameter] ||
+                      (graph.options.settings.parameters[graph.options.settings.parameter].value | translate) || (graph.options.settings.parameter |
+                      convertToTranslate) }})
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div style="height: 1.563vw; margin-bottom: 0.521vw">
+              <div class="shift-settings-reset-btn pull-right" ng-click="resetDefaultShift('Shift')">{{"RESET" | translate}}</div>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: column; width: 70%">
+    <div class="side-menu savedTemplates" style="cursor: unset; width: 100%; margin: 0; display: flex">
+      <div
+        style="cursor: pointer; display: flex; align-items: center; padding-right: 8px"
+        ng-click="rtl?templatesMoveToRight():templatesMoveToLeft()"
+      >
+        <i ng-if="!rtl" class="fa fa-chevron-left"></i>
+        <i ng-if="rtl" class="fa fa-chevron-right"></i>
+      </div>
+
+      <div
+        class="more-options newScroll slim shiftInsightTemplates"
+        style="z-index: 1001; padding-bottom: 5px; align-items: stretch; gap: 10%; cursor: unset; overflow-x: hidden"
+      >
+        <div style="display: flex" click-outside="hideTemplateMenu()">
+          <div
+            class="shiftInsightRecT"
+            ng-repeat="template in templates"
+            ng-style="shiftData.chosenTemplate.isUserTemplate && shiftData.chosenTemplate.ID==template.ID && {'background-color':'#5706a3'}"
+          >
+            <div
+              ng-init="template.showMenu=false;template.popup=false"
+              ng-click="getTemplateByStructID(template,2)"
+              style="display: flex; flex-direction: column; height: 100%; width: 100%"
+            >
+              <div class="shiftInsightRecTextT">{{template.EName}}</div>
+              <div
+                class="templateDots"
+                ng-click="$event.stopPropagation();hideTemplateMenu(template);template.showMenu=!template.showMenu;"
+                style="margin-top: auto"
+              >
+                <div class="circleE"></div>
+                <div class="circleE"></div>
+                <div class="circleE"></div>
+              </div>
+            </div>
+
+            <div
+              ng-if="template.showMenu"
+              class="container-template-option"
+              ng-click="shiftInsightsTemplatesCtrl.insightTemplateOptions = !shiftInsightsTemplatesCtrl.insightTemplateOptions;"
+            >
+              <div
+                class="container-template-option-button"
+                ng-click="shareTemplateModel(template);hideTemplateMenu();shiftInsightsTemplatesCtrl.insightTemplateOptions = false;$event.stopPropagation()"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/share-insights-template.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"SHARE" | translate}}</div>
+              </div>
+              <div
+                class="container-template-option-button"
+                ng-click="updateContainer(template,2);shiftInsightsTemplatesCtrl.insightTemplateOptions = false;$event.stopPropagation()"
+                ng-style="settings.isSavingTemplate && {'cursor':'not-allowed'}"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/save-insights-template.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"SAVE" | translate}}</div>
+              </div>
+              <div
+                class="container-template-option-button"
+                ng-click="deleteDashboard(template);shiftInsightsTemplatesCtrl.insightTemplateOptions = false;$event.stopPropagation()"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/delete-black.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"DELETE" | translate}}</div>
+              </div>
+              <div class="container-template-option-button" ng-if="insightsTemplatesCtrl.selectedFilterVariant" ng-click="$event.stopPropagation()">
+                <div class="container-template-option-button-direction">
+                  <img src="images/filter-grey-new.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <select
+                  ng-model="insightsTemplatesCtrl.selectedFilterVariant"
+                  ng-style="insightsTemplatesCtrl.loading && {'cursor':'not-allowed'}"
+                  style="height: 100%; width: 80%; border-radius: 2px; border: none; margin-left: 10px; background-color: var(--white)"
+                  ng-options="item.FilterName for item in insightsTemplatesCtrl.filterVariants  track by item.FilterID"
+                  ng-click="$event.stopPropagation()"
+                >
+                  <option value="">{{"SELECT" | translate}}</option>
+                </select>
+              </div>
+            </div>
+
+         
+          </div>
+          <div
+            class="shiftInsightRecT"
+            ng-repeat="template in templatesG"
+            ng-style="shiftData.chosenTemplate.isUserTemplate && shiftData.chosenTemplate.ID==template.ID && {'background-color':'#854cbb'}"
+          >
+            <div
+              ng-init="template.showMenu=false;template.popup=false"
+              style="display: flex; flex-direction: column; height: 100%; width: 100%; margin-top: auto; margin-left: auto; margin-right: 10px"
+            >
+              <div class="shiftInsightRecTextT" ng-click="getTemplateByStructID(template,2)">{{template.EName}}</div>
+              <div
+                class="templateDots"
+                ng-click="$event.stopPropagation();hideTemplateMenu(template);template.showMenu=!template.showMenu;"
+                style="margin-top: auto"
+              >
+                <div class="circleE"></div>
+                <div class="circleE"></div>
+                <div class="circleE"></div>
+              </div>
+            </div>
+
+            <div
+              ng-if="template.showMenu"
+              class="container-template-option"
+              ng-click="shiftInsightsTemplatesCtrl.insightTemplateOptions = !shiftInsightsTemplatesCtrl.insightTemplateOptions;"
+            >
+              <div
+                class="container-template-option-button"
+                ng-click="template.popup = true;hideTemplateMenu();shiftInsightsTemplatesCtrl.insightTemplateOptions = false;$event.stopPropagation()"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/share-insights-template.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"SHARE" | translate}}</div>
+              </div>
+              <div
+                class="container-template-option-button"
+                ng-click="updateContainer(template,2);shiftInsightsTemplatesCtrl.insightTemplateOptions = false;$event.stopPropagation()"
+                ng-style="settings.isSavingTemplate && {'cursor':'not-allowed'}"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/save-insights-template.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"SAVE" | translate}}</div>
+              </div>
+              <div
+                class="container-template-option-button"
+                ng-click="deleteDashboard(template);shiftInsightsTemplatesCtrl.insightTemplateOptions = false;$event.stopPropagation()"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/delete-black.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"DELETE" | translate}}</div>
+              </div>
+              <div class="container-template-option-button" ng-if="insightsTemplatesCtrl.selectedFilterVariant" ng-click="$event.stopPropagation()">
+                <div class="container-template-option-button-direction">
+                  <img src="images/filter-grey-new.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <select
+                  ng-model="insightsTemplatesCtrl.selectedFilterVariant"
+                  ng-style="insightsTemplatesCtrl.loading && {'cursor':'not-allowed'}"
+                  style="height: 100%; width: 80%; border-radius: 2px; border: none; margin-left: 10px; background-color: var(--white)"
+                  ng-options="item.FilterName for item in insightsTemplatesCtrl.filterVariants  track by item.FilterID"
+                  ng-click="$event.stopPropagation()"
+                >
+                  <option value="">{{"SELECT" | translate}}</option>
+                </select>
+              </div>
+            </div>
+
+            <ul
+              class="copyModal"
+              style="color: black; height: 300px"
+              ng-if="template.popup"
+              ng-click="$event.stopPropagation()"
+              off-click-activator="template.popup" off-click="template.popup = false;"
+              ng-style="{'left': copyModalX, top:copyModalY}"
+            >
+              <div class="panel-body">
+                <form role="form" name="leaderForm" ng-submit="copyToUser(template,chosenGroups,chosenUsers)">
+                  <div class="row" ng-init="chosenGroups = []">
+                    <div ng-show="usersData && usersData.length > 0" class="col-lg-12 pull-left">
+                      <label style="margin-bottom: 0px">{{"COPY_DEFINITION_USERS" | translate}}</label>
+                      <div ng-init="chosenUsers = []">
+                        <select
+                          class="form-control"
+                          data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"
+                          multiple
+                          chosen
+                          ng-model="chosenUsers"
+                          ng-options="option.id as (option | customTranslate: 'displayname':'displayhname':localLanguage) for option in usersData"
+                        ></select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-top: 20px">
+                    <div class="col-lg-12">
+                      <div class="pull-right">
+                        <button type="submit" class="btn btn-sm newPrimaryBtn pull-right m-t-n-xs">{{ "SEND" | translate}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </ul>
+          </div>
+          <div
+            class="shiftInsightRecNST"
+            ng-repeat="structure in structures track by $index"
+            ng-style="{'display' : allowEdit && structure.IsDefaultStructure ? 'unset':'flex','background-color': shiftData.chosenTemplate.isUserTemplate && shiftData.chosenTemplate.ID==structure.ID ? '#0080ff':'#7abaf9'}" 
+            ng-click="getTemplateByStructID(structure,1)">
+
+          <div ng-if="allowEdit && structure.IsDefaultStructure" ng-click="$event.stopPropagation()" style="margin-left: auto;margin-right: 10px;margin-top: 5px;">
+            <div
+              class="checkBox"
+              check-box-directive
+              field-title="'IsActive'"
+              field="structure"
+              type="'toggle'"
+              select-value="'IsActive'"
+              ng-click="changeIsActive(structure)"
+            ></div>
+          </div>
+
+            <!-- <img  class="imgReport" style="width: 1.667vw;height: 1.667vw;" ng-src="{{structure.icon}}"> -->
+            <!-- <span title="{{structure.name | translate}}">{{structure.name | translate}}</span> -->
+       
+            <div style="display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;" ng-style=" {'margin-top': allowEdit && !structure.GroupEName ?  '2.8vw': allowEdit && structure.GroupEName  ? '2vw' : ''}" ng-init="insightsTemplatesDirective.insightTemplateOptions = false">
+              <!-- <img ng-if="structure.icon" class="imgReport" style="width: 1.667vw; height: 1.367vw; margin-bottom: 0.7vh" ng-src="{{structure.icon}}" /> -->
+              <span
+              class="fontReport"
+              title="{{structure.name | translate}}">{{localLanguage ? structure.LName : structure.EName}}</span>
+            <span ng-if="allowEdit" class="fontReport" title="{{structure.name | translate}}">{{localLanguage ? structure.GroupHName:structure.GroupEName }}</span>
+            </div>
+            <div
+              ng-if="allowEdit && !structure.IsDefaultStructure"
+              class="templateDots"
+              ng-click="structure.defaultTemplateOptions = !structure.defaultTemplateOptions;copyModalPosition($event);hideTemplateMenuStructures(structure);$event.stopPropagation()"
+              ng-init="structure.defaultTemplateOptions = false"
+           
+            >
+              <div class="circleE"></div>
+              <div class="circleE"></div>
+              <div class="circleE"></div>
+            </div>
+
+            <div
+              ng-if="structure.defaultTemplateOptions"
+              class="container-default-template-option"
+              ng-click="structure.defaultTemplateOptions = !structure.defaultTemplateOptions;"
+              off-click-activator="structure.defaultTemplateOptions" off-click="structure.defaultTemplateOptions = false;"
+            >
+              <div
+                class="container-template-option-button"
+                ng-click="updateContainer(structure,1);structure.defaultTemplateOptions = false;$event.stopPropagation()"
+                ng-style="settings.isSavingTemplate && {'cursor':'not-allowed'}"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/save-insights-template.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"SAVE" | translate}}</div>
+              </div>
+              <div
+                class="container-template-option-button"
+                ng-click="deleteDashboard(structure,1);structure.defaultTemplateOptions = false;$event.stopPropagation()"
+              >
+                <div class="container-template-option-button-direction">
+                  <img src="images/delete-black.svg" alt="share-insights-template" style="margin: 0; max-width: 100%" />
+                </div>
+                <div class="container-template-option-button-direction">{{"DELETE" | translate}}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div style="cursor: pointer; display: flex; align-items: center; padding-left: 8px" ng-click="rtl?templatesMoveToLeft():templatesMoveToRight()">
+        <i ng-if="!rtl" class="fa fa-chevron-right"></i>
+        <i ng-if="rtl" class="fa fa-chevron-left"></i>
+      </div>
+      <insights-absolute-directive ng-if="showInsightsAbsolute" is-factory="isFactory"> </insights-absolute-directive>
+    </div>
+  </div>
+</div>
+

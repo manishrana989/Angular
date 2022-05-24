@@ -1,0 +1,40 @@
+<div ng-if="searchOpr.op.name != 'BETWEEN'">
+    <div class="input-group date">
+        <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+        <input
+                type="datetime"
+                class="form-control"
+                ng-model="searchOpr.right"
+                date-time
+                format="DD/MM/YYYY HH:mm:ss"
+                view="date"
+                auto-close="true"/>
+    </div>
+</div>
+<div ng-if="searchOpr.op.name == 'BETWEEN'">
+    <div class="input-group date" style="margin-bottom: 10px;">
+        <div ng-if="searchOpr.op.name == 'BETWEEN'" class="from-to-date">{{"FROM" | translate}}</div>
+    <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+    <input
+            type="datetime"
+            class="form-control"
+            ng-model="searchOpr.right.from"
+            date-time
+            format="DD/MM/YYYY HH:mm:ss"
+            view="date"
+            auto-close="true"/>
+    </div>
+
+    <div class="input-group date" ng-if="searchOpr.op.name == 'BETWEEN'">
+        <div class="from-to-date">{{"TO" | translate}}</div>
+            <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+            <input
+                    type="datetime"
+                    class="form-control"
+                    ng-model="searchOpr.right.to"
+                    date-time
+                    format="DD/MM/YYYY HH:mm:ss"
+                    view="date"
+                    auto-close="true"/>
+    </div>
+</div>

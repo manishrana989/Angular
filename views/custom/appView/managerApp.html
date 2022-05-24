@@ -1,0 +1,44 @@
+<div class="manager-app">
+        <div ng-if="managerAppCtrl.showBreadCrumb == true" class="row wrapper border-bottom white-bg page-heading col-lg-12"
+            style="padding: 0 10px 7px 10px;position: fixed; top: 40px; width: 100%;z-index :9999" ng-if="modal === undefined || modal === null">
+            <div class="col-lg-10 floatRight">
+                <h2 style="margin-top: 7px;margin-bottom: 7px;">{{topPageTitle}}</h2>
+                <bread-crumbs></bread-crumbs>
+        </div>
+            <div class="col-lg-2">
+    
+            </div>
+        </div>
+        
+        <div class="wrapper wrapper-content animated fadeIn row" style="margin-top:80px;">
+            <div id="toastr"></div>
+            <div class="ibox col-lg-12" style="background: white">
+                <div class="ibox-title">
+                    <h5 class="pull-left">{{"OPERATOR_MANAGER_DASHBOARD_CUSTOMIZATION" | translate}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 mobile-left-side">
+                        <select-machine-type screen-view="'machineType'" data="managerAppCtrl.mobileData" save="managerAppCtrl.saveStructure"
+                            type="'mobile'"
+                            update-machine-params="managerAppCtrl.updateMachineData"
+                            get-field-parameters-api="'GetManagerControllerFieldsParameters'"
+                            field-parameters="'ManagerControllerFieldsParams'">
+                        </select-machine-type>
+                    </div>
+            
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-sx-12">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-sx-12">
+                            <edit-mobile-directive data="managerAppCtrl.mobileData.onlineReport"></edit-mobile-directive>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-sx-12">
+                            <edit-mobile-directive data="managerAppCtrl.mobileData.shiftReport"></edit-mobile-directive>
+                        </div>
+                        <!-- Next Version -->
+                        <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                            <edit-mobile-directive data="managerAppCtrl.mobileData.departmentShiftReport"></edit-mobile-directive>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

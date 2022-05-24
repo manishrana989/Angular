@@ -1,0 +1,37 @@
+<div class="activatejob">
+  <div class="modal-header modal_header text-right">
+    <button type="submit" ng-click="close();" class="close"><span
+        >×</span></button>        
+  </div>
+  <form ng-submit="activateJobWithoutVerificationCtrl.activateJobWithoutVerificationButton()">
+    <div class="modal-body activate_body">
+      <h2 class="warning_head"><img src="images/warning.svg" />{{"ACTIVATE_JOB_WITHOUT_VERIFICATION" | translate}}</h2>
+      <p>{{"ACTIVATE_JOB_WITHOUT_Text" | translate}}</p>
+      <div class="form-group">
+        <label>Password</label>
+      <div class="paswrd_field">
+        <input name="password" type="password" placeholder="Enter your password" ng-change="activateJobWithoutVerificationCtrl.errorMessage = null"
+        class="form-control inputLogin" ng-model="activateJobWithoutVerificationCtrl.password"  id="id_password">
+        <span toggle="#password-field"  id="togglePassword" class="field-icon toggle-password eye_slash"  ng-click="activateJobWithoutVerificationCtrl.EyePassword();"><img src="images/eye_inactive.png" class="eye_inactive" /><img src="images/eye_active.png" class="eye_active" /></span>
+      </div>
+        <div class="form-group" ng-if="activateJobWithoutVerificationCtrl.requiredMessage">
+          <h3 style="color : red"><b>{{"ACTIVATE_JOB_VALIDATION_MESSAGE" | translate}}</b></h3>
+        </div>
+
+      </div>
+      <div class="flex_btns">
+        <button type="submit" class="btn btn-outline-primary" ng-click="close();">{{"CANCEL" |  translate}}</button>
+        <button type="submit" class="btn btn-sm btn-primary" ng-disabled="!(activateJobWithoutVerificationCtrl.password.length)">{{"ACTIVATE_JOB" | translate}}</button>
+      </div>
+    </div>
+    <div class="form-group" ng-if="activateJobWithoutVerificationCtrl.errorMessage">
+      <h3 style="color : red ;margin-left: 22px;"><b>{{"UNAUTHORIZED"| translate}}</b></h3>
+    </div>
+  </form>
+<div ng-if="ActivatejobInProgress">
+  <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;margin-left: 169px;">
+</div>
+<div ng-if="errorDescription.length>0" style="padding-left: 15px;color: red;">
+{{errorDescription}}
+</div>
+</div>

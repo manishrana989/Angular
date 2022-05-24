@@ -1,0 +1,109 @@
+<div class="header">{{editMobileCtrl.data.title | translate}}</div>
+<div class="phone-container">
+    <div class="phone-inner-container scroll" id="phone-body">
+            <div class="department-screenshot" ng-style="editMobileCtrl.data.style"></div>
+            <div ng-if="editMobileCtrl.data && editMobileCtrl.data.selectedParams">
+                <div class="param" ng-if="editMobileCtrl.data.bordersFields"
+                    ng-repeat="borderField in editMobileCtrl.data.bordersFields">
+                    <div>
+                            <div class="pull-left fieldName" ng-click="borderField.showDropDown = !borderField.showDropDown">
+                                <span ng-if="borderField.type == 'dynamic'"> {{editMobileCtrl.localLanguage ? borderField.LName : borderField.EName}}</span>
+                                <span ng-if="borderField.type == 'static'"> {{borderField.fieldName | translate}}</span>
+                                <i ng-if="borderField.type == 'dynamic'" class="fa fa-caret-down"></i>
+                            </div>
+                            <div ng-if="borderField.showDropDown && borderField.type == 'dynamic'" off-click-activator="borderField.showDropDown" off-click="borderField.showDropDown = false;">
+                                <div class="btn-group expandedEditParamsDropdown">
+                                    <ul class="dropdown-menu scroll">
+                                        <li>
+                                            <input style="width: 100%;" type="text" ng-model="search" placeholder="Search..." />
+                                        </li>
+                                        <li>
+                                            <a ng-click="borderField.FieldName = null;
+                                                    borderField.HasGraph = editMobileCtrl.data.template.HasGraph;
+                                                    borderField.GraphDisplayType = editMobileCtrl.data.template.GraphDisplayType;
+                                                    borderField.ManagerAppBatchGraph = true;
+                                                    borderField.LName = param.LName;
+                                                    borderField.EName = param.EName;
+                                                    borderField.IsActive = true;
+                                                    borderField.TypeID = param.TypeID;
+                                                    borderField.showDropDown = false">
+                                                {{"REMOVE_PARAM" | translate}}
+                                            </a>
+                                        </li>
+                                        <li ng-if="displayParam(param) &&(param.HValue != 0 || param.LValue != 0)" ng-repeat="param in (editMobileCtrl.data.params | getAvailableFields:editMobileCtrl.data.bordersFields:editMobileCtrl.data.selectedParams ) | filter:search">
+                                            <a ng-click="borderField.FieldName = param.FieldName;
+                                                        borderField.DefaultMobile = true;
+                                                        borderField.HasGraph = param.HasGraph;
+                                                        borderField.GraphDisplayType = editMobileCtrl.data.template.GraphDisplayType;
+                                                        borderField.ManagerAppBatchGraph = true;
+                                                        borderField.LName = param.LName;
+                                                        borderField.EName = param.EName;
+                                                        borderField.IsActive = true;
+                                                        borderField.TypeID = param.TypeID;
+                                                        borderField.showDropDown = false">
+                                                {{editMobileCtrl.localLanguage ? param.LName : param.EName}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="icons pull-right">
+                                <div class="buttons">
+                                    <div class="graphIcon selected">
+                                        <img src="images/op-app/bar-selected.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="param" ng-repeat="mobileParam in editMobileCtrl.data.selectedParams">
+                    <div>
+                        <div class="pull-left fieldName" ng-click="mobileParam.showDropDown = !mobileParam.showDropDown">
+                            <span custom-title>
+                                {{editMobileCtrl.localLanguage ? mobileParam.LName : mobileParam.EName}}
+                                    <span style="vertical-align: middle;margin: 0 5px;" ng-if="mobileParam.TypeID == 2">*</span>
+                            </span>
+                            <i class="fa fa-caret-down"></i>
+                        </div>
+                        <div ng-if="mobileParam.showDropDown" off-click-activator="mobileParam.showDropDown" off-click="mobileParam.showDropDown = false;">
+                            <div class="btn-group expandedEditParamsDropdown">
+                                <ul class="dropdown-menu scroll">
+                                    <li>
+                                        <input style="width: 100%;" type="text" ng-model="search" placeholder="Search..." />
+                                    </li>
+                                    <li ng-repeat="param in (editMobileCtrl.data.params | getAvailableFields:editMobileCtrl.data.bordersFields:editMobileCtrl.data.selectedParams ) | filter:search"
+                                        ng-if="displayParam(param)">
+                                        <a ng-click="mobileParam.FieldName = param.FieldName;
+                                                    mobileParam.HasGraph = editMobileCtrl.data.template.HasGraph;
+                                                    mobileParam.GraphDisplayType = editMobileCtrl.data.template.GraphDisplayType;
+                                                    mobileParam.ManagerAppBatchGraph = editMobileCtrl.data.template.ManagerAppBatchGraph;
+                                                    mobileParam.EName = param.EName;
+                                                    mobileParam.LName = param.LName;
+                                                    mobileParam.IsActive = true;
+                                                    mobileParam.TypeID = param.TypeID;
+                                                    mobileParam.showDropDown = false">
+                                            {{editMobileCtrl.localLanguage ? param.LName : param.EName}}
+                                            <span style="vertical-align: middle;margin: 0 5px;" ng-if="param.TypeID == 2">*</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="icons pull-right">
+                            <div class="buttons" ng-if="editMobileCtrl.data.graphUrl">
+                                <div class="graphIcon selected">
+                                    <img src="{{editMobileCtrl.data.graphUrl}}">
+                                </div>
+                            </div>
+                            <a ng-click="editMobileCtrl.data.selectedParams.splice($index,1);">
+                                <img width="10" src="images/templates/delete@2x.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-param" ng-click="editMobileCtrl.data.selectedParams.push({FieldName: null})">
+                    <img src="images/add.png" width="23" height="23"/>{{ (editMobileCtrl.data.title + "_ADD_PARAM") | translate}}
+                </div>
+            </div>
+    </div>
+</div>

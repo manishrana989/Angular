@@ -1,0 +1,21 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <span class="pull-left" style="font-size: 0.781vw;">
+            <div class="header-title-product">
+                {{"PRODUCT" | translate}} : 
+                <a tooltip="{{localLanguage == true ? shiftData.machineData.ProductLName : shiftData.machineData.ProductEName}} " ui-sref="appObjectFullView({ID: shiftData.machineData.ProductID,appObjectName : 'Product'})" target="Product">
+                    {{localLanguage == true ? shiftData.machineData.ProductLName : shiftData.machineData.ProductEName}} 
+                </a> 
+            </div>
+            <div>
+                {{"JOB" | translate}} : 
+                <a tooltip="{{shiftData.machineData.JobID}} (  {{shiftData.machineData.ErpJobID || '-'}}   )" ui-sref="appObjectFullView({ID: shiftData.machineData.JobID,appObjectName : 'Job'})" target="Job">
+                    {{shiftData.machineData.JobID}} (  {{shiftData.machineData.ErpJobID || '-'}}   ) 
+                </a>
+            </div>
+        </span>
+    </header-title>
+    <graph>
+        <machine-status-directive options="containerOptions"></machine-status-directive>
+    </graph>
+</shift-container>

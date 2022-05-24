@@ -1,0 +1,11 @@
+<ul ng-style="{left: x,top: y}" style="min-width: unset;z-index: 10000" class="dropdown-menu select-dep-dropdown newScroll slim">
+    <li style="cursor: pointer" ng-show="jobData.Status !== 10" ng-click="ganttJobActionCtrl.jobSettings()">
+        <div class="pull-left">{{"JOB_SETTINGS" | translate}}</div>
+    </li>
+    <li style="cursor: pointer" ng-show="action.enabled" ng-click="ganttJobActionCtrl.executeAction(action.action)" ng-repeat="action in ganttJobActionCtrl.actions">
+        <div class="pull-left">{{action.name}}</div>
+    </li>
+    <li style="cursor: pointer" ng-click="ganttJobActionCtrl.openJob()">
+    <div class="pull-left">{{"OPEN_JOB_PAGE" | translate}}</div>
+    </li>
+</ul>

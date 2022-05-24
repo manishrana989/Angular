@@ -1,0 +1,2867 @@
+{
+  "AllDepartments": [
+    {
+      "DepartmentID": 1,
+      "DepartmentMachineBoxes":[
+        {
+          "MachineID": 2,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+
+      ,
+        {
+          "MachineID": 4,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 6,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 7,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 10,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 11,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 12,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 13,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 14,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 49,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 50,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 51,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 52,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 53,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 54,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 55,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+      ]
+    },
+    {
+      "DepartmentID": 2,
+      "DepartmentMachineBoxes":[
+        {
+          "MachineID": 19,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+
+      ,
+        {
+          "MachineID": 20,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 21,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 22,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 15,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 16,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 18,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 17,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 188,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 189,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 29,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 43,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 44,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 45,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 46,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 47,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 48,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+      ]
+    },
+    {
+      "DepartmentID": 3,
+      "DepartmentMachineBoxes":[
+        {
+          "MachineID": 34,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+
+      ,
+        {
+          "MachineID": 35,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 36,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 37,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 38,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 39,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 40,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 187,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+      ]
+    },
+    {
+      "DepartmentID": 5,
+      "DepartmentMachineBoxes":[
+        {
+          "MachineID": 58,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+
+      ,
+        {
+          "MachineID": 59,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 60,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 61,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 62,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 63,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },
+        {
+          "MachineID": 64,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 65,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 66,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 67,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 68,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 69,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 70,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        },{
+          "MachineID": 71,
+          "BoxSize": 14,
+
+          "Children": [{
+            "type": "Huge",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "CycleTime",
+              "gauge":true
+            }, {
+              "type": "dynamic",
+              "FieldName": "UnitsProducedOK",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "timeLeftHR",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NoProgressCount",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "moldEndTime",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "WhKg",
+              "gauge":false
+            }]
+          }, {
+            "type": "Big2",
+            "areas": [{
+              "type": "dynamic",
+              "FieldName": "Cnl2MaterialPC",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "MoldCavities",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "CavitiesStandard",
+              "gauge":false
+            }, {
+              "type": "dynamic",
+              "FieldName": "NumOfWorkers",
+              "gauge":false
+            }]
+          }]
+        }
+      ]
+    }
+
+  ]
+}

@@ -1,0 +1,505 @@
+<div class="newTaskWindowMiddle {{taskToEdit['rtl']}}">
+    <div class="newTaskRow newTaskRow1 " style="height: 2.5vw !important;">
+        <div class="editTaskRow1">{{"TASK_ID" | translate}}: {{taskToEdit['TaskID']}}</div>
+        <div class="newTaskCloseX" ng-click="$dismiss()">
+            <img src="images/close.png">
+        </div>
+    </div>
+    <form role="form" class="needs-validation required" style="height:82.5%;overflow-y: auto" class="newScroll slim" >
+        <div class="newTaskGrid"  >
+            <div class="newTaskRow newTaskRow2">
+                <div class="newTaskRow2a">
+                    <span style="font-weight:normal;font-size: 1.5vh;">{{"CREATED_BY" | translate}}</span>
+                    <span class="newTaskRow2aD" ng-bind="taskToEdit['CreateUserName']"></span>
+
+                </div>
+                <div class="newTaskRow2b">
+                    <span style="font-weight:normal;font-size: 1.5vh;">{{"DATE" | translate}}</span>
+                    <span class="newTaskRow2bD" ng-bind="taskToEdit['createDateDisplay'] | date:'mm dd yy'"></span>
+                </div>
+            </div>
+            <div class="newTaskRow newTaskRow3">
+                <div class="newTaskRow3av2">
+                    <div class="newTaskRow3aTop" style="height: 6.29vw">
+                        <div class="newTaskStatus newTaskFields" ng-class="{'ghost':taskToEdit['TaskStatus']===1}">
+                            <div>
+                                {{"STATUS" | translate}}
+                            </div>
+                            <div class="newTaskFieldsSelect">
+                                <span ng-show="taskToEdit['TaskStatus']==''" class="notificationAsterisk">*</span>
+                                <select
+                                        class="form-control"
+                                    ng-if="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != taskToEdit.Assignee && taskToEdit.NumOfOpenSubTasks==0"
+                                    ng-model="taskToEdit['TaskStatus']"
+                                    ng-options="status['ID'] as status.DisplayName for status in tasksData['Status'] | filter: permissionStatuses"
+                                    ng-disabled="taskToEdit['TaskStatus']===1"
+                                    ng-class="{'disabledField':taskToEdit['TaskStatus']===1}"
+                                >
+                                </select>
+                                <select
+                                        class="form-control"
+                                        ng-if="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != taskToEdit.Assignee && taskToEdit.NumOfOpenSubTasks!=0"
+                                        ng-model="taskToEdit['TaskStatus']"
+                                        ng-options="status['ID'] as status.DisplayName for status in tasksData['Status'] | filter: permissionStatuses | filter: withoutDoneStatus"
+                                        ng-disabled="taskToEdit['TaskStatus']===1">
+                                    ng-class="{'disabledField':taskToEdit['TaskStatus']===1}"
+                                </select>
+                                <select
+                                        class="form-control"
+                                    ng-if="(taskToEdit.TaskCreateUser == taskToEdit.Assignee || tasksPermissionLevel ==2) && taskToEdit.NumOfOpenSubTasks==0"
+                                    ng-model="taskToEdit['TaskStatus']"
+                                    ng-options="status['ID'] as status.DisplayName for status in tasksData['Status']"
+                                    ng-disabled="taskToEdit['TaskStatus']===1">
+                                    ng-class="{'disabledField':taskToEdit['TaskStatus']===1}"
+                                </select>
+                                <select
+                                        class="form-control"
+                                        ng-if="(taskToEdit.TaskCreateUser == taskToEdit.Assignee || tasksPermissionLevel ==2) && taskToEdit.NumOfOpenSubTasks!=0 "
+                                        ng-model="taskToEdit['TaskStatus']"
+                                        ng-options="status['ID'] as status.DisplayName for status in tasksData['Status'] | filter : withoutDoneStatus"
+                                        ng-disabled="taskToEdit['TaskStatus']===1">
+                                    ng-class="{'disabledField':taskToEdit['TaskStatus']===1}"
+                                </select>
+                            </div>
+                        </div>
+                        <div class="newTaskSubject newTaskFields"
+                            ng-class="{'ghost':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                            <div>
+                                {{"SUBJECT" | translate}}
+                            </div>
+                            <div class="newTaskFieldsSelect">
+                                <span ng-show="taskToEdit['SubjectID']=='' || taskToEdit['SubjectID']===undefined "
+                                    class="notificationAsterisk">*</span>
+                                <select ng-model="taskToEdit['SubjectID']" required
+
+                                    ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                        ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}"
+                                    ng-options="subject['ID'] as subject.DisplayName for subject in tasksData['Subjects'] | filter:{IsActive:true}">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newTaskRow3aMiddle" style="overflow-y: hidden;height: 5vw">
+                        <div class="newTaskFields newTaskDescription" style="height: unset" ng-class="{'ghost':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                            <div>
+                                {{"DESCRIPTION" | translate}}
+                            </div>
+                            <div class="newTaskFieldsTextField" style="height: unset">
+                                <span ng-show="taskToEdit['Text']==''" class="notificationAsterisk">*</span>
+                                <textarea ng-model="taskToEdit['Text']" class="form-control" required
+                                    ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                          ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}" ></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="newTaskRow3aBottomv2" style="height: 17vw"
+                        ng-class="{'ghost':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                        <div class="newTaskStatus newTaskFields" >
+                            <div>
+                                {{"TASK_LEVEL" | translate}}
+                            </div>
+                            <div class="newTaskFieldsSelect">
+                                <span ng-show="taskToEdit['TaskLevel']==0 || taskToEdit['TaskLevel']===undefined "
+                                    class="notificationAsterisk">*</span>
+                                <select ng-model="taskToEdit['TaskLevel']" class="form-control"
+                                    ng-options="level['ID'] as level.DisplayName for level in tasksData['Level'] "
+                                    ng-change="editTaskObjectChanged()"
+                                    ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                        ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}"
+                                    required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="newTaskLevelObject newTaskFields" ng-show="taskToEdit['TaskLevel']> 1">
+                            <div ng-show="taskToEdit['TaskLevel']> 1" style="height:100%">
+                                <div>
+                                    {{"SELECT_OBJECTS" | translate}}
+                                </div>
+                                <div class="newTaskFieldsSelect">
+                                    <span
+                                        ng-show="taskToEdit['TaskLevel']> 1 && (taskToEdit['ObjectID']=='' || taskToEdit['ObjectID']===undefined)"
+                                        class="notificationAsterisk">*</span>
+
+                                    <select id="newTaskLevelObject2a" ng-disabled="taskToEdit['TaskLevel']==1" class="form-control"
+                                        ng-model="taskToEdit['ObjectID']" ng-show="taskToEdit['TaskLevel']==2 && rtl"
+                                        ng-options="levelObject['ID'] as levelObject.LName for levelObject in taskLevelObjects['Departments']"
+                                        ng-change="editTaskObjectChanged()"
+                                        ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                        ng-required="taskToEdit['TaskLevel']==2 && rtl" required>
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject2b" ng-disabled="taskToEdit['TaskLevel']==1" class="form-control"
+                                        ng-model="taskToEdit['ObjectID']"
+                                        ng-show="taskToEdit['TaskLevel']==2 && rtl==false"
+                                        ng-required="taskToEdit['TaskLevel']==2 && rtl==false"
+                                        ng-options="levelObject['ID'] as levelObject.EName for levelObject in taskLevelObjects['Departments']"
+                                        ng-change="editTaskObjectChanged()"
+                                        ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID" required>
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject3a" ng-disabled="taskToEdit['TaskLevel']==1" class="form-control"
+                                        ng-model="taskToEdit['ObjectID']" ng-show="taskToEdit['TaskLevel']==3 && rtl"
+                                        ng-required="taskToEdit['TaskLevel']==3 && rtl"
+                                        ng-options="levelObject['ID'] as levelObject.MachineLName for levelObject in taskLevelObjects['Machines']"
+                                        ng-change="editTaskObjectChanged()"
+                                        ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID" required>
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject3b" ng-disabled="taskToEdit['TaskLevel']==1" class="form-control"
+                                        ng-model="taskToEdit['ObjectID']"
+                                        ng-show="taskToEdit['TaskLevel']==3 && rtl==false"
+                                        ng-required="taskToEdit['TaskLevel']==3 && rtl==false"
+                                        ng-options="levelObject['ID'] as levelObject.MachineName for levelObject in taskLevelObjects['Machines']"
+                                        ng-change="editTaskObjectChanged()"
+                                        ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID" required>
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject4" class="form-control"
+                                        ng-disabled="(tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID)"
+                                        ng-change="editTaskObjectChanged()" ng-model="taskToEdit['ObjectID']"
+                                        ng-show="taskToEdit['TaskLevel']==4" ng-required="taskToEdit['TaskLevel']==4"
+                                        ng-options="levelObject['ID'] as (levelObject | jobObjectDisplay) for levelObject in taskLevelObjects['Jobs']" required>
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject5a" ng-disabled="taskToEdit['TaskLevel']==1" class="form-control"
+                                        ng-model="taskToEdit['ObjectID']" ng-show="taskToEdit['TaskLevel']==5 && rtl"
+                                        ng-required="taskToEdit['TaskLevel']==5 && rtl"
+                                        ng-options="levelObject['ID'] as levelObject.HName for levelObject in taskLevelObjects['UserDefinitions']"
+                                        ng-change="editTaskObjectChanged()"
+                                        ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID" required>
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject5b" ng-disabled="taskToEdit['TaskLevel']==1" class="form-control"
+                                        ng-model="taskToEdit['ObjectID']"
+                                        ng-show="taskToEdit['TaskLevel']==5 && rtl==false"
+                                        ng-required="taskToEdit['TaskLevel']==5 && rtl==false"
+                                        ng-options="levelObject['ID'] as levelObject.EName for levelObject in taskLevelObjects['UserDefinitions']"
+                                        ng-change="editTaskObjectChanged()"
+                                        ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID" required>
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="newTaskFields" style="height: 60%">
+                            <div>
+                                {{"SUB_TASKS" | translate}}
+                            </div>
+
+                                <div class="newScroll slim" style="overflow-y: auto;max-height: 5vw">
+                                    <div  ng-if="true" ng-repeat="subTask in taskToEdit.DisplaySubTasks" ng-init="editIsVisible=false">
+                                        <div ng-show="!editIsVisible" style="display:flex;flex-direction: row">
+                                            <input type="checkbox" style="width:15%" value="subTask['IsOpen']" ng-model="subTask['IsOpen']"  ng-change="subTaskChange()"
+                                                   ng-true-value="false" ng-false-value="true">
+                                            <span>{{subTask["Text"]}}</span>
+                                            <img src="images/edit-selected.svg" ng-click="editIsVisible=true" style="margin:0 5%;cursor: pointer" ng-show="tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID">
+                                        </div>
+                                        <div ng-show="editIsVisible" style="display:flex;flex-direction: row">
+                                            <input type="text" style="width:70% !important" ng-model="subTask['Text']" >
+                                            <img src="images/v-green.svg" style="margin:2%" ng-click="editIsVisible=false">
+                                            <img src="images/x-red.svg" style="margin:2%" ng-click="editIsVisible=false">
+                                        </div>
+                                    </div>
+                                    <div ng-if="true" ng-repeat="subTask in taskToEdit.DisplayNewSubTasks" ng-init="editIsVisible=false">
+                                        <div ng-show="!editIsVisible" style="display:flex;flex-direction: row">
+                                            <input type="checkbox" style="width:15%" value="subTask['IsOpen']" ng-model="subTask['IsOpen']" ng-change="subTaskChange()"
+                                                   ng-true-value="false" ng-false-value="true">
+                                            <span>{{subTask["Text"]}}</span>
+                                            <img src="images/edit-selected.svg" ng-click="editIsVisible=true" style="margin:0 5%;cursor: pointer" ng-show="tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID">
+                                        </div>
+                                        <div ng-show="editIsVisible" style="display:flex;flex-direction: row">
+                                            <input type="text" style="width:70% !important" ng-model="subTask['Text']">
+                                            <img src="images/v-green.svg" style="margin:2%" ng-click="editIsVisible=false">
+                                            <img src="images/x-red.svg" style="margin:2%" ng-click="editIsVisible=false">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-init="addSubTaskIsVisible=false" style="width:100%;position: sticky;bottom: 0;transform: translateY(50%);" ng-show="tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID">
+                                    <div class="subTasksContainer" style="align-items: center;cursor: pointer"
+                                         ng-show="!addSubTaskIsVisible" ng-click="addSubTaskIsVisible=true">
+                                        <img src="images/add-circle.svg">
+                                        <span style="margin:0 2%">{{"ADD_SUB_TASK"|translate}}</span>
+                                    </div>
+                                    <div class="subTasksContainer" ng-show="addSubTaskIsVisible" ng-init="taskToEdit.newSubTask='';">
+                                        <input type="text" style="width:70% !important" ng-model="taskToEdit.newSubTask">
+                                        <img src="images/v-green.svg" style="margin:1%;cursor: pointer" ng-click="addNewSubTask(false);addSubTaskIsVisible=false;taskToEdit.newSubTask=''">
+                                        <img src="images/x-red.svg" style="margin:1%;cursor: pointer" ng-click="addSubTaskIsVisible=false">
+                                    </div>
+                                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="newTaskRow3b">
+                    <div class="newTaskRow3bTop" style="height: 8vw">
+                        <div class="newTaskSeverity newTaskFields"
+                            ng-class="{'ghost':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                            <div>
+                                {{"PRIORITY" | translate}}
+                            </div>
+                            <div class="newTaskFieldsCheckBox">
+                                <div class="newTaskUrgent">
+                                    <div ng-show="(tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID)" id="highTask"
+                                        class="icheckbox_square-green"
+                                        ng-class="{'checked':taskToEdit['TaskPriorityID']==3,'disabled':taskToEdit['TaskPriorityID']!=3}"
+                                        style="position: relative;top:50%;transform: translateY(-50%);"
+                                        ng-click="taskToEdit['TaskPriorityID']=3">
+                                    </div>
+
+                                    <div ng-show="(tasksPermissionLevel!=2 && taskToEdit.TaskCreateUser != userID)" id="highTask"
+                                         class="icheckbox_square-green"
+                                         ng-class="{'checked':taskToEdit['TaskPriorityID']==3,'disabled':taskToEdit['TaskPriorityID']!=3}"
+                                         style="position: relative;top:50%;transform: translateY(-50%);cursor: not-allowed">
+                                    </div>
+
+                                    <span style="color:#c4252e;font-weight: lighter;">{{"HIGH_PRIORITY" | translate}}
+                                    </span>
+                                </div>
+                                <div class="newTaskUrgent">
+                                    <div ng-show="(tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID)" id="mediumTask" class="icheckbox_square-green"
+                                        ng-class="{'checked':taskToEdit['TaskPriorityID']==2,'disabled':taskToEdit['TaskPriorityID']!=2}"
+                                        style="position: relative;top:50%;transform: translateY(-50%);"
+                                        ng-click="taskToEdit['TaskPriorityID']=2">
+                                    </div>
+                                    <div ng-show="(tasksPermissionLevel!=2 && taskToEdit.TaskCreateUser != userID)" id="mediumTask" class="icheckbox_square-green"
+                                         ng-class="{'checked':taskToEdit['TaskPriorityID']==2,'disabled':taskToEdit['TaskPriorityID']!=2}"
+                                         style="position: relative;top:50%;transform: translateY(-50%);cursor: not-allowed">
+                                    </div>
+
+                                    <span style="color:#fca91a;font-weight: lighter;">{{"MEDIUM_PRIORITY" | translate}}
+                                    </span>
+                                </div>
+                                <div class="newTaskUrgent">
+                                    <div ng-show="(tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID)" id="lowTask" class="icheckbox_square-green"
+                                        ng-class="{'checked':taskToEdit['TaskPriorityID']==1,'disabled':taskToEdit['TaskPriorityID']!=1}"
+                                        style="position: relative;top:50%;transform: translateY(-50%);"
+                                        ng-click="taskToEdit['TaskPriorityID']=1">
+                                    </div>
+                                    <div ng-show="(tasksPermissionLevel!=2 && taskToEdit.TaskCreateUser != userID)" id="lowTask" class="icheckbox_square-green"
+                                         ng-class="{'checked':taskToEdit['TaskPriorityID']==1,'disabled':taskToEdit['TaskPriorityID']!=1}"
+                                         style="position: relative;top:50%;transform: translateY(-50%);cursor: not-allowed">
+                                    </div>
+
+                                    <span style="color:#3fb73d;font-weight: lighter;">{{"LOW_PRIORITY" | translate}}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="newTaskSubject newTaskFields"
+                            ng-class="{'ghost':(taskToEdit['TaskStatus']!=1 && tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID)}">
+                            <div>
+                                {{"ASSIGN_TO" | translate}}
+                            </div>
+                            <div class="newTaskFieldsSelect" off-click-activator="suggestionsAreVisibleE" off-click="suggestionsAreVisibleE=false">
+                                <span
+                                    ng-show="taskToEdit['selectedAssignee']===false && taskToEdit['DisplayAssigneeName']!='' && tasksPermissionLevel >0 ||
+                                    (taskToEdit['TaskStatus']==1 && taskToEdit['selectedAssignee']===false && taskToEdit['DisplayAssigneeName']!='')"
+                                    class="notificationAsterisk">*</span>
+                                <input id="editTaskAssignee" type="text" ng-model="taskToEdit['DisplayAssigneeName']"
+                                    ng-change="filterItems(true,true);" ng-click="filterItems(true,true)"
+                                    style="padding:2%;height: 100%;"
+                                    ng-disabled="taskToEdit['TaskStatus']!=1 && tasksPermissionLevel===0">
+
+                                <div class="newTaskAssigneeSuggestionsMiddle newScroll"
+                                    ng-show="suggestionsAreVisibleE==true">
+                                    <div class="newTaskAssigneeSubject" id="{{suggestion.ID}}"
+                                        ng-repeat="suggestion in filteredSuggestions track by $index"
+                                        ng-click="selectAssignee(suggestion.ID,suggestion.DisplayName,true,true);suggestionsAreVisibleE=false">
+                                        {{suggestion.DisplayName}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="newTaskRow3bMiddle"
+                        ng-class="{'ghost':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}"
+                    style="height: 13vw">
+                        <div style="height:100%;margin-bottom: 2%;">
+                            <span class="newTaskFormLabels extraTitles">{{"EXECUTION_TIME_FRAME" | translate}}</span>
+                            <div class="newTaskStatus newTaskFields newTaskStartEnd" style="padding-top: 2%;">
+                                <div>
+                                    <div>
+                                        <span style="font-size: 0.9em;" class="newTaskFormLabels">
+                                            {{"START_DATE" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect">
+                                        <span ng-show="requiredField['startDate']" class="notificationAsterisk">*</span>
+                                        <div class="input-group date">
+                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                            <input placeholder="" type="datetime"
+                                                class="form-control ng-pristine ng-valid ng-scope ng-valid-required ng-touched"
+                                                ng-model="taskToEdit['TaskStartTimeTarget']" date-time=""
+                                                format="DD/MM/YYYY HH:mm" view="date" auto-close="true" ng-required=""
+                                                ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                                style="padding:3.5%;height: 100%;font-size: inherit;"
+                                                   ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <span class="newTaskFormLabels" style="font-size: 0.9em;">
+                                            {{"END_DATE" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect" style="position: relative;">
+                                        <span ng-show="requiredField['endDate']" class="notificationAsterisk">*</span>
+                                        <div class="input-group date">
+                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                            <input placeholder="" ng-init="" type="datetime"
+                                                class="form-control ng-pristine ng-valid ng-scope ng-valid-required ng-touched"
+                                                ng-model="taskToEdit['TaskEndTimeTarget']" date-time=""
+                                                format="DD/MM/YYYY HH:mm" view="date" auto-close="true" ng-required=""
+                                                ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                                style="padding:3.5%;height: 100%;font-size: inherit;"
+                                                   ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="newTaskFormLabels extraTitles">{{"ESTIMATED_DURATION" | translate}}</span>
+                            <div class="newTaskSubject newTaskFields newTaskStartEnd" ng-init="initEditEstimatedTime()">
+                                <div>
+                                    <div>
+                                        <span class="newTaskFormLabels" style="font-size: 0.9em;">
+                                            {{"HOURS_SHORT" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect">
+                                        <span ng-show="requiredField['estimatedHours']"
+                                            class="notificationAsterisk">*</span>
+                                        <input id="newTaskEstimatedHour" type="text"
+                                            ng-model="taskToEdit['estimatedHours']" style="padding:2%;"
+                                            ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                               ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <span class="newTaskFormLabels" style="font-size: 0.9em;">
+                                            {{"MINUTES_SHORT" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect" style="position: relative;">
+                                        <span ng-show="requiredField['estimatedMins']"
+                                            class="notificationAsterisk">*</span>
+                                        <input id="newTaskEstimatedMin" type="text"
+                                            ng-model="taskToEdit['estimatedMins']" style="padding:2%;"
+                                            ng-disabled="tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID"
+                                               ng-class="{'disabledField':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="newTaskRow3bBottom" style="height: 8vw"
+                        ng-class="{'ghost':tasksPermissionLevel<2 && taskToEdit.TaskCreateUser != userID}">
+
+                        <div class="newTaskStatus newTaskFields" >
+                            <div>
+                                {{"ATTACH_FILES"  | translate}}
+                            </div>
+                            <div class="taskFilesContainer" ng-model="taskToEdit['DisplayFiles'].length">
+                                <div class="fileItem" ng-repeat="file in files=(taskToEdit['DisplayFiles'] | limitTo:5)" ng-model="taskToEdit['DisplayFiles']">
+                                    <img ng-click="openurl(file['FilePath'])" class="taskFileWrapper"
+                                        ng-show="file['FilePath'] && taskToEdit['DisplayFiles'].length>0 && file['FileType']=='Picture'"
+                                        ng-model="file['FilePath']" ng-src="{{file['FilePath']}}">
+                                    <img ng-click="openurl(file['FilePath'])" class="taskFileWrapper"
+                                        ng-show="file['FilePath'] && taskToEdit['DisplayFiles'].length>0 && file['FileType']!='Picture'"
+                                        ng-model="file['FilePath']" src="images/file.svg">
+                                        <div style="font-size: 0.7vmax;">{{file['EName'] | limitTo:8}}</div>
+                                </div>
+
+                                <div ng-show="tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID" class="newTaskFieldsFiles taskFileWrapper" ngf-drop=""
+                                    ngf-select="" ng-model="taskToEdit['file']" ngf-drag-over-class="dragOverClassObj"
+                                    ngf-change="uploadTaskFiles(taskToEdit['TaskID'], false)"
+                                    class="dropzone dz-clickable " required="required">
+                                    <img src="images/addPlusBlue.svg">
+                                </div>
+<!--                                <div ng-show="tasksPermissionLevel==2 || taskToEdit.TaskCreateUser == userID"-->
+<!--                                    class="newTaskFieldsFiles">-->
+<!--                                    <img src="images/addPlusBlue.svg" style="cursor: unset;">-->
+<!--                                </div>-->
+                                <div ng-show="taskToEdit['DisplayFiles'].length>5" class="fileItem">
+                                    <img class="seeMoreWrapper " src="images/seeMore.svg">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+<!--            <div class="newTaskRow newTaskRowNotes">-->
+<!--                <div class="newTaskRowNotesa">-->
+<!--                <div class="newTaskFields">Comments</div>-->
+<!--                </div>-->
+<!--                <div class="newTaskRowNotesb">-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+                <div ng-show="taskToEdit['notesToDisplay']" style="display: flex;padding: 0 5%;font-size: 0.7vmax;font-weight: bold;">
+                    {{"COMMENTS" | translate}}
+                </div>
+            <div ng-show="taskToEdit['notesToDisplay']" class="newTaskRow newScroll slim" style="display: flex;flex-direction: column;align-items: flex-start;height:unset !important;padding: 3.75%;position: relative">
+                <div ng-repeat="note in taskToEdit['notesToDisplay']" style="background-color: #F5F6F8;margin-bottom: 1%;width:100%">
+                    <div style="display: flex;flex-direction: row">
+                        <div style="background-color: #5244ab;border-radius: 50%;height: 35px;width: 35px;color:white;display: flex;align-items: center;justify-content: center;font-size: 0.85vw;font-weight: bold">
+                            {{note["UserName"] | twoLettersName}}
+                        </div>
+                        <div class="taskNote" style="display: flex;align-items: center;margin:0 0.5vw;font-weight: bold">
+                            {{note["UserName"] }}
+                        </div>
+                        <div class="taskNote" style="display: flex;align-items: center;">
+                            {{note["CreateDate"] | date:'dd/MM HH:mm'}}
+                        </div>
+                    </div>
+                    <div class="taskNoteContent" style="padding:0 calc(35px + 0.5vw);display: flex">
+                        {{note["Note"]}}
+                    </div>
+                </div>
+
+
+            </div>
+        <div class="newTaskRow newTaskRow4" ng-init="taskToEdit.noteChanged=false"
+             style="display: flex;flex-direction: row;justify-content: center;height: 2.5vw !important;background-color: rgba(255, 255, 255, 0.75);z-index:200000000000">
+            <div class="subTasksContainer" style="align-items: center;cursor: pointer;width:100%"
+                 ng-show="!taskToEdit.noteChanged" ng-click="taskToEdit.noteChanged=true">
+                <img src="images/add-circle.svg">
+                <span style="margin:0 1%;font-weight: bold">{{"ADD_COMMENT"|translate}}</span>
+            </div>
+            <input type="text" style="width:85%" ng-show="taskToEdit.noteChanged"
+                   ng-model="taskToEdit.newNote" ng-init="taskToEdit.newNote=defaultNoteInput"
+                   ng-focus="taskToEdit.newNote='';taskToEdit.noteChanged=true"  ng-change="taskToEdit.noteChanged=true">
+            <img src="images/v-green.svg" style="margin:0 1%;cursor: pointer"  ng-click="addNewTaskNote();taskToEdit.noteChanged=false" ng-show="taskToEdit.noteChanged">
+            <img src="images/x-red.svg" style="margin:0 1%;cursor: pointer" ng-click="taskToEdit.noteChanged=false" ng-show="taskToEdit.noteChanged">
+        </div>
+
+        <div class="newTaskRow newTaskRow4" style="position: fixed;bottom:0;height: 2.5vw !important;background-color: rgba(255, 255, 255, 0.75);">
+            <button ng-click="saveEditedTask()"  ng-disabled="settings.saveEditTaskDisabled==true"
+                    ng-style="settings.saveEditTaskDisabled && {'cursor':'not-allowed'}"
+                    class="btn btn-primary submitNewTaskBtn saveEditTaskBtn" >
+                {{"SAVE" | translate}}
+            </button>
+        </div>
+    </form>
+
+
+</div>

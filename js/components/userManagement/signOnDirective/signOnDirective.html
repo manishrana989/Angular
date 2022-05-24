@@ -1,0 +1,71 @@
+<div ng-if="signOnCtrl.signOnInProgress" class="loginInProgress" ng-include="'views/common/emptyPage.html'"></div>
+<div ng-class="{'blurred' : signOnCtrl.signOnInProgress}">
+    <div>
+        <div class="underLogoHeader">
+            <p ng-show="!signOnCtrl.userId">{{"WELCOME_TO_MATICS" | translate}} <br> {{"SMART_DIGITAL_MANUFACTURING" | translate}}</p>
+            <p ng-show="signOnCtrl.userId">{{"PLEASE_COMPLETE_YOUR_EMAIL" | translate}}</p>
+        </div>
+    </div>
+    <form name="loginForm" class="m-t" role="form" ng-submit="signOnCtrl.saveForm()" style="width: 395px;" ng-class="{'rtl' : signOnCtrl.rtl}">
+            <div class="row">
+                <div class="col-lg-12 newScroll slim" style="height: calc(100vh - 350px); overflow: hidden;max-height: 370px;">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 pull-left">
+                                <div class="form-group">
+                                    <label style="margin-bottom: 2px;" class="pull-left" ng-class="{'requiredFiled' : false}">{{"NAME" | translate }}</label>
+                                    <input name="name" style="width: 100%" type="text" class="form-control" ng-model="signOnCtrl.userDetails.Name">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 pull-left">
+                                <div class="form-group">
+                                    <label style="margin-bottom: 2px;" class="pull-left" ng-class="{'requiredFiled' : false}">{{"LAST_NAME" | translate }}</label>
+                                    <input name="last_name" style="width: 100%" type="text" class="form-control" ng-model="signOnCtrl.userDetails.LastName">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label style="margin-bottom: 2px;" class="pull-left" ng-class="{'requiredFiled' : true}">{{"EMAIL(USERNAME)" | translate }}</label>
+                                    <input name="email" autocomplete="off" style="width: 100%" type="email" class="form-control" ng-model="signOnCtrl.userDetails.Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label style="margin-bottom: 2px;" class="pull-left" ng-class="{'requiredFiled' : false}">{{"POSITION" | translate}}</label>
+                                    <div>
+                                        <select class="form-control" ng-model="signOnCtrl.userDetails.Position"  name="Position"
+                                        ng-options="option.ID as (option | customTranslate: 'EName':'LName':signOnCtrl.localLanguage) for option in signOnCtrl.positions" >
+                                            <option value="">{{"SELECT_POSITION" | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 pull-left">
+                                <div class="form-group" ng-if="!signOnCtrl.userId">
+                                    <label style="margin-bottom: 2px;" class="pull-left" ng-class="{'requiredFiled' : !signOnCtrl.userId}">{{"PASSWORD" | translate}}</label>
+                                    <input autocomplete="new-password" name="password" style="width: 100%" type="password" class="form-control" 
+                                        ng-model="signOnCtrl.userDetails.Password" ng-required="!signOnCtrl.userId">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 pull-left">
+                                <div class="form-group" ng-if="!signOnCtrl.userId">
+                                    <label style="margin-bottom: 2px;" class="pull-left" ng-class="{'requiredFiled' : !signOnCtrl.userId}">{{"RETYPE_PASSWORD" | translate}}</label>
+                                    <input name="reTypePassword" style="width: 100%;border-color : {{signOnCtrl.submitted && signOnCtrl.userDetails.Password !== signOnCtrl.reTypePassword ? 'red !important;' : ''}}" type="password" class="form-control" 
+                                    ng-model="signOnCtrl.reTypePassword" ng-required="!signOnCtrl.userId">
+                                </div>
+                            </div>
+                        </div>
+                        <div  style="margin: auto" ng-if="signOnCtrl.enableRecaptcha && !signOnCtrl.userId"
+                            theme="'light'"
+                            vc-recaptcha
+                            ng-model="signOnCtrl.myRecaptchaResponse"
+                            key="signOnCtrl.key"
+                        ></div>
+                </div>
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-primary block full-width m-b"
+                            ng-disabled="loginForm.$invalid || !signOnCtrl.userId && signOnCtrl.reTypePassword != signOnCtrl.userDetails.Password">
+                            {{ ((signOnCtrl.userId ? 'UPDATE' : 'CREATE' ) + '_YOUR_ACCOUNT') | translate }}</button>
+                    <p ng-show="!signOnCtrl.userId" class="signUp">{{"ALREADY_HAVE_ACCOUNT" | translate}} <span ng-click="close()" style="color: var(--color2);cursor: pointer;">{{"LOGIN" | translate}}</span></p>
+                </div>
+            </div>
+
+    </form>
+</div>

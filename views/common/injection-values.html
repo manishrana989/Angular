@@ -1,0 +1,42 @@
+<div class="injection-values">
+    <div class="mask">
+        <div class="current-value">
+            {{value}}
+        </div>
+        <div class="rectangle" ng-style="!value && {'background': 'none !important'}">
+
+        </div>
+        <div class="current">
+            <div class="current-rectangle" ng-style="!value && {'background': 'none !important'}">
+
+            </div>
+        </div>
+        <div class="rectangle-value-min">
+
+        </div>
+        <div class="rectangle-value-max">
+
+        </div>
+
+        <div class="rectangle-value-avg standard" ng-show="showAverage">
+<!--              <span class="text">
+                <span>{{avg.toFixed(1) + " "}}</span> <span style="font-size: 10px;margin: -5px 0">{{"AVG" | translate}}</span>
+            </span>  -->
+        </div>
+    </div>
+    <div class="lower">
+        {{min}}
+    </div>
+    <div class="heigher">
+        {{max}}
+    </div>
+
+    <div class="standardVal" ng-if="standard"
+    style="position: relative;
+                width: 10px;
+                display: inline;
+                bottom: 13px;">
+        <img width="13" style="cursor: auto;" src="images/close.png">
+    </div> 
+</div>
+

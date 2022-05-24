@@ -1,0 +1,360 @@
+<div class="newTaskWindowMiddle {{taskToEdit['rtl']}}">
+    <div class="newTaskRow newTaskRow1" style="height: 2.5vw !important;">
+        <div>{{"NEW_TASK" | translate}}</div>
+        <div class="newTaskCloseX" ng-click="newTaskFields['Assignee']='';$dismiss()">
+            <img src="images/close.png">
+        </div>
+    </div>
+    <form role="form" class="needs-validation required" style="height:82.5%;overflow-y: auto" class="newScroll slim" >
+        <div class="newTaskGrid">
+
+            <div class="newTaskRow newTaskRow2">
+                <div class="newTaskRow2a">
+                    <span style="font-weight:normal;font-size: 1.5vh;">{{"CREATED_BY" | translate}}</span>
+                    <span class="newTaskRow2aD" ng-bind="newTaskUserName"></span>
+
+                </div>
+                <div class="newTaskRow2b">
+                    <span style="font-weight:normal;font-size: 1.5vh;">{{"DATE" | translate}}</span>
+                    <span class="newTaskRow2bD" ng-bind="CurrentDate"></span>
+                </div>
+            </div>
+            <div class="newTaskRow newTaskRow3 ">
+                <div class="newTaskRow3av2">
+                    <div class="newTaskRow3aTop" style="height: 6.29vw">
+                        <div class="newTaskStatus newTaskFields ghost">
+                            <div>
+                                <span class="newTaskFormLabels">{{"STATUS" | translate}}</span>
+                            </div>
+                            <div class="newTaskFieldsSelect ">
+                                <!-- <span ng-show="newTaskFields['Status']==''" class="notificationAsterisk">*</span> -->
+                                <select ng-model="newTaskFields['Status']" ng-disabled="true">
+                                    <option ng-repeat="status in tasksData['Status'] track by $index"
+                                        value="{{status['ID']}}">
+                                        {{status.DisplayName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="newTaskSubject newTaskFields">
+                            <div>
+                                <span class="newTaskFormLabels"> {{"SUBJECT" | translate}}</span>
+                            </div>
+                            <div class="newTaskFieldsSelect">
+                                <span ng-show="newTaskFields['Subject']=='' || newTaskFields['Subject']===undefined"
+                                    class="notificationAsterisk">*</span>
+                                <select ng-model="newTaskFields['Subject']"
+                                    ng-options="subject['ID'] as subject.DisplayName for subject in tasksData['Subjects'] | filter: {IsActive:true}"
+                                    required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newTaskRow3aMiddle" style="overflow-y: hidden;height: 5vw">
+                        <div class="newTaskFields newTaskDescription" style="height: unset">
+                            <div>
+                                <span class="newTaskFormLabels"> {{"DESCRIPTION" | translate}}</span>
+                            </div>
+                            <div class="newTaskFieldsTextField" style="height: unset">
+                                <span ng-show="newTaskFields['Text']==''" class="notificationAsterisk">*</span>
+                                <textarea class="form-control" ng-model="newTaskFields['Text']" style="height: 100%;" required></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="newTaskRow3aBottomv2" style="height: 17vw">
+                        <div class="newTaskStatus newTaskFields">
+                            <div>
+                                <span class="newTaskFormLabels"> {{"TASK_LEVEL" | translate}}</span>
+                            </div>
+                            <div class="newTaskFieldsSelect">
+                                <span ng-show="newTaskFields['TaskLevel']==0 || newTaskFields['TaskLevel']===undefined"
+                                    class="notificationAsterisk">*</span>
+                                <select ng-model="newTaskFields['TaskLevel']" ng-change="handleTaskLevel()"
+                                    ng-options="level['ID'] as level.DisplayName for level in tasksData['Level'] "
+                                    required>
+                                    <option></option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="newTaskLevelObject newTaskFields" ng-show="newTaskFields['TaskLevel']> 1">
+                            <div ng-show="newTaskFields['TaskLevel']> 1" style="height:100%">
+                                <div>
+                                    <span class="newTaskFormLabels">{{"SELECT_OBJECTS" | translate}}</span>
+                                </div>
+                                <div class="newTaskFieldsSelect" 
+                                    ng-show="newTaskFields['TaskLevel']> 1"
+                                >
+                                    <span
+                                        ng-show="newTaskFields['TaskLevel']> 1 && (newTaskFields['TaskLevelObjectID']=='' || newTaskFields['TaskLevelObjectID']===undefined)"
+                                        class="notificationAsterisk">*</span>
+                                    <select id="newTaskLevelObject2a" ng-disabled="newTaskFields['TaskLevel']==1"
+                                        ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==2 && rtl"
+                                        ng-options="levelObject['ID'] as levelObject.LName for levelObject in taskLevelObjects['Departments']"
+                                        ng-required="newTaskFields['TaskLevel']==2 && rtl">
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject2b" ng-disabled="newTaskFields['TaskLevel']==1"
+                                        ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==2 && rtl==false"
+                                        ng-options="levelObject['ID'] as levelObject.EName for levelObject in taskLevelObjects['Departments']"
+                                        ng-required="newTaskFields['TaskLevel']==2 && rtl==false">
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject3a" ng-disabled="newTaskFields['TaskLevel']==1"
+                                        ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==3 && rtl"
+                                        ng-options="levelObject['ID'] as levelObject.MachineLName for levelObject in taskLevelObjects['Machines']"
+                                        ng-required="newTaskFields['TaskLevel']==3 && rtl">
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject3b" ng-disabled="newTaskFields['TaskLevel']==1"
+                                        ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==3 && rtl==false"
+                                        ng-options="levelObject['ID'] as levelObject.MachineName for levelObject in taskLevelObjects['Machines']"
+                                        ng-required="newTaskFields['TaskLevel']==3 && rtl==false">
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject4" ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==4"
+                                        ng-options="levelObject['ID'] as (levelObject | jobObjectDisplay) for levelObject in taskLevelObjects['Jobs']"
+                                        ng-required="newTaskFields['TaskLevel']==4">
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject5a" ng-disabled="newTaskFields['TaskLevel']==1"
+                                        ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==5 && rtl"
+                                        ng-options="levelObject['ID'] as levelObject.HName for levelObject in taskLevelObjects['UserDefinitions']"
+                                        ng-required="newTaskFields['TaskLevel']==5 && rtl">
+                                        <option></option>
+                                    </select>
+
+                                    <select id="newTaskLevelObject5b" ng-disabled="newTaskFields['TaskLevel']==1"
+                                        ng-model="newTaskFields['TaskLevelObjectID']"
+                                        ng-show="newTaskFields['TaskLevel']==5 && rtl==false"
+                                        ng-options="levelObject['ID'] as levelObject.EName for levelObject in taskLevelObjects['UserDefinitions']"
+                                        ng-required="newTaskFields['TaskLevel']==5 && rtl==false">
+                                        <option></option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="newTaskFields" style="height: 80%">
+                            <div>
+                                {{"SUB_TASKS" | translate}}
+                            </div>
+
+                            <div class="newScroll slim" style="overflow-y: auto;max-height: 9vw">
+                                <div ng-if="true" ng-repeat="subTask in newTaskFields.DisplayNewSubTasks" ng-init="editIsVisible=false">
+                                    <div ng-show="!editIsVisible" style="display:flex;flex-direction: row">
+                                        <input type="checkbox" style="width:15%" value="subTask['IsOpen']" ng-model="subTask['IsOpen']"
+                                               ng-true-value="false" ng-false-value="true">
+                                        <span>{{subTask["Text"]}}</span>
+                                        <img src="images/edit-selected.svg" ng-click="editIsVisible=true" style="margin:0 5%;cursor: pointer ; margin-left: auto;">
+                                    </div>
+                                    <div ng-show="editIsVisible" style="display:flex;flex-direction: row">
+                                        <input type="text" style="width:70% !important" ng-model="subTask['Text']">
+                                        <img src="images/v-green.svg" style="margin:2%" ng-click="editIsVisible=false">
+                                        <img src="images/x-red.svg" style="margin:2%" ng-click="editIsVisible=false">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-init="addSubTaskIsVisible=false" style="width:100%;position: sticky;bottom: 0;transform: translateY(50%);">
+                                <div class="subTasksContainer" style="align-items: center;cursor: pointer"
+                                     ng-show="!addSubTaskIsVisible" ng-click="addSubTaskIsVisible=true">
+                                    <img src="images/add-circle.svg">
+                                    <span style="margin:0 2%">{{"ADD_SUB_TASK"|translate}}</span>
+                                </div>
+                                <div class="subTasksContainer" ng-show="addSubTaskIsVisible" ng-init="newTaskFields.newSubTask='';">
+                                    <input type="text" style="width:70% !important" ng-model="newTaskFields.newSubTask">
+                                    <img src="images/v-green.svg" style="margin:1%;cursor: pointer;" ng-click="addNewSubTask(true);addSubTaskIsVisible=false;newTaskFields.newSubTask=''">
+                                    <img src="images/x-red.svg" style="margin:1%;cursor: pointer" ng-click="addSubTaskIsVisible=false">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="newTaskRow3b">
+                    <div class="newTaskRow3bTop" style="height: 8vw">
+                        <div class="newTaskSeverity newTaskFields">
+                            <div>
+                                <span class="newTaskFormLabels"> {{"PRIORITY" | translate}}</span>
+                            </div>
+                            <div class="newTaskFieldsCheckBox">
+                                <div class="newTaskUrgent">
+                                    <div id="highTask" class="icheckbox_square-green"
+                                        ng-class="{'checked':newTaskFields['Priority']==3,'disabled':newTaskFields['Priority']!=3}"
+                                        style="position: relative;top:50%;transform: translateY(-50%);"
+                                        ng-click="newTaskFields['Priority']=3">
+                                    </div>
+                                    <span style="color:#c4252e;font-weight: lighter;">{{"HIGH_PRIORITY" | translate}}
+                                    </span>
+                                </div>
+                                <div class="newTaskUrgent">
+                                    <div id="mediumTask" class="icheckbox_square-green"
+                                        ng-class="{'checked':newTaskFields['Priority']==2,'disabled':newTaskFields['Priority']!=2}"
+                                        style="position: relative;top:50%;transform: translateY(-50%);"
+                                        ng-click="newTaskFields['Priority']=2">
+                                    </div>
+                                    <span style="color:#fca91a;font-weight: lighter;">{{"MEDIUM_PRIORITY" | translate}}
+                                    </span>
+                                </div>
+                                <div class="newTaskUrgent">
+                                    <div id="lowTask" class="icheckbox_square-green"
+                                        ng-class="{'checked':newTaskFields['Priority']==1,'disabled':newTaskFields['Priority']!=1}"
+                                        style="position: relative;top:50%;transform: translateY(-50%);"
+                                        ng-click="newTaskFields['Priority']=1">
+                                    </div>
+                                    <span style="color:#3fb73d;font-weight: lighter;">{{"LOW_PRIORITY" | translate}}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="newTaskSubject newTaskFields" ng-class="{'ghost':tasksPermissionLevel===0}">
+                            <div>
+                                <span class="newTaskFormLabels"> {{"ASSIGN_TO" | translate}}</span>
+                            </div>
+                            <div class="newTaskFieldsSelect" off-click-activator="suggestionsAreVisibleM" off-click="suggestionsAreVisibleM=false">
+                                <span
+                                    ng-show="newTaskFields['selectedAssignee']===false && newTaskFields['Assignee']!='' && tasksPermissionLevel!=0"
+                                    class="notificationAsterisk">*</span>
+                                <input id="newTaskAssigneeMiddle" type="text" ng-model="newTaskFields['Assignee']"
+                                    ng-bind="newTaskFields['Assignee']" ng-change="filterItems(true,false)"
+                                    style="padding:2%;height: 100%;" ng-click="filterItems(true,false)"
+                                    ng-disabled="tasksPermissionLevel===0">
+                                <div class="newTaskAssigneeSuggestionsMiddle newScroll"
+                                    ng-show="suggestionsAreVisibleM==true">
+                                    <div class="newTaskAssigneeSubject" id="{{suggestion.ID}}"
+                                        ng-repeat="suggestion in filteredSuggestions track by $index"
+                                        ng-click="selectAssignee(suggestion.ID,suggestion.DisplayName,true,false);suggestionsAreVisibleM=false">
+                                        {{suggestion.DisplayName}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="newTaskRow3bMiddle" style="height: 13vw">
+                        <div style="height:100%;margin-bottom: 2%;">
+                            <span class="newTaskFormLabels extraTitles">{{"EXECUTION_TIME_FRAME" | translate}}</span>
+                            <div class="newTaskStatus newTaskFields newTaskStartEnd" style="padding-top: 2%;">
+                                <div>
+                                    <div>
+                                        <span style="font-size: 0.9em;" class="newTaskFormLabels">
+                                            {{"START_DATE" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect">
+                                        <span ng-show="requiredField['startDate']" class="notificationAsterisk">*</span>
+                                        <div class="input-group date">
+                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                            <input placeholder="" type="datetime"
+                                                class="form-control ng-pristine ng-valid ng-scope ng-valid-required ng-touched"
+                                                ng-model="newTaskFields['startDate']" date-time=""
+                                                format="DD/MM/YYYY HH:mm" view="date" auto-close="true" ng-required=""
+                                                ng-disabled="" style="padding:3.5%;height: 100%;font-size: inherit;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <span class="newTaskFormLabels" style="font-size: 0.9em;">
+                                            {{"END_DATE" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect" style="position: relative;">
+                                        <span ng-show="requiredField['endDate']" class="notificationAsterisk">*</span>
+                                        <div class="input-group date">
+                                            <!-- <span class=" input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                            <input placeholder="" ng-init="" type="datetime"
+                                                class=" form-control  ng-pristine ng-valid ng-scope ng-valid-required ng-touched"
+                                                ng-model="newTaskFields['endDate']" date-time=""
+                                                format="DD/MM/YYYY HH:mm" view="date" auto-close="true" ng-required=""
+                                                ng-disabled="" style="padding:3.5%;height: 100%;font-size: inherit;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:100%" class="estimatedDuration">
+                            <span class="newTaskFormLabels  extraTitles">{{"ESTIMATED_DURATION" | translate}}</span>
+                            <div class="newTaskSubject newTaskFields newTaskStartEnd">
+                                <div>
+                                    <div>
+                                        <span class="newTaskFormLabels" style="font-size: 0.9em;">
+                                            {{"HOURS_SHORT" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect">
+                                        <span ng-show="requiredField['estimatedHours']"
+                                            class="notificationAsterisk">*</span>
+                                        <input id="newTaskEstimatedHour" type="text" ng-model="newTaskFields['Hour']"
+                                            style="padding:3.5%;height: 100%;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <span class="newTaskFormLabels" style="font-size: 0.9em;">
+                                            {{"MINUTES_SHORT" | translate}}</span>
+                                    </div>
+                                    <div class="newTaskFieldsSelect" style="position: relative;">
+                                        <span ng-show="requiredField['estimatedMins']"
+                                            class="notificationAsterisk">*</span>
+                                        <input id="newTaskEstimatedMin" type="text" ng-model="newTaskFields['Min']"
+                                            style="padding:3.5%;height: 100%;">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="newTaskRow3bBottom" style="height: 8vw">
+                        <div class="newTaskStatus newTaskFields">
+                            <div>
+                                <span class="newTaskFormLabels">
+                                    {{"ATTACH_FILES"  | translate}}</span>
+                            </div>
+                            <div class="taskFilesContainer" ng-model="taskToEdit['DisplayFiles'].length">
+                                <div class="fileItem" ng-repeat="file in newTaskFields['files'] | limitTo:5"
+                                    ng-show="newTaskFields['files'].length>0">
+                                    <img class="taskFileWrapper" ng-if="file.type.indexOf('image') >= 0" ngf-src="file">
+                                    <img class="taskFileWrapper" ng-if="file.type.indexOf('image') < 0" ng-model="newTaskFields['file']" src="images/file.svg"
+                                        style="cursor: initial;">
+                                    <div style="font-size: 0.7vmax;">{{file['name'] | limitTo:8}}</div>
+                                </div>
+                                <div class="newTaskFieldsFiles taskFileWrapper" ngf-drop="" ngf-select=""
+                                    ng-model="newTaskFields['file']" ngf-drag-over-class="dragOverClassObj"
+                                    ngf-change="taskAttachFiles(true)" class="dropzone dz-clickable">
+                                    <img src="images/addPlusBlue.svg">
+                                </div>
+                                <div ng-show="newTaskFields['files'].length>5" class="fileItem">
+                                    <img class="seeMoreWrapper " src="images/seeMore.svg">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="newTaskRow newTaskRow4" style="position: fixed;bottom:0;height: 2.5vw !important;background-color: rgba(255, 255, 255, 0.75);">
+            <button ng-click="AddNewTask()" ng-init="submitDisabled=false" ng-disabled="submitDisabled==true"
+                    class="btn btn-primary submitNewTaskBtn" disabled>
+                {{"ADD_TASK" | translate}}
+            </button>
+        </div>
+    </form>
+
+</div>

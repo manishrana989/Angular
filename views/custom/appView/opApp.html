@@ -1,0 +1,54 @@
+<div class="op-app panel-body" ng-class="{'full-view' : !opAppCtrl.showBreadCrumb}">
+  <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 tablet-left-side pull-left">
+    <select-machine-type
+      screen-view="'machineType'"
+      data="opAppCtrl.tabletData"
+      save="opAppCtrl.saveStructure"
+      custom-params="customParams"
+      type="'tablet'"
+      update-machine-params="opAppCtrl.updateMachineData"
+      get-field-parameters-api="'GetControllerFieldsParameters'"
+      get-custom-parameters-api="'GetMainDashboardMachineCustomParameters'"
+      field-parameters="'ControllerFieldsParams'">
+    </select-machine-type>
+  </div>
+  <div class="col-lg-9 col-md-12 col-sm-12 col-sx-12">
+    <div class="tablet-outer-container" style="display: flex; align-items: center">
+      <div class="cameraIcon" style="height: 0"></div>
+      <div class="tabletScreen" style="height: 100%; width: 100%">
+        <div class="tablet-inner-container-upper scroll">
+          <div
+            class="add-drag-class"
+            style="width: 100%"
+            ng-if="opAppCtrl.tabletData.selectedMachine"
+            ui-sortable="sortOptions"
+            ng-model="opAppCtrl.tabletData.machineParams"
+          >
+            <div
+              style="padding-bottom: 30px"
+              ng-repeat="fieldParam in opAppCtrl.tabletData.machineParams"
+              class="col-lg-4 col-md-4 col-sm-4 col-sx-4 pull-left"
+              ng-include="'views/custom/appView/fieldBox.html'"
+            ></div>
+            <div
+              class="col-lg-12 col-md-12 col-sm-12 col-sx-12"
+              ng-style="{'padding-top': (opAppCtrl.tabletData.machineParams.length == 0 ? '30px' : '')}"
+            >
+              <div class="add-row">
+                <span class="icon" ng-click="opAppCtrl.addRow()">
+                  <img style="width: 25px; height: 25px; cursor: pointer" src="images/global_icons/add.png" />
+                </span>
+                <span ng-click="opAppCtrl.addRow()" class="text">{{"ADD_ROW" | translate}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tablet-inner-container-bottom tablet-button">
+          <span class="triangle"> &#9665;</span>
+          <span class="circle"></span>
+          <span class="square"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

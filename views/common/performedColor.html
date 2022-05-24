@@ -1,0 +1,26 @@
+<div ng-if="type == 1">
+  <div class="performed-colors-container" ng-repeat="percentageColor in performedColorCtrl.percentageColors track by $index">
+    <span class="performed-colors-container-label">{{percentageColor.text|translate}}</span>
+    <span class="performed-colors-container-input" ng-style="!percentageColor.showEditable  && {'flex-direction': 'row-reverse'}">
+      <input ng-model="percentageColor.value" ng-show="percentageColor.showEditable" min="{{$index == 0?performedColorCtrl.percentageColors.value[1].value:0}}" max="{{$index == 1?performedColorCtrl.percentageColors.value[0].value:1000}}" style="width: 58%; height: 80%; margin: 2%" type="text" only-digits ng-value="percentageColor.value" />
+      <input class="performed-colors-container-input-color" type="color" ng-model="percentageColor.color" />
+    </span>
+  </div>
+</div>
+<div ng-if="type == 2" style="width: 20vw;">
+  <div class="performed-colors-container" ng-repeat="percentageColor in performedColorCtrl.percentageColors track by $index">
+    <input class="performed-colors-container-input-textbox" style="margin-right: 20px;margin-left: 0;" ng-model="performedColorCtrl.percentageColors[2].value" ng-if="!percentageColor.showEditable" ng-disabled="true" min="{{$index == 0?performedColorCtrl.percentageColors.value[1].value:0}}" max="{{$index == 1?performedColorCtrl.percentageColors.value[0].value:1000}}" type="text" only-digits ng-value="percentageColor.value" />
+    <span class="performed-colors-container-label" >{{percentageColor.text | translate}}</span>
+    <span class="performed-colors-container-input" ng-if="percentageColor.showEditable" ng-style="!percentageColor.showEditable  && {'flex-direction': 'row-reverse'}">
+      <input class="performed-colors-container-input-textbox"  ng-model="percentageColor.value" type="text" only-digits ng-value="percentageColor.value" ng-style="$index == 0 && (percentageColor.value <= performedColorCtrl.percentageColors[2].value || percentageColor.value > 1000) ? {'border': '2px solid #e01521', 'color': '#e01521',} : ($index == 2 && (percentageColor.value >= performedColorCtrl.percentageColors[0].value || percentageColor.value < 0) )? {'border': '2px solid #e01521', 'color': '#e01521',} : {}"/>
+    </span>
+    <span class="performed-colors-container-input" ng-if="!percentageColor.showEditable">
+      <input class="performed-colors-container-input-textbox" ng-model="performedColorCtrl.percentageColors[0].value" ng-disabled="true"  min="{{$index == 0?performedColorCtrl.percentageColors.value[1].value:0}}" max="{{$index == 1?performedColorCtrl.percentageColors.value[0].value:1000}}" type="text" only-digits ng-value="percentageColor.value" />
+    </span>
+    <input class="performed-colors-container-input-color" type="color" ng-model="percentageColor.color" />
+  </div>
+
+</div>
+<div class="save-performed-colors-container">
+  <div class="save-performed-colors-button" ng-click="saveColorParamsToServer()">{{"SAVE" | translate}}</div>
+</div>

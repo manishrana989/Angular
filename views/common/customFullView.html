@@ -1,0 +1,22 @@
+<div class="{{rtl}}" ng-hide="params.subMenu.SubMenuAppPartID === 1207">
+    <nav ng-if="modal === undefined || modal === null" class="navbar navbar-fixed-top white-bg fixed" role="navigation"
+        style=" top:46px;padding-left:20px;right: 0; margin-bottom: 0;z-index: 9003;left: 0;">
+        <div class="navbar-header" style="padding-top: 15px;">
+            <bread-crumbs></bread-crumbs>
+        </div>
+    </nav>
+    <nav ng-if="modal === undefined || modal === null" class="navbar navbar-fixed-top white-bg fixed" role="navigation"
+        style="border-bottom:0 !important;padding-left:20px;top:0px;right: 0;  margin-bottom: 0;z-index: 9999;left: 0">
+        <div class="navbar-header" style="padding-top: 12px;width: 90%">
+            <li tooltip-placement="bottom" tooltip="{{topPageTitle}}"
+                style="width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: inherit">
+                <span style="font-size: 24px;">{{topPageTitle}}</span>
+            </li>
+        </div>
+    </nav>
+</div>
+<license-module module-id="{{rootScope.moduleId}}">
+    <div id="wrapper" class="{{rtl}} gray-bg fw">
+        <custom-directive content="params"></custom-directive>
+    </div>
+</license-module>

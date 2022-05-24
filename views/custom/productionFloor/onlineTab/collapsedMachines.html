@@ -1,0 +1,227 @@
+<div style="position: relative; display: inline-flex" ng-style="
+     {
+        'margin': machineBox.selectedDisplayEndLines ? 'calc(0.05vw*'+settings.selectedScale.scale+')' :  'calc(0.2vw*'+settings.selectedScale.scale+')',
+        'margin-top' : showPencils ? '25px' : '20px',
+     }
+    " class="machineCollaped selected-scale-{{settings.selectedScale.scale * 2}}"
+  id="MCollapsedBox_{{machineBox.MachineID}}" >
+  <div style="position: absolute;z-index: 2;width: 30px;height: 30px;"
+    ng-style="{
+      right: rtl ? 'unset' : '-9px',
+      left: rtl ? '-9px' : 'unset',
+      bottom: '-9px',
+    }">
+    <img title="{{'LINE' | translate}}" style="width: 30px;height: 30px;" 
+      ng-if="machineBox.MachineClassification === 2" src="images/Line.svg" />
+    <img title="{{'PERIPHERAL_SYSTEMS' | translate}}" style="width: 30px;height: 30px;" 
+      ng-if="machineBox.MachineClassification === 3" src="images/Peripheral systems.svg" />
+    <img title="{{'SENSOR' | translate}}" style="width: 30px;height: 30px;" 
+      ng-if="machineBox.MachineClassification === 4" src="images/Sensor.svg" />
+    <img title="{{'MANUAL_WORK_STATIONS' | translate}}" style="width: 30px;height: 30px;" 
+      ng-if="machineBox.MachineClassification === 5" src="images/Manual work stations.svg" />
+  </div>
+  <div class="start-connector" ng-style="
+    !rtl ? {
+      left: 
+      'calc(-0.960vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+      top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+     }:{
+       right: 'calc(-0.960vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+      top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+     }"></div>
+  <div class="end-connector"  ng-style="!rtl?{ right: 'calc(-0.960vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+            top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+        }:{ left: 'calc(-0.960vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+            top: 'calc(-0.260vw + -' + (machineBox.selectedDisplayEndLines ? '0.2' : '0.33') + 'vw*' + settings.selectedScale.scale + ')',
+        }"></div>
+  <div>
+    <div class="mainMachineCard scaleSize_{{settings.selectedScale.scale}}" ng-class="{
+                endOfLine : !machineBox.selectedDisplayEndLines && (machineBox.LineID>0 && machineBox.NextLineMachineID===0),
+                small: settings.selectedScale.scale == 0.5,
+                medium: settings.selectedScale.scale == 1,
+                large: settings.selectedScale.scale == 1.5,
+            }"
+      style="width:calc(9.635vw * {{settings.selectedScale.scale}});height:calc(9.635vw * {{settings.selectedScale.scale}})"
+      ng-style="settings.fullColorMode && {'text-shadow':'1px 1px 1px rgba(0,0,0,0.5)'}">
+      <div class="upperPart" ng-if="parameters" id="upperPart_{{machineBox.MachineID}}" style="display: flex;justify-content: center;flex-direction: column;align-items: center;padding:calc(0.213vw * {{settings.selectedScale.scale}});
+                   background-color:var(--machine-status-{{machineBox.MachineStatusID}})">
+        <div class="colorBullet"
+          style="top:0.2vw;background-color: {{machineBox.JobColor}};width: calc(0.625vw * {{settings.selectedScale.scale}});height:calc(0.625vw * {{settings.selectedScale.scale}}) "
+          ng-show="machineBox.JobColoredShadow" title="{{machineBox.jobToolTip}}"></div>
+        <div class="root-cause" ng-show="machineBox.RootStop">
+          <img src="images/root-cause.svg" />
+        </div>
+
+
+        <div class="text-center" style="position: absolute; top: -1.55vw;display:flex;width: 100%;text-shadow: none" >
+          <div ng-click="machineCollapsedCtrl.showApplyModel = !machineCollapsedCtrl.showApplyModel" ng-show="showPencils" title="{{'APPLY_TO' | translate}}"
+            class="shift-settings-reset-btn applyAll">
+            {{"APPLY_TO" | translate}}
+          </div>
+          <apply-to-model-directive ng-if="machineCollapsedCtrl.showApplyModel" 
+            off-click="machineCollapsedCtrl.showApplyModel = false" 
+            off-click-activator="machineCollapsedCtrl.showApplyModel"
+            style="position:absolute;z-index: 101;" machine-structure-data = "parameters" users-data="usersData" machine="machineBox"  is-default-structure="isDefaultStructure" all-machines="allMachines" structure-type="structureType" update-Structures="updateStructures" type="type"></apply-to-model-directive>
+        </div>
+        
+
+        <div ng-if="machineBox.showEndLine"
+          ng-style="!rtl &&{'left': 'calc(0.4vw *'+ settings.selectedScale.scale+')'} || rtl &&{'right': 'calc(0.4vw *'+ settings.selectedScale.scale+')'}"
+          style="position:absolute;top:calc(0.1vw * {{settings.selectedScale.scale}})">
+          <img src="images/line_icon_end.png" style="transform: scale({{settings.selectedScale.scale}})" />
+        </div>
+
+        <div style="width: 100%; display: flex; flex-direction: row" id="productName_{{machineBox.MachineID}}">
+          <div class="productName" dir="auto"
+            ng-repeat="menuTitle in machineEditParams.productMenuList | filter:{ selected:true }"
+            title="{{machineBox[menuTitle.FieldName]}}"
+            ng-show="(settings.selectedScale.scale>=1) && !machineBox.showEndLine"
+            ng-style="{color: textColor}"
+            style="font-size: calc(0.625vw * {{settings.selectedScale.scale}})">
+            {{!machineBox.showEndLine?machineBox[menuTitle.FieldName]:""}}
+          </div>
+          <div style="position: relative" ng-init="titleEnabled = false" off-click="titleEnabled = false" off-click-activator="titleEnabled"
+            ng-click="titleEnabled = true">
+            <img ng-show="showPencils && (settings.selectedScale.scale>=1)" style="position: absolute; top: 15px"
+              ng-style="{
+                            left : (rtl ? '0px' : 'unset'),
+                            right : (rtl ? 'unset' : '0px')
+                        }" class="pencilEdit" src="images/edit-grey-new.svg" title="{{'EDIT' | translate}}" />
+            <div ng-if="titleEnabled" class="btn-group expandedEditParamsDropdown">
+              <ul
+                ng-style="{'color': settings.colorMode.textColor,'background-color': settings.colorMode.colorCode+' !important'}"
+                class="dropdown-menu collapsed-machines"
+                style="display: block; max-height: 35vh; overflow-y: auto; z-index: 1001; position: sticky; bottom: unset">
+                <li ng-repeat="param in machineEditParams.productMenuList"
+                  ng-style="param.selected && {'color':'green'}"
+                  ng-click="titleEnabled = false;onMenuChange(param,machineEditParams.productMenuList,'production');">
+                  <a style="max-width: 7.813vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                    title="{{param.FieldEName | translate}}"
+                    ng-class="{'color-red' : param.FieldName == 'removeParam'}">
+                    {{param.FieldEName | translate}}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="machineEName" id="machineEName_{{machineBox.MachineID}}" dir="auto" ng-style="{color: textColor}">
+          <a style="color: inherit" ng-style="{'font-size': calcMachineFontSize()}" ng-if="!machineBox.showEndLine"
+            title="{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}"
+            ui-sref="appObjectMachineFullView({appObjectName: 'MachineScreenEditor',ID: machineBox.MachineID})"
+            target="MachineScreenEditor">
+            {{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}
+          </a>
+          <a style="color: inherit" ng-if="machineBox.showEndLine"
+            title="{{machineBox.productionName}}">{{machineBox.productionName}} </a>
+        </div>
+        <div ng-hide="(settings.selectedScale.scale<1 && !machineBox.showEndLine)" ng-style="{color: textColor}"
+          id="StatusTimeMin_{{machineBox.MachineID}}" class="StatusTimeMin" dir="auto"
+          style="font-size: calc(0.625vw * {{settings.selectedScale.scale}});display:flex;">
+          <div style="margin-left: auto;">
+            {{machineBox.StatusTimeMin |minutesToHHMM}}
+          </div>
+          <div ng-click="showMore = !showMore;(showMore && gaE('Department_Online_Collapsed','actions_menu'))" ng-if="!(settings.selectedScale.scale<1 && !machineBox.showEndLine)" class="collapsed-menu-action" off-click="showMore = false;" off-click-activator="showMore" style="position: relative;">
+            <img src="images/more_white.png" width="4" height="16" style="margin: 0 5px;transform: rotate(90deg);" />
+            <div class="online-dropdown-menu-settings expanded-showmore" ng-if="showMore && machineCollapsedCtrl.actionsData">
+              <app-object-config-directive content="machineCollapsedCtrl.actionsData" template="'views/custom/productionFloor/onlineTab/expandedMachinesActions.html'"> </app-object-config-directive>
+            </div>
+          </div>
+        </div>
+        <div ng-show="(settings.selectedScale.scale<1 && !machineBox.showEndLine )" ng-click="showMore = !showMore;(showMore && gaE('Department_Online_Collapsed','actions_menu'))" class="collapsed-menu-action" off-click="showMore = false;" off-click-activator="showMore" style="position: relative;">
+          <img src="images/more_white.png" width="4" height="16" style="margin: 0 5px;transform: rotate(90deg);"/>
+          <div class="online-dropdown-menu-settings expanded-showmore" ng-if="showMore && machineCollapsedCtrl.actionsData">
+            <app-object-config-directive content="machineCollapsedCtrl.actionsData" template="'views/custom/productionFloor/onlineTab/expandedMachinesActions.html'"></app-object-config-directive>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="itemShape in [].constructor(shapes.length) track by $index"
+        ng-if="parameters && settings.shapeType===$index" class="lowerPart"
+        ng-style="(!showPencils && machineBox.ProductionModeID > 1 && {'opacity':'0.2'}) || 
+                  settings.fullColorMode && {'color': 'white','background-color': 'var(--machine-status-'+machineBox.MachineStatusID+')'} ||
+                  !settings.fullColorMode && {'color': settings.colorMode.textColor,'background-color': settings.colorMode.colorCode+' !important'}">
+        <div style="width:100%;height: {{100/(shapes[settings.shapeType].length)}}%"
+          ng-repeat="row in shapes[settings.shapeType] track by $index" ng-init="rowIndex = $index">
+          <div style="display: grid;grid-template-columns: repeat({{ row.col }}, 1fr);
+                        grid-auto-columns: 50%;height: 100%;">
+            <div ng-repeat="number in [].constructor(row.col) track by $index" class="timeDown-rejects-part">
+              <span style="display: none"
+                ng-init="counterItems = pastColumnCount(rowIndex) +  $index">{{counterItems}}</span>
+              <div class="part"
+                style="flex-direction:{{row.detailsDirection}};font-size: calc({{row.fontSize}}*{{settings.selectedScale.scale}})">
+                <div class="pencil-container" ng-style="settings.showTextKeys && {'font-size':'150%'}">
+                  <span style="display: none">
+                    {{paramsInBoxes[counterItems] = parameters[counterItems].FieldName}}}
+                    {{chosenParam = (machineBox.MachineParams | getFieldByName:'FieldName':parameters[counterItems].FieldName)}}
+                  </span>
+
+                  <div class="part-number" dir="auto"
+                    ng-style="settings.fontCustomization.currentChoice == 'defaultFontSize' && {'font-size':'calc('+settings.selectedScale.scale * row.fontSize+'vw)'}"
+                    title="{{chosenParam.FieldName == 'TimeLeftHour' ?(machineBox.TimeLeftHR*60 | minutesToHHMM)  : chosenParam.DisplayType == 'text'  ? (chosenParam.CurrentValue) : (chosenParam.CurrentValue| thousandsSeperator)}}">
+                    <span ng-if="settings.fontCustomization.currentChoice == 'newFontSize'"
+                      ng-style="{'font-size': settings.fontCustomization.value+ 'px'}">{{chosenParam.FieldName == 'TimeLeftHour' ? (machineBox.TimeLeftHR*60 | minutesToHHMM) : chosenParam.DisplayType == 'text'  ? (chosenParam.CurrentValue) : (chosenParam.CurrentValue| thousandsSeperator)}}</span>
+                    <span
+                      ng-if="settings.fontCustomization.currentChoice == 'defaultFontSize'">{{chosenParam.FieldName == 'TimeLeftHour' ? (machineBox.TimeLeftHR*60 | minutesToHHMM) : chosenParam.DisplayType == 'text'  ? (chosenParam.CurrentValue) : (chosenParam.CurrentValue| thousandsSeperator)}}</span>
+
+                    <span ng-if="chosenParam.StandardValue" title="{{chosenParam.StandardValue">
+                    <br ng-if="settings.standard">
+                    <span ng-if="settings.fontCustomization.currentChoice == 'newFontSize'"  ng-style="{'font-size': settings.fontCustomization.value + 'px'}">({{chosenParam.StandardValue}}) </span>
+                    <span ng-if=" settings.fontCustomization.currentChoice=='defaultFontSize'">({{chosenParam.StandardValue}}) </span>
+                    </span> 
+                </div>
+
+                <div ng-if="chosenParam.FieldName == 'customUIImage'">
+                  <div style="display: inline-block; width: 100%">
+                    <img  ng-click="openImageInModal(machineBox.ProductImagePath)"
+                    style="max-width: 100%; max-height: 100%; cursor: pointer"  ng-src="{{machineBox.ProductImagePath}}" ng-hide="!machineBox.ProductImagePath.length"/>    
+                  </div>
+                </div>
+
+                  <div>
+                    <img
+                      ng-if="showPencils" class="pencilEdit"
+                      ng-style="settings.colorMode.colorCode!='#ffffff' && {'filter': 'invert(100%)'}"
+                      ng-init="parameters[counterItems].pencilEnabled = false"
+                      ng-click="parameters[counterItems].pencilEnabled=!parameters[counterItems].pencilEnabled"
+                      src="images/edit-grey-new.svg" title="{{'EDIT' | translate}}" />
+                    <div class="btn-group expandedEditParamsDropdown" ng-if="parameters[counterItems].pencilEnabled"
+                      off-click="parameters[counterItems].pencilEnabled = false"
+                      off-click-activator="parameters[counterItems].pencilEnabled">
+                      <ul ng-init="parameters[counterItems].applyAll = false"
+                        ng-style="{'color': settings.colorMode.textColor,'background-color': settings.colorMode.colorCode+' !important'}"
+                        class="dropdown-menu collapsed-machines"
+                        style="display: block; max-height: 20vh; overflow-y: auto; z-index: 1001; top: -70px;">
+                        <li ng-repeat="param2 in machineBox.MachineParams" class="ng-scope">
+                          <a ng-click="editParam(param2, parameters[counterItems].applyAll, counterItems);
+                                                    parameters[counterItems].pencilEnabled = false"
+                            style="max-width: 7.813vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                            title="{{localLanguage ? param2.FieldLName : param2.FieldEName}}"
+                            ng-class="{'color-red' : param2.FieldName == 'removeParam'}">
+                            {{localLanguage ? param2.FieldLName : param2.FieldEName}}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="part-title"
+                  ng-if="!settings.showTextKeys && chosenParam.FieldEName != ('REMOVE_PARAM'| translate)"
+                  ng-style="settings.fontCustomization.currentChoice == 'defaultFontSize' && {'font-size':'calc('+settings.selectedScale.scale * row.fontSize+'vw)'}"
+                  style="margin:0.104vw;max-width:100%" ng-class="{'pencilEnabled' : showPencils}"
+                  title="{{localLanguage === true ? chosenParam.FieldLName : chosenParam.FieldEName}}">
+                  <span ng-if="settings.fontCustomization.currentChoice == 'newFontSize'"
+                    ng-style="{'font-size': settings.fontCustomization.value+ 'px'}">
+                    {{localLanguage === true ? chosenParam.FieldLName : chosenParam.FieldEName}}</span>
+                  <span ng-if="settings.fontCustomization.currentChoice == 'defaultFontSize'">
+                    {{localLanguage === true ? chosenParam.FieldLName : chosenParam.FieldEName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

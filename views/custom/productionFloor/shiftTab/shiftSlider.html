@@ -1,0 +1,65 @@
+<div class="timeline-container">
+  <!-- <div class="row toHide">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <button ng-click = "hideClick()" style="float:right;">{{buttonTitle}}</button>
+        </div>
+    </div> -->
+  <div class="top-date-container" ng-if="!withoutTicks" ng-hide="hideClicked">
+    <div
+      ng-repeat="shift in slider.options.ticks"
+      ng-style="{position: 'absolute',left: (shift.startShift - slider.options.floor)/(slider.options.ceil - slider.options.floor)*100 + '%'}"
+    >
+      {{shift.startShift*1000*60 | date: "MMM d"}}
+    </div>
+  </div>
+  <div class="slider-container" ng-hide="hideClicked.value == true">
+    <div class="slider-ticks" ng-if="!withoutTicks">
+      <div
+        class="shift-ticks"
+        ng-repeat="shift in slider.options.ticks"
+        ng-style="{width: (shift.endShift -  shift.startShift)/(slider.options.ceil - slider.options.floor)*100 + '%',left: (shift.startShift - slider.options.floor)/(slider.options.ceil - slider.options.floor)*100 + '%'}"
+      >
+        <div
+          class="tick"
+          ng-repeat="i in shift.shiftTicks"
+          ng-class="{'tick-blue': $index==0}"
+          ng-style="{
+                        left: ((i - shift.startShift)/(shift.endShift - shift.startShift) * 100) +'%',
+                        right: ((shift.endShift - i)/(shift.endShift - shift.startShift) * 100) + '%'}"
+        >
+          <div class="tick-container">
+            <div class="tick-hours" ng-hide="$last && (slider.options.tickTotal) == 1">{{(i)*1000*60 | date:"HH:mm"}}</div>
+            <div class="tick-hours ShiftName" ng-if="$index==0">
+              <!-- {{"SHIFT" | translate}} {{$parent.$parent.$index +1}}-->
+              {{shiftsNames[$parent.$parent.$index]}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-div">
+      <rzslider
+        rz-slider-model="slider.minValue"
+        rz-slider-high="slider.maxValue"
+        rz-slider-options="slider.options"
+        shift-filter-open="showFilterShiftVar"
+      ></rzslider>
+
+      <div class="white-wrap"></div>
+      <div
+        class="shift-period"
+        ng-style="{width: (((period.value - slider.options.floor)/(slider.options.ceil - slider.options.floor) * 100 ) | maxFilter:100) + '%'}"
+      ></div>
+      <div
+        class="shift-period-selected"
+        ng-show="(slider.minValue < period.value)"
+        ng-style="{
+                    'margin-left': (rtl ? 0 : 1 ) * ((slider.minValue - slider.options.floor)/(slider.options.ceil - slider.options.floor))*100 + '%',
+                    'margin-right': (rtl ? 1 : 0 ) * ((slider.minValue - slider.options.floor)/(slider.options.ceil - slider.options.floor))*100 + '%',
+                    width: ((slider.maxValue < period.value ? 
+                        (slider.maxValue - slider.minValue) :
+                        (period.value - slider.minValue))/(slider.options.ceil - slider.options.floor))*100 + '%'}"
+      ></div>
+    </div>
+  </div>
+</div>

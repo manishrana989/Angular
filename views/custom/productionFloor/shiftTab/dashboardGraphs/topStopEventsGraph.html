@@ -1,0 +1,143 @@
+<shift-container graph="graph" containers="containers">
+    <header-title>
+        <div class="btn-group">
+            <button type="button" class="btn dropdown-toggle shift-drop-down" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <div class="param-name">
+                    {{graph.options.settings.parameters[graph.options.settings.parameter].value | translate}}
+                </div>
+                <span class="caret"></span>
+            </button>
+            <div style="font-size: small;" ng-if="containerOptions.isTableView">
+                 {{"COLOR_BY" | translate}}: {{graph.options.settings.displayColorBy | translate }}, {{"DISPLAY_BY" | translate}} {{graph.options.settings.displayValueBy | translate}}
+            </div>
+            <ul class="dropdown-menu newScroll slim" style="max-height: 20.313vw;overflow: auto">
+                <li ng-repeat="i in graph.options.settings.parameters | sortString"><a
+                        style="width: calc(100% - 0.417vw);"
+                        ng-click="graph.options.settings.parameter=$index">{{i.value | translate}}</a></li>
+            </ul>
+        </div>
+    </header-title>
+    <graph>
+        <top-stop-events-directive options="containerOptions" graph="graph"></top-stop-events-directive>
+    </graph>
+    <setting>
+        <div class="top-events-value" ng-if="!containerOptions.isTableView">
+            <span>{{"TOP" | translate}}</span> <input style="margin-left:0.417vw" class="input-number-settings-sm"
+                type="number" ng-model="containerOptions.settings.top" />
+        </div>
+
+        <div style="margin-left: 15px;" ng-if="containerOptions.isTableView"> 
+                <div ng-init="graph.options.settings.displayColorBy = graph.options.settings.displayColorBy  ? graph.options.settings.displayColorBy : 'rows';" style=" margin-bottom: 5px;">
+                  {{"COLOR_BY" | translate}}:
+                </div>
+                <div ng-if="graph.options.settings.displayColorBy" style="margin-left: 5px;">
+                  <div>
+                    <div class="labelCheckBox" check-box-directive field-title="'ROWS'" field="graph.options.settings" select-value="'displayColorBy'" type="'radio'" value="'rows'"  style="font-size: 0.729vw;"></div>
+                  </div>
+                  <div>
+                    <div ng-if="graph.options.settings.displayValueBy !== 'avgEventDuration'" class="labelCheckBox" check-box-directive field-title="'COLUMNS'" field="graph.options.settings" select-value="'displayColorBy'" type="'radio'" value="'cols'"  style="font-size: 0.729vw;"></div>
+                  </div> 
+                  <div>
+                    <div  ng-if="graph.options.settings.displayValueBy !== 'avgEventDuration' && graph.options.settings.displayValueBy !== 'percentageOfEventDuration'" class="labelCheckBox" check-box-directive field-title="'TOTALS'" field="graph.options.settings" select-value="'displayColorBy'" type="'radio'" value="'totals'"  style="font-size: 0.729vw;"></div>
+                  </div>
+                  <div>
+                    <div class="labelCheckBox" check-box-directive field-title="'NO_COLOR'" field="graph.options.settings" select-value="'displayColorBy'" type="'radio'" value="'none'"  style="font-size: 0.729vw;"></div>
+                  </div>
+                </div>
+        </div>
+
+        <div style="margin-left: 15px;" ng-if="containerOptions.isTableView"> 
+            <div ng-init="graph.options.settings.displayValueBy = graph.options.settings.displayValueBy  ? graph.options.settings.displayValueBy  : 'duration';" style=" margin-bottom: 5px;">
+              {{"DISPLAY_BY" | translate}}
+            </div>
+            <div ng-if="graph.options.settings.displayValueBy" style="margin-left: 5px;">
+              <div>
+                <div class="labelCheckBox" check-box-directive field-title="'TOTAL_DURATION_NUM_OF_EVENTS'" field="graph.options.settings" select-value="'displayValueBy'" type="'radio'" value="'duration'"  style="font-size: 0.729vw;"></div>
+              </div>
+              <div>
+                <div class="labelCheckBox" check-box-directive field-title="'NUMBER_OF_EVENT_VALUE'" field="graph.options.settings" select-value="'displayValueBy'" type="'radio'" value="'numOfEvents'"  style="font-size: 0.729vw;"></div>
+              </div> 
+              <div>
+                <div class="labelCheckBox" check-box-directive field-title="'AVG_EVENT_DURATION'" field="graph.options.settings" select-value="'displayValueBy'" type="'radio'" value="'avgEventDuration'"  style="font-size: 0.729vw;"></div>
+              </div>
+              <div>
+                <div class="labelCheckBox" check-box-directive field-title="'PERCENTAGE_OF_EVENT_DURATION'" field="graph.options.settings" select-value="'displayValueBy'" type="'radio'" value="'percentageOfEventDuration'"  style="font-size: 0.729vw;"></div>
+              </div>
+            </div>
+    </div>
+
+        <div ng-show="containerOptions.settings.parameter == 0" class="event-reason-filter"
+            ng-init="graph.options.settings.filterR['selectAll'] = true">
+            <div class="event-reason-filter-header">{{"EVENT_REASON" | translate}}
+            </div>
+     
+            <div class="col-sm-12" style="padding: 0.260vw"
+                ng-click="graph.options.settings.filterR['selectAll'] = !graph.options.settings.filterR['selectAll'];updateSelectAll(graph.options.settings.filterR['selectAll'],graph.options.settings.filterR);$event.stopPropagation()">
+                <input id="event_reason_all_{{$id}}" type="checkbox" value="true" class="graph-option-li"
+                    ng-model="graph.options.settings.filterR['selectAll']"
+                    ng-click="graph.options.settings.filterR['selectAll'] = !graph.options.settings.filterR['selectAll']">
+                <img style="height: 0.938vw;width: 0.938vw" ng-if="graph.options.settings.filterR['selectAll']"
+                    src="images/dashboard/checkbox.svg" />
+                <img style="height: 0.938vw;width: 0.938vw" ng-if="!graph.options.settings.filterR['selectAll']" />
+                <span for="event_reason_all_{{$id}}"
+                    style="padding-left: 10px;cursor: pointer">{{"UN_SELECT_ALL" | translate}}</span>
+            </div>
+            <div class="event-reason-filter-body newScroll slim">
+                <div ng-repeat="event in shiftData.stopEventsReasonFilter"
+                ng-init="graph.options.settings.filterR[event.EventReasonID] = (graph.options.settings.filterR[event.EventReasonID] === undefined) ? true : graph.options.settings.filterR[event.EventReasonID]"
+                    ng-click="graph.options.settings.filterR[event.EventReasonID] = !graph.options.settings.filterR[event.EventReasonID];$event.stopPropagation()"
+                    >
+                    <div class="col-lg-12 pull-left" style="padding: 0.260vw"
+                        ng-click="graph.options.settings.filterR[event.EventReasonID] != graph.options.settings.filterR[event.EventReasonID]">
+
+                        <input id="event_reason_{{$index}}" type="checkbox" class="graph-option-li"
+                            ng-model="graph.options.filterR[event.EventReasonID]">
+                        <img style="height: 0.938vw;width: 0.938vw"
+                            ng-if="graph.options.settings.filterR[event.EventReasonID]"
+                            src="images/dashboard/checkbox.svg" />
+                        <img style="height: 0.938vw;width: 0.938vw"
+                            ng-if="!graph.options.settings.filterR[event.EventReasonID]"
+                            ng-init="graph.options.settings.filterR['selectAll'] = false" />
+                        <span for="event_reason_{{$index}}"
+                            style="padding-left: 10px;cursor: pointer">{{event.EventReason}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="containerOptions.settings.parameter == 1" class="event-group-filter"
+            ng-init="graph.options.settings.filterG = graph.options.settings.filterG || {'selectAll': true}">
+            <div class="event-group-filter-header">{{"EVENT_GROUP" | translate}}</div>
+            <div class="col-sm-12" style="padding: 0.260vw"
+                ng-click="graph.options.settings.filterG['selectAll'] = !graph.options.settings.filterG['selectAll'];updateSelectAll(graph.options.settings.filterG['selectAll'],graph.options.settings.filterG);$event.stopPropagation()">
+                <input id="event_group_all_{{$id}}" type="checkbox" value="true" class="graph-option-li"
+                    ng-model="graph.options.settings.filterG['selectAll']"
+                    ng-click="graph.options.settings.filterG['selectAll'] = !graph.options.settings.filterG['selectAll']">
+                <img style="height: 0.938vw;width: 0.938vw" ng-if="graph.options.settings.filterG['selectAll']"
+                    src="images/dashboard/checkbox.svg" />
+                <img style="height: 0.938vw;width: 0.938vw" ng-if="!graph.options.settings.filterG['selectAll']" />
+                <span for="event_group_all_{{$id}}"
+                    style="padding-left: 10px;cursor: pointer">{{"UN_SELECT_ALL" | translate}}</span>
+            </div>
+            <div class="event-group-filter-body newScroll slim">
+                <div ng-repeat="event in shiftData.stopEventsGroupFilter"
+                    ng-click="graph.options.settings.filterG[event.EventGroupID] = !graph.options.settings.filterG[event.EventGroupID];$event.stopPropagation()">
+                    <div class="col-lg-12 pull-left" style="padding: 0.260vw"
+                        ng-init="graph.options.settings.filterG[event.EventGroupID] = graph.options.settings.filterG[event.EventGroupID] === false ? false : true"
+                        ng-click="graph.options.settings.filterG[event.EventGroupID] !=graph.options.settings.filterG[event.EventGroupID]">
+                        <input id="event_group_{{$index}}" type="checkbox" value="true" class="graph-option-li"
+                            ng-model="graph.options.settings.filterG[event.EventGroupID]">
+                        <img style="height: 0.938vw;width: 0.938vw"
+                            ng-if="graph.options.settings.filterG[event.EventGroupID]"
+                            src="images/dashboard/checkbox.svg" />
+                        <img style="height: 0.938vw;width: 0.938vw"
+                            ng-if="!graph.options.settings.filterG[event.EventGroupID]"
+                            ng-init="graph.options.settings.filterG['selectAll'] = false" />
+                        <span for="event_group_{{$index}}"
+                            style="padding-left: 10px;cursor: pointer">{{event.EventGroup}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </setting>
+</shift-container>

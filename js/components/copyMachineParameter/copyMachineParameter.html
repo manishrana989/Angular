@@ -1,0 +1,22 @@
+<div class="modal-header" ng-class="{rtl : copyMachineParameterCtrl.rtl}">
+    <button type="button" ng-click="close();" class="close pull-right" data-dismiss="modal"><span
+            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title pull-left">{{copyMachineParameterCtrl.localLanguage ? action.SubMenuLName : action.SubMenuEName}}</h3>
+</div>
+<div class="modal-body" ng-class="{rtl : copyMachineParameterCtrl.rtl}">
+    <div class="panel-body" style="background-color: #f6f6f6;max-height: 390px;width: 360px;">
+        <div class="labels-container">
+            <div check-box-directive field-title="'SELECT_ALL_MACHINES_OF_THE_SAME_TYPE'" 
+            field="copyMachineParameterCtrl" select-value="'applyTo'" type="'radio'" value="'allMachines'"></div>   
+            <div check-box-directive field-title="'SELECTED_MACHINES'" 
+            field="copyMachineParameterCtrl" select-value="'applyTo'" type="'radio'" value="'selectMachines'"></div>   
+        </div>
+        <div class="machines newScroll slim" style="height: 250px; overflow-y: auto;" ng-if="copyMachineParameterCtrl.applyTo == 'selectMachines'">
+            <div ng-repeat="machine in copyMachineParameterCtrl.machines" 
+            check-box-directive field-title="machine | customTranslate: 'MachineEName':'MachineLName':copyMachineParameterCtrl.localLanguage" field="machine" select-value="'selected'"></div>  
+        </div>
+        <div class="saveButton" ng-click="copyMachineParameterCtrl.copyMachineSettings()">
+                <span class="content"> {{"SAVE" | translate}}</span>
+        </div>
+    </div>
+</div>

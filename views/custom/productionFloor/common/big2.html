@@ -1,0 +1,12 @@
+<div class="panel panel-success" style=" height:100%; font-size:14px;border-radius: 0px;margin-bottom:0;">
+    <table
+           class="table table-bordered" style="height:100%">
+        <tbody>
+        <tr ng-repeat="area in child.areas">
+            <td style="padding-top: 0px;background-color: {{area.fields[0].backgroundColor}}">
+                <param-directive content="area.fields[0]"></param-directive>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

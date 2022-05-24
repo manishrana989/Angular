@@ -1,0 +1,7 @@
+<div id="machinesPerformanceContainer{{graph.ID}}" class="machinesPerformanceContainer" ng-style="options.style" style="width:100%">
+    <div ng-if="!loading" class="machinesPerformanceTable" ng-init="tableInit()" >
+        <responsive-table-directive options="options" ng-if="tableData.length > 0" date-columns="dateColumns" columns="columns" data="tableData" event-y="rows" graph="graph" totals-in-percentage=""></responsive-table-directive>
+    </div>
+</div>
+
+<div ng-if="!initialized" style="width: 100%" ng-include="'views/common/emptyPage.html'"></div>

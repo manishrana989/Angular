@@ -1,0 +1,193 @@
+<div ng-if="!shiftData.criticalEvents && !shiftData.stopEvents" ng-include="'views/common/emptyPage.html'"></div>
+<div ng-if="shiftData.criticalEvents || shiftData.stopEvents" ng-style="{'height': options.height - 4}">
+    <div ng-if="!options.isTableView" class="top-stop-container" style="height: 100%;">
+        <div class="parameters-div">
+            <!--<div class="parameter" ng-init="showDropDown.groupByEvent =false">-->
+            <!--<div class="parameter-label">{{"GROUP_BY" | translate}}</div>-->
+            <!--<div class="parameter-dropdown">-->
+            <!--<div class="parameter-selection" ng-click="showDropDown.groupByEvent = !showDropDown.groupByEvent">-->
+            <!--<span>-->
+            <!--{{(options.settings.groupByEvent ? "STOP_EVENT"  : "MACHINE") | translate}}-->
+            <!--</span>-->
+            <!--<span class="caret"></span>-->
+            <!--</div>-->
+            <!--<ul class="parameter-dropdown-list" ng-if="showDropDown.groupByEvent">-->
+            <!--<li ng-click="options.settings.groupByEvent=true;showDropDown.groupByEvent = false">{{"STOP_EVENT" | translate}}</li>-->
+            <!--<li ng-click="options.settings.groupByEvent=false;showDropDown.groupByEvent = false" >{{"MACHINE" | translate}}</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+            <!--</div>-->
+            <div class="parameter" ng-init="showDropDown.timeV =false" off-click-activator="showDropDown.timeV" off-click="showDropDown.timeV = false">
+                <div class="parameter-label">{{"TYPE" | translate}}</div>
+                <div class="parameter-dropdown">
+                    <div class="parameter-selection" ng-click="showDropDown.timeV = !showDropDown.timeV">
+                        <span>
+                            {{(options.settings.timeV ? "TIME_VALUE"  : "NUMBER_OF_EVENT_VALUE") | translate}}
+                        </span>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="parameter-dropdown-list" ng-if="showDropDown.timeV">
+                        <li ng-click="GAupdate('distribution_time_value');options.settings.timeV=true;showDropDown.timeV = false;updateData()">
+                            {{"TIME_VALUE" | translate}}
+                        </li>
+                        <li ng-click="GAupdate('distribution_number_of_event_value');options.settings.timeV=false;showDropDown.timeV = false;updateData()">
+                            {{"NUMBER_OF_EVENT_VALUE" | translate}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <span class="parameter" ng-show="false" ng-init="options.settings.division = false">
+                <span style="margin-left: 10px;">
+                    <input id="division_{{$id}}" type="checkbox" class="graph-option-li"
+                           ng-model="options.settings.division">
+                    <img ng-if="options.settings.division" src="images/dashboard/checkbox.svg"
+                         ng-click="options.settings.division = !options.settings.division; $event.stopPropagation();"/>
+                    <img ng-if="!options.settings.division" width="18" height="18"
+                         ng-click="options.settings.division = !options.settings.division; $event.stopPropagation();"/>
+                    <label for="division_{{$id}}" style="padding-left: 10px;font-size: 13px;">
+                        {{"INTERNAL_DIVISION" | translate}}
+                    </label>
+                </span>
+            </span>
+        </div>
+        <hr class="stop-events-header-separate">
+        <div class="graph-container">
+
+            <span ng-if="options.settings.parameter == 0" ng-repeat="eventView in shiftData.stopEventsReasonFilter"
+                  style="font-size: 0.677vw"
+                  ng-show="!options.settings.filterR.selectAll && options.settings.filterR[eventView.EventReasonID]">
+                <span ng-show="$index == 0">{{"FILTER" | translate}}: </span>{{eventView.EventReason}}<span
+                    ng-show="!$last">,</span>
+            </span>
+            <span ng-if="options.settings.parameter == 1" ng-repeat="eventView in shiftData.stopEventsGroupFilter"
+                  style="font-size: 0.677vw"
+                  ng-show="!options.settings.filterG.selectAll && options.settings.filterG[eventView.EventGroupID]">
+                <span ng-show="$index == 0">{{"FILTER" | translate}}: </span>{{eventView.EventReason}}<span
+                    ng-show="!$last">,</span>
+            </span>
+            <div ng-show="result" ng-style="{height: (options.height - 165) + 'px', 'overflow-y': 'auto'}"
+                 style="display: flex; flex-direction: column;justify-content: space-around;overflow-y: auto;padding-top: 10px;">
+                <div class="row-division-by-height-col" ng-if="options.settings.groupByEvent"
+                     style="max-height: 68px;min-height: 42px" ng-style="{'height' : (100 / result.length)  + '%'}"
+                     ng-repeat="event in result">
+                    <div style="display: flex;width:100%;height: calc(100% - 25px);min-height: 20px;">
+                        <div style="display: flex;align-items: start"
+                             ng-style="{width: (options.settings.timeV ? (event.totalDuration/maxDuration) : (event.totalCount/maxCount))*83 + '%'}">
+                            <div ng-if="!options.settings.division"
+                                 ng-style="{display: 'inline-block',height: '100%','background-color':event.Color,width: '100%'}">
+                            </div>
+                            <div style="height: 100%" ng-if="options.settings.division"
+                                 ng-repeat="chunk in event.values | orderBy: (options.settings.timeV ? '-Duration' : '-count' )"
+                                 class="chunk-container"
+                                 ng-style="{width: (options.settings.timeV ? (chunk.Duration/event.totalDuration) : (chunk.count/event.totalCount))*100 + '%', 'margin-left': '2px'}">
+                                <div class="bar" style="min-height: 20px"
+                                     ng-style="{height: '100%','background-color': event.Color,width: '100%'}"
+                                     title="{{chunk.MachineName}} ({{options.settings.timeV ? (chunk.Duration | minutesToHM) : chunk.count}})">
+                                    <span class="chunk-title">{{chunk.MachineName}}</span><span class="chunk-title"> ({{options.settings.timeV ? (chunk.Duration | minutesToHM) : chunk.count}})</span>
+                                </div>
+                                <div class="split" ng-if="!$last"></div>
+                            </div>
+                        </div>
+                        <div class="top-stop-events-duration" ng-style="{color: event.Color}">
+                            {{options.settings.timeV ? (event.totalDuration | minutesToHM) : event.totalCount}}
+                        </div>
+                    </div>
+                    <div ng-class="((options.height-250)< 300)? 'top-stop-events-text-row' :'top-stop-events-text'"
+                         title="{{event.key}}">
+                        {{event.key}}
+                    </div>
+                </div>
+                <div ng-if="!options.settings.groupByEvent" style="height: calc(100% - 15px);position: relative;">
+                    <div class="bars-container">
+                        <div class="bars">
+                            <div class="bar-container"
+                                 ng-repeat="machine in result | orderBy: (options.settings.timeV ? '-totalDuration' : '-totalCount' )">
+                                <div class="bar-title">{{machine.key}}</div>
+                                <div ng-style="{width: '30px',position: 'relative',margin: '0px 15px',height: (options.settings.timeV ? (machine.totalDuration/maxDuration) : (machine.totalCount/maxCount))*100 + '%'}">
+                                    <div ng-if="!options.settings.division"
+                                         ng-style="{height: '100%', 'background-color': machine.Color}">
+                                        <div ng-style="{color: machine.Color}" class="bar-value">
+                                            {{options.settings.timeV ? (machine.totalDuration | minutesToHM) :
+                                            machine.totalCount}}
+                                        </div>
+                                    </div>
+                                    <div ng-if="options.settings.division" ng-style="{color: machine.Color}"
+                                         class="bar-value" ng-if="$last">
+                                        {{options.settings.timeV ? (machine.totalDuration| minutesToHM) :
+                                        machine.totalCount}}
+                                    </div>
+                                    <div ng-if="options.settings.division"
+                                         ng-repeat="chunk in machine.values | orderBy: (options.settings.timeV ? '-Duration' : '-count' )"
+                                         class="chunk-container"
+                                         ng-style="{height: (options.settings.timeV ? (chunk.Duration/machine.totalDuration) : (chunk.count/machine.totalCount))*100 + '%'}">
+                                        <div ng-style="{width: '100%',height: '100%','background-color': machine.Color}"
+                                             title="{{options.settings.parameter ? chunk.GroupName : chunk.Name}} ({{options.settings.timeV ? (chunk.Duration | minutesToHM) : chunk.count}})">
+                                        </div>
+                                        <div class="split" ng-if="!$first"></div>
+                                    </div>
+                                </div>
+                                <div ng-if="!$last"
+                                     class="{{options.rotateH ? 'hr-line-dashed' : 'vr-line-dashed'}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div ng-if="options.settings.timeV" class="tick" ng-repeat="tick in ticksT"
+                             ng-style="!$last && {'max-height': (tickWT/maxDuration)*100 + '%',height: (tickWT/maxDuration)*100 + '%'}">
+                            <span class="tick-text">{{tick == 0? '00:00' : (tick | minutesToHM)}}</span></div>
+                        <div ng-if="!options.settings.timeV" class="tick" ng-repeat="tick in ticksC"
+                             ng-style="!$last && {'max-height': (tickWC/maxCount)*100 + '%',height: (tickWC/maxCount)*100 + '%'}">
+                            <span class="tick-text">{{tick}}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="tables && !options.isTableView">
+            <div class="reported-stop-events" ng-repeat="event in tables" ng-if="event.Duration">
+                <div style="display: flex;color: #4a4a4a;">
+                    <div class="reported-stop-events-box">
+                        <div style="font-size: 0.938vw" class="box-number">{{event.Name}}</div>
+                    </div>
+                    <div class="reported-stop-events-box middle">
+                        <div class="box-number">{{event.Duration | minutesToHM}}</div>
+                    </div>
+                    <div class="reported-stop-events-box middle">
+                        <div class="box-number">{{100*(event.Duration / (event.total)) | number:2 }}</div>
+                        <span style="vertical-align: bottom;
+                                    font-size: 0.781vw;">
+                                    %
+                        </span>
+                    </div>
+                    <div class="reported-stop-events-box">
+                        <div class="box-number">{{event.count}}</div>
+                        <div style="font-size: 0.781vw;">{{"EVENTS" | translate}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- avoid using ng-if in case of loading this table to avoid re-rendering data in directives controller -->
+    <div class="no-padding" style="height: calc(100% - 10px)" ng-if="options.isTableView">
+        <!-- <simple-table-directive ng-if="options.isTableView" raw-data-array="dataRawCopy" display-groups="options.settings.parameter == 1" display-sub-groups="options.settings.parameter == 0"></simple-table-directive> -->
+
+        <div>
+            <span ng-if="options.settings.parameter == 0" ng-repeat="eventView in shiftData.stopEventsReasonFilter"
+                  style="font-size: 0.677vw"
+                  ng-show="!options.settings.filterR.selectAll && options.settings.filterR[eventView.EventReasonID]">
+                  {{"FILTER" | translate}}: {{eventView.EventReason}}<span ng-show="!$last">,</span>
+            </span>
+        </div>
+
+        <!-- <simple-table-directive machine-names="machinesArray" event-y="ySimpleTable" table-name="''"
+                                data="simpleTableData"></simple-table-directive> -->
+                                <!-- {{yResponsiveTable}} -->
+                                <!-- {{yResponsiveTable}} -->
+    <responsive-table-directive height="498" columns="columns" event-y="yResponsiveTable" graph="graph"  options="options"  data="simpleTableData" totals-in-percentage="totalsInPercentage" ng-if="graph.options.settings.parameter == 0 && graph.options.isTableView"></responsive-table-directive> 
+    <responsive-table-directive height="498" columns="columns" event-y="yResponsiveTable2" graph="graph"  options="options"  data="responsiveTableData2" totals-in-percentage="groupTotalsInPercentage" ng-if="graph.options.settings.parameter == 1 && graph.options.isTableView"></responsive-table-directive>
+
+    </div>
+
+</div>
+<div class="machine-top-event-tooltip removeInPrint" ng-show="tooltipShow">
+    <div class="tooltip-event-type"></div>
+</div>

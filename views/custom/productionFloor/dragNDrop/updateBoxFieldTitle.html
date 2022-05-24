@@ -1,0 +1,179 @@
+<div class="wrapper border-bottom white-bg page-heading updateBox" ng-class="{rtl : rtl}" style="z-index: 10001">
+    <form name="myForm" style="margin-top: 10px">
+        <div ng-show="dynamicEnabled!==true">
+
+            <div>
+                <label>
+                    {{"PARAMETER" | translate}}
+                </label>
+                <div style="{{localLanguage ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <select class="form-control" ng-model="dynamicValue" style="width:22%;"
+                            ng-options="option.ename  for option in dOptions">
+                    </select>
+                    <span class="help-inline col-lg-2 "
+                          style="color: red;width:20%;padding-top: 9px">{{dynamicValueValidator}}</span>
+                </div>
+            </div>
+            </br>
+
+            <!--<div ng-show="gaugeEnabled === false">-->
+            <div ng-show="showFields">
+                <div ng-show="enableParamWidth">
+                    <label>{{"TEXT_WIDTH_PERCENT" | translate}} </label>
+                    <div class="" style="{{localLanguage ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                        <div class="input-group " style="width: 22%;margin-bottom: 20px">
+               <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-number" ng-click="minusParamWidth()"
+         >
+             <span class="glyphicon glyphicon-minus"></span>
+         </button>
+     </span>
+                            <input class="form-control  input-number" type="number" style="text-align: center;"
+                                   step="any"
+                                   type="number" ng-model="paramWidthPercent"
+                                   ng-init="paramWidthPercent=paramWidthPercent || 30"
+                                   placeholder="enter percent here"
+                                   ng-change="">
+                            <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-number" ng-click="plusParamWidth()">
+             <span class="glyphicon glyphicon-plus"></span>
+         </button>
+     </span>
+                        </div>
+                    </div>
+                </div>
+                <label>{{"TEXT_COLORING_BY" | translate}} </label>
+                <div class=" " style="{{localLanguage ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <select name="TextColor.id" class="form-control"
+                            ng-model="TextColor.id" style="width: 22%;margin-bottom: 20px">
+                        <option value=1>{{"PARAMETER_LIMITS" | translate}}</option>
+                        <option value=2>{{"CONSTANTS_BORDERS" | translate}}</option>
+                        <option value=3>{{"WITHOUT_CONDITIONS" | translate}}</option>
+                    </select>
+                </div>
+
+                <div class="" ng-show="TextColor.id == 3"
+                     style="{{localLanguage ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+
+                    <select name="TextColor.color" class="form-control"
+                            ng-model="TextColor.color"
+                            style="width: 22%;margin-bottom: 20px;margin-left:35px;">
+                        <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                        <option value="red">{{"RED" | translate}}</option>
+                        <option value="black">{{"BLACK" | translate}}</option>
+                        <option value="green">{{"GREEN" | translate}}</option>
+                        <option value="blue">{{"BLUE" | translate}}</option>
+                    </select>
+                    <span class="help-inline"
+                          style="color: red;width:20%;padding-top: 9px">{{TextColorValidator}}</span>
+                </div>
+
+                <div ng-show="TextColor.id==2"
+                     style="{{localLanguage ? 'margin-right: 10px' : 'margin-left: 10px'}}">
+                    <div class="">
+
+                        <select class="form-control pull-left"
+                                ng-model=" constantsBordersConditionsCondition"
+                                style="width: 25%;margin-left:35px;margin-bottom: 20px" placeholder="">
+                            <option value="" disabled selected>{{"SELECT_CONDITION" | translate}}</option>
+                            <option value="=">=</option>
+                            <option value="!=">!=</option>
+                            <option value=">">></option>
+                            <option value="<"><</option>
+                            <option value=">=">>=</option>
+                            <option value="<="><=</option>
+                        </select>
+
+                        <input type="number" ng-model="constantsBordersConditionsValue"
+                               class="form-control pull-left "
+                               style="width: 25%;margin-left:35px;;margin-bottom: 20px"
+                               placeholder="{{'VALUE' | translate}}" ng-required="required" ng-disabled="disabled">
+                        <select class="form-control pull-left"
+                                ng-model="constantsBordersConditionsColor"
+                                style="width: 25%;margin-left:35px;;margin-bottom: 20px">
+                            <option value="" disabled selected>{{"SELECT_APPROPRIATE_COLOR" | translate}}</option>
+                            <option value="red">{{"RED" | translate}}</option>
+                            <option value="black">{{"BLACK" | translate}}</option>
+                            <option value="green">{{"GREEN" | translate}}</option>
+                            <option value="blue">{{"BLUE" | translate}}</option>
+                        </select>
+
+
+                        <a class="pull-left" ng-click="addAnotherConstraint()"
+                           style="margin-bottom: 20px;margin-left:35px;padding-left: 0px">
+                            <i style="padding-top: 12px" class="fa fa-plus"></i>
+                        </a>
+
+                    </div>
+
+                    <div class=""
+                         style="{{localLanguage ? 'margin-right: 10px' : 'margin-left: 10px'}}"
+                         ng-repeat="con in TextColor.constantsBordersConditions">
+
+
+                        <input type="text" readonly name="equality" class="form-control pull-left"
+                               style="width: 25%;margin-left:35px;;margin-bottom: 20px"
+                               ng-model=" TextColor.constantsBordersConditions[$index].condition"
+                               placeholder="">
+                        </input>
+                        <input type="text" readonly ng-model="TextColor.constantsBordersConditions[$index].value"
+                               class="form-control pull-left"
+                               style="width: 25%;margin-left:35px;;margin-bottom: 20px"
+                               placeholder="value" ng-disabled="disabled">
+
+                        </input>
+                        <input type="text" readonly class="form-control pull-left"
+                               ng-model="TextColor.constantsBordersConditions[$index].color"
+                               style="width: 25%;margin-left:35px;;margin-bottom: 20px">
+                        </label>
+
+                        <a ng-click="removeConstraint(con.id)" class="pull-left"
+                           style="margin-bottom: 20px;margin-left:35px">
+                            <i ng-show="showMinus" class="fa fa-minus" aria-hidden="true"
+                               style="padding-top: 12px"></i>
+                        </a>
+
+
+                    </div>
+                    </br>
+                </div>
+                <div>
+
+                    <span ng-show="" class="help-inline col-lg-2 " style="color: red;width:20%;padding-top: 9px">{{TextColorValidator}}</span>
+                    <span class="help-inline col-lg-7"
+                          style="color: red">{{constantsBordersConditionsValidator}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show=""></div>
+        <div ng-show="gaugeEnabled === true">
+            <label>with Gauge ?</label>
+
+            <div>
+                <i class="{{Gaugestatus === true ? 'fa fa-toggle-on active' : 'fa fa-toggle-on fa-rotate-180 inactive'}}"
+                   ng-click="changeToggleStatus();">
+                </i>
+
+            </div>
+
+        </div>
+        </br>
+        </br>
+        </br>
+        </br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pull-right">
+                    <input class="btn btn-primary pull-right" type="submit" value="{{'SAVE_CHANGES' | translate}}"
+                           ng-click="update()">
+                    <button class="btn btn-white pull-right" type="submit" ng-click="clearAll()">{{'CLEAR_ALL' |
+                        translate}}
+                    </button>
+                    <button class="btn btn-white pull-right" type="submit" ng-click="exit()">{{'CANCEL' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

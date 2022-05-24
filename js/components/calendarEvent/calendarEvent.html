@@ -1,0 +1,57 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="spiner-example" ng-show="loadingForm">
+        <div class="sk-spinner sk-spinner-wave">
+            <img class="stnd dark-version" alt="Emerald Information Systems" src="images/loadingAnimation.gif" style="width: 45px;margin-bottom: 2px;">
+        </div>
+    </div>
+    <div  ng-include="'views/common/form.html'"></div>
+    <!-- <form role="form" name="leaderForm" ng-submit="formCallBack()" ng-if="!loadingForm">
+        <div class="col-sm-12" ng-show="groups[0].shownFieds > 0" style="border-style: solid solid solid;border-width: 1px;border-color: #e7eaec; margin-bottom: 15px;box-shadow: 5px 5px 2px #888888;">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-width: 0 0 0 !important;padding: 0;min-height: 20px;">
+                    <h4 class="pull-left" style="font-weight: bold;">{{localLanguage === true ? groups[0].Value.GroupLName : groups[0].Value.GroupEName}}</h4>
+                </div>
+                <div class="ibox-content groupContainer" ng-if="!add" style="padding-bottom: 20px;">
+                    <div  ng-init="groups[0].shownFieds = groups[0].shownFieds + 1" ng-repeat="field in groups[0].recordValue" style="height: 100%;"class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                        <input-directive formobject="leaderForm" content="field"></input-directive>
+                    </div>
+                </div>
+                <div class="ibox-content groupContainer" ng-if="add">
+                    <div ng-init="groups[0].shownFieds = groups[0].shownFieds + 1" ng-if="field.ShowOnNew == true" style="height: 100%;" ng-repeat="field in groups[0].recordValue" class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                        <input-directive formobject="leaderForm" content="field" add="true"></input-directive>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12" style="border-style: solid solid solid;border-width: 1px;border-color: #e7eaec; margin-bottom: 15px;box-shadow: 5px 5px 2px #888888;">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-width: 0 0 0 !important;padding: 0;min-height: 20px;">
+                    <h4 class="pull-left" style="font-weight: bold;">{{"RECURRENCE" | translate}}</h4>
+                </div>
+                <div class="ibox-content groupContainer" style="padding-bottom: 20px;">
+                    <div  
+                        ng-init="groups[1].shownFieds = groups[1].shownFieds + 1" 
+                        ng-repeat="field in groups[1].recordValue" style="height: 100%;"
+                        class="form-group {{(field.DisplayType == 13 ||  field.ChildName !== null  || common.DisplayType == 16) ? 'col-sm-6' : 'col-sm-3'}} pull-left">
+                        <input-directive formobject="leaderForm" content="field"></input-directive>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div  
+                            ng-show="(changes | filter:{FieldName : 'CopyIntervalID',Eq : 2}).length > 0"
+                            ng-init="groups[2].shownFieds = groups[2].shownFieds + 1" 
+                            ng-repeat="field in groups[2].recordValue" style="height: 100%;"
+                            class="form-group pull-left">
+                                <input-directive formobject="leaderForm" content="field"></input-directive>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-container">
+            <div class="pull-right floatOnBottom" ng-style="{'bottom':'40px'}" style="bottom: 40px;">
+                <button style="margin:0" type="submit" class="btn btn-sm btn-primary pull-right m-t-n-xs">{{"SAVE_CHANGES" | translate}}</button>
+            </div>
+        </div>
+    <form> -->
+</div>
+        

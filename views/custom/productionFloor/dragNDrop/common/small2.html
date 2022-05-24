@@ -1,0 +1,31 @@
+<div class="panel panel-success" style="height:100%;border-radius: 0px">
+    <table
+            class="table table-bordered" style="height:100%">
+        <tbody>
+        <tr style="height : 50% !important;">
+            <td>
+                <div ng-if="content.newBox === true " style=" word-break:break-all">
+                    <div ng-repeat="field in areas[0].cellData.fields">
+                        <a ng-click="addItem(0,$index,dynamicOptions)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr style="height : 50% !important;">
+            <td>
+                <div ng-if="content.newBox === true " style=" word-break:break-all;">
+                    <div ng-repeat="field in areas[1].cellData.fields">
+                        <a ng-click="addItem(1,$index,dynamicOptions)">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <span ng-if="field.FieldName"><strong>{{getParamName(field.FieldName)}}</strong></span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

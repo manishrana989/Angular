@@ -1,0 +1,35 @@
+{
+  "USERNAME": "Username",
+  "PASSWORD" : "Password",
+  "SET_DEFAULT_LANGUAGE" : "Set as default language",
+  "LOGIN": "Login",
+  "LOGOUT" : "Log out",
+  "SEARCH" : "Search",
+  "SEARCH_RESULTS" : "Search Results",
+  "DELETE" : "Delete",
+  "ADD" : "Add",
+  "SAVE_CHANGES" : "Save Changes",
+  "HOME" : "Home",
+  "sEmptyTable":     "No data available in table",
+  "sInfoThousands":  ",",
+  "sLoadingRecords": "Loading...",
+  "oAria": {
+    "sSortAscending":  ": activate to sort column ascending",
+    "sSortDescending": ": activate to sort column descending"
+  },
+  "sProcessing":   "جاري التحميل...",
+  "sLengthMenu":   "أظهر مُدخلات _MENU_",
+  "sZeroRecords":  "لم يُعثر على أية سجلات",
+  "sInfo":         "إظهار _START_ إلى _END_ من أصل _TOTAL_ مُدخل",
+  "sInfoEmpty":    "يعرض 0 إلى 0 من أصل 0 سجلّ",
+  "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+  "sInfoPostFix":  "",
+  "sSearch":       "ابحث:",
+  "sUrl":          "",
+  "oPaginate": {
+    "sFirst":    "الأول",
+    "sPrevious": "السابق",
+    "sNext":     "التالي",
+    "sLast":     "الأخير"
+  }
+}

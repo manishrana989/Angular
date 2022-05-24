@@ -1,0 +1,109 @@
+<div id="toastr" style="width: 60%;"></div>
+<div class="side-menu savedTemplates">
+  <div class="more-options newScroll slim" style="margin-top: 15px; padding-bottom: 5px">
+    <div class="reportRectangle" style="background-color: white; color: white; width: 5.948vw; height: 6.167vw;display: flex;" ng-click="showInsightsAbsolute=!showInsightsAbsolute; gaE('Factory_Insights','NEW_INSIGHTS')">
+      <strong>
+        <img src="images/insights-blue.svg" class="shift-header-btns-img" ng-style="{width: '2.042vw', height: '2.042vw'}" alt="Insights" />
+        <div class="insight-template-label-select-your-insights">{{"SELECT_YOUR_INSIGHTS" | translate}}</div>
+      </strong>
+    </div>
+    <div class="insight-arrow-templates-direction" style="cursor: pointer; display: flex; align-items: center; padding-right: 8px" ng-click="rtl?templatesMoveToRight():templatesMoveToLeft()">
+      <i ng-if="!rtl" class="fa fa-chevron-left"></i>
+      <i ng-if="rtl" class="fa fa-chevron-right"></i>
+    </div>
+    <div style="overflow: hidden; width: calc(100% - 9.635vw); display: flex" class="templatesScroll">
+      <div class="reportRectanglePurple customTemplate" ng-repeat="template in templates track by $index" ng-click="getTemplateByStructID($event,template, structure.name,$index);" ng-class="{reportRectangleRed: machineData.selectedTemplteIndex != $index}" ng-init="insightsTemplatesDirective.insightTemplateOptions = false">
+        <div class="template-label-container" tooltip=" {{localLanguage? template.LName : template.EName}}" style="margin-top: 2.5vw">{{localLanguage ? template.LName : template.EName}}</div>
+          <div class="templateDots" ng-click="insightsTemplatesDirective.insightTemplateOptions = !insightsTemplatesDirective.insightTemplateOptions;copyModalPosition($event);" off-click-activator="insightsTemplatesDirective.insightTemplateOptions" off-click="insightsTemplatesDirective.insightTemplateOptions = false;" >
+            <div class="circleE"></div>
+            <div class="circleE"></div>
+            <div class="circleE"></div>
+          </div>
+   
+
+
+        <div ng-if="insightsTemplatesDirective.insightTemplateOptions" class="container-template-option" ng-click="insightsTemplatesDirective.insightTemplateOptions = !insightsTemplatesDirective.insightTemplateOptions;">
+          <div class="container-template-option-button" ng-click="shareTemplateModel(template);insightsTemplatesDirective.insightTemplateOptions = false;$event.stopPropagation()">
+            <div class="container-template-option-button-direction">
+              <img src="images/share-insights-template.svg" class="container-template-img" alt="share-insights-template" />
+            </div>
+            <div class="container-template-option-button-direction">{{"SHARE" | translate}}</div>
+          </div>
+          <div class="container-template-option-button" ng-click="updateContainer($event,template, structure.name,$index,'LOCAL');insightsTemplatesDirective.insightTemplateOptions = false;$event.stopPropagation()">
+            <div class="container-template-option-button-direction">
+              <img src="images/save-insights-template.svg" class="container-template-img" alt="share-insights-template" />
+            </div>
+            <div class="container-template-option-button-direction">{{"SAVE" | translate}}</div>
+          </div>
+          <div class="container-template-option-button" ng-click="deleteDashboard(template);insightsTemplatesDirective.insightTemplateOptions = false;$event.stopPropagation()">
+            <div class="container-template-option-button-direction">
+              <img src="images/delete-black.svg" class="container-template-img" alt="share-insights-template" />
+            </div>
+            <div class="container-template-option-button-direction">{{"DELETE" | translate}}</div>
+          </div>
+          <div class="container-template-option-button" ng-click="getFilterNames();insightsTemplatesCtrl.selectedFilterVariant = true;$event.stopPropagation()" ng-init="insightsTemplatesCtrl.selectedFilterVariant=false" ng-if="!insightsTemplatesCtrl.selectedFilterVariant">
+            <div class="container-template-option-button-direction">
+              <img src="images/filter-grey-new.svg" class="container-template-img" alt="share-insights-template" />
+            </div>
+            <div class="container-template-option-button-direction">{{"DEFAULT_FILTER" | translate}}</div>
+          </div>
+          <div class="container-template-option-button" ng-if="insightsTemplatesCtrl.selectedFilterVariant" ng-click="$event.stopPropagation()">
+            <div class="container-template-option-button-direction">
+              <img src="images/filter-grey-new.svg" class="container-template-img" alt="share-insights-template" />
+            </div>
+            <select
+              ng-model="insightsTemplatesCtrl.selectedFilterVariant"
+              ng-style="insightsTemplatesCtrl.loading && {'cursor':'not-allowed'}"
+              style="height: 100%; width: 80%; border-radius: 2px; border: none; margin-left: 10px; background-color: var(--white)"
+              ng-options="item.FilterName for item in insightsTemplatesCtrl.filterVariants  track by item.FilterID"
+              ng-click="$event.stopPropagation()"
+            >
+              <option value="">{{"SELECT" | translate}}</option>
+            </select>
+          </div>
+        </div>
+  
+      </div>
+      <div class="reportRectangle customTemplateBlue" id="structure_{{$index}}" ng-repeat="structure in structures" ng-style="{'display' : allowEdit && structure.IsDefaultStructure ? 'unset':'flex'}" ng-class="{reportRectangle: structure.show == true, reportRectangleRed: structure.show == false}" ng-click="sendTemplate(structures[$index],structure.ID);machineData.selectedTemplteIndex = -1;">
+        <div ng-if="allowEdit && structure.IsDefaultStructure" ng-click="$event.stopPropagation()" style="margin-left: auto;margin-right: 10px;margin-top: 5px;">
+          <div class="checkBox" check-box-directive field-title="'IsActive'" field="structure"
+          type="'toggle'" select-value="'IsActive'" ng-click="changeIsActive(structure)" >
+        </div>
+        </div>
+        <div style="display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;" ng-style=" {'margin-top': allowEdit && !structure.GroupEName ?  '2.8vw': allowEdit && structure.GroupEName  ? '2vw' : ''}" ng-init="structure.insightTemplateOptions = false">
+          <span class="fontReport" title="{{structure.name | translate}}">{{localLanguage ? structure.LName  : structure.EName}}</span>
+          <span ng-if="allowEdit" class="fontReport" title="{{structure.name | translate}}">{{localLanguage ? structure.GroupHName:structure.GroupEName }}</span>
+        </div>
+         <div ng-if="allowEdit && !structure.IsDefaultStructure"  class="templateDots" ng-click="structure.defaultTemplateOptions = !structure.defaultTemplateOptions;copyModalPosition($event);hideTemplateMenuStructures(structure);$event.stopPropagation()" ng-init = "structure.defaultTemplateOptions = false" off-click-activator="structure.defaultTemplateOptions" off-click="structure.defaultTemplateOptions = false;" >
+          <div class="circleE"></div>
+          <div class="circleE"></div>
+          <div class="circleE"></div>
+        </div> 
+        <div ng-if="structure.defaultTemplateOptions" class="default-container-template-option" ng-click="structure.defaultTemplateOptions = !structure.defaultTemplateOptions;">
+          <div class="container-template-option-button" ng-click="updateContainer($event,structure, structure.name,$index,'DEFAULT_TEMPLATE');structure.defaultTemplateOptions = false;$event.stopPropagation()">
+            <div class="container-template-option-button-direction">
+              <img src="images/save-insights-template.svg" alt="share-insights-template" />
+            </div>
+            <div class="container-template-option-button-direction">{{"SAVE" | translate}}</div>
+          </div>
+          <div class="container-template-option-button" ng-click="deleteDashboard(structure,1);insightsTemplatesDirective.defaultTemplateOptions = false;$event.stopPropagation()">
+            <div class="container-template-option-button-direction">
+              <img src="images/delete-black.svg" alt="share-insights-template" />
+            </div>
+            <div class="container-template-option-button-direction">{{"DELETE" | translate}}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div style="cursor: pointer; display: flex; align-items: center; padding-left: 8px" ng-click="rtl?templatesMoveToLeft():templatesMoveToRight()">
+      <i ng-if="!rtl" class="fa fa-chevron-right"></i>
+      <i ng-if="rtl" class="fa fa-chevron-left"></i>
+    </div>
+  </div>
+</div>
+
+<insights-absolute-directive ng-if="showInsightsAbsolute" is-factory="isFactory"> </insights-absolute-directive>

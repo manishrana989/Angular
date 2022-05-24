@@ -1,0 +1,22 @@
+<div class="panel-body" style="background: #fff;">
+    <div class="ibox float-e-margins">
+        <div>
+            <h4>{{ 'ADD' | translate }}</h4>
+        </div>
+        <div class="ibox-content ">
+            <form role="form" ng-submit="add()">
+                <div class="col-sm-6 b-r">
+                    <div class="form-group" ng-repeat="common in displayObjectFieldsLeftSide">
+                        <input-directive content="common" add="true"></input-directive>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group" ng-repeat="common in displayObjectFieldsRightSide">
+                        <input-directive content="common" add="true"></input-directive>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right m-t-n-xs">{{ 'ADD' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="dashboard-period-header">
+  {{ "SELECT_DATE2" | translate }}
+  <img ng-click="closeModal();$event.stopPropagation()" class="close-icon" src="images/dashboard/close.svg" />
+</div>
+
+<div class="range-container">
+  <div style="width: 145px;">
+    <div class="input-group date">
+      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+      <input placeholder="{{ inputValue.content.Hint }}" type="datetime" class="form-control" ng-model="dtStart"
+        date-time format="DD/MM/YYYY" custom="false" min-view="date" auto-close="true" ng-blur="updateValue(dtStart,true)"/>
+    </div>
+  </div>
+</div>
+
+<p class="errorMsg" ng-show="errorCompare && technicianShiftError" style="text-align: center;">
+  {{ "CUSTOM_DATE_MUST_BE_GREATER" | translate }}
+</p>
+
+<div class="button-container">
+  <button class="pull-right btn btn-primary" ng-click="updateDate(dtStart,dtEnd,$event);" ng-disabled="errorCompare">
+    {{ "GET_DATA" | translate }}
+  </button>
+  <p class="pull-right errorMsg" ng-show="errorCompare && !technicianShiftError">
+    {{ "END_DATE_MUST_BE_GREATER" | translate }}
+  </p>
+</div>

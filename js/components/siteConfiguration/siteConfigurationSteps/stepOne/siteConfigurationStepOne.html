@@ -1,0 +1,82 @@
+<div class="step-one-container">
+    <div>
+        <div class="title">{{"PERSONAL_DETAILS" | translate}}</div>
+        <p class="secondry-title">{{"STEP_ONE_SECONDRY_TITLE" | translate}}</p>
+    </div>
+
+    <div class="left-side">
+        <div class="form-group">
+            <label for="factoryName">{{"FACTORY_NAME" | translate}}</label>
+            <input class="pull-right form-control" id="factoryName" ng-model="inputs.factoryName">
+        </div>
+
+        <div class="form-group">
+            <label for="industry">{{"INDUSTRY" | translate}}</label>
+            <input class="pull-right form-control" id="industry" ng-model="inputs.industry">
+        </div>
+
+        <div class="form-group">
+            <label for="jobTitle">{{"JOB_TITLE" | translate}}</label>
+            <input class="pull-right form-control" id="jobTitle" ng-model="inputs.jobTitle">
+        </div>
+
+        <div class="form-group">
+            <label for="userName">{{"USER" | translate}} {{"NAME" | translate}}</label>
+            <input class="pull-right form-control" id="userName" ng-model="inputs.userName">
+        </div>
+
+        <div class="form-group">
+            <label for="password">{{"PASSWORD" | translate}}</label>
+            <input class="pull-right form-control" id="password" ng-model="inputs.password">
+        </div>
+    </div>
+
+    <div class="right-side">
+
+        <div class="form-group firstName">
+            <div>
+                <label for="firstName">{{"FIRST_NAME" | translate}}</label>
+                <input class="pull-right form-control" id="firstName" ng-model="inputs.firstName">
+            </div>
+        </div>
+
+        <div class="form-group lastName">
+            <div>
+                <label for="lastName">{{"LAST_NAME" | translate}}</label>
+                <input class="pull-right form-control" id="lastName" ng-model="inputs.lastName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <label for="workEmail">{{"WORK_EMAIL" | translate}}</label>
+                <input class="pull-right form-control" id="workEmail" ng-model="inputs.workEmail">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <label for="workPhone">{{"WORK_PHONE" | translate}}</label>
+                <input class="pull-right form-control" id="workPhone" ng-model="inputs.workPhone">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <div class="form-group form-check">
+                    <div>
+                        <input id="checkbox" type="{{input.type}}" class="graph-option-li" ng-model="inputs.checkbox">
+                        <img ng-show="inputs.checkbox" src="images/dashboard/checkbox.svg" ng-click="inputs.checkbox = !inputs.checkbox;" />
+                        <img ng-show="!inputs.checkbox" width="18" height="18" ng-click="inputs.checkbox = !inputs.checkbox" />
+                        <label for="checkbox">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="display: inline-block;width: 100%">
+        <button class="pull-right btn btn-primary" ng-click="assignCurrentStep(2)">{{"NEXT" | translate}}</button>
+    </div>
+</div>

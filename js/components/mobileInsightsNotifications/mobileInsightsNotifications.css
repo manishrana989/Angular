@@ -1,0 +1,15 @@
+.mobile-notification-group {
+    height: 100px;
+    background-color: white;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 0px 15px;
+    flex-direction: column;
+}
+.mobile-notification-group select{
+    width: 200px;
+} 
+.mobile-notification-group span{
+    padding-bottom: 7px;
+} 

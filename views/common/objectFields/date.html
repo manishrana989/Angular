@@ -1,0 +1,35 @@
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="!inputValue.search">
+    <label style="margin-bottom: 0px;" ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    <div class="input-group date">
+        <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+        <input placeholder="{{inputValue.content.Hint}}"  ng-init="inputValue.initField(inputValue.value,'date')" type="datetime" class="form-control" ng-model="inputValue.value" date-time format="DD/MM/YYYY HH:mm:ss"  view="date" auto-close="true" ng-blur="inputValue.updateValue(content.Name,inputValue.value,'Eq','Date');inputValue.updateDate('value')" ng-required="inputValue.required" ng-disabled="inputValue.disabled"/>
+    </div>
+    <!-- <react-date-picker onupdate="inputValue.updateValue" onupdatedate="inputValue.updateDate" oninit="inputValue.initField" value="inputValue.value" contentname="content.Name" disabled="inputValue.disabled"></react-date-picker> -->
+</div>
+<div tooltip="{{inputValue.content.ToolTip}}" ng-if="inputValue.search == true">
+    <div class="col-lg-1 pull-left">
+        <label ng-if="!inputValue.content.editableTable" ng-class="{'requiredFiled' : inputValue.required}">{{inputValue.contentDisplayName}}</label>
+    </div>
+    <div class="col-lg-11">
+        <div class="col-lg-3">
+            <div class="input-group date">
+                <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+                <input placeholder="{{inputValue.content.Hint}}" type="datetime" class="form-control" ng-model="inputValue.valueEq" date-time  format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" ng-blur="inputValue.updateValue(inputValue.content.Name,inputValue.valueEq,'Eq','Date');inputValue.updateDate('valueEq')" ng-required="inputValue.required" ng-disabled="inputValue.disabled" />
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group date">
+                <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+                <input placeholder="{{inputValue.content.Hint}}"  type="datetime" class="form-control" ng-model="inputValue.valueGTEQ" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" ng-blur="inputValue.updateValue(inputValue.content.Name,inputValue.valueGTEQ,'GTEq','Date');inputValue.updateDate('valueGTEQ')" ng-required="inputValue.required" ng-disabled="inputValue.disabled" />
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group date">
+                <span class="input-group-addon"><i class="fa fa-calendar" ></i></span>
+                <input placeholder="{{inputValue.content.Hint}}"  type="datetime" class="form-control" ng-model="inputValue.valueLTEQ" date-time format="DD/MM/YYYY HH:mm:ss" view="date" auto-close="true" ng-blur="inputValue.updateValue(inputValue.content.Name,inputValue.valueLTEQ,'LTEq','Date');inputValue.updateDate('valueLTEQ')" ng-required="inputValue.required" ng-disabled="inputValue.disabled" />
+            </div>
+        </div>
+        <div class="col-lg-3">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<div style="margin: 5px; display: flex; flex-direction: row; font-size: 0.729vw" ng-repeat="percentageColor in percentageColors track by $index">
+  <span style="vertical-align: bottom; width: 60%">{{percentageColor.text|translate}}</span>
+  <span style="width: 40%; display: flex; flex-direction: row;justify-content: flex-end;">
+    <input ng-model="percentageColor.value" ng-show="percentageColor.showEditable" style="width: 58%;height: 19px;margin:0 2%;min-height: 19px;" type="text" ng-disabled="true" ng-value="percentageColor.value" />
+    <input type="color" ng-model="percentageColor.color" ng-disabled="true" style="display: inline-block;height: 19px;width: 27px;min-width: 27px;min-height: 19px;margin: 0 2%;box-sizing: border-box;" />
+  </span>
+</div>

@@ -1,0 +1,35 @@
+<div class="newNotificationWindow" style="padding: 0px 40px 0px 40px; text-align: inherit; width: 26vw">
+    <div style="padding: 10px 0px;font-weight: bold;font-size: large;">{{"SERVICE_REPORT" | translate}}</div>
+
+    <div>
+        <textarea ng-model="callOfServiceCubeCtrl.serviceReportText"
+            style="height: 86px; width: 100%;background-color: white;"></textarea>
+    </div>
+
+    <div>
+        <div>{{"ATTACH_FILES" | translate}}</div>
+
+        <div class="taskFilesContainer">
+            <div class="fileItem" ng-repeat="file in callOfServiceCubeCtrl.newFiles track by $index">
+                <img class="taskFileWrapper" ng-if="file.type.indexOf('image') >= 0" ngf-src="file">
+                <img class="taskFileWrapper" ng-if="file.type.indexOf('image') < 0"
+                    ng-model="callOfServiceCubeCtrl.newFile" src="images/file.svg" style="cursor: initial;">
+                <div style="font-size: 0.7vmax;">{{file['name'] | limitTo:8}}</div>
+            </div>
+            <div class="newTaskFieldsFiles taskFileWrapper" ngf-drop="" ngf-select=""
+                ng-model="callOfServiceCubeCtrl.newFile" ngf-drag-over-class="dragOverClassObj"
+                ngf-change="attachFiles(true)" class="dropzone dz-clickable">
+                <img src="images/addPlusBlue.svg">
+            </div>
+            <div ng-show="callOfServiceCubeCtrl.files.length>5" class="fileItem">
+                <img class="seeMoreWrapper " src="images/seeMore.svg">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="timePicker-footer" style="text-align: right">
+        <button class="pull-right btn btn-primary doneRulesBtn" style="position: relative; "
+            ng-click="updateServiceCallDescription(); uploadFiles(); clearDataFeilds(); $close()">{{"DONE" | translate}}</button>
+    </div>
+</div>

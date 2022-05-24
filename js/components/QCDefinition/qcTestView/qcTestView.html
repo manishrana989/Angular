@@ -1,0 +1,59 @@
+<div style="padding: 52px 40px" class="add-qc-tests">
+    <div style="cursor: pointer" ng-click="assignCurrentStep('qc-tests', currentTest)">
+            <img src="images/back.png" /> <span style="font-size: 16px;
+            position: relative;
+            margin: 0 12px;
+            top: 1px;">{{"BACK" | translate}}</span>
+
+    </div>
+
+
+        <div class="step-one-container">
+            <form>
+                <div
+                    style="font-size: 22px;margin-bottom: 30px;margin-top:50px;border-bottom: 1px solid #f6f6f6;padding-bottom: 26px;">
+                    Test-{{currentTest.id}}
+                </div>
+
+                <div style="padding-bottom: 46px;font-size: 22px">
+                    {{"NOTIFICATIONS" | translate}}
+                </div>
+
+                <div style="display: flex">
+                    <div class="form-group">
+                        <label for="productTime">{{"PRODUCT_TIME" | translate}}</label>
+                        <input style="max-width: 186px;margin-right: 154px" class="form-control" id="productTime"
+                            ng-model="inputs.productTime">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stopTime">{{"STOP_TIME" | translate}}</label>
+                        <input style="max-width: 186px" class="form-control" id="stopTime" ng-model="inputs.stopTime">
+                    </div>
+                </div>
+
+                <div style="display: flex">
+                        <div class="form-group">
+                        <label for="setupEnd">{{"SETUP_END" | translate}}</label>
+                        <input style="max-width: 186px;margin-right: 154px" class="form-control" id="setupEnd" ng-model="inputs.setupEnd">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numberOfCycles">{{"NUMBER_OF_CYCLES" | translate}}</label>
+                        <select style="max-width: 186px" class="form-control" id="numberOfCycles"
+                            ng-model="inputs.numberOfCycles"></select>
+                    </div>
+                </div>
+
+                <div
+                    style="display: inline-block;width: 100%;padding-top: 34px;margin-top:61px;border-top: 1px solid #f6f6f6">
+                    <button class="pull-right btn btn-primary" style="width: 133px" type="submit"
+                        ng-click="assignCurrentStep(4)">{{"NEXT" | translate}}</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

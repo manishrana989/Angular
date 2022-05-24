@@ -1,0 +1,124 @@
+<div>
+    <div class="tree-graph panel-body ng-scope" ng-show="!loading" ng-class="{'rtl': rtlL}" style="background: #fff;display: flex;padding: 0px;">
+        <div>
+            <div class="collapse-expand-btn" ng-style="{left:graphSideMenu ? '315px' : '0px'}" ng-click="graphSideMenu = !graphSideMenu">
+                <i class="fa" ng-class="{'fa-angle-right': !graphSideMenu,'fa-angle-left': graphSideMenu}"></i>
+            </div>
+            <div id="graph-side-options" ng-if="!loading && graphSideMenu">
+                <div id="graph-tools" >
+        <!--
+                    <img class="clickable-img" title="{{'HIDE_MATERIALS' | translate}}" src="images/hide-materials.svg" ng-style="{'opacity': materialHideDisable ? '0.4' : '1', 'cursor': materialHideDisable ? 'default' : 'pointer'}" ng-click="updateGraph(!this.materialHide)" alt="hide-materials">
+        -->
+                    <img class="clickable-img" title="{{'CENTER_GRAPH' | translate}}" src="images/center.svg" ng-click="centerGraph()" alt="center graph">
+                    <img class="clickable-img" title="{{'REFRESH_GRAPH' | translate}}" src="images/refresh.svg" ng-click="updateData()" alt="refresh graph">
+                    <span id="graph-tools-line">|</span>
+                    <img class="clickable-img" title="{{'RTL_GRAPH' | translate}}" src="images/right.svg" ng-style="{opacity: (nodeToRoot ? !rtl : rtl) ? 1: 0.5}" id="arrowRTL"ng-click="(nodeToRoot ? !rtl : rtl)? toggleDir(true): null" alt="ltr-graph">
+                    <img class="clickable-img" title="{{'LTR_GRAPH' | translate}}" src="images/right.svg" ng-style="{opacity: (nodeToRoot ? rtl : !rtl) ? 1: 0.5}" ng-click="(nodeToRoot ? rtl : !rtl) ? toggleDir(false): null" alt="rtl-graph">
+                </div>
+                <div ng-if="jobConfigs && jobConfigs.length > 0 && (DisaplyConfigFromRoot || !(DisaplyConfigFromRoot && selectedNode))">
+                    <div class="job-clicked-container">
+                        <div class="job-circle-parent" ng-repeat="jobConfig in jobConfigs">
+                            <div class="job-circle" title="{{jobConfig.producName}}"
+                            ng-click="openJob(jobConfig.ID)"
+                            style="background-image: url({{jobConfig.filePath}});
+                                    background-size: cover;">
+                                <span ng-if="!(jobConfig.filePath && jobConfig.filePath != '')">
+                                    {{jobConfig.producName || jobConfig.ID}}
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <p style="padding-top: 10px;">{{"JOB_CONFIGURATION" | translate}}</p>
+                    <hr>
+                </div>
+                <div ng-if="selectedNode && loadingForm == false" class="tree-node-form">
+                    <div class="tree-close-form"><img class="clickable-img tree-close-form-img"  src="images/remove.svg" ng-click="resetSelectedNode()" alt="remove"></div>
+                    <div ng-include="'views/common/form.html'">
+                    </div>
+                    <hr>
+                    <div class="nodeOptions">
+                        <p class="see_also">{{"SEE_ALSO" | translate}}</p>
+                        <a  class="item" ng-repeat="item in selectedNode.NodeWizard" href="#/appObjectFullView/{{selectedNode.AppObjectName}}/{{selectedNode.ObjectID}}/{{item.AppPartID}}" 
+                        target="{{selectedNode.ObjectID == content.ID && selectedNode.AppObjectName == content.linkItem ? '' : selectedNode.AppObjectName + '_tree'}}">{{localLanguage ? item.HName : item.PName}}</a>
+                    </div>
+                </div>
+                <div ng-if="loadingForm == true" ng-include="'views/common/emptyPage.html'" ></div>
+                <div ng-show="!selectedNode && loadingForm == false" ng-repeat="node in settingsData.graphToolList" id={{'nodeOption'+$index}} class="node-option-container">
+                    <div class="tool-option-list">
+                        <div class="shape-options-container">
+                            <span style="min-width: 50px" ng-show="settingsData.graphToolList.length >= 1">
+                                <div class="hide-material-switch onoffswitch" style="direction: ltr;text-align: left" >
+                                    <input type="checkbox"
+                                           checked="settingsData.isvisible" ng-disabled="rootNodeType === node.AppObjectName"
+                                           ng-model="settingsData.isvisible[node.AppObjectName]"
+                                           ng-change="updateGraph(node.AppObjectName,!settingsData.isvisible[node.AppObjectName])"
+                                           class="onoffswitch-checkbox" id={{'datesL'+$index}}>
+        
+                                    <label class="onoffswitch-label" for={{'datesL'+$index}} 
+                                        ng-class="{'button-disabled': rootNodeType === node.AppObjectName}">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch" 
+                                            ng-class="{'button-disabled': rootNodeType === node.AppObjectName}">
+                                            <span ng-if="settingsData.isvisible[node.AppObjectName]"
+                                                  class="material-switch-v">
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                                </span>
+        
+                            <div class="graph-option-shape" ng-style="{'color': node.Color}">
+                                {{node.Shape === 'Circle' ? '&#9679;' : ''}}
+                                {{node.Shape === 'Square' ? '&#9632;' : ''}}
+                                {{node.Shape === 'Rectangle' ? '&#9632;' : ''}}
+                                {{node.Shape === 'Rhombus' ? '&#9670;' : ''}}
+                                {{node.Shape === 'Octagon' ? '&#x2bc3;' : ''}}
+                                {{node.Shape === 'Hexagon' ? '&#x2b22;' : ''}}
+        
+                            </div>
+                            <div class="graph-options-ul">
+                                <div class="graph-option-li">
+                                 {{"TREE_OPTION_DISPLAY" | translate:{name : (localLanguage ? node.AppObjectLName : node.AppObjectName)} }}
+                                </div>
+                                <div ng-repeat="(key, value) in node.ObjectParameters">
+                                    <div class="graph-option-li" ng-if="!node.ObjectParameters[key].Pinned && value.IsDisplayInNodeElements && value.IsDisplay"><!--value.IsDisplayInNodeElements-->
+                                        <!-- <div>{{value.FieldName}}</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="graph-options" ng-click="dropDownToggle($index)" ng-init="node.showKeys = false">
+                            {{"OPTIONS" | translate}}
+                        </div>
+                    </div>
+                    <div class="options-drop-down" id={{'dropDown'+$index}} ng-style="rtlL && {'text-align':'right'}">
+                        <div ng-repeat="(key, value) in node.ObjectParameters">
+                            <Label ng-show="!node.ObjectParameters[key].Pinned && value.IsDisplayInNodeElements"> <!--value.IsDisplayInNodeElements-->
+                                <input type="checkbox"
+                                       class="graph-option-li"
+                                       ng-disabled="!node.ObjectParameters[key].IsDisplay && (numOfCheckboxSelection[$parent.$index] >= node.MaxDisplayElements)"
+                                       ng-change="updateTextGraph(node.ObjectParameters[key].IsDisplay, node.MaxDisplayElements, $parent.$index)"
+                                       ng-model="node.ObjectParameters[key].IsDisplay">
+                                <div class="checkmark" ng-style="rtlL && {'left':'13px'}"></div>
+                                {{value.FieldName}}
+                            </Label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ratioContainer" ng-if="ratioEnabled">
+                    <div class="btn new-dep-header-buttons"
+                    ng-class="{'enabled' : settingsData.relativeAmount == true}"
+                        style="display:inline-block;width:145px;color:#d0cfd0;border:1px solid #d0cfd0" 
+                        ng-click="ratioChanged(true)">{{"BOM" | translate}}</div>
+                    <div class="btn new-dep-header-buttons" 
+                        ng-class="{'enabled' : settingsData.relativeAmount == false}"
+                        style="display:inline-block;width:145px;color:#d0cfd0;border:1px solid #d0cfd0" 
+                        ng-click="ratioChanged(false)">{{"PRODUCT_TREE" | translate}}</div>
+            </div>
+        </div>
+        <div id="tree-graph"></div>
+    </div>
+    <div ng-if="loading === true" ng-include="'views/common/emptyPage.html'"></div>
+</div>

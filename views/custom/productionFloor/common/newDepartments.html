@@ -1,0 +1,310 @@
+<div id="toastr"></div>
+<div class="ibox" style=" height: 3.542vw;">
+    <div class="ibox-title department-name-machines" style="    padding: 1.354vw 0.781vw;">
+        <div class="machines-sum">
+            <div class="pull-left">
+                <span class="Department-Name">
+                    <span>
+                        {{localLanguage ? dep.DepartmentLname : dep.DepartmentEname}}
+                    </span>
+                </span>
+                <span class="Line-8"></span>
+                <!-- <span class="Machines-12" style="margin-top: 2px;margin-right:20px" ng-if="!showMachinePE">
+                    {{"MACHINES" | translate}}: {{dep.DepartmentsMachine.length}} <span
+                        style="padding-left : 10px;padding-right: 10px;">{{"PE"
+                    | translate}}: <span
+                            ng-style="{'color' : dep.DepartmentPEE > 2 || dep.DepartmentPEE < 0 ? 'red' : 'none'}">{{dep.DepartmentPEE
+                        > 2 || dep.DepartmentPEE < 0 ? ("PE_ERROR" | translate) : dep.DepartmentPEE}} </span> </span>
+                </span> -->
+                <span class="Machines-12" style="margin-top: 2px;margin-right:20px" ng-if="showMachinePE">
+                    {{"MACHINES" | translate}}: {{machinesNumber}} <span
+                        style="padding-left : 10px;padding-right: 10px;">{{"PE"
+                    | translate}}: <span
+                            ng-style="{'color' : departmentPE > 2 || departmentPE < 0 ? 'red' : 'none'}">{{departmentPE
+                        > 2 || departmentPE < 0 ? ("PE_ERROR" | translate) : departmentPE}} </span> </span>
+                </span>
+                <span ng-hide="hideShiftPeriod">
+                    <span class="shift-hours" class="Shift-Name">{{'ELAPSED_SHIFT_TIME' | translate}}:
+                        {{ dep.ShiftElapsedTime  | minutesToHHMM}}</span>
+                </span>
+
+            </div>
+                    <div class="pull-right" style="height:1.823vw">
+                        <div class="filter" style="display: inline-block;position: relative;" ng-style="departmentCtrl.sortByValue && {'top' : '-8px'}" ng-if="!departmentCtrl.collapseMachine.value">
+                           
+            
+                    <div class="sort text-center" ng-show="!departmentCtrl.collapseMachine.value">
+                        <select  class="form-control pull-left" style="display: inline-block;width: unset;bottom:unset" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"  ng-model="departmentCtrl.selectTemplateGroupID" ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in templateGroups "  ng-change="getExpandedStructure(true,option.id)" ></select>
+
+                        <span class="pull-left " style="margin:5px 0.521vw">{{"NUMBER_OF_MACHINES" | translate}}</span>
+                        <select class="form-control pull-left" ng-model="departmentCtrl.selectedNumOfMachines"
+                            ng-change="departmentCtrl.viewChanged()"
+                            ng-options="option.class as option.field for option in numberOfMachines" style="bottom:unset">
+                            <option value>{{"DEFAULT" | translate}}</option>
+                        </select>
+                                
+                            <div ng-if="!departmentCtrl.collapseMachine.value && !departmentCtrl.sortByValue" style="display: inline-block;"
+                            title="{{'SORT_BY' | translate}}" ng-init="departmentCtrl.sortByValue = false;">
+                            <button class="icon-dep" style="position:relative;background-image: url(images/sort.svg); {{rtl ? 'margin: 0 10px 0 5px' : 'margin: 0 0 0 8px'}};
+                                    background-repeat: no-repeat; background-position: center !important;background-color: white; " ng-click="departmentCtrl.changeSortByView();"></button>
+                        </div>
+
+                    </div>
+
+                    <div class="sort" ng-if="!departmentCtrl.collapseMachine.value && departmentCtrl.sortByValue" style="display: inline-flex;align-items: center;">
+                        <span class="pull-left" style="margin:5px 0.521vw;">{{"SORT_BY" | translate}}</span>
+                        <select class="form-control pull-left" ng-model="departmentCtrl.selectedSortField" style="margin: 0;bottom: auto;"
+                            ng-change="sortMachineBy(departmentCtrl.selectedSortField);gaE('Department_Online','sort')"
+                            ng-options="option.field as option.name for option in sortByData">
+                            <option value>{{"DEFAULT" | translate}}</option>
+                        </select>
+                        <div class="sortDirection" style="color:black;display: inline-block;cursor: pointer;"
+                            ng-click="sortAsc = !sortAsc;sortMachineByFilter(sortAsc);gaE('Department_Online','sort')">
+                            <!-- <i class="fa fa-sort-amount-asc"
+                               ng-class="{'fa-sort-amount-asc' : sortAsc,'fa-sort-amount-desc' : !sortAsc,'sortChosen' : departmentCtrl.selectedSortField}"></i> -->
+                            <img ng-if="sortAsc" src="images/sort-grey-new.svg" style="height: 1.2vw;"
+                                title="{{'SORT' | translate}}">
+                            <img ng-if="!sortAsc" src="images/sort-blue-new.svg" style="height: 1.2vw;"
+                                title="{{'SORT' | translate}}">
+                        </div>
+                        <div class="closeSortBar" style="display: inline-block;transform: unset;">
+                            <img src="images/cancelC.svg" ng-click="departmentCtrl.sortByValue =false">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="icons-container" ng-init="showSettings=false" click-outside="showSettings = false" ng-style="departmentCtrl.collapseMachine.value && {'display':'flex'}">
+                    <select  ng-if="!oldView && departmentCtrl.collapseMachine.value" class="form-control pull-left select-department-view" data-placeholder="{{'SELECT_SOME_OPTIONS' | translate}}"  ng-model="departmentCtrl.selectTemplateGroupIdCollapsed " ng-options="option.id as (option | customTranslate: 'ename':'hname':localLanguage) for option in templateGroups "  ng-change="getCollapsedStructure(true,option.id)" ></select>
+
+                    <!--FILTER-->
+                    <div title="{{'FILTER' | translate}}" style="display: inline-block;position: relative;margin-right: -3px;margin:0 5px" 
+                        ng-click="showFilters = !showFilters;gaE('Department_Online','filter')"
+                        ng-init="showFilters=false" off-click="showFilters = false" off-click-activator="showFilters">
+                        <button class="icon-dep"
+                            style="position:relative;background-image: url(images/{{(showFilters || hasFiltering) ? 'filter-blue-new.svg' : 'filter-grey-new.svg'}});
+                                background-repeat: no-repeat; background-position: center !important;background-color: white;">
+                        </button>
+
+                        <ul ng-show="showFilters" class="dashboard-settings-tooltip show-filters"
+                            style="margin-top: 0.3vw;" ng-click="$event.stopPropagation()">
+                            <li>
+                                <span style="display: none"
+                                    ng-init="boxName = departmentCtrl.collapseMachine.value?'MCollapsedBox_':'MExpandedBox_'">
+                                    {{boxName = departmentCtrl.collapseMachine.value?'MCollapsedBox_':'MExpandedBox_'}}
+                                </span>
+                                <machines-filters-directive ng-if="fetching" has-filter="hasFiltering"
+                                    update-status="updateStatus" type="dep.DepartmentEname" reset-data="resetData"
+                                    department="true" all-data="[dep]" view-box-name="boxName"
+                                    machines-lines-map="machinesLinesMap" dep-technician-status="depTechnicianStatus">
+                                </machines-filters-directive>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Show all machines button -->
+                    <div title="{{'SHOW_ALL_MACH' | translate}}" style="display: inline-block;"
+                        ng-click="allSelected=true;gaE('Department_Online','show_all_machines')">
+
+                    </div>
+                    <!-- Edit Pencil -->
+                    <div ng-if="departmentCtrl.collapseMachine.value && departmentCtrl.HasPermission && departmentCtrl.selectTemplateGroupIdCollapsed != -1"
+                        style="display: inline-block;" title="{{'EDIT' | translate}}">
+                        <button class="icon-dep" ng-init="departmentCtrl.showPencils = false;"
+                            style="margin:0 5px;position:relative;background-image: url(images/{{departmentCtrl.showPencils ? 'edit-blue-new.svg' : 'edit-grey-new.svg'}});
+                                background-repeat: no-repeat; background-position: center !important;background-color: white;"
+                            ng-click="departmentCtrl.showPencils = !departmentCtrl.showPencils;gaE('Department_Online','Edit_mode')">
+                        </button>
+                    </div>
+            
+                    <div ng-show="!oldView && departmentCtrl.collapseMachine.value && departmentCtrl.selectTemplateGroupIdCollapsed != -1" style="display: inline-block;margin:0 5px" 
+                        title="{{'SETTINGS' | translate}}">
+                        <button class=" settings-dep"
+                            style="position:relative;background-image: url(images/dashboard/{{showSettings ? 'settings-blue-new.svg' : 'settings-grey-new.svg'}});
+                            background-repeat: no-repeat; background-position: center !important;background-color: white;"
+                            ng-click="(showSettings = !showSettings);" off-click="showSettings = false" off-click-activator="showSettings">
+                        </button>
+                    </div>
+                    <div ng-if=" departmentCtrl.collapseMachine.value && !departmentCtrl.sortByValueColllapsed" style="display: inline-block;margin:0 5px"
+                    title="{{'SORT_BY' | translate}}" ng-init="departmentCtrl.sortByValueColllapsed = false;">
+                    <button class="icon-dep" style="position:relative;background-image: url(images/sort.svg);
+                            background-repeat: no-repeat; background-position: center !important;background-color: white; " ng-click="departmentCtrl.changeSortByViewCollapsed();"></button>
+                     </div>
+                     
+                    <div class="sort" ng-if="departmentCtrl.collapseMachine.value && departmentCtrl.sortByValueColllapsed" style="display: inline-block;align-items: center;">
+                        <span class="pull-left" style="margin:7px 0.521vw;">{{"SORT_BY" | translate}}</span>
+                        <select class="form-control pull-left" ng-model="departmentCtrl.selectedSortField" style="margin: 2px 4px;height: 1.6vw;width: 7vw;"
+                            ng-change="sortMachineBy(departmentCtrl.selectedSortField);gaE('Department_Online','sort')"
+                            ng-options="option.field as option.name for option in sortByData">
+                            <option value>{{"DEFAULT" | translate}}</option>
+                        </select>
+                        <div class="sortDirection" style="color:black;display: inline-block;cursor: pointer;margin: 4px;"
+                            ng-click="sortAsc = !sortAsc;sortMachineByFilter(sortAsc);gaE('Department_Online','sort')">
+                            <img ng-if="sortAsc" src="images/sort-grey-new.svg" style="height: 1.2vw;"
+                                title="{{'SORT' | translate}}">
+                            <img ng-if="!sortAsc" src="images/sort-blue-new.svg" style="height: 1.2vw;"
+                                title="{{'SORT' | translate}}">
+                        </div>
+                        <div class="closeSortBar" style="display: inline-block;transform: unset;">
+                            <img src="images/cancelC.svg" ng-click="departmentCtrl.sortByValueColllapsed =false">
+                        </div>
+                    </div>
+
+                    <div ng-if="!oldView" class="grid-view" ng-show="!departmentCtrl.collapseMachine.value"
+                        ng-click="departmentCtrl.collapseMachine.value = !departmentCtrl.collapseMachine.value;drawLines();gaE('Department_Online', 'Square_mode')"
+                        ng-class="{'selected' : !departmentCtrl.collapseMachine.value}" style="background-size: 44% auto;
+                        display: inline-block;
+                        border: solid 0.8px #d0cfd0;
+                        border-radius: 1.7px;
+                        background-repeat: no-repeat;
+                        background-position: 0.65vw;
+                        cursor: pointer;
+                        height: 1.61vw;top: 0.06vw;
+                        {{rtl ? 'margin-left: 2px' : 'margin-left: 0px'}};
+                        width: 2.344vw;" title="{{'CUBES_VIEW' | translate}}">
+                    </div>
+
+                    <div ng-if="!oldView" class="grid-view" ng-show="departmentCtrl.collapseMachine.value"
+                        ng-click="departmentCtrl.collapseMachine.value = !departmentCtrl.collapseMachine.value;drawLines();gaE('Department_Online','Cube_mode')"
+                        style="background-image: url(images/four-squares-button.svg); margin-left: 0.28px;background-size: 44% auto;
+                        display: inline-block;
+                        border: solid 0.8px #d0cfd0;
+                        border-radius: 1.7px;
+                        background-repeat: no-repeat;
+                        background-position: 0.65vw;
+                        cursor: pointer;
+                        height: 1.57vw;top: 0.05vw;
+                        width: 2.344vw;
+                        margin:0 5px;"
+                        title="{{'DETAILED_VIEW' | translate}}">
+                    </div>
+
+                    <div class="iconSize" title="{{'TV' | translate}}" ng-if="!allMachinesFullScreen.value" style="display: inline-block;
+                         border: solid 0.8px #d0cfd0;border-radius: 1.7px;
+                         top: 0.06vw;
+                         background-image: url(images/dashboard/monitor.png);background-repeat: no-repeat;
+                         background-position: 0.65vw;
+                         cursor: pointer;height: 1.6vw;width: 2.344vw;background-size: 1.15vw;position: relative;" ng-click="toggleScreen(); minimalize()">
+                    </div>
+                    <div class="collapseButton iconSize" ng-if="allMachinesFullScreen.value"
+                        style="display: inline-block;margin:0;top: 0.06vw; cursor: pointer;
+                         border: #d0cfd0 1px solid;border-radius: 1.7px;
+                         top: 0.06vw;
+                         background-repeat: no-repeat;
+                         background-position: 0.5vw;
+                         cursor: pointer;height: 1.6vw;width: 2.344vw;position: relative;"
+                        title="{{'MINIMIZE' | translate}}" ng-click="toggleScreen();minimalize()">
+                    </div>
+                    <online-settings-directive ng-show="showSettings" machine-online-settings="machineOnlineSettings" department-id="dep.DepartmentID"
+                        type="type"></online-settings-directive>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="ibox-content {{pieSizeClass}}">
+    <div class="progressContainer">
+        <progress class="progressNumbers progress-bar-item" >
+            <bar ng-show="bar.percentage > 0" ng-repeat="bar in dep.machineColorsBar track by $index"
+                value="bar.percentage" type="{{bar.color}}"
+                style="background-color: white; color:white;cursor: pointer;" ng-click="updateSelectedBar(bar)">
+                <span class="progress-bar-{{bar.color}}" style="padding: 7px;font-weight: 600;position: relative;    border-top-right-radius: 10px;
+                                border-top-left-radius: 10px;">{{bar.count}}</span>
+                <img alt="Emerald Information Systems" width="20" height="20" class="progressIcons"
+                    style="cursor:pointer" ng-click="updateSelectedBar(bar)" ng-src="images/icons_20x20/{{bar.icon}}">
+            </bar>
+        </progress>
+        <progress class="progressBarLine progress-bar-item allMachinesLineBar">
+            <bar ng-show="bar.percentage > 0" style="cursor:pointer"
+                ng-repeat="bar in  dep.machineColorsBar track by $index" ng-click="updateSelectedBar(bar)"
+                value="bar.percentage" type="{{bar.color}}">
+            </bar>
+        </progress>
+    </div>
+    <div class="online-machine-sentence" ng-show="departmentCtrl.showPencils" title="{{'CHANGES_FOR_THE_CURRENT_MACHINE_ARE_SAVED_AUTOMATICALLY' | translate}}">
+      {{"CHANGES_FOR_THE_CURRENT_MACHINE_ARE_SAVED_AUTOMATICALLY" | translate}}
+    </div>
+    <div class="" style="display: flex;flex-wrap: wrap;flex-direction: row" 
+        ng-if="departmentCtrl.collapseMachine.value && (hasFiltering || departmentCtrl.selectedSortField)">
+        <div ng-show="machine.display" machine-collapsed
+            update-structures="getCollapsedStructure" parameters="collpasedMachinesStructure[machine.MachineID]"
+            show-pencils="departmentCtrl.HasPermission && departmentCtrl.showPencils" class="onlineCollapsed"
+            show-three-params="pieSizeClass == 'big-circle' || pieSizeClass == 'big-circle rec'? true : false"
+            job-configuration="jobConfiguration[machine.MachineID]" ng-repeat="machine in sortedMachines"
+            content="machine" type="type" users-data="groupsData" all-machines="dep.DepartmentsMachine" is-default-structure="isDefaultStructure">
+        </div>
+    </div>
+    <div ng-if="departmentCtrl.collapseMachine.value && !(hasFiltering || departmentCtrl.selectedSortField)">
+        <div style="display: flex;flex-wrap: wrap" 
+            ng-style="{'flex-direction' : settings.verticalView ? 'row' : 'column'}">
+            <div  style="display: flex"  
+                ng-style="{
+                    'flex-direction' : settings.verticalView ? 'column' : 'row',
+                    'flex-wrap' : settings.verticalView ? '' : 'wrap',
+                    'width' : settings.verticalView ? '' : '100%',
+                }" 
+                ng-repeat="group in machinesGroupedByLine">
+                <div style="height: unset;" ng-show="machine.display" machine-collapsed
+                    update-structures="getCollapsedStructure" parameters="collpasedMachinesStructure[machine.MachineID]"
+                    show-pencils="departmentCtrl.HasPermission && departmentCtrl.showPencils" class="onlineCollapsed"
+                    show-three-params="pieSizeClass == 'big-circle' || pieSizeClass == 'big-circle rec'? true : false"
+                    job-configuration="jobConfiguration[machine.MachineID]" ng-repeat-start="machine in group"
+                    content="machine" type="type" users-data="groupsData" all-machines="dep.DepartmentsMachine" is-default-structure="isDefaultStructure">
+                </div>
+                <div ng-repeat-end ng-if="machine.NextLineMachineID === 0 && !hasFiltering && !departmentCtrl.selectedSortField" style="flex-basis: 100%;">
+                </div>
+            </div>
+        </div>
+        <div style="display: flex;flex-wrap: wrap;flex-direction: row;width: 100%;">
+            <div style="height: unset;" ng-show="machine.display" machine-collapsed
+                update-structures="getCollapsedStructure" parameters="collpasedMachinesStructure[machine.MachineID]"
+                show-pencils="departmentCtrl.HasPermission && departmentCtrl.showPencils" class="onlineCollapsed"
+                show-three-params="pieSizeClass == 'big-circle' || pieSizeClass == 'big-circle rec'? true : false"
+                job-configuration="jobConfiguration[machine.MachineID]" ng-repeat="machine in machinesWithoutLines"
+                content="machine" type="type" users-data="groupsData" all-machines="dep.DepartmentsMachine" is-default-structure="isDefaultStructure">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-class="
+                {
+                    'last-row' : $index >= dep.DepartmentsMachine.length - 3 && ($index % 3 <= (dep.DepartmentsMachine.length - 1) % 3),
+                    'col-xxxl-1 col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-xs-12' : !departmentCtrl.selectedNumOfMachines
+                }" ng-style="expandedMachinesStructure[machine.MachineID].params.length > 3 && {'min-height':'660px'}"
+            ng-if="!departmentCtrl.collapseMachine.value && !oldView" update-structures="getExpandedStructure"
+            machines-expanded-data="expandedMachinesStructure[machine.MachineID]"
+            show-pencils="departmentCtrl.HasPermission" job-configuration="jobConfiguration[machine.MachineID]"
+            class="pull-left {{departmentCtrl.selectedNumOfMachines}} onlineExpanded machine-expanded-directive"
+            machine-expanded ng-repeat="machine in sortedMachines" ng-show="machine.display"
+            update-technician-status="updateTechnicianStatus" technician-status="depTechnicianStatus[machine.MachineID]"
+            update-data="localUpdate" graph-data="machinesGraphData[machine.MachineID]" users-data="groupsData" get-graph-data="getGraphData"
+            ng-show="expandedMachinesStructureReady && (allSelected || selected.color == machine.MachineStatusID)"
+            content="machine" all-machines="dep.DepartmentsMachine" is-default-structure="isDefaultStructure">
+        </div>
+
+     
+
+        <div ng-init="resetSelectedBar()" ng-if="oldView" class="departments"
+            ng-if="departmentCtrl.collapseMachine.value">
+            <div class="ibox float-e-margins col-lg-12 pull-left"
+                style="background:white;border:none; margin-bottom : 74px;">
+                <div style="background-color: transparent;border-style: none;">
+                    <div class="ibox-content containerMachine machineShapeShift{{dep.DepartmentID}}"
+                        style="padding-left: 15px; border-top: 0;">
+                        <div on-machine-finish-render="ngRepeatFinished"
+                            data-ss-colspan="{{machineBox.collapsed === false ? machineBox.BoxSize : 6}}"
+                            machine-directive
+                            class="{{machineBox.collapsed === false ? '' : 'machineCollapsed'}} boxPerMachine pull-left box size{{machineBox.nested[0]}}{{machineBox.nested[1]}}"
+                            content="machineBox" ng-show="allSelected || selected.color == machineBox.MachineStatusID"
+                            style="height : {{(machineBox.height + (rtl ? 77 : 79)) + 'px'}};margin:0px 20px 30px 0;width:auto ;border: solid 1px #cecece;"
+                            ng-repeat="machineBox in sortedMachines" ng-show="machineBox.display">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- IBOX content-->
+</div> <!-- END IBOX-->

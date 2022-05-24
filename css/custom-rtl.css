@@ -1,0 +1,2393 @@
+.rtl {
+  direction: rtl;
+}
+
+.rtl > #page-wrapper {
+  margin: 0 220px 0 0;
+}
+
+body.mini-navbar .rtl > #page-wrapper {
+  margin: 0 0 0 0;
+}
+
+body.fixed-nav.fixed-nav-basic .rtl .navbar-fixed-top {
+  left: 0;
+  right: 220px;
+}
+
+body.fixed-nav.fixed-nav-basic.mini-navbar .rtl .navbar-fixed-top {
+  right: 0;
+}
+
+.rtl .cancelSearchFilter {
+  justify-self: left;
+}
+
+/* .rtl insights-dashboard-directive .ui-grid-render-container-right .ui-grid-viewport{
+  height:288px !important 
+} */
+
+.rtl text.machine-plan-text {
+  font-size: 0.938vw;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.22;
+  letter-spacing: normal;
+  color: #101010;
+  transform: translate(0px, -22px);
+  text-anchor: end;
+  direction: rtl;
+}
+
+.rtl .doneRulesBtn {
+  right:unset
+}
+
+.rtl .templateDots {
+  margin-right: auto;
+  margin-left: 10px;
+}
+.rtl .copy-qc-dots{
+  margin-left: 10px;
+  margin-right: auto
+}
+.rtl .margin-auto-flex{
+  margin-left: unset;
+  margin-right:auto;
+}
+
+.rtl .arrows {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.rtl .displayByIcon {
+  justify-self: right;
+}
+.rtl .closeFilterWindow {
+  right: unset;
+  left: 22%;
+}
+
+.rtl .tasksManagement .closeFilterWindow {
+  right: unset;
+  left: 1%;
+}
+
+.rtl .sortBySelectWrapper {
+  justify-self: right;
+}
+
+.rtl #side-menu {
+  -webkit-padding-start: 0;
+  -moz-padding-start: 0;
+}
+.rtl .metismenu .arrow {
+  float: left;
+}
+
+.rtl .fa.arrow:before {
+  content: "\f104";
+}
+
+.rtl .nav > li.active {
+  border-left: 0;
+  border-right: 4px solid var(--color2);
+}
+
+.rtl .nav.nav-tabs > li {
+  background: none;
+  border: none;
+}
+
+.rtl .nav > li > a {
+  padding: 14px 16px 14px 8px;
+}
+/* .rtl ul,
+menu,
+dir {
+	-webkit-padding-start: 0;
+	-moz-padding-start: 0;
+} */
+
+.rtl .nav-second-level li a {
+  padding: 7px 10px 7px 10px;
+  padding-right: 52px;
+}
+
+.rtl .nav-second-level li a {
+  padding: 7px 10px 7px 10px;
+  padding-right: 52px;
+}
+.rtl .nav-third-level li a {
+  padding-right: 62px;
+}
+
+.mini-navbar .rtl li.active .nav-second-level {
+  right: 65px;
+}
+
+body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .rtl .nav li:hover > .nav-second-level,
+.mini-navbar .nav li:focus > .nav-second-level {
+  display: block;
+  border-radius: 0 2px 2px 0;
+  min-width: 140px;
+  height: auto;
+}
+
+.mini-navbar .rtl .nav-second-level li a {
+  padding: 10px 15px 10px 10px;
+}
+
+.mini-navbar .rtl .nav-second-level {
+  position: absolute;
+  right: 70px;
+  top: 0;
+  background-color: #2f4050;
+  padding: 10px 10px 10px 10px;
+  font-size: 12px;
+}
+
+.rtl .fixed-nav .minimalize-styl-2 {
+  margin: 5px 5px 5px 5px;
+}
+
+.rtl .navbar-header {
+  float: right;
+}
+
+.rtl .nav-tabs > li {
+  float: right;
+  margin-bottom: -1px;
+}
+
+.rtl .nav-tabs > li > a {
+  margin-right: 0;
+  margin-left: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+}
+
+.rtl .col-lg-10.floatRight {
+  float: right;
+}
+
+.rtl .pull-right {
+  float: left !important;
+}
+.rtl .pull-left {
+  float: right !important;
+}
+
+.rtl .footer.fixed {
+  margin-right: 220px;
+  margin-left: 0;
+}
+
+.rtl .b-r {
+  border-left: 1px solid #e7eaec;
+  border-right: 0;
+}
+
+.rtl .col-sm-6.b-r {
+  float: right;
+}
+
+.rtl .input-group-addon:first-child {
+  border-left: 0;
+  border-right: 1px solid #e5e6e7;
+}
+
+.rtl .col-sm-6 {
+  float: right;
+}
+
+.rtl table.dataTable thead .sorting:after,
+.rtl table.dataTable thead .sorting_asc:after,
+.rtl table.dataTable thead .sorting_desc:after,
+.rtl table.dataTable thead .sorting_asc_disabled:after,
+.rtl table.dataTable thead .sorting_desc_disabled:after {
+  left: 8px;
+  right: inherit;
+}
+
+.rtl table.dataTable thead > tr > th.sorting_asc,
+.rtl table.dataTable thead > tr > th.sorting_desc,
+.rtl table.dataTable thead > tr > th.sorting,
+.rtl table.dataTable thead > tr > td.sorting_asc,
+.rtl table.dataTable thead > tr > td.sorting_desc,
+.rtl table.dataTable thead > tr > td.sorting {
+  padding-left: 30px;
+  padding-right: 8px;
+}
+
+.rtl table.table-bordered.dataTable th:last-child,
+.rtl table.table-bordered.dataTable th:last-child,
+.rtl table.table-bordered.dataTable td:last-child,
+.rtl table.table-bordered.dataTable td:last-child {
+  border-right-width: 1px;
+}
+
+.rtl div.dataTables_wrapper div.dataTables_paginate {
+  text-align: left;
+}
+
+.rtl .pagination > li > a,
+.rtl .pagination > li > span {
+  float: right;
+}
+
+.rtl th {
+  text-align: right;
+}
+
+.rtl .theme-config {
+  left: 0;
+  right: initial;
+}
+
+.rtl .theme-config-box {
+  margin-left: -220px;
+  margin-right: 0;
+}
+
+.rtl .theme-config-box.show {
+  margin-right: 0;
+  margin-left: 0;
+}
+.rtl .spin-icon {
+  right: 8px;
+  border-radius: 0 0px 0px 0;
+}
+
+.rtl .skin-setttings {
+  margin-right: 40px;
+  margin-left: 0;
+}
+
+.rtl .multiforms-date {
+  direction: ltr;
+  display: block;
+  float: right;
+}
+
+.rtl .responsive-table-directive {
+    margin-top: 0px;
+    height: 480px;
+}
+
+/* .rtl .ui-grid-menu kkkkkkkkkkk
+{
+    z-index: 2;
+    position: absolute;
+    padding: 0 10px 20px 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+
+} */
+
+.rtl .ibox-content h1,
+.rtl .ibox-content h2,
+.rtl .ibox-content h3,
+.rtl .ibox-content h4,
+.rtl .ibox-content h5,
+.rtl .ibox-title h1,
+.rtl .ibox-title h2,
+.rtl .ibox-title h3,
+.rtl .ibox-title h4,
+.rtl .ibox-title h5 {
+  /*float: right;*/
+}
+
+.rtl .ibox-content .col-lg-3 {
+  float: right;
+}
+
+.rtl .ibox-tools-custom {
+  display: inline-flex;
+  float: left;
+}
+
+.rtl .fixed {
+  padding-right: 20px;
+}
+
+.rtl .navbar-right {
+  float: left !important;
+}
+
+.rtl .html5buttons {
+  float: left;
+}
+
+.rtl .dataTables_length {
+  float: right;
+}
+
+.rtl .dataTables_filter {
+  float: left;
+}
+
+.rtl .dataTables_info {
+  padding-top: 40px !important;
+}
+
+.rtl .ibox-tools {
+  text-align: left;
+}
+
+.rtl .ibox-tools a {
+  margin-right: 5px;
+  padding-right: 5px;
+}
+
+.rtl .toast-title {
+  padding-right: 60px;
+}
+
+.rtl .dataTables_scrollHeadInner {
+  /*padding-right: 0px !important;*/
+}
+
+.rtl > .chosen-container-active .chosen-choices li.search-field input[type="text"] {
+  direction: rtl;
+}
+
+.rtl .chosen-container-multi .chosen-choices li {
+  float: right;
+}
+
+.rtl .search-container .search-label-input {
+  width: 300px;
+  margin-right: 15px;
+}
+
+.rtl text {
+  /* direction: rtl; */
+}
+
+.rtl .shift-hours {
+  margin-right: 25px;
+}
+
+@media (min-width: 1200px) {
+  .rtl .col-lg-offset-12 {
+    margin-right: 100%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-11 {
+    margin-right: 91.66666667%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-10 {
+    margin-right: 83.33333333%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-9 {
+    margin-right: 75%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-8 {
+    margin-right: 66.66666667%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-7 {
+    margin-right: 58.33333333%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-6 {
+    margin-right: 50%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-5 {
+    margin-right: 41.66666667%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-4 {
+    margin-right: 33.33333333%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-3 {
+    margin-right: 25%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-2 {
+    margin-right: 16.66666667%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-1 {
+    margin-right: 8.33333333%;
+    margin-left: 0;
+  }
+  .rtl .col-lg-offset-0 {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+.rtl .dashboard-screen div {
+  text-align: right;
+}
+
+.rtl .ibox .ibox-tools.open > .dropdown-menu {
+  left: 0;
+  right: auto;
+}
+
+.rtl.modal-footer {
+  text-align: left;
+}
+
+.rtl .New-tab-icon {
+  -ms-transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.rtl .input-group.date {
+  direction: rtl;
+}
+
+.rtl .dataTables_scrollHeadInner {
+  padding-right: 0px !important;
+}
+
+/*.rtl editable-table .dataTables_scrollHeadInner {*/
+/*padding-left: 17px;*/
+/*}*/
+
+.rtl .chosen-container-single .chosen-single span {
+  margin-right: 0;
+}
+
+.rtl .chosen-container a div {
+  left: 5px;
+  right: auto;
+  top: 4px;
+}
+
+.rtl .gridStyle {
+  text-align: right;
+}
+
+.rtl .ui-grid-grid-footer {
+  padding-right: 32px;
+}
+
+.rtl .breadcrumb > li + li:before {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+  display: inline-block;
+}
+
+.rtl .ui-grid-column-menu-button-last-col {
+  margin-left: 7px;
+}
+
+.rtl .search-container .search-plus {
+  margin-right: 20px;
+}
+
+.rtl .sweet-alert button.cancel {
+  float: left;
+}
+
+.rtl .blockChild .panel-success {
+  border-color: #cecece;
+  margin-right: -1px;
+  margin-top: -1px;
+}
+.rtl .ui-grid-filter-container .ui-grid-filter-button-select {
+  left: 0;
+  right: unset;
+}
+
+.rtl .progress-bar-item > div {
+  float: right;
+  text-align: right;
+}
+
+.rtl .recipeRefButtons {
+  float: right;
+}
+
+.searchResultsGrid .ui-grid-row .ui-grid-cell-date {
+  direction: ltr;
+}
+
+.editableTableGrid .ui-grid-row .ui-grid-cell-date {
+  direction: ltr;
+}
+
+.rtl .floatOnBottom,
+.rtl .floatOnBottomRec {
+  position: fixed;
+  bottom: 0;
+  left: -15px;
+  right: inherit;
+  z-index: 999;
+}
+
+.rtl .modal-dialog .floatOnBottom {
+  position: inherit;
+}
+.rtl .floatOnBottomRec {
+  left: 0;
+}
+
+.rtl .modal-dialog .floatOnBottom {
+  bottom: 15px;
+}
+
+.rtl .showExport {
+  right: inherit;
+  left: 0;
+}
+
+.rtl .exportMenuButtonContainer {
+  margin-right: 10px;
+}
+
+.rtl .navbar-top-links li:last-child {
+  margin-right: 0;
+}
+
+.rtl .exportContainer ul {
+  right: inherit;
+  left: 0;
+}
+
+.rtl .gearNavMenu {
+  right: -45px;
+  top: 24px;
+}
+
+.rtl .topNavBar .logout {
+  transform: rotate(180deg);
+}
+
+.rtl .navbar-top-links > li > a {
+  padding: 10px;
+}
+
+.rtl .production-description {
+  right: -25px;
+}
+
+.rtl .padding-right-50 {
+  padding-left: 50px;
+}
+
+.rtl .shift-grid .availble-square {
+  margin-right: 5px;
+}
+
+.rtl h2.production-floor-header {
+  margin-right: 20px;
+  margin-left: 0px;
+}
+
+.rtl .options-drop-down.active.row {
+  text-align: right;
+}
+
+.rtl .dashboard-settings-tooltip label {
+  padding-right: 10px !important;
+  padding-left: unset;
+}
+
+.rtl .options-drop-down.active.row {
+  margin: 0;
+}
+
+.rtl .goalBarsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+.rtl .shift-progress.total {
+  text-align: left !important;
+}
+
+.rtl .shift-tools-icon {
+  margin-right: 27px;
+  margin-left: 0px;
+}
+
+.rtl ul.dashboard-settings-tooltip.shift-menu:before {
+  right: 32px;
+}
+
+.rtl .availble-square {
+  margin-right: 0px;
+  margin-left: 20px;
+}
+
+.rtl ul.dashboard-settings-tooltip.shift-menu.legend-menu {
+  padding-right: 1vw;
+  margin-top: 11.938vw;
+  left: -1vw;
+  right: unset;
+}
+.rtl ul.dashboard-settings-tooltip.shift-menu.legend-menu:before {
+  right: 8.417vw;
+  left: unset;
+}
+
+.rtl shift-container .settings {
+  text-align: right;
+  right: -14.063vw;
+  top: 1.5vw;
+  overflow-y: visible;
+}
+.rtl shift-container .filter-icon-insights {
+  margin-right: 0.606vw;
+  margin-left: unset;
+}
+.rtl shift-container .innerFlexInsightSettings input[type="color"] {
+  margin-left: unset;
+  margin-right: 10px;
+}
+
+.rtl .global-radio .container-radio {
+  padding-right: 29px !important;
+  padding-left: unset;
+}
+.rtl .global-radio .checkmark {
+  right: 0;
+  left: unset;
+}
+
+.rtl .settings ul.dashboard-settings-tooltip.shift-menu:before {
+  left: 43px;
+  right: unset;
+}
+
+.rtl ul.dashboard-settings-tooltip:before {
+  right: 295px;
+}
+
+.rtl shift-directive ul.dashboard-settings-tooltip:before {
+  right: unset;
+  left: 25%;
+}
+
+.rtl ul.dashboard-settings-tooltip > li:first-child {
+  margin-right: 10px;
+}
+
+.rtl ul.dashboard-settings-tooltip.legend-menu > li:first-child {
+  margin-right: unset;
+}
+.rtl .ui-grid[dir="rtl"] .ui-grid-filter-container .ui-grid-filter-button-select [class^="ui-grid-icon"] {
+  left: -4px;
+}
+
+.rtl ul.dashboard-settings-tooltip {
+  left: 35px;
+}
+
+.rtl .shift-progress .event-bar {
+  text-align: left;
+}
+.rtl .dashboard-settings-close-btn {
+  float: left;
+}
+
+.rtl all-machines-online-directive .machines-sum {
+  margin-right: 4px;
+}
+
+.rtl .inner-container-pie {
+  right: 17px;
+}
+
+.rtl .machines-sum .circles-view {
+  margin-left: -5px;
+  margin-right: 30px;
+}
+
+.rtl .mainCircle .bottomSection h5 {
+  left: -15px;
+}
+
+.goal-blue-bar-dot {
+  width: 13px;
+  height: 13px;
+  background-color: var(--color2);
+  vertical-align: middle;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: relative;
+  display: inline-block;
+  border-width: 3px;
+  border-color: var(--color2);
+  border-radius: 13px;
+  right: -8px;
+}
+
+.goal-black-bar-icon {
+  width: 22px;
+  height: 22px;
+  background-color: #ffffff;
+  border: solid 2px #4a4a4a;
+  vertical-align: middle;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: relative;
+  display: inline-block;
+  border-radius: 22px;
+  right: -10px;
+  top: -1px;
+  font-family: ProximaNova;
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 20px;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.rtl .goalsScreenAllDep .progressBarsVal,
+.rtl .goalsScreenAllDep .progressBarsVal span {
+  float: right;
+}
+
+.rtl .goalsScreenAllDep .progressBarsVal .question-mark {
+  text-align: left;
+}
+
+.rtl .goalsScreenAllDep .goalsSumm .dropdown-menu-settings span.material-switch-x:after {
+  top: -0.2vw;
+}
+
+.rtl .productionfloor .select-dep-dropdown {
+  left: 100px;
+}
+
+.rtl .ratioContainer {
+  right: unset;
+  left: 20px;
+}
+
+.rtl .insights-absolute-window {
+  right: 10vw;
+  box-shadow: 3px 2px 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.rtl .productionfloor .insights-absolute-window .secondry-title .fa.fa-angle-right,
+.rtl img.shift-header-btns-img {
+  transform: rotate(180deg);
+}
+
+.rtl .productionfloor .insights-absolute-window.page-2 .download-rep img {
+  margin-left: 5px;
+  margin-right: -20px;
+}
+
+.rtl machine-message-directive .inbox-status {
+  margin-left: 10px;
+  margin-right: inherit;
+}
+
+.rtl .machine-expanded-container .img-container {
+  margin-right: inherit;
+  margin-left: 15px;
+}
+
+.rtl .dashboard-settings-tooltip.dropdownmenu {
+  right: inherit;
+}
+
+.rtl .dashboard-settings-tooltip.dropdownmenuFactoryInsights {
+  right: inherit;
+  left: 4.6vw;
+}
+
+.rtl .dropdown-menu-settings {
+  left: 6px;
+  right: inherit;
+  overflow-y: visible;
+}
+.rtl .icons-container .dropdown-menu-settings {
+  top: 3.5vw;
+  overflow-y: visible;
+}
+
+.rtl .dropdown-menu-settings:before {
+  right: calc(100% - 1.563vw);
+}
+
+.rtl new-dep-directive .settings {
+  left:10.5vw;
+}
+
+.rtl .big-circle .mainCircle .bottomSection h5 {
+  margin-right: 20px;
+  margin-left: inherit;
+}
+
+/* .rtl .injection-target .targetMax {
+    left: -10px;
+    right: inherit;
+}
+
+.rtl .injection-target .targetVal {
+    margin-right: -15px;
+    margin-left: inherit;
+} */
+
+.rtl .machine-expanded-container .machine-title .expanded-showmore {
+  left:-15px;
+  right:inherit;
+}
+
+.rtl .target-goals-name i {
+  padding-right: 2px;
+}
+
+.rtl .messagesModal .modal-header {
+  margin-right: 0;
+}
+
+.rtl .messagesModal .typing-section {
+  padding-right: 25px;
+}
+
+.rtl .flipped-img {
+  transform: rotate(180deg);
+}
+
+.rtl .truncated-bars .titles {
+  right: 0px;
+  text-overflow: ellipsis;
+  margin-top: 17px;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.rtl .dropdown-messages-suggestion.ng-scope {
+  right: inherit;
+  left: 20px;
+}
+
+.rtl .dropdown-messages-suggestion:before {
+  left: 12px;
+  right: inherit;
+}
+
+.rtl .messagesModal .modal-header img {
+  right: 490px;
+}
+
+.rtl .newGoalsModal .newGoalsTitle .x {
+  right: -1.042vw;
+}
+.rtl .distribution-grid-tick-text {
+  left: 0px;
+  right: -35px;
+}
+.rtl .distribution-grid-tick-label {
+  right: 15px;
+}
+.rtl .distribution-bar-grid {
+  padding-right: 40px;
+}
+.rtl .vertical-line {
+  margin-right: 20px;
+  margin-left: 0px;
+  border-left: solid 1px #cecece;
+}
+.rtl .right-container .vertical-line-simple-table {
+  display: flex;
+  height: 55%;
+  border-left: solid 0.052vw #cbcbcb;
+  justify-content: center;
+  align-items: center;
+  border-right: 0;
+}
+.rtl .injection-target .heigher-rectangle-value {
+  top: -6px;
+}
+.rtl .left-container tr th {
+  height: 40px;
+  border-top: solid 1px #a6a8ab;
+  border-left: solid 1px #a6a8ab;
+  border-bottom: solid 1px #a6a8ab;
+  border-right: 0;
+  width: 170px;
+  padding: 0 5px;
+  background: white;
+  max-width: 0;
+  min-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* .rtl .injection-target .minToTarget {
+    right: 0;
+    left: unset;
+    float: right;
+}
+.rtl .injection-target .heigher-rectangle-value {
+    top: -6px;
+} */
+
+/* .rtl .heigher {
+    left: 10%;
+    margin-left: -10px;
+    right: unset;
+}
+.rtl .lower {
+    right: 10%;
+    left: unset;
+    margin-right: -10px;
+} 
+.rtl .current-value {
+    margin-right: -20px;
+}*/
+
+.rtl .hide-material-switch {
+  direction: rtl;
+  text-align: right;
+  float: left;
+}
+
+.rtl span.material-switch-x:after {
+  right: 3px;
+}
+
+.rtl .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  left: 0px;
+  right: unset;
+}
+.rtl .drag-icon {
+  float: right;
+}
+
+.rtl .Rectangle-2 {
+  margin-right: 1.042vw;
+  margin-left: unset;
+}
+
+.rtl .header-btns {
+  margin-left: -5px;
+}
+
+.rtl .techIcon {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.rtl .shift-duration-keys .Rectangle-2.lastRefresh {
+  margin-top: unset;
+}
+
+.rtl .old-cube-dropdown .graph-name-checkbox {
+  position: relative;
+  top: -3px;
+  right: 10px;
+}
+
+.rtl .graph-name-checkbox {
+  margin-left: unset;
+  margin-right: 10px;
+}
+
+.rtl ul.dashboard-settings-tooltip.old-cube-dropdown:before {
+  right: 195px;
+}
+
+.rtl .graph-display-container .material-switch-v,
+.rtl .stop-event .material-switch-v {
+  right: 4px;
+}
+
+.rtl machine-status-directive .machine-status-grid .dropdown-menu,
+.rtl .shift-container-donuts .dropdown-menu,
+.rtl .cycle-time-title ul.dropdown-menu,
+.rtl .machine-expanded-container .dropdown-menu {
+  right: 0;
+}
+
+.rtl machine-status-directive .machine-status-grid .dropdown-menu li a,
+.rtl .shift-container-donuts .dropdown-menu li a {
+  text-align: right;
+}
+
+.rtl .machine-status-grid .param_4 .dropdown-menu {
+  right: unset;
+  left: 5px;
+}
+
+.rtl .machine-expanded-container .expandedEditParamsDropdown.param_2 ul {
+  left: 0;
+  right: unset;
+}
+
+.rtl .machine-expanded-container .expandedEditParamsDropdown.param_0 ul {
+  right: 0;
+}
+
+.rtl machine-status-directive .param_4 ul {
+  left: 0;
+  right: unset;
+}
+
+.rtl machine-status-directive .param_0 ul {
+  right: 0;
+}
+
+.rtl .machine-values .addNewParamsRow {
+  left: 8px;
+  right: unset;
+}
+
+.rtl ul.dashboard-settings-tooltip.old-cube-dropdown .graph-display-container .material-switch-v {
+  right: -4px;
+}
+
+.rtl all-machines-online-bars-directive hr {
+  bottom: 50px;
+}
+.rtl .rectangle-value-avg {
+  direction: rtl;
+}
+.rtl .rectangle-value-avg .text {
+  right: unset;
+  left: 7px;
+}
+
+.rtl .editTemplatesModal .templateContainer .remove-icon {
+  right: unset;
+  left: 6px;
+}
+
+.rtl ul.dashboard-settings-tooltip.dropdownmenu.templates-dropdown {
+  left: 400px;
+  right: unset;
+}
+
+.rtl ul.dashboard-settings-tooltip.dropdownmenuFactoryInsights.templates-dropdown {
+  left: 400px;
+  right: unset;
+}
+
+.rtl ul.dashboard-settings-tooltip.templates-dropdown:before {
+  right: 90px;
+}
+
+.rtl .technician-notification-drop-down {
+  direction: ltr;
+}
+.rtl .technician-notification-drop-down {
+  right: unset;
+  left: 0px;
+  direction: ltr;
+}
+.rtl .technician-notification-drop-down:before {
+  right: unset;
+  left: 8px;
+}
+.rtl .technician-notification.no-data {
+  direction: rtl;
+}
+
+.rtl .op-app .tablet-outer-container {
+  padding: 52px 0px 52px 85px;
+}
+
+.rtl .fieldBox .removeIcon {
+  left: 0;
+  right: unset;
+}
+
+.rtl .op-app .tablet-button .triangle {
+  transform: rotate(180deg);
+}
+
+.rtl .manager-app .phone-inner-container {
+  right: 24px;
+  left: unset;
+}
+
+.rtl .manager-app .department-screenshot {
+  left: unset;
+  right: 16px;
+}
+
+.rtl .manager-app .param {
+  margin-left: unset;
+  margin-right: 16px;
+}
+
+.rtl .manager-app .param span {
+  margin-right: 13px;
+  margin-left: 10px;
+}
+
+.rtl .manager-app .add-param {
+  margin-left: unset;
+  margin-right: 16px;
+}
+
+.rtl .manager-app .add-param img {
+  margin: 0 18px 0 8px;
+  cursor: pointer;
+}
+.rtl ul.dashboard-settings-tooltip.show-filters {
+  right: unset;
+  left: 6px;
+  top: 25px;
+  padding: 0 15px;
+}
+.rtl .shiftTable ul.dashboard-settings-tooltip.show-filters {
+  right: inherit;
+  left: unset;
+  padding: 0 15px;
+}
+
+.rtl ul.dashboard-settings-tooltip.show-filters:before {
+  right: unset;
+  left: 11px;
+}
+
+.rtl .machine-filters-directive .statuses-labels {
+  left: inherit;
+  right: 5px;
+}
+
+.rtl .machine-filters-directive .apply-section > div {
+  margin: -1px -15px;
+}
+
+.rtl ul.dashboard-settings-tooltip.show-filters > li:first-child {
+  margin: 0;
+}
+
+.rtl .productionfloor .select-dep-dropdown.department {
+  right: 70px;
+}
+
+.rtl .dashboard-settings-tooltip.machine-screen {
+  right: inherit;
+}
+.rtl .dashboard-settings-tooltip.machine-screen.fix-menu {
+  left: 15vw;
+}
+.rtl .shift-dashboard-settings .hide-material-switch .onoffswitch-switch.unchecked,
+.rtl .stop-event .hide-material-switch .onoffswitch-switch.unchecked {
+  right: 0px;
+}
+.rtl .Rectangle-2.lastRefresh {
+  float: left;
+  padding: 0px 5px;
+  height: 100%;
+}
+.rtl .alerts-absolute-window {
+  right: auto;
+  left: 0;
+}
+.rtl .machine-load-table th,
+.rtl .machine-load-table td {
+  text-align: center;
+}
+.rtl .machine-load-table table {
+  direction: ltr;
+}
+.rtl shift-insights-templates-directive .savedTemplates .copyModal {
+  left: unset;
+  right: unset;
+}
+
+.rtl .shiftInsightsTrendsBodyMenuPic {
+  position: absolute;
+  top: 1.3vw;
+  right: unset;
+  left: 0.9vw;
+}
+
+.rtl .shiftInsightsTrendsElementSettings {
+  right: unset;
+  left: 0;
+}
+
+.rtl .shiftFilterGroupArrow {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+.rtl .shiftFilterBySelect {
+  margin-left: unset;
+  margin-right: auto;
+  width: 50%;
+  height: 3vw;
+  display: flex;
+  align-items: center;
+}
+
+.rtl .precentageView {
+  direction: ltr;
+}
+
+.rtl .shiftComponentSettingsPointer {
+  right: unset;
+  left: 1.1vw;
+}
+
+.rtl .shiftTrendsSettingsPointer {
+  right: unset;
+  left: 1.5vw;
+}
+.rtl .shiftTrendsSettings {
+  right: unset;
+  left: 0;
+}
+.rtl .shiftInsightsTrendsHeader img {
+  margin-left: unset;
+  margin-right: auto;
+}
+.rtl .injection-values .rectangle-value-avg .text {
+  right: auto;
+  left: 25px;
+}
+
+.rtl .shiftInsightRecText {
+  overflow: visible;
+  overflow-y: visible;
+  padding: 0;
+}
+
+.rtl .shiftLegendListText {
+  text-align: right;
+}
+
+.rtl .shiftFilterChooseYourComponent {
+  left: unset !important;
+  right: 0 !important;
+}
+
+.rtl .shiftFilterText {
+  padding-left: unset;
+  padding-right: 0.521vw;
+  font-size: 0.7vw;
+  margin: 0;
+}
+
+.rtl machines-load-directive {
+  direction: ltr;
+}
+.rtl .fa.pull-right {
+  margin-left: 0px !important;
+}
+.rtl .savedTemplates .copyButton {
+  left: 29px;
+  bottom: 22px;
+  right: unset;
+}
+
+.calendar .fc-toolbar .fc-center {
+  direction: rtl;
+}
+
+.rtl .machine-dashboard-btns span.onoffswitch-switch.unchecked {
+  right: 0;
+}
+
+.rtl .savedTemplates .copyModal {
+  overflow: hidden;
+  position: absolute;
+  background: white;
+  width: 230px;
+  height: 260px;
+  z-index: 10000;
+  bottom: 15px;
+  left: 50px;
+  border: solid 1px #d0cfd0;
+  padding: 10px;
+}
+
+.rtl .savedTemplates .row > :nth-child(3n + 3) .copyModal {
+  left: 50px;
+}
+
+.rtl .savedTemplates .row > :nth-child(3n + 1) .copyModal {
+  right: 135px;
+}
+.rtl .modal-dialog .floatOnBottom button {
+  margin: 15px;
+}
+
+.rtl .dashboard-settings-tooltip.dropdownmenu.injection-shift::before {
+  right: auto;
+  left: 25px;
+}
+
+.rtl .dashboard-settings-tooltip.dropdownmenuFactoryInsights.injection-shift::before {
+  right: auto;
+  left: 25px;
+}
+
+.rtl .op-app .checkmark,
+.rtl .manager-app .checkmark {
+  right: 0;
+  left: auto;
+}
+
+.rtl .op-app .container-radio,
+.rtl .manager-app .container-radio {
+  padding-left: inherit;
+  padding-right: 29px;
+}
+
+.rtl .op-app .labels-container,
+.rtl .manager-app .labels-container {
+  direction: rtl;
+}
+
+.rtl .edit-pencil-button img {
+  margin: 0 10px 0 30px;
+}
+
+.rtl .fc-button-group {
+  direction: rtl;
+}
+
+.rtl .btn.new-dep-header-buttons.filtering-button {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+.rtl .btn.new-dep-header-buttons.show-all-mach {
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .rtl > #page-wrapper {
+    margin: 0;
+  }
+  .rtl .navbar.navbar-fixed-top.white-bg.fixed {
+    right: 0;
+  }
+}
+
+/* .rtl .machine-expanded-directive .notifications-list .tech-name {
+    padding-right: 28px;
+    padding-left: inherit;
+} */
+
+.rtl .machine-expanded-directive .notifications-list .notification-date {
+  padding-left: inherit;
+}
+
+.rtl .machine-expanded-directive .notifications-list .notification-time {
+  padding-left: inherit;
+  padding-right: 12px;
+}
+.rtl .op-app span.onoffswitch-switch.unchecked,
+.machine-dashboard-btns span.onoffswitch-switch.unchecked {
+  left: 20px;
+}
+.rtl .machine-expanded-directive .notifications-list .delete-notification {
+  padding-left: 30px;
+  padding-right: 22px;
+}
+
+.rtl span.onoffswitch-switch.unchecked {
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.rtl .machine-expanded-directive .notifications-tabs .close-icon {
+  padding-left: inherit;
+  padding-right: 10px;
+}
+
+.rtl .machine-expanded-directive .notifications-tabs {
+  padding-left: 20px;
+  padding-right: inherit;
+}
+
+.rtl .manager-app-notifications.step-two-container .left-side {
+  border-right: none;
+  padding-right: 0;
+  border-left: 1px solid #cecece;
+  padding-left: 68px;
+}
+
+.rtl .manager-app-notifications.step-two-container .right-side {
+  padding: 0 75px 0 0px;
+}
+.rtl .numberCircle {
+  right: unset;
+  left: 40px;
+}
+
+.rtl .site-configuration-directive .editModal {
+  left: unset;
+  right: 20%;
+}
+.rtl .zui-table {
+  float: left;
+}
+
+.rtl .numberOfXNotifications{
+  padding-top: unset;
+}
+
+.rtl .site-configuration-directive .step-four-container .data-container .newScroll {
+  padding: 5px 20px 0 20px;
+}
+
+.rtl .site-configuration-directive .step-two-container .left-side .department img {
+  transform: rotate(180deg);
+}
+
+.rtl .site-configuration-directive .steps-tabs > div {
+  border-right: inherit;
+  border-left: 1px solid #dcdcdc;
+}
+.rtl .serviceCallsHeaderFirst{
+  margin-right: unset;
+  margin-left:1vw;
+}
+
+C .filter ul.dropdownmenu {
+  right: unset;
+  left: 85px;
+}
+
+.rtl .shift-duration-keys {
+  padding-left: 2vw;
+}
+.rtl .machine-name .numberCircle.clickable.pull-right {
+  right: unset;
+  left: -20px;
+}
+
+/* .rtl .callID {
+    padding-right:71px;
+} */
+
+.rtl .serviceCallsBlockEndSide{
+  margin-left:unset;
+  margin-right:auto;
+}
+
+.rtl .customShiftWrapper {
+  transform: translateX(50%) !important;
+}
+
+.rtl .shiftSelectorMenu {
+  transform: translateX(-1vw);
+  text-align: right;
+}
+
+.rtl .top-stop-container .graph-container {
+  padding-left: unset;
+  padding-right: 35px;
+}
+.rtl top-stop-events-directive .grid .tick .tick-text {
+  left: unset;
+  right: -25px;
+}
+.rtl .top-stop-events-duration {
+  font-size: 0.781vw;
+  font-weight: normal;
+  position: relative;
+  width: 0%;
+  left: -25px;
+  right: unset;
+}
+
+.rtl shift-container ul.period-dashboard-dropdown.compare {
+  left: 50px;
+}
+
+.rtl .mainCircle {
+  margin-right: 29px;
+  margin-left: unset;
+}
+
+.rtl .simple-table-directive-container {
+  left: unset;
+  right: 5%;
+}
+.rtl .unitProduced .simple-table-directive-container {
+  left: unset;
+  right: 0;
+}
+
+.rtl .shiftTable .simple-table-directive-container {
+  left: unset;
+  right: unset;
+}
+
+.rtl .machinesPerformanceTable .simple-table-directive-container {
+  left: unset;
+  right: unset;
+}
+#machinesPerformanceContainer{
+    margin-right: 0px;
+    padding-right: 0px;
+}
+/* .rtl .machinesPerformanceContainer {
+  font-weight: 600;
+} */
+
+.rtl machines-performance-directive {
+  justify-content: right;
+  
+}
+
+.rtl .right-container {
+  left: unset;
+  /* right: 170px; */
+  position: relative;
+}
+
+.rtl .shiftTable .right-container {
+  right: unset;
+  /* right: 226px; */
+}
+
+.rtl .left-container {
+  top: 117px;
+}
+
+.rtl.printableDocument .left-container {
+  top: 116px;
+}
+
+.rtl .shiftTable .left-container {
+  top: 80.13px;
+}
+
+.rtl .shiftTable .left-container tr th div.right {
+  border-left: 0px;
+  border-right: 1px solid #dcdcdc;
+}
+.rtl .kpi-customization-items{
+    margin-right: 130px;
+}
+.rtl .histogram-graph .node text {
+  direction: rtl;
+}
+
+.rtl .graph-display-container .material-switch-v {
+  top: -2px;
+}
+
+.rtl .fc-time-grid .fc-event {
+  margin-left: 0 !important;
+}
+
+.rtl text.total-bar {
+  direction: rtl;
+}
+
+.rtl .machine-values .cubeParams .editIcon {
+  left: unset;
+  right: calc(100% - 22px);
+}
+
+.rtl .process-triangle {
+  padding: 0;
+}
+
+.rtl .process_percent_title {
+  display: flex;
+  position: absolute;
+  top: -3%;
+}
+
+.rtl .shift-bar-graph-container {
+  margin-right: 0px;
+}
+
+.rtl .filter-section .data-container {
+  margin-right: 20px;
+}
+
+.rtl .stop-events .li-container .li-content .circle-icon-container .circle-icon-dropdown {
+  left: 0;
+}
+
+.rtl .shift-container .side-menu-report {
+  left: 0;
+  right: unset;
+}
+
+.rtl .shift-container .Reports .report-text {
+  margin: 0.1vw;
+  font-size: 0.677vw;
+  transform: rotate(90deg);
+}
+.rtl .shift-container .Reports .report-img {
+  margin: 0.1vw;
+  transform: rotate(90deg);
+  margin-top: 1vh;
+}
+
+.rtl .call-technician-div {
+  height: 100%;
+  width: 100%;
+  /* margin-right: 10%;
+  margin-top: 5%; */
+  padding: 15px 30px;
+}
+
+.rtl .machine-expanded-container .bar-graph {
+  margin-left: 26px;
+  margin-right: 2px;
+  padding-right: 0px;
+  width: 100%;
+}
+
+ .rtl .row-static-param  {
+    display: flex;
+    padding-top: 25px;
+    position: relative;
+    padding-right: 35px;
+}
+
+
+.rtl .edit-icon-expand-values {
+  margin-right: 5px;
+}
+
+.rtl .rectangle-value-avg-title .text {
+  right: 10px;
+}
+
+.rtl .qc-test-popup .parameter-section .param-title {
+  margin-right: inherit;
+  margin-left: 10px;
+}
+
+.rtl .otherMachinesNote {
+  left: unset;
+  right: 192px;
+}
+
+.rtl .stop-events .li-container.editMode .textContainer {
+  padding-right: unset;
+  padding-left: 18px;
+}
+
+.rtl .stop-events .common-dictionaries-popup {
+  left: inherit;
+  right: -25px;
+}
+
+.rtl .qc-tests .add-test-list {
+  text-align: left;
+}
+
+
+.rtl .qc-display-type {
+  margin-left: unset;
+  margin-right: 10px;
+}
+
+.rtl .form-control-search-icon {
+  position: absolute;
+  left: 35px;
+  bottom: 11px;
+  cursor: pointer;
+  right: unset;
+}
+
+.rtl .insights-filter-body-col:not(:last-child) {
+  /* border-left: 1px solid #dcdcdc; */
+  border-right: unset;
+}
+
+.rtl .insights-filter-header-container-elements-text {
+  margin-right: 10px;
+}
+
+.rtl .insights-filter-header-btn {
+  margin-left: 25px;
+}
+
+.rtl .insights-filter-header-container-elements {
+  margin-right: 10px;
+}
+
+.rtl .insights-filter-header-container-elements-img {
+  margin-right: 15px;
+  margin-left: 7px;
+}
+
+.rtl .insights-filter-checkbox {
+  display: inline-block;
+  margin-right: 15px;
+}
+.rtl .insights-filter-form-radio-label {
+  margin-top: 3px;
+  margin-left: 15px;
+  /* width: 65px; */
+}
+
+.rtl .form-inline {
+  margin: 15px 35px 10px 0;
+}
+.rtl .insights-filter-forms {
+}
+.rtl .SPCTestsParamLabel {
+  margin-right: auto;
+  margin-left: unset;
+}
+.rtl .SPCLabel {
+  margin-left: unset;
+  margin-right: 10px;
+}
+
+.rtl search-tests-results .SPC-settings {
+  left: 8vw !important;
+  right: unset !important;
+}
+.rtl .form-input-filter {
+  width: 100%;
+  margin-left: 20px;
+  margin-right: unset;
+  padding-right: 25px;
+}
+
+.rtl .machine-expanded-container .colorBullet,
+.rtl .machineCollaped .colorBullet,
+.rtl .machine-dashboard .colorBullet {
+  left: inherit;
+}
+.rtl .machineCollaped .expandedEditParamsDropdown {
+  right: unset;
+  top: unset;
+}
+
+.rtl .onoffswitch-inner:before {
+  padding-left: 20px;
+}
+
+.rtl .dropdown-menu-settings span.material-switch-x:after {
+  content: "X";
+  color: white;
+  position: relative;
+  left: 0.156vw;
+  font-size: 0.573vw;
+  top: -0.15vw;
+}
+
+.rtl .insight-container-title {
+  height: 58px;
+  padding-right: 1.302vw;
+  padding-left: unset;
+}
+
+.rtl .column-insight-question-sentence {
+  display: flex;
+  flex-direction: row;
+}
+
+.rtl .column-insight-question:not(:last-child) {
+  margin-left: 12px;
+}
+
+.rtl .insights-filter-grid {
+  right: unset;
+  left: 0;
+}
+
+.rtl .showJobsListClass {
+  margin-right: auto;
+  margin-left: unset;
+}
+
+.rtl .colorBulletOnline {
+  display: inline-block;
+  position: absolute;
+  left: unset;
+  right: 33px;
+  background-color: rgb(55, 245, 66);
+}
+
+.rtl .insightTable {
+  padding-right: 1.302vw;
+}
+
+.rtl .submitNewTaskBtn {
+  left: unset;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.rtl .extraTitles {
+  margin-left: unset;
+  margin-right: 10%;
+}
+
+.rtl .insight-dashboard-settings-tooltip {
+  left: 3.604vw !important;
+  right: unset !important;
+  z-index: 1;
+  margin-top: 2.4vw;
+}
+
+.rtl .tasksManagement .filterMenuPointer {
+  right: unset;
+  left: calc(8.5% / 5);
+}
+
+.rtl #tasksManagementStatusesHeaderStatic {
+  margin-right: unset;
+  margin-left: 13px;
+}
+
+.rtl .tasksCloseX {
+  justify-self: left;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.rtl .closeSortBar {
+  justify-self: left;
+}
+
+.rtl .tasksCloseX img {
+  right: unset;
+  left: 0;
+}
+
+.rtl .tasksFilterImg {
+  justify-self: left;
+  cursor: pointer;
+}
+
+.rtl .tasksGroupByGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  position: relative;
+  justify-items: right;
+  transform: translateX(5%);
+}
+
+.rtl .tasksGridRow2Search {
+  width: 85.5% !important;
+}
+
+.rtl .tasksGridRow2Main {
+  grid-template-columns: 0.8fr 1fr;
+}
+
+.rtl .myTasksPriorityDisplay {
+  justify-self: left;
+}
+
+.rtl .numberOfTasksInStatus img {
+  margin-right: 10%;
+  margin-left: -2%;
+}
+
+.rtl .numberOfTasksInStatus {
+  margin: 3.5%;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--color2);
+  justify-self: left;
+}
+
+.rtl .numberOfMyOpenTasks {
+  right: unset;
+  left: -7px;
+  font-size: 11px;
+  padding-top: 1px;
+}
+
+.rtl .newTaskCloseX {
+  right: unset;
+  margin-right: unset;
+  left: 0;
+  margin-left: 2.1%;
+}
+
+.rtl .newTaskRow2 {
+  text-align: right;
+}
+
+.rtl .newTaskRow3bMiddle h3 {
+  margin-left: unset;
+  margin-right: 10%;
+}
+
+.rtl .newTaskRow3 {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .editTaskRow1 {
+  text-align: right;
+  margin-left: unset;
+  margin-right: 5%;
+}
+
+.rtl .newTaskRow2a {
+  margin-left: unset;
+  margin-right: 5%;
+}
+
+.rtl .newTaskRow2b {
+  margin-left: unset;
+  margin-right: 5%;
+}
+.rtl .newTaskRow2aD,
+.newTaskRow2bD {
+  margin-left: unset;
+  margin-right: 5%;
+}
+.rtl .newTaskFields {
+  width: 81%;
+  text-align: right;
+  margin-right: 9.5%;
+  line-height: 1.8;
+}
+
+.rtl .newTaskUrgent {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .notificationAsterisk {
+  left: initial;
+  right: 0;
+  margin-left: 0;
+  margin-right: -5%;
+}
+
+.rtl .newTaskUrgent span {
+  padding-right: 5%;
+}
+
+.rtl .newTaskFieldsCheckBox {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  direction: ltr;
+  column-gap: 2.5%;
+}
+
+.rtl .topbar-collapse {
+  left: 0;
+  right: auto;
+}
+
+.rtl .newTaskWrapper {
+  text-align: center;
+}
+
+.rtl .addNewTaskBtnText {
+  padding-left: unset;
+  /* padding-right: 2.5%; */
+}
+
+.rtl .filterSearchContainer {
+  margin-right: unset;
+  margin-left: 2%;
+}
+
+.rtl .fileItem {
+  margin-right: unset;
+  margin-left: 5%;
+}
+
+.rtl .newTaskFieldsFiles {
+  margin-right: unset;
+  margin-left: 5%;
+}
+
+.rtl .newTaskWindow {
+  transform: translateX(-110%);
+}
+
+.rtl .newTaskWindowSlideIn {
+  -webkit-transform: translateX(0%);
+}
+
+.rtl .newTaskWindowSlideOut {
+  -webkit-transform: translateX(-110%);
+}
+
+.rtl .importantTask {
+  border-left: 0;
+
+  border-right: 4px solid #c4252e;
+}
+
+.rtl .tasksGridRow4 {
+  grid-template-columns: 1fr 0.75fr;
+}
+
+.rtl .taskUserNameLabel {
+  justify-self: left;
+}
+
+.rtl .taskPriorityIcon {
+  justify-self: right;
+}
+
+.rtl .tasksGridRow {
+  text-align: right;
+  width: 81.5%;
+  right: 50%;
+  transform: translateX(50%);
+  position: relative;
+}
+
+.rtl .navigation-btn-dropdown-title {
+  margin-left: 5px;
+  margin-right: unset;
+}
+
+.rtl .navigation-div {
+  border-radius: 2px;
+  border: solid 1px #d0cfd0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rtl .navigation-div:not(:first-child) {
+  border-right: none;
+}
+.rtl .filterWrapper {
+  left: unset;
+  right: 0;
+}
+
+.rtl .filterWrapper::before {
+  left: unset;
+  right: 41.5%;
+}
+
+.rtl .filterMenuPointer {
+  right: 24%;
+  left: unset;
+}
+
+.rtl .tasksManagement .filterWrapper {
+  right: unset;
+  left: 0;
+}
+
+.rtl .tasksManagement .filterWrapper::before {
+  right: unset;
+  left: 8%;
+}
+
+.mini-navbar .rtl .tasksManagement .filterWrapper {
+  left: 0;
+}
+
+.rtl .tasksManagementFilters {
+  justify-self: left;
+}
+
+.rtl .tasksManagementFilters img {
+  justify-self: left;
+}
+
+.rtl .filterGrid {
+  left: initial;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.rtl .tasksManagementHeaderA {
+  justify-self: left;
+}
+
+.rtl .tasksManagementHeaderText {
+  font-family: inherit;
+  padding-left: unset;
+  padding-right: 2.084vw;
+}
+
+.rtl .qc-test-popup .parameter-section.row-flex .left-side > div {
+  padding-right: 50px;
+  padding-left: unset;
+}
+
+.rtl .qc-test-popup .parameter-section .row-flex {
+  /* margin-right: unset;
+  margin-left: 4vw; */
+}
+
+.rtl .qc-test-results .single-container {
+  flex-direction: row-reverse;
+}
+.rtl .qc-test-results .dashboard-tab .dashboard-settings
+{
+  margin-right: auto;
+  flex-direction: row;
+}
+
+.rtl .production-table-item {
+  padding-left: unset;
+  padding-right: 15px;
+}
+
+.rtl .machineProgress .start-connector {
+  left: unset;
+  right: calc(-0.26vw + -0.2vw * var(--selected-scale));
+}
+
+.rtl .machineProgress .start-connector.displayEndLines {
+  left: unset;
+  right: calc(-0.26vw + -0.33vw * var(--selected-scale));
+}
+
+.rtl .machineProgress .end-connector {
+  right: unset;
+  left: calc(-0.26vw + -0.2vw * var(--selected-scale));
+}
+
+.rtl .machineProgress .end-connector.displayEndLines {
+  right: unset;
+  left: calc(-0.26vw + -0.33vw * var(--selected-scale));
+}
+
+.rtl .filesTableTitle {
+  padding-left: unset;
+  padding-right: 2.5%;
+}
+
+.rtl .filesTableRow {
+  padding-left: unset;
+  padding-right: 2.5%;
+}
+
+.rtl .text-align{
+  text-align: right;
+}
+
+.rtl .label-direction-fix {
+  direction: ltr;
+}
+
+
+.rtl .mainMachineCard.small .lowerPart .timeDown-rejects-part.vertical-boxes .pencilEditContainer {
+  top: 2.249vw;
+  left: 1.243vw !important;
+  right: unset !important;
+}
+.rtl .mainMachineCard.medium .lowerPart .timeDown-rejects-part.vertical-boxes .pencilEditContainer {
+  top: 4.97vw;
+  left: 3.136vw !important;
+  right: unset !important;
+}
+.rtl .mainMachineCard.large .lowerPart .timeDown-rejects-part.vertical-boxes .pencilEditContainer {
+  top: 8.994vw;
+  left: 5.858vw !important;
+  right: unset !important;
+}
+
+.rtl .buttons-groups-grid-table {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+.rtl events-table-groups-directive .departmentsList {
+  padding-left: unset;
+  padding-right: 15px;
+}
+
+.rtl insights-filter .containerVariantButton {
+  margin-right: 11px;
+  margin-left: unset;
+}
+.rtl .insight-filter-model-header-save {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+.rtl .insight-filter-model-header-close {
+  margin-left: 10px;
+  margin-right: auto;
+}
+
+.rtl .insights-filter-section {
+  margin-right: unset;
+  margin-left: 10px;
+}
+
+.rtl insights-filter .groupsFilterContainerArrow {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+.rtl insights-filter .groupsFilterContainerLabel {
+  margin-left: unset;
+  margin-right: 10px;
+}
+
+.rtl shift-container .insights-settings {
+  /* right: -17.063vw; */
+  top:0.7vw
+}
+
+.rtl shift-container .insights-filters {
+  right: -13.7vw;
+}
+.rtl shift-container .insights-settings-delete {
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.rtl .video-library-button-groups {
+  margin-right: unset;
+  margin-left: 10px;
+}
+.rtl insights-dashboard-directive .averageContainer {
+  margin-right: auto;
+  margin-left:unset;
+}
+.rtl insights-dashboard-directive .interactive-filter-container {
+  margin-left: unset;
+  margin-right:auto;
+}
+
+.rtl insights-dashboard-directive .insight-container-title {
+  height: unset;
+
+}
+/* .rtl insights-dashboard-directive  .ui-grid-footer-aggregates-row {
+  display: none;
+} */
+/* .rtl insights-dashboard-directive .ui-grid-render-container-right .ui-grid-viewport {
+  height:288px !important
+}
+.rtl insights-dashboard-directive .inModelInsight .ui-grid-render-container-right .ui-grid-viewport {
+  height: 913px !important;
+} */
+
+.rtl insights-templates-directive .container-template-option-button-direction {
+  margin-left: unset;
+  margin-right: 10px;
+}
+
+.rtl insights-templates-directive .horizontal-dots {
+  margin-right: auto;
+  padding-right: unset;
+  margin-left: unset;
+  padding-left: 10px;
+}
+.rtl insights-templates-directive .horizontal-dots:after {
+  margin-left: unset;
+  margin-right: right;
+}
+.rtl insights-templates-directive .insight-arrow-templates-direction {
+  margin-left: unset;
+  margin-right: 4vw;
+}
+
+.rtl .jobCustomPassedFailed{
+  width:133px;
+  min-height: 34px;
+}
+.rtl .collapsed-menu-action{
+  margin-right:auto;
+  margin-left:unset;
+}
+.rtl .online-dropdown-menu-settings{
+  right:unset;
+}
+/* .rtl insights-dashboard-directive .inModelInsight .ui-grid-render-container-right .ui-grid-viewport{
+  height: 913px !important;
+} */
+.rtl .margin-side-10{
+  margin-right:10px;
+  margin-left:unset;
+}
+.rtl .flex-margin-auto {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+.rtl main-screen-visibility .left-side {
+  border-right: unset;
+  border-left: 1px solid #cecece;
+  height: 80%;
+}
+
+.rtl .select-department-view{
+  margin-left: 10px;
+  margin-right:unset
+}
+
+@media only screen and (max-width: 2200px) {
+  .rtl search-tests-results .SPC-settings {
+    left: 12vw !important;
+    right: unset !important;
+  }
+}
+
+@media only screen and (max-width: 1950px) {
+  .rtl search-tests-results .SPC-settings {
+    left: 14vw !important;
+    right: unset !important;
+  }
+}
+
+@media only screen and (max-width: 1676px) {
+  .rtl search-tests-results .SPC-settings {
+    left: 15.5vw !important;
+    right: unset !important;
+    width: 23.021vw;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .rtl search-tests-results .SPC-settings {
+    left: 16vw !important;
+    right: unset !important;
+    width: 23.021vw;
+  }
+}
+.rtl .upper-wrapper-with-goals {
+  justify-content: center;
+}
+
+.rtl .moduleLicense .close-icon{
+  left: 12px;
+  right: unset;
+}
+
+.rtl .moduleLicense {
+  right: calc(50% - 350px + 110px);
+  left: unset;
+}
+
+.rtl .top-menu-new {
+  right: unset;
+  left: 17px;
+}
+.rtl .chosen-container .chosen-drop {
+  left: unset;
+  right: -9999px;
+}
+
+.rtl .chosen-container.chosen-with-drop .chosen-drop {
+  right: 0;
+}

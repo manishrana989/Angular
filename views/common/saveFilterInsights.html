@@ -1,0 +1,57 @@
+<div class="insight-model-container" ng-style="!overRideOption && {'height': '15vw'}">
+  <div class="insight-filter-model-header">
+    <div class="insight-filter-model-header-save">
+      {{"SAVE_FILTER" | translate}}
+    </div>
+
+    <img ng-src="images/dashboard/close.svg" class="insight-filter-model-header-close" ng-click="closeModal()" />
+  </div>
+  <div class="insight-filter-model-body" ng-style="!overRideOption && {'grid-template-rows': '0.2fr 0.5fr 0.5fr 0.5fr 0.2fr'}">
+    <div></div>
+    <div class="insight-filter-model-body-header-text">
+      {{"WOULD_YOU_LIKE_TO_SAVE_THIS_FILTER_FOR_FUTURE_USE" | translate}}
+    </div>
+    <div class="insight-filter-body-field-label">
+      <div>
+        {{"FILTER_NAME" | translate}}
+      </div>
+      <div>
+        <input type="text" class="insight-filter-body-field-textbox" ng-model="filterName" />
+      </div>
+    </div>
+    <div
+      style="margin: auto; display: flex; flex-direction: column; justify-content: center; margin-top: 15px;"
+      ng-click="$event.stopPropagation()"
+      ng-if="overRideOption"
+    >
+      <div>
+        <div
+          check-box-directive
+          field-title="'WOULD_YOU_LIKE_TO_OVERWRITE_THIS_VARIANT'"
+          field="filterOverWrite"
+          select-value="'currentChoice'"
+          type="'radio'"
+          value="true"
+        ></div>
+      </div>
+      <div>
+        <div
+          check-box-directive
+          field-title="'WOULD_YOU_LIKE_TO_SAVE_AS_THIS_FILTER_VARIANT'"
+          field="filterOverWrite"
+          select-value="'currentChoice'"
+          type="'radio'"
+          value="false"
+        ></div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; align-items: center;">
+      <div class="insight-filter-body-save-button" ng-click="saveFilter()">
+        {{"SAVE" | translate}}
+      </div>
+      <div class="insight-filter-body-dontSave-button" ng-click="closeModal()">
+        {{"DONT_SAVE" | translate}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div ng-repeat="item in list" style="padding: 0.1em;font-size:0.729vw">
+    <div class="pull-left">
+      <div class="hide-material-switch onoffswitch no-margins" style="width:1.279vw">
+        <input class="no-margins" type="checkbox" ng-model="item[value]" ng-change="listCheckMarksCtrl.customChangeChild()"  />
+      </div>
+    </div>
+    <div class="ellipsisText">{{item[name] | translate}}</div>
+</div>

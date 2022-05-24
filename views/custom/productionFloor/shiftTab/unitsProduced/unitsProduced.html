@@ -1,0 +1,12 @@
+<div ng-style="{'height': options.height}">
+    <div ng-show="options.isTableView" class="no-padding unitProduced" ng-style="{display: !options.isTableView ? 'none' : 'block'}">
+        <simple-table-directive
+                                data="rotated90DegreeUnitsData"
+                                table-name="simpleTableName"
+                                machine-names="unitsSimpleTableY"
+                                event-y="machinesNameSimpleTable">
+        </simple-table-directive>
+    </div>
+    <div ng-show="!options.isTableView" class="chart" style="overflow: hidden" ng-style="{cursor: enableZoomBtn ? 'zoom-in' : 'default',display: options.isTableView ? 'none' : 'block'}">
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div ng-if="insightLoading || shiftData.dataLoading" ng-include="'views/common/emptyPage.html'" class="shift-loading"></div>
+
+<div class="shift-container" ng-class="{'shift-container-insights' : insightPage || insightFactoryPage}" ng-if="!shiftData.dataLoading && !shiftData.error">
+  <shift-insights-templates-directive class="insightsTemplatesDirective" dashboard-type="dashboardType" structures="structures" is-factory="false" templates="templates" machine-data="machineData" shifttemplatesmenu="shiftTemplatesMenu"></shift-insights-templates-directive>
+
+  <shift-slider-directive hide-time-bar="shiftData.timeBarIsVisible" ng-if="shiftData.timeBarIsVisible"> </shift-slider-directive>
+
+  <div class="row" dnd-list="containers.data | filter:{options : {display: true} }" ng-if="!insightPage && !insightFactoryPage">
+    <div ng-repeat="graph in containers.data track by $index| filter:{options : {display: true} }" dnd-draggable="graph" dnd-moved="filteredContainers.splice($index, 1)" dnd-move-image=".sortable-item" ng-if="graph.options.display">
+      <div ng-include="'views/custom/productionFloor/shiftTab/dashboardGraphs/'+graph.template+'.html'"></div>
+    </div>
+  </div>
+</div>

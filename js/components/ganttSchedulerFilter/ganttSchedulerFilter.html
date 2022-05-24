@@ -1,0 +1,159 @@
+<div class="machine-filters-directive">
+    <div class="title" ng-show="views.indexOf('machineType') < 0">
+        <span class="titleText" ng-class="{'hiddenText' : views.indexOf('header') < 0}">{{"GANTT_FILTER" | translate}}</span> <span class="resetButton pull-right"><a
+                ng-click="ganttSchedulerFilterCtrl.reset()">{{"RESET" | translate}}</a></span>
+    </div>
+
+
+    <!-- Columns -->
+    <div class="filter-section" ng-if="views.indexOf('columns') >= 0">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+            {{"COLUMNS" | translate }}
+            <input ng-show="expanded" ng-click="$event.stopPropagation();" type="text" style="width: 100px; height: 18px;margin: 0px 5px;" ng-model="searchColumn"/>
+            <i class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right"
+                ar  ia-hidden="true" ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-show="expanded">
+            <div ng-if="column.viewMode.indexOf(mode) >= 0" class="checkBox" ng-repeat="column in ganttSchedulerFilterCtrl.columnFilters| filter:searchColumn" check-box-directive
+                field-title="column.TEXT"
+                field="column" select-value="'value'" ng-custom-change="ganttSchedulerFilterCtrl.updateColumn"></div>
+        </div>
+    </div>
+    <!-- COLORS -->
+    <div class="filter-section" ng-if="views.indexOf('colors') >= 0">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"JOB_COLORS" | translate }}<i
+                class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right"
+                aria-hidden="true" ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-show="expanded">
+            <div class="checkBox" check-box-directive 
+                field-title="'CUSTOM_COLORS' | translate" type="'radio'" value="'false'"
+                field="ganttSchedulerFilterCtrl.useJobColor" select-value="'value'" ng-custom-change="ganttSchedulerFilterCtrl.updateJobColor"></div>   
+            <div ng-repeat="color in ganttSchedulerFilterCtrl.eventColors" style="height: 27px;">
+                <div style="padding-top: 3px;display: inline-block;">{{color.TEXT | translate}}</div>
+                <input ng-change="ganttSchedulerFilterCtrl.changeColor(color)" type="color" style="width: 30px" class="pull-right" ng-model="color.color">
+            </div>
+            <div class="checkBox" check-box-directive
+                field-title="'JOB_DEFINITION_COLORS' | translate" type="'radio'"
+                field="ganttSchedulerFilterCtrl.useJobColor" select-value="'value'" value="'job'" 
+                ng-custom-change="ganttSchedulerFilterCtrl.updateJobColor"></div>   
+
+            <div class="checkBox" check-box-directive
+                field-title="'MOLD' | translate" type="'radio'"
+                field="ganttSchedulerFilterCtrl.useJobColor" select-value="'value'" value="'mold'" 
+                ng-custom-change="ganttSchedulerFilterCtrl.updateJobColor"></div>   
+
+        </div>
+    </div>
+
+    <div class="filter-section" ng-if="views.indexOf('colors') >= 0">  
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">
+            {{"SETUP_COLORS" | translate}}
+            <i  class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i>
+            <i class="fa fa-angle-up pull-right" aria-hidden="true" ng-show="expanded"></i>
+        </div>
+        <div class="data-container newScroll slim" ng-show="expanded">
+            <div style="display: flex;justify-content: space-between;">
+                <div class="checkBox" check-box-directive
+                    field-title="'CUSTOM_COLORS' | translate" type="'radio'" value="'false'"
+                    field="ganttSchedulerFilterCtrl.useSetupColor" select-value="'value'" ng-custom-change="ganttSchedulerFilterCtrl.updateSetupColor"></div>
+                <div ng-repeat="color in ganttSchedulerFilterCtrl.setupColor" style="height: 27px;">
+                    <input ng-change="ganttSchedulerFilterCtrl.changeColor(color)" type="color" style="width: 30px" class="pull-right" ng-model="color.color">
+                </div>
+            </div>
+            <div class="checkBox" check-box-directive
+                field-title="'SETUP_TYPE_COLORS' | translate" type="'radio'" value="'true'"
+                field="ganttSchedulerFilterCtrl.useSetupColor" select-value="'value'" ng-custom-change="ganttSchedulerFilterCtrl.updateSetupColor"></div>
+
+        </div>
+
+    </div>
+    <!-- VIEWS -->
+    <div class="filter-section" ng-if="views.indexOf('shifts') >= 0 || views.indexOf('events') >= 0 ">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"VIEWS" | translate }}<i
+                class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right"
+                aria-hidden="true" ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-show="expanded">
+            <div class="checkBox shifts" check-box-directive ng-show="views.indexOf('shifts') >= 0"
+                field-title="'SHIFTS' | translate"
+                field="ganttHeaderParams" select-value="'displayMachineShifts'"></div>
+            <div class="checkBox" check-box-directive ng-show="views.indexOf('events') >= 0 "
+                field-title="'CALENDAR_EVENTS' | translate"
+                field="ganttHeaderParams" select-value="'displayMachineEvents'"></div>
+            <span class="month-warning" style="font-weight: 700;white-space: break-spaces;">{{"GANTT_MONTH_WARNING" | translate }}</span>
+        </div>
+    </div>
+
+    <!-- TOOLTIP -->
+    <div class="filter-section">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"TOOLTIP" | translate }}<i
+                class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right"
+                aria-hidden="true" ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-show="expanded">
+            <div class="checkBox" check-box-directive
+                type="'radio'" value="'default'"
+                field-title="'DEFAULT' | translate"
+                field="ganttHeaderParams" select-value="'tooltipView'"></div>
+            <div class="checkBox" check-box-directive
+                type="'radio'" value="'columns'"
+                field-title="'BY_COLUMNS' | translate"
+                field="ganttHeaderParams" select-value="'tooltipView'"></div>
+        </div>
+    </div>
+    <!-- Filters -->
+    <div class="filter-section" ng-if="views.indexOf('departments') >= 0">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"DEPARTMENTS" | translate }}<i
+            class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right"
+            aria-hidden="true" ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-if="expanded">
+            <div class="parentFilter" ng-repeat="department in departmentsData">
+                <div class="checkBox" style="width: calc(100% - 20px);display: inline-block;"
+                    check-box-directive
+                    field-title="department.name"
+                    field="department" select-value="'selected'" ng-custom-change="ganttSchedulerFilterCtrl.updateDepartment">
+                </div>
+                <div style="display: inline-block;padding-right: 8px;" class="pull-right" ng-init="department.expanded=false" ng-click="department.expanded=!department.expanded">
+                    <i class="fa fa-angle-down" aria-hidden="true" ng-show="!department.expanded"></i>
+                    <i class="fa fa-angle-up" aria-hidden="true" ng-show="department.expanded"></i>
+                </div>
+                <div class="childFilter" ng-repeat="machine in department.machines" ng-if="department.expanded">
+                    <div class="checkBox" check-box-directive
+                        field-title="machine.MachineName"
+                        field="machine" select-value="'selected'" ng-custom-change="ganttSchedulerFilterCtrl.updateMachine">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="filter-section" ng-if="views.indexOf('machineType') >= 0">
+        <div class="title" ng-init="expanded=false" ng-click="expanded=!expanded">{{"MACHINE_TYPE" | translate }}<i
+            class="fa fa-angle-down pull-right" aria-hidden="true" ng-show="!expanded"></i><i class="fa fa-angle-up pull-right"
+            aria-hidden="true" ng-show="expanded"></i></div>
+        <div class="data-container newScroll slim" ng-if="expanded">
+            <div class="parentFilter" ng-repeat="machineType in ganttSchedulerFilterCtrl.machineTypes">
+                <div class="checkBox" style="width: calc(100% - 20px);display: inline-block;"
+                    check-box-directive
+                    field-title="machineType.Name"
+                    field="machineType" select-value="'selected'" ng-custom-change="ganttSchedulerFilterCtrl.updateMachineType">
+                </div>
+                <div style="display: inline-block;padding-right: 8px;" class="pull-right" ng-init="machineType.expanded=false" ng-click="machineType.expanded=!machineType.expanded">
+                    <i class="fa fa-angle-down" aria-hidden="true" ng-show="!machineType.expanded"></i>
+                    <i class="fa fa-angle-up" aria-hidden="true" ng-show="machineType.expanded"></i>
+                </div>
+                <div class="childFilter" ng-repeat="machine in machineType.Machines" ng-if="machineType.expanded">
+                    <div class="checkBox" check-box-directive
+                        field-title="machine.MachineName"
+                        field="machine" select-value="'selected'" ng-custom-change="ganttSchedulerFilterCtrl.updateMachineByMachineType">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkBox" check-box-directive
+        field-title="'JOBS_NOT_READY_FOR_RELEASE' | translate"
+        field="ganttSchedulerFilterCtrl.jobsNotForRelease" select-value="'value'"></div>   
+
+        <span><a
+            ng-click="ganttSchedulerFilterCtrl.loadSelectedMachines()">{{"LOAD" | translate}}</a></span>
+    </div>
+</div>

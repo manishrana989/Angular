@@ -1,0 +1,90 @@
+<div class="ibox TheTable" style="width : {{machineBox.width - ( rtl ? 22 : 23)}}+'px'}">
+    <div class="ibox-title {{machineBox.collapsed === false ? '' : 'machineCollapsed'}}" style="border-left-width: 1px;border-left-color: #e7eaec;min-height: 77px;padding: 15px 10px 5px 0"
+         ng-style="!machineBox.collapsed && {'border-bottom': '1px solid #cecece'}">
+        <div class="row">
+            <div class="iboxMachineTitle col-lg-12"
+                 style="height: 100%;padding-left: 15px;padding-right: 15px">
+                <div class="row col-lg-6 pull-left">
+                    <div style="display:inline-block;padding-left: 15px;padding-right: 15px"
+                         ng-style="rtl && {'padding-right': '0'}">
+                        <a ng-click="openMachine(machineBox)">
+                            <h5 tooltip="{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}"
+                                style="max-width: {{machineBox.width/2 - 20}}px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}</h5>
+                        </a>
+                    </div>
+                    <div style="display: inline-block">
+                        <h5 tooltip="{{localLanguage === true ? machineBox.TitleLName : machineBox.TitleEName}} {{machineBox.TitleCurrentValue }}"
+                            style="{{machineBox.TitleTextColor}}; max-width: {{machineBox.width - 75}}px;padding-left :15px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                            {{localLanguage === true ? machineBox.TitleLName : machineBox.TitleEName}} {{machineBox.TitleCurrentValue }}
+                        </h5>
+                    </div>
+                </div>
+                <div class="light animated bounce col-lg-6 pull-right" style="margin-left: 15px;">
+                    <img width="40" height="40" style="background-color: transparent;" ng-src="images/icons_40x40/{{machineBox.icon}}"></img>
+                </div>
+            </div>
+            <!-- <div class="machineCircleStatus col-lg-4 pull-left" style="width: 300px !important;margin-top: 4px;min-height:200px;">
+                <div style="margin-left: 8px;">
+                    <svg style="width:100%" height="100" width="100">
+                        <defs>
+                            <pattern id="image_{{machineBox.MachineID}}" x="11" y="10" patternUnits="userSpaceOnUse" height="80" width="80">
+                                <image x="0" y="0" height="80" width="80" xlink:href="{{'images/icons_40x40/' + machineBox.icon}}"></image>
+                            </pattern>
+                        </defs>
+                        <circle style="cursor: pointer" ng-click="openMachine(machineBox)" cx="131" cy="50" r="40" fill="{{[1,2].indexOf(machineBox.MachineStatusID) >= 0 ? machineBox.minimizColor : 'url(#image_' +machineBox.MachineID + ')'}}"/>
+                        <a style="font-size: 24px;margin-top: 1px;width: 100px;text-align: center;" ng-click="openMachine(machineBox)"><text x="50%" y="50%" text-anchor="middle" fill="#ffffff"  dy=".3em">{{[1,2].indexOf(machineBox.MachineStatusID) >= 0 ? machineBox.defaultValue : ' '}}</text></a>
+                    </svg>
+                    <a style="margin-top: 1px;width: 100%;text-align: center;" ng-click="openMachine(machineBox)" class="pull-left">
+                        <h4 style="font-size: 16px">{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}</h4>
+                    </a>
+                    <h5 style="margin-top: 1px;width: 100%;text-align: center;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" class="pull-left"
+                        ng-repeat="param in machineBox.MachineParams | collapseParamFilter | orderBy:'CollapseMachineParamsDisplayOrder'"
+                        tooltip="{{localLanguage === true ? param.FieldLName : param.FieldEName}}: {{param.CurrentValue}}">{{localLanguage === true ? param.FieldLName : param.FieldEName}}: {{param.CurrentValue}}</h5>
+                </div>
+            </div> -->
+
+            <div class="mainCircle machineCircleStatus" ng-show="machineBox.collapsed" style="border-color:{{machineBox.minimizColor}}">
+                <div class="upperSection" style="background-color:{{machineBox.minimizColor}}">
+                    <div class="spydon">Spydon</div>
+    
+                    <img style="height: 25px;position: relative;left: 50px;bottom: 10px;" ng-src="images/icons_40x40/{{machineBox.icon}}" width="45" height="45"/>
+                    <!-- <svg style="width:100%;transform: scale(0.5)" height="100" width="100">
+                                <defs>
+                                    <pattern id="image_{{machineBox.MachineID}}" x="11" y="10" patternUnits="userSpaceOnUse" height="80" width="80">
+                                        <image x="0" y="0" height="80" width="80" xlink:href="{{'images/icons_40x40/' + machineBox.icon}}"></image>
+                                    </pattern>
+                                </defs>
+                                <circle style="cursor: pointer" ng-click="openMachine(machineBox)" cx="131" cy="50" r="40" fill="{{[1,2].indexOf(machineBox.MachineStatusID) >= 0 ? machineBox.minimizColor : 'url(#image_' +machineBox.MachineID + ')'}}"/>
+                            </svg> -->
+                </div>
+
+                <div class="bottomSection">
+                    <div style="position:relative;bottom:12px;">
+                        <h5 class="pull-left"
+                        ng-repeat="param in machineBox.MachineParams | collapseParamFilter | orderBy:'CollapseMachineParamsDisplayOrder'"
+                        tooltip="{{localLanguage === true ? param.FieldLName : param.FieldEName}}: {{param.CurrentValue}}">{{localLanguage === true ? param.FieldLName : param.FieldEName}}: {{param.CurrentValue}}</h5>
+                    </div>
+                </div>
+
+            </div>
+            <h4 style="width: 185px;
+            height: 17px;
+            font-size: 14px;
+            letter-spacing: 0.8px;
+            text-align: center;
+            color: #101010;" ng-show="machineBox.collapsed">{{localLanguage === true ? machineBox.MachineLname : machineBox.MachineEName}}</h4>
+            <div ibox-tools="" class="col-lg-4 pull-right" style="width: 20px !important;margin-right: 10px!important;" machine-box="machineBox">
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content" style="border-left-color: #e7eaec;width:100%; padding: 0px;">
+
+        <div style="height : {{machineBox.height - 1}}px;width : {{machineBox.width - 23}}px;">
+            <div ng-if="$parent.$parent.$parent.doneLoading === true" class="pull-left container boxShapeShift{{machineBox.DepartmentID}}{{machineBox.MachineID}}" style="padding-left: 4px;">
+                <div ng-repeat="child in machineBox.Children" on-finish-render="ngRepeatFinished" class="{{child.class}}" data-ss-colspan="{{child.dataColSpan}}" style="width: {{child.width}}px !important; height: {{child.height}}px !important">
+                    <machine-param-directive class="blockChild" content="child"></machine-param-directive>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

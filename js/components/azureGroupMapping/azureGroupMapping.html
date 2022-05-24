@@ -1,0 +1,28 @@
+<div class="panel-body">
+    <div class="row">
+        <div ng-init="showExport = false;showClear = false" ng-if="azureGroupMappingCtrl.isLoading === false" style="padding:0;" class="exportContainer pull-right col-lg-5 col-md-5 col-sm-5 Search-Results-ID">
+        
+            <div class="pull-right exportButtons">
+                <div title="Add Line" ng-click="azureGroupMappingCtrl.addRow()" class="deleteRowsButton">
+                    <span style="bottom: 2px;position: relative;" class="fa fa-plus-square-o"></span></div>
+                <div title="Remove data" class="deleteRowsButton greyOut" ng-class="{'greyOut': gridApi.selection.getSelectedCount() === 0}" 
+                    ng-click="azureGroupMappingCtrl.removeRow()">
+                    <span class="fa fa-trash" style="bottom: 2px;position: relative;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form ng-submit="azureGroupMappingCtrl.saveGroups()">
+        <div ng-if="azureGroupMappingCtrl.isLoading === false" 
+                ui-grid-draggable-rows ui-grid-selection style="height : auto"
+                class="gridStyle editableTableGrid" 
+                ui-grid="azureGroupMappingCtrl.gridOptions"  
+                dir="{{azureGroupMappingCtrl.rtl}}">
+        </div>
+        <button style="margin-top: 10px;" type="submit" ng-if="azureGroupMappingCtrl.isLoading == false" class="btn btn-sm btn-primary pull-right m-t-n-xs">
+            {{"SAVE_CHANGES" | translate}}
+        </button>
+    </form>
+    <div ng-if="azureGroupMappingCtrl.isLoading == true" class="tab-pane active"
+        ng-include="'views/common/emptyPage.html'"></div>
+</div>
